@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ao Phim Của Đức - VinFlix Edition</title>
+    <title>Ao Phim Của Đức - Stranger Things Full Seasons</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -11,241 +11,141 @@
             --bg-deep: #060606;
             --bg-card: #121212;
             --text-color: #e5e5e5;
-            --transition: all 0.3s ease;
         }
 
         body {
             background-color: var(--bg-deep);
             color: var(--text-color);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            margin: 0;
-            padding: 0;
+            font-family: 'Inter', sans-serif;
+            margin: 0; padding: 0;
         }
 
-        /* --- NAVIGATION BAR --- */
+        /* Header */
         header {
-            position: fixed;
-            top: 0; width: 100%;
-            height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 4%;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, transparent 100%);
-            z-index: 1000;
-            transition: var(--transition);
-            box-sizing: border-box;
+            position: fixed; top: 0; width: 100%; height: 70px;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 4%; background: rgba(0,0,0,0.8); z-index: 1000; box-sizing: border-box;
         }
+        .logo img { height: 45px; }
 
-        header.scrolled { background-color: #000; box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
-
-        .header-left { display: flex; align-items: center; gap: 30px; }
-        .logo img { height: 45px; width: auto; transition: var(--transition); }
-        .logo img:hover { transform: scale(1.05); }
-
-        nav ul { display: flex; list-style: none; gap: 20px; padding: 0; margin: 0; }
-        nav ul li a { 
-            text-decoration: none; color: #fff; font-size: 14px; font-weight: 500;
-            opacity: 0.8; transition: var(--transition);
-        }
-        nav ul li a:hover { opacity: 1; color: var(--primary); }
-
-        .header-right { display: flex; align-items: center; gap: 20px; font-size: 18px; }
-        .search-box { cursor: pointer; color: #fff; }
-
-        /* --- HERO BANNER --- */
+        /* Hero */
         .hero {
-            position: relative;
-            height: 90vh;
-            width: 100%;
-            background: linear-gradient(to top, var(--bg-deep) 10%, transparent 50%),
-                        linear-gradient(to right, rgba(0,0,0,0.8), transparent 70%),
+            height: 70vh;
+            background: linear-gradient(to top, var(--bg-deep), transparent),
                         url('poster-stranger 99-.jpg');
-            background-size: cover;
-            background-position: center 20%;
-            display: flex;
-            align-items: center;
-            padding: 0 4%;
-            box-sizing: border-box;
+            background-size: cover; background-position: center 20%;
+            display: flex; align-items: center; padding: 0 4%;
         }
+        .hero-info h1 { font-size: 3.5rem; margin: 0; text-transform: uppercase; }
 
-        .hero-info { max-width: 650px; }
-        .hero-info h1 { font-size: 4rem; margin: 0; text-transform: uppercase; letter-spacing: -1px; }
-        .hero-meta { margin: 20px 0; display: flex; gap: 15px; align-items: center; font-weight: bold; }
-        .imdb { color: #46d369; }
-        .age-limit { border: 1px solid #fff; padding: 0 5px; font-size: 12px; }
-        .hero-desc { font-size: 18px; line-height: 1.5; color: #d2d2d2; text-shadow: 1px 1px 5px #000; }
-
-        .hero-btns { display: flex; gap: 15px; margin-top: 30px; }
-        .btn { 
-            padding: 12px 30px; border-radius: 4px; font-weight: bold; 
-            text-decoration: none; display: flex; align-items: center; gap: 10px; font-size: 16px;
-            transition: var(--transition);
-        }
-        .btn-play { background-color: #fff; color: #000; }
-        .btn-play:hover { background-color: rgba(255,255,255,0.7); }
-        .btn-info { background-color: rgba(109, 109, 110, 0.7); color: #fff; }
-        .btn-info:hover { background-color: rgba(109, 109, 110, 0.4); }
-
-        /* --- MOVIE SECTIONS --- */
-        .main-content { padding: 0 4%; margin-top: -80px; position: relative; z-index: 10; }
-
-        .row-title { font-size: 20px; font-weight: bold; margin: 30px 0 15px; display: flex; align-items: center; gap: 10px; }
-        .row-title span { color: var(--primary); font-size: 14px; cursor: pointer; }
-
-        .movie-slider {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-        }
-
-        .movie-item {
-            position: relative;
-            border-radius: 4px;
-            overflow: hidden;
-            background-color: var(--bg-card);
-            transition: transform 0.4s;
-            cursor: pointer;
-            text-decoration: none;
-            color: #fff;
-        }
-
-        .movie-item:hover { transform: scale(1.08); z-index: 20; box-shadow: 0 10px 20px rgba(0,0,0,0.8); }
-        .movie-item img { width: 100%; height: 280px; object-fit: cover; }
+        /* PHẦN CHỌN SEASON (MỚI) */
+        .container { padding: 0 4%; margin-top: -50px; position: relative; z-index: 10; }
         
-        .movie-overlay {
-            padding: 10px;
-            background: var(--bg-card);
+        .season-tabs {
+            display: flex; gap: 15px; margin-bottom: 20px;
+            overflow-x: auto; padding-bottom: 10px;
         }
-        .movie-overlay h3 { font-size: 14px; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .ep-tag { color: var(--primary); font-size: 11px; font-weight: bold; }
+        .season-btn {
+            background: #222; color: #fff; border: 1px solid #444;
+            padding: 10px 25px; border-radius: 5px; cursor: pointer;
+            font-weight: bold; transition: 0.3s; white-space: nowrap;
+        }
+        .season-btn.active {
+            background: var(--primary); color: #000; border-color: var(--primary);
+        }
 
-        /* --- EPISODE GRID --- */
-        .episode-container {
-            background: #111; padding: 20px; border-radius: 8px; margin-top: 20px;
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 10px;
+        /* Danh sách tập phim */
+        .episode-list {
+            display: none; /* Ẩn mặc định */
+            background: #111; padding: 25px; border-radius: 8px;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px;
+            border: 1px solid #222;
         }
-        .ep-box { 
-            background: #222; text-align: center; padding: 10px; border-radius: 4px;
-            text-decoration: none; color: #fff; font-weight: bold; font-size: 13px; border: 1px solid #333;
-        }
-        .ep-box:hover { background: var(--primary); color: #000; }
+        .episode-list.active { display: grid; } /* Hiện khi có class active */
 
-        /* --- FOOTER --- */
-        footer { padding: 50px 0; text-align: center; border-top: 1px solid #333; margin-top: 100px; color: #666; font-size: 14px; }
-        .social-links { display: flex; justify-content: center; gap: 30px; margin-bottom: 20px; font-size: 24px; }
-        .social-links a { color: #fff; opacity: 0.6; }
-
-        /* --- MOBILE RESPONSIVE --- */
-        @media (max-width: 768px) {
-            .hero-info h1 { font-size: 2.5rem; }
-            nav { display: none; } /* Ẩn menu trên mobile cho giống web thật */
-            .movie-slider { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+        .ep-box {
+            background: #222; text-align: center; padding: 12px; border-radius: 4px;
+            text-decoration: none; color: #fff; font-weight: bold; border: 1px solid #333;
+            transition: 0.2s;
         }
+        .ep-box:hover { background: #fff; color: #000; }
+
+        .row-title { font-size: 22px; margin: 40px 0 15px; border-left: 4px solid var(--primary); padding-left: 10px; }
     </style>
 </head>
 <body>
 
-<header id="navbar">
-    <div class="header-left">
-        <a href="#" class="logo"><img src="logo1.png" alt="AO PHIM"></a>
-        <nav>
-            <ul>
-                <li><a href="#">Trang chủ</a></li>
-                <li><a href="#">Phim bộ</a></li>
-                <li><a href="#">Phim lẻ</a></li>
-                <li><a href="#">Mới & Phổ biến</a></li>
-            </ul>
-        </nav>
-    </div>
-    <div class="header-right">
-        <div class="search-box"><i class="fas fa-search"></i></div>
-        <div class="user-profile"><i class="fas fa-user-circle"></i></div>
-    </div>
+<header>
+    <a href="#" class="logo"><img src="logo1.png"></a>
 </header>
 
 <section class="hero">
     <div class="hero-info">
-        <div class="hero-meta">
-            <span class="imdb"><i class="fab fa-imdb"></i> 9.2</span>
-            <span>2025</span>
-            <span class="age-limit">18+</span>
-            <span>8 Tập</span>
-        </div>
         <h1>Stranger Things</h1>
-        <p class="hero-desc">Sau những vết nứt kinh hoàng của phần trước, Hawkins đứng trước bờ vực diệt vong. El và những người bạn phải bước vào trận chiến cuối cùng với Vecna để đóng vĩnh viễn Thế giới ngược.</p>
-        <div class="hero-btns">
-            <a href="#episodes" class="btn btn-play"><i class="fas fa-play"></i> Xem ngay</a>
-            <a href="#" class="btn btn-info"><i class="fas fa-info-circle"></i> Thông tin thêm</a>
-        </div>
+        <p style="max-width: 600px; color: #ccc;">Trọn bộ 5 phần phim kinh điển của Netflix. Hãy chọn phần phim bạn muốn xem bên dưới.</p>
     </div>
 </section>
 
-<div class="main-content">
+<div class="container">
+    <h2 class="row-title">Chọn phần phim</h2>
     
-    <h2 id="episodes" class="row-title">Danh sách tập phim (Phần 5)</h2>
-    <div class="episode-container">
+    <div class="season-tabs">
+        <button class="season-btn active" onclick="openSeason(event, 's5')">PHẦN 5 (MỚI)</button>
+        <button class="season-btn" onclick="openSeason(event, 's4')">PHẦN 4</button>
+        <button class="season-btn" onclick="openSeason(event, 's3')">PHẦN 3</button>
+        <button class="season-btn" onclick="openSeason(event, 's2')">PHẦN 2</button>
+        <button class="season-btn" onclick="openSeason(event, 's1')">PHẦN 1</button>
+    </div>
+
+    <div id="s5" class="episode-list active">
         <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/VdVcTjll/index.m3u8" class="ep-box">TẬP 1</a>
-        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/Xaex73oM/index.m3u8" class="ep-box">TẬP 2</a>
-        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/phZU5qEk/index.m3u8" class="ep-box">TẬP 3</a>
-        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/JudV0Ni1/index.m3u8" class="ep-box">TẬP 4</a>
-        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251226/AFjYGQ1K/index.m3u8" class="ep-box">TẬP 5</a>
-        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251226/TPpFJBKF/index.m3u8" class="ep-box">TẬP 6</a>
-        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251226/oxQZbDQo/index.m3u8" class="ep-box">TẬP 7</a>
-        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260101/YyOnJ03e/index.m3u8" class="ep-box">TẬP 8</a>
+        <a href="https://player.phimapi.com/player/?url=...LINK_TAP_2..." class="ep-box">TẬP 2</a>
+        <a href="#" class="ep-box">TẬP 3</a>
+        <a href="#" class="ep-box">TẬP 4</a>
+        <a href="#" class="ep-box">TẬP 5</a>
+        <a href="#" class="ep-box">TẬP 6</a>
+        <a href="#" class="ep-box">TẬP 7</a>
+        <a href="#" class="ep-box">TẬP 8</a>
     </div>
 
-    <h2 class="row-title">Phim mới trên Ao Phim <span>Xem tất cả ›</span></h2>
-    <div class="movie-slider">
-        <a href="#" class="movie-item">
-            <img src="https://image.tmdb.org/t/p/w500/z0I64pU9f9M0o6S5z19D9V.jpg" alt="phim">
-            <div class="movie-overlay">
-                <span class="ep-tag">FULL 12/12</span>
-                <h3>Ốc đảo của Oscar 2</h3>
-            </div>
-        </a>
-        <a href="#" class="movie-card movie-item">
-            <img src="https://image.tmdb.org/t/p/w500/vG39vS7zOq6n0X6T9p.jpg" alt="phim">
-            <div class="movie-overlay">
-                <span class="ep-tag">TẬP 8</span>
-                <h3>Vòng Xoáy Giả Tạo</h3>
-            </div>
-        </a>
-        <a href="#" class="movie-card movie-item">
-            <img src="https://image.tmdb.org/t/p/w500/hS21D8sX6jN9O0.jpg" alt="phim">
-            <div class="movie-overlay">
-                <span class="ep-tag">TẬP 250</span>
-                <h3>Thế Giới Hoàn Mỹ</h3>
-            </div>
-        </a>
-    </div>
-
-    <h2 class="row-title">Phim thịnh hành <span>Xem tất cả ›</span></h2>
-    <div class="movie-slider">
+    <div id="s4" class="episode-list">
+        <a href="#" class="ep-box">TẬP 1</a>
+        <a href="#" class="ep-box">TẬP 2</a>
+        <a href="#" class="ep-box">TẬP 3</a>
         </div>
+
+    <div id="s3" class="episode-list">
+        <a href="#" class="ep-box">TẬP 1</a>
+        <a href="#" class="ep-box">TẬP 2</a>
+    </div>
+
+    <div id="s2" class="episode-list">
+        <a href="#" class="ep-box">TẬP 1</a>
+    </div>
+
+    <div id="s1" class="episode-list">
+        <a href="#" class="ep-box">TẬP 1</a>
+    </div>
 
 </div>
 
-<footer>
-    <div class="social-links">
-        <a href="#"><i class="fab fa-facebook"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-youtube"></i></a>
-    </div>
-    <p>© 2026 Ao Phim Của Đức - All Rights Reserved</p>
-    <p style="font-size: 12px; margin-top: 10px;">Dịch vụ được cung cấp bởi GitHub Pages</p>
-</footer>
-
 <script>
-    // Xử lý đổi màu thanh Menu khi cuộn
-    const navbar = document.getElementById('navbar');
-    window.onscroll = () => {
-        if (window.scrollY > 100) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
+    function openSeason(evt, seasonName) {
+        var i, tabcontent, tablinks;
+        // Ẩn tất cả các danh sách tập
+        tabcontent = document.getElementsByClassName("episode-list");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
         }
-    };
+        // Bỏ màu active ở các nút
+        tablinks = document.getElementsByClassName("season-btn");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        // Hiện danh sách tập của phần được chọn
+        document.getElementById(seasonName).style.display = "grid";
+        evt.currentTarget.className += " active";
+    }
 </script>
 
 </body>
