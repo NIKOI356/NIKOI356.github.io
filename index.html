@@ -3,80 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Phim Của Đức</title>
+    <title>RoPhim Clone</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* CSS cơ bản cho giống web phim */
-        body { background: #141414; color: white; font-family: Arial, sans-serif; margin: 0; padding: 20px; }
-        h1 { text-align: center; color: #e50914; }
-        
-        .movie-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 20px;
-            padding: 20px;
+        .banner-gradient {
+            background: linear-gradient(to right, rgba(0,0,0,0.9) 20%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%);
         }
-
-        .movie-card {
-            background: #222;
-            border-radius: 8px;
-            overflow: hidden;
-            transition: transform 0.3s;
-        }
-
-        .movie-card:hover { transform: scale(1.05); }
-
-        .movie-card img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-        }
-
-        .movie-card h3 {
-            font-size: 14px;
-            padding: 10px;
-            margin: 0;
-            text-align: center;
-            height: 40px;
-            overflow: hidden;
-        }
+        .category-card:hover { transform: translateY(-5px); transition: 0.3s; }
     </style>
 </head>
-<body>
+<body class="bg-[#121212] text-white font-sans">
 
-    <h1>PHIM HAY CỦA ĐỨC</h1>
+    <header class="flex items-center justify-between px-10 py-4 bg-transparent absolute w-full z-50">
+        <div class="flex items-center gap-8">
+            <div class="text-2xl font-bold flex items-center gap-2">
+                <div class="bg-yellow-500 rounded-full p-2"><i class="fas fa-play text-black text-xs"></i></div>
+                RoPhim
+            </div>
+            <nav class="hidden md:flex gap-6 text-gray-300 text-sm">
+                <a href="#">Chủ Đề</a>
+                <a href="#">Thể Loại</a>
+                <a href="#">Phim Lẻ</a>
+                <a href="#">Phim Bộ</a>
+                <a href="#" class="text-yellow-500 font-bold">NEW Xem Chung</a>
+            </nav>
+        </div>
+        <div class="flex items-center gap-4">
+            <div class="relative">
+                <input type="text" placeholder="Tìm kiếm phim..." class="bg-[#2a2a2a] rounded-full py-2 px-10 text-sm focus:outline-none w-64">
+                <i class="fas fa-search absolute left-4 top-3 text-gray-400"></i>
+            </div>
+            <button class="bg-gray-200 text-black px-4 py-2 rounded-full text-sm font-bold flex items-center gap-2">
+                <i class="fas fa-user"></i> Thành viên
+            </button>
+        </div>
+    </header>
 
-    <div class="movie-grid" id="movie-list">
-        <p>Đang tải phim...</p>
-    </div>
+    <section id="banner-container" class="relative h-[85vh] w-full overflow-hidden transition-all duration-700">
+        <div id="banner-bg" class="absolute inset-0 bg-cover bg-center transition-all duration-1000 scale-105" style="background-image: url('https://image.tmdb.org/t/p/original/m9m9Hw5r8Jv8H3x1E0O3F5X5D.jpg');"></div>
+        <div class="absolute inset-0 banner-gradient"></div>
+
+        <div class="relative z-10 flex flex-col justify-center h-full px-16 max-w-3xl space-y-6">
+            <h1 id="movie-title" class="text-5xl font-bold leading-tight">Đường Cung Kỳ Án: Thanh Vụ Phong Minh</h1>
+            <p id="movie-meta" class="text-gray-400 text-sm uppercase tracking-widest">Unveil: Jadewind</p>
+            
+            <div class="flex gap-2 items-center">
+                <span class="bg-yellow-500 text-black px-2 py-0.5 rounded text-xs font-bold">IMDB 8.8</span>
+                <span id="movie-year" class="bg-gray-700 px-2 py-0.5 rounded text-xs">2026</span>
+                <span id="movie-info" class="bg-gray-700 px-2 py-0.5 rounded text-xs">Phần 1 - Tập 5</span>
+            </div>
+
+            <div class="flex gap-2">
+                <span class="border border-gray-500 px-3 py-1 rounded-full text-xs">Chính kịch</span>
+                <span class="border border-gray-500 px-3 py-1 rounded-full text-xs">Bí ẩn</span>
+            </div>
+
+            <p id="movie-desc" class="text-gray-300 line-clamp-3 text-sm leading-relaxed">
+                Vào tiết Nguyên Tiêu, công chúa Ninh Viễn chết một cách kỳ lạ trong dạ yến. Lý Bội Nghi của Nội Yết Cục và Thái Sử thừa Tiêu Lí phải cùng nhau điều tra...
+            </p>
+
+            <div class="flex items-center gap-4 pt-4">
+                <button onclick="pauseAuto()" class="bg-yellow-500 hover:bg-yellow-600 text-black px-8 py-3 rounded-full font-bold flex items-center gap-2 transition">
+                    <i class="fas fa-play"></i> XEM NGAY
+                </button>
+                <button class="bg-gray-800/80 p-3 rounded-full hover:bg-gray-700"><i class="far fa-heart"></i></button>
+                <button class="bg-gray-800/80 p-3 rounded-full hover:bg-gray-700"><i class="fas fa-exclamation"></i></button>
+            </div>
+        </div>
+
+        <div class="absolute bottom-10 right-10 flex gap-2 z-20">
+            <div class="w-20 h-12 border-2 border-yellow-500 rounded overflow-hidden cursor-pointer"><img src="https://via.placeholder.com/150x100" class="w-full h-full object-cover"></div>
+            <div class="w-20 h-12 border border-gray-600 rounded overflow-hidden cursor-pointer opacity-50"><img src="https://via.placeholder.com/150x100" class="w-full h-full object-cover"></div>
+            <div class="w-20 h-12 border border-gray-600 rounded overflow-hidden cursor-pointer opacity-50"><img src="https://via.placeholder.com/150x100" class="w-full h-full object-cover"></div>
+        </div>
+    </section>
+
+    <section class="px-10 py-10">
+        <h2 class="text-xl font-bold mb-6">Bạn đang quan tâm gì?</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+            <div class="category-card bg-blue-600 p-6 rounded-2xl h-32 flex flex-col justify-between cursor-pointer">
+                <span class="font-bold text-lg">Marvel</span>
+                <span class="text-xs opacity-80">Xem chủ đề ></span>
+            </div>
+            <div class="category-card bg-emerald-600 p-6 rounded-2xl h-32 flex flex-col justify-between cursor-pointer">
+                <span class="font-bold text-lg">Sitcom</span>
+                <span class="text-xs opacity-80">Xem chủ đề ></span>
+            </div>
+            <div class="category-card bg-purple-600 p-6 rounded-2xl h-32 flex flex-col justify-between cursor-pointer">
+                <span class="font-bold text-lg leading-tight">Lồng Tiếng<br>Cực Mạnh</span>
+                <span class="text-xs opacity-80">Xem chủ đề ></span>
+            </div>
+            <div class="category-card bg-orange-500 p-6 rounded-2xl h-32 flex flex-col justify-between cursor-pointer">
+                <span class="font-bold text-lg">Xuyên Không</span>
+                <span class="text-xs opacity-80">Xem chủ đề ></span>
+            </div>
+            <div class="category-card bg-red-700 p-6 rounded-2xl h-32 flex flex-col justify-between cursor-pointer">
+                <span class="font-bold text-lg">Cổ Trang</span>
+                <span class="text-xs opacity-80">Xem chủ đề ></span>
+            </div>
+            <div class="category-card bg-indigo-500 p-6 rounded-2xl h-32 flex flex-col justify-between cursor-pointer">
+                <span class="font-bold text-lg">4K</span>
+                <span class="text-xs opacity-80">Xem chủ đề ></span>
+            </div>
+            <div class="category-card bg-gray-800 p-6 rounded-2xl h-32 flex flex-center justify-center items-center cursor-pointer">
+                <span class="font-bold text-lg">+1 chủ đề</span>
+            </div>
+        </div>
+    </section>
 
     <script>
-        // Hàm lấy dữ liệu từ API phim miễn phí
-        async function fetchMovies() {
-            try {
-                // Sử dụng API của OPhim (một nguồn rất phổ biến tại VN)
-                const response = await fetch('https://ophim1.com/danh-sach/phim-moi-cap-nhat?page=1');
-                const data = await response.json();
-                const movieList = document.getElementById('movie-list');
-                movieList.innerHTML = ''; // Xóa chữ "Đang tải"
-
-                data.items.forEach(movie => {
-                    // Tạo khung hiển thị cho từng bộ phim
-                    const movieCard = `
-                        <div class="movie-card">
-                            <img src="https://img.ophim.live/uploads/movies/${movie.thumb_url}" alt="${movie.name}">
-                            <h3>${movie.name}</h3>
-                        </div>
-                    `;
-                    movieList.innerHTML += movieCard;
-                });
-            } catch (error) {
-                console.error("Lỗi khi lấy phim:", error);
-                document.getElementById('movie-list').innerHTML = "Không thể tải phim, hãy thử lại sau!";
+        const movies = [
+            {
+                title: "Đường Cung Kỳ Án: Thanh Vụ Phong Minh",
+                year: "2026",
+                info: "Phần 1 - Tập 5",
+                desc: "Vào tiết Nguyên Tiêu, công chúa Ninh Viễn chết một cách kỳ lạ trong dạ yến. Lý Bội Nghi của Nội Yết Cục và Thái Sử thừa Tiêu Lí phải cùng nhau điều tra...",
+                img: "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?q=80&w=2070"
+            },
+            {
+                title: "Trường Nguyệt Tẫn Minh",
+                year: "2024",
+                info: "Phần 1 - Tập 40",
+                desc: "Để giải cứu chúng sinh khỏi sự thống trị của ma thần Đạm Đài Tẫn, Lê Tô Tô đã quay trở lại 500 năm trước để ngăn chặn hắn trước khi quá muộn...",
+                img: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=2025"
+            },
+            {
+                title: "Siêu Anh Hùng: Hồi Kết",
+                year: "2025",
+                info: "Phim Lẻ",
+                desc: "Trận chiến cuối cùng quyết định vận mệnh của toàn vũ trụ. Các anh hùng phải tập hợp lại một lần cuối để đối đầu với kẻ thù lớn nhất.",
+                img: "https://images.unsplash.com/photo-1478720568477-152d9b164e26?q=80&w=2070"
             }
+        ];
+
+        let currentIndex = 0;
+        let isPaused = false;
+        let timer;
+
+        function updateBanner() {
+            if (isPaused) return;
+
+            const movie = movies[currentIndex];
+            document.getElementById('banner-bg').style.backgroundImage = `url('${movie.img}')`;
+            document.getElementById('movie-title').innerText = movie.title;
+            document.getElementById('movie-year').innerText = movie.year;
+            document.getElementById('movie-info').innerText = movie.info;
+            document.getElementById('movie-desc').innerText = movie.desc;
+
+            currentIndex = (currentIndex + 1) % movies.length;
         }
 
-        // Chạy hàm lấy phim
-        fetchMovies();
+        function startAuto() {
+            isPaused = false;
+            timer = setInterval(updateBanner, 3000);
+        }
+
+        function pauseAuto() {
+            clearInterval(timer);
+            isPaused = true;
+            // Dừng 5 giây sau đó tự chạy lại
+            setTimeout(() => {
+                startAuto();
+            }, 5000);
+        }
+
+        // Khởi tạo lần đầu
+        updateBanner();
+        startAuto();
     </script>
 </body>
 </html>
