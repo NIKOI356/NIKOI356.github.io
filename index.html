@@ -22,67 +22,69 @@
         }
 
         header {
-            position: fixed; top: 0; width: 100%; height: 70px;
+            position: fixed; top: 0; width: 100%; height: 60px;
             display: flex; align-items: center; justify-content: space-between;
             padding: 0 4%; background: rgba(0,0,0,0.95); z-index: 1000; box-sizing: border-box;
             border-bottom: 1px solid #222;
         }
-        .logo img { height: 45px; }
+        .logo img { height: 35px; }
 
         .hero {
-            height: 75vh;
+            height: 50vh;
             background: linear-gradient(to top, var(--bg-deep), transparent),
                         linear-gradient(to right, rgba(0,0,0,0.7), transparent),
                         url('poster-stranger 99-.jpg');
             background-size: cover; background-position: center 20%;
             display: flex; align-items: center; padding: 0 4%;
         }
-        .hero-info h1 { font-size: 4rem; margin: 0; text-transform: uppercase; letter-spacing: -1px; text-shadow: 0 0 20px rgba(255, 157, 0, 0.5); }
+        .hero-info h1 { font-size: 2.5rem; margin: 0; text-transform: uppercase; letter-spacing: -1px; text-shadow: 0 0 20px rgba(255, 157, 0, 0.5); }
 
-        .container { padding: 0 4% 50px; margin-top: -60px; position: relative; z-index: 10; }
+        .container { padding: 0 4% 50px; margin-top: -30px; position: relative; z-index: 10; }
         
         .season-tabs {
-            display: flex; gap: 15px; margin-bottom: 25px;
+            display: flex; gap: 10px; margin-bottom: 20px;
             overflow-x: auto; padding-bottom: 10px;
         }
-        .season-tabs::-webkit-scrollbar { height: 5px; }
+        .season-tabs::-webkit-scrollbar { height: 4px; }
         .season-tabs::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
 
         .season-btn {
             background: #1a1a1a; color: #fff; border: 1px solid #333;
-            padding: 12px 25px; border-radius: 5px; cursor: pointer;
+            padding: 8px 15px; border-radius: 4px; cursor: pointer;
             font-weight: bold; transition: 0.3s; white-space: nowrap;
-            font-size: 14px;
+            font-size: 12px;
         }
         .season-btn.active {
             background: var(--primary); color: #000; border-color: var(--primary);
         }
 
+        /* Tối ưu lại lưới tập phim cho điện thoại */
         .episode-list {
             display: none;
-            background: rgba(18, 18, 18, 0.95); padding: 30px; border-radius: 10px;
-            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 15px;
+            background: rgba(18, 18, 18, 0.95); padding: 20px 15px; border-radius: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(65px, 1fr)); gap: 10px;
             border: 1px solid #222;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
         .episode-list.active { display: grid; }
 
         .ep-box {
-            background: #252525; text-align: center; padding: 15px; border-radius: 6px;
+            background: #252525; text-align: center; padding: 10px 5px; border-radius: 4px;
             text-decoration: none; color: #fff; font-weight: bold; border: 1px solid #333;
-            transition: 0.3s; font-size: 14px;
+            transition: 0.2s; font-size: 11px;
         }
         .ep-box:hover { 
             background: var(--primary); color: #000; 
-            transform: translateY(-3px); border-color: var(--primary);
+            border-color: var(--primary);
         }
 
-        .row-title { font-size: 24px; margin: 50px 0 20px; display: flex; align-items: center; gap: 10px; }
-        .row-title::before { content: ""; width: 5px; height: 25px; background: var(--primary); border-radius: 10px; }
+        .row-title { font-size: 18px; margin: 30px 0 15px; display: flex; align-items: center; gap: 8px; }
+        .row-title::before { content: ""; width: 4px; height: 18px; background: var(--primary); border-radius: 10px; }
 
-        @media (max-width: 768px) {
-            .hero-info h1 { font-size: 2.5rem; }
-            .hero { height: 60vh; }
+        @media (max-width: 480px) {
+            .episode-list { grid-template-columns: repeat(4, 1fr); } /* Hiện 4 tập 1 hàng trên mobile */
+            .hero-info h1 { font-size: 1.8rem; }
+            .hero-info p { font-size: 14px; }
         }
     </style>
 </head>
@@ -90,15 +92,15 @@
 
 <header>
     <a href="#" class="logo"><img src="logo1.png" alt="Logo"></a>
-    <div style="color: var(--primary); font-weight: bold; font-size: 14px;">GAME ĐÃ NHÉ!</div>
+    <div style="color: var(--primary); font-weight: bold; font-size: 12px;">CHƠI GAME XONG RỒI XEM NHÉ</div>
 </header>
 
 <section class="hero">
     <div class="hero-info">
-        <div style="margin-bottom: 10px; font-weight: bold; color: var(--primary); letter-spacing: 2px;">STRANGER THINGS</div>
+        <div style="margin-bottom: 5px; font-weight: bold; color: var(--primary); letter-spacing: 1px; font-size: 12px;">STRANGER THINGS</div>
         <h1>Full Collection</h1>
-        <p style="max-width: 650px; color: #ddd; font-size: 18px; text-shadow: 2px 2px 10px #000;">
-            Từ thế giới ngược cho đến trận chiến cuối cùng tại Hawkins. Toàn bộ 5 mùa phim đã sẵn sàng để bạn thưởng thức.
+        <p style="max-width: 500px; color: #ddd; font-size: 14px; text-shadow: 2px 2px 10px #000;">
+            Từ thế giới ngược cho đến trận chiến cuối cùng tại Hawkins.
         </p>
     </div>
 </section>
@@ -107,7 +109,7 @@
     <h2 class="row-title">Chọn phần phim</h2>
     
     <div class="season-tabs">
-        <button class="season-btn active" onclick="openSeason(event, 's5')">PHẦN 5 (MỚI)</button>
+        <button class="season-btn active" onclick="openSeason(event, 's5')">PHẦN 5</button>
         <button class="season-btn" onclick="openSeason(event, 's4')">PHẦN 4</button>
         <button class="season-btn" onclick="openSeason(event, 's3')">PHẦN 3</button>
         <button class="season-btn" onclick="openSeason(event, 's2')">PHẦN 2</button>
