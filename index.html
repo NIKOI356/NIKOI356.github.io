@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ao Phim Của Đức - Stranger Things Full Seasons</title>
+    <title>Ao Phim Của Đức - Stranger Things Full Collection</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -18,71 +18,88 @@
             color: var(--text-color);
             font-family: 'Inter', sans-serif;
             margin: 0; padding: 0;
+            line-height: 1.6;
         }
 
-        /* Header */
         header {
             position: fixed; top: 0; width: 100%; height: 70px;
             display: flex; align-items: center; justify-content: space-between;
-            padding: 0 4%; background: rgba(0,0,0,0.8); z-index: 1000; box-sizing: border-box;
+            padding: 0 4%; background: rgba(0,0,0,0.95); z-index: 1000; box-sizing: border-box;
+            border-bottom: 1px solid #222;
         }
         .logo img { height: 45px; }
 
-        /* Hero */
         .hero {
-            height: 70vh;
+            height: 75vh;
             background: linear-gradient(to top, var(--bg-deep), transparent),
+                        linear-gradient(to right, rgba(0,0,0,0.7), transparent),
                         url('poster-stranger 99-.jpg');
             background-size: cover; background-position: center 20%;
             display: flex; align-items: center; padding: 0 4%;
         }
-        .hero-info h1 { font-size: 3.5rem; margin: 0; text-transform: uppercase; }
+        .hero-info h1 { font-size: 4rem; margin: 0; text-transform: uppercase; letter-spacing: -1px; text-shadow: 0 0 20px rgba(255, 157, 0, 0.5); }
 
-        /* PHẦN CHỌN SEASON (MỚI) */
-        .container { padding: 0 4%; margin-top: -50px; position: relative; z-index: 10; }
+        .container { padding: 0 4% 50px; margin-top: -60px; position: relative; z-index: 10; }
         
         .season-tabs {
-            display: flex; gap: 15px; margin-bottom: 20px;
+            display: flex; gap: 15px; margin-bottom: 25px;
             overflow-x: auto; padding-bottom: 10px;
         }
+        .season-tabs::-webkit-scrollbar { height: 5px; }
+        .season-tabs::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+
         .season-btn {
-            background: #222; color: #fff; border: 1px solid #444;
-            padding: 10px 25px; border-radius: 5px; cursor: pointer;
+            background: #1a1a1a; color: #fff; border: 1px solid #333;
+            padding: 12px 25px; border-radius: 5px; cursor: pointer;
             font-weight: bold; transition: 0.3s; white-space: nowrap;
+            font-size: 14px;
         }
         .season-btn.active {
             background: var(--primary); color: #000; border-color: var(--primary);
         }
 
-        /* Danh sách tập phim */
         .episode-list {
-            display: none; /* Ẩn mặc định */
-            background: #111; padding: 25px; border-radius: 8px;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px;
+            display: none;
+            background: rgba(18, 18, 18, 0.95); padding: 30px; border-radius: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 15px;
             border: 1px solid #222;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        .episode-list.active { display: grid; } /* Hiện khi có class active */
+        .episode-list.active { display: grid; }
 
         .ep-box {
-            background: #222; text-align: center; padding: 12px; border-radius: 4px;
+            background: #252525; text-align: center; padding: 15px; border-radius: 6px;
             text-decoration: none; color: #fff; font-weight: bold; border: 1px solid #333;
-            transition: 0.2s;
+            transition: 0.3s; font-size: 14px;
         }
-        .ep-box:hover { background: #fff; color: #000; }
+        .ep-box:hover { 
+            background: var(--primary); color: #000; 
+            transform: translateY(-3px); border-color: var(--primary);
+        }
 
-        .row-title { font-size: 22px; margin: 40px 0 15px; border-left: 4px solid var(--primary); padding-left: 10px; }
+        .row-title { font-size: 24px; margin: 50px 0 20px; display: flex; align-items: center; gap: 10px; }
+        .row-title::before { content: ""; width: 5px; height: 25px; background: var(--primary); border-radius: 10px; }
+
+        @media (max-width: 768px) {
+            .hero-info h1 { font-size: 2.5rem; }
+            .hero { height: 60vh; }
+        }
     </style>
 </head>
 <body>
 
 <header>
-    <a href="#" class="logo"><img src="logo1.png"></a>
+    <a href="#" class="logo"><img src="logo1.png" alt="Logo"></a>
+    <div style="color: var(--primary); font-weight: bold; font-size: 14px;">TRỌN BỘ STRANGER THINGS</div>
 </header>
 
 <section class="hero">
     <div class="hero-info">
-        <h1>Stranger Things</h1>
-        <p style="max-width: 600px; color: #ccc;">Trọn bộ 5 phần phim kinh điển của Netflix. Hãy chọn phần phim bạn muốn xem bên dưới.</p>
+        <div style="margin-bottom: 10px; font-weight: bold; color: var(--primary); letter-spacing: 2px;">STRANGER THINGS</div>
+        <h1>Full Collection</h1>
+        <p style="max-width: 650px; color: #ddd; font-size: 18px; text-shadow: 2px 2px 10px #000;">
+            Từ thế giới ngược cho đến trận chiến cuối cùng tại Hawkins. Toàn bộ 5 mùa phim đã sẵn sàng để bạn thưởng thức.
+        </p>
     </div>
 </section>
 
@@ -99,32 +116,59 @@
 
     <div id="s5" class="episode-list active">
         <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/VdVcTjll/index.m3u8" class="ep-box">TẬP 1</a>
-        <a href="https://player.phimapi.com/player/?url=...LINK_TAP_2..." class="ep-box">TẬP 2</a>
-        <a href="#" class="ep-box">TẬP 3</a>
-        <a href="#" class="ep-box">TẬP 4</a>
-        <a href="#" class="ep-box">TẬP 5</a>
-        <a href="#" class="ep-box">TẬP 6</a>
-        <a href="#" class="ep-box">TẬP 7</a>
-        <a href="#" class="ep-box">TẬP 8</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/Xaex73oM/index.m3u8" class="ep-box">TẬP 2</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/phZU5qEk/index.m3u8" class="ep-box">TẬP 3</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/JudV0Ni1/index.m3u8" class="ep-box">TẬP 4</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251226/AFjYGQ1K/index.m3u8" class="ep-box">TẬP 5</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251226/TPpFJBKF/index.m3u8" class="ep-box">TẬP 6</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251226/oxQZbDQo/index.m3u8" class="ep-box">TẬP 7</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260101/YyOnJ03e/index.m3u8" class="ep-box">TẬP 8</a>
     </div>
 
     <div id="s4" class="episode-list">
-        <a href="#" class="ep-box">TẬP 1</a>
-        <a href="#" class="ep-box">TẬP 2</a>
-        <a href="#" class="ep-box">TẬP 3</a>
-        </div>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/xlXYIN4h/index.m3u8" class="ep-box">TẬP 1</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/DmcR4Ifa/index.m3u8" class="ep-box">TẬP 2</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/s8HrgFqu/index.m3u8" class="ep-box">TẬP 3</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/CnoWNGQP/index.m3u8" class="ep-box">TẬP 4</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/2Z4dBijs/index.m3u8" class="ep-box">TẬP 5</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/74OVKIPn/index.m3u8" class="ep-box">TẬP 6</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/pHLmU9j0/index.m3u8" class="ep-box">TẬP 7</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/bN2uJOQG/index.m3u8" class="ep-box">TẬP 8</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/wlTpiDT6/index.m3u8" class="ep-box">TẬP 9</a>
+    </div>
 
     <div id="s3" class="episode-list">
-        <a href="#" class="ep-box">TẬP 1</a>
-        <a href="#" class="ep-box">TẬP 2</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/0VT1ek7V/index.m3u8" class="ep-box">TẬP 1</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/4ALbRK0U/index.m3u8" class="ep-box">TẬP 2</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/hCnt5Db7/index.m3u8" class="ep-box">TẬP 3</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/R22LSZ4q/index.m3u8" class="ep-box">TẬP 4</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/iB3IqIsM/index.m3u8" class="ep-box">TẬP 5</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/K3fOBZ4T/index.m3u8" class="ep-box">TẬP 6</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/q5z1E9jN/index.m3u8" class="ep-box">TẬP 7</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/ZwVz0i1P/index.m3u8" class="ep-box">TẬP 8</a>
     </div>
 
     <div id="s2" class="episode-list">
-        <a href="#" class="ep-box">TẬP 1</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/VpgRLCmQ/index.m3u8" class="ep-box">TẬP 1</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/i4PjdUKJ/index.m3u8" class="ep-box">TẬP 2</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/im9N0WA8/index.m3u8" class="ep-box">TẬP 3</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/97X0NbJ9/index.m3u8" class="ep-box">TẬP 4</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/hD5hYx5P/index.m3u8" class="ep-box">TẬP 5</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/MUqTKn3z/index.m3u8" class="ep-box">TẬP 6</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/devEf5D4/index.m3u8" class="ep-box">TẬP 7</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/PyYxRkFF/index.m3u8" class="ep-box">TẬP 8</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/QfegEzof/index.m3u8" class="ep-box">TẬP 9</a>
     </div>
 
     <div id="s1" class="episode-list">
-        <a href="#" class="ep-box">TẬP 1</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/eMrQhses/index.m3u8" class="ep-box">TẬP 1</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/yAIeQK28/index.m3u8" class="ep-box">TẬP 2</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/bMLS6ssd/index.m3u8" class="ep-box">TẬP 3</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/9GOe0ERm/index.m3u8" class="ep-box">TẬP 4</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/dt44QZBb/index.m3u8" class="ep-box">TẬP 5</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/rJDxkKag/index.m3u8" class="ep-box">TẬP 6</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/GHYwItQu/index.m3u8" class="ep-box">TẬP 7</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/T9dfPeqG/index.m3u8" class="ep-box">TẬP 8</a>
     </div>
 
 </div>
@@ -132,19 +176,17 @@
 <script>
     function openSeason(evt, seasonName) {
         var i, tabcontent, tablinks;
-        // Ẩn tất cả các danh sách tập
         tabcontent = document.getElementsByClassName("episode-list");
         for (i = 0; i < tabcontent.length; i++) {
             tabcontent[i].style.display = "none";
+            tabcontent[i].classList.remove("active");
         }
-        // Bỏ màu active ở các nút
         tablinks = document.getElementsByClassName("season-btn");
         for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" active", "");
+            tablinks[i].classList.remove("active");
         }
-        // Hiện danh sách tập của phần được chọn
         document.getElementById(seasonName).style.display = "grid";
-        evt.currentTarget.className += " active";
+        evt.currentTarget.classList.add("active");
     }
 </script>
 
