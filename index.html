@@ -11,20 +11,14 @@
         .banner-gradient {
             background: linear-gradient(to top, rgba(18,18,18,1) 10%, rgba(18,18,18,0.4) 50%, rgba(18,18,18,0.2) 100%);
         }
-        /* Custom Swiper Pagination */
-        .swiper-pagination-bullet { background: rgba(255,255,255,0.3); opacity: 1; width: 30px; height: 4px; border-radius: 2px; }
-        .swiper-pagination-bullet-active { background: #eab308; width: 40px; }
-        
+        .swiper-pagination-bullet { background: rgba(255,255,255,0.3); opacity: 1; width: 25px; height: 3px; border-radius: 2px; transition: all 0.3s; }
+        .swiper-pagination-bullet-active { background: #eab308; width: 35px; }
         #player-overlay { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .episode-btn.active { background-color: #eab308; color: black; font-weight: bold; border-color: #eab308; }
-        
-        .swiper-slide { overflow: hidden; }
-        .banner-img { transition: transform 0.8s ease; }
-        .swiper-slide-active .banner-img { transform: scale(1.05); }
-
+        .banner-img { transition: transform 1.2s ease-out; }
+        .swiper-slide-active .banner-img { transform: scale(1.08); }
         @media (max-width: 768px) {
-            .banner-gradient { background: linear-gradient(to top, rgba(18,18,18,1) 30%, rgba(18,18,18,0) 100%); }
-            .swiper-pagination-bullet { width: 10px; height: 10px; border-radius: 50%; }
+            .banner-gradient { background: linear-gradient(to top, rgba(18,18,18,1) 25%, rgba(18,18,18,0) 100%); }
         }
     </style>
 </head>
@@ -46,14 +40,13 @@
         </div>
         <div class="flex items-center gap-4">
             <i class="fas fa-search text-xl cursor-pointer"></i>
-            <button class="hidden md:block bg-yellow-500 text-black px-4 py-1.5 rounded-full text-sm font-bold">Đức Anh</button>
+            <button class="bg-yellow-500 text-black px-4 py-1.5 rounded-full text-sm font-bold">Đức Anh</button>
         </div>
     </header>
 
-    <div class="swiper mySwiper h-[75vh] md:h-[85vh] w-full">
-        <div class="swiper-wrapper" id="main-banner-wrapper">
-            </div>
-        <div class="swiper-pagination !bottom-8"></div>
+    <div class="swiper mySwiper h-[75vh] md:h-[88vh] w-full">
+        <div class="swiper-wrapper" id="main-banner-wrapper"></div>
+        <div class="swiper-pagination !bottom-10"></div>
     </div>
 
     <div id="player-overlay" class="fixed inset-0 bg-[#0a0a0a] z-[100] translate-y-full overflow-y-auto">
@@ -61,84 +54,89 @@
             <h2 id="playing-title" class="font-bold truncate max-w-[70%] text-yellow-500 text-sm">Xô Phim</h2>
             <button onclick="closePlayer()" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center"><i class="fas fa-times"></i></button>
         </div>
-
         <div class="w-full aspect-video bg-black">
             <iframe id="video-iframe" class="w-full h-full" src="" frameborder="0" allowfullscreen></iframe>
         </div>
-
         <div class="p-4 md:p-10 max-w-6xl mx-auto">
             <div class="flex flex-col md:flex-row gap-6 mb-10">
-                <div class="w-32 md:w-44 shrink-0 mx-auto md:mx-0">
-                    <img id="overlay-poster" class="w-full rounded-xl shadow-2xl border border-white/10 aspect-[2/3] object-cover" src="">
-                    <div id="overlay-status" class="mt-3 text-center py-1.5 bg-yellow-500/10 text-yellow-500 text-[10px] rounded-full">--</div>
+                <div class="w-32 md:w-48 shrink-0 mx-auto md:mx-0">
+                    <img id="overlay-poster" class="w-full rounded-xl shadow-2xl border border-white/10 aspect-[3/4] object-cover" src="">
+                    <div id="overlay-status" class="mt-3 text-center py-1.5 bg-yellow-500/10 text-yellow-500 text-[10px] rounded-full font-bold">--</div>
                 </div>
                 <div class="flex-1 text-center md:text-left">
                     <h3 id="overlay-name" class="text-2xl md:text-4xl font-bold mb-1">--</h3>
                     <p id="overlay-subname" class="text-gray-500 text-sm mb-5 italic">--</p>
                     <div class="flex flex-wrap justify-center md:justify-start gap-2 mb-6">
-                        <span class="bg-yellow-500 text-black text-[10px] font-black px-2 py-0.5 rounded">IMDb 8.5</span>
-                        <span id="overlay-year" class="bg-white/10 text-[10px] px-2 py-0.5 rounded">--</span>
-                        <span id="overlay-type" class="bg-white/10 text-[10px] px-2 py-0.5 rounded">--</span>
+                        <span class="bg-yellow-500 text-black text-[10px] font-black px-2 py-0.5 rounded">IMDb 9.0</span>
+                        <span id="overlay-year" class="bg-white/10 text-[10px] px-2 py-0.5 rounded border border-white/5">--</span>
+                        <span id="overlay-type" class="bg-white/10 text-[10px] px-2 py-0.5 rounded border border-white/5">--</span>
                     </div>
                     <p id="overlay-desc" class="text-gray-400 text-sm leading-relaxed max-w-3xl">--</p>
                 </div>
             </div>
-            <h4 class="font-bold mb-5 flex items-center gap-2 border-l-4 border-yellow-500 pl-3">DANH SÁCH TẬP PHIM</h4>
-            <div id="episode-list" class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-10 gap-3 mb-24"></div>
+            <h4 class="font-bold mb-5 flex items-center gap-2 border-l-4 border-yellow-500 pl-3">CHỌN TẬP PHIM</h4>
+            <div id="episode-list" class="grid grid-cols-3 sm:grid-cols-6 md:grid-cols-10 gap-3 mb-24"></div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
     <script>
-        // DATA PHIM
         const videoSources1 = ["pFTQlucz", "cQ8tFrQk", "k8Sxo7sx", "7DPRlQzQ", "44KpD8kf", "uOeK0Ujx", "mRWoeJVC", "64poyIqb", "icCNBonE", "e29l3KPG", "YoRPHeuK", "VDkPu5Wo", "vgxx7oQm", "8efPH64M", "EdssnX1K", "22DOenUT", "K2dImsnX", "X9yzcMW3", "Wpb0Ek2g", "ezDSIuDo", "JUd1SmmR", "GAelqsxJ", "XdJaMJCw", "PjAffVy3", "a1kDbj4o", "sPjCpV9X", "bps1Pwws", "qvqP3bc3", "noPVvkIk", "CAVwg7Dq", "magnlHzY", "efleVJL0", "kmhZZ1h0", "lCbgWbJo", "pYqrcrWl", "xU522isQ", "nCBkgpsh", "5lkp4zaB", "JjlvOso2", "0qnGdoCY", "BiZiFI4i", "7qZ2yhPP", "YbJpri4W", "YH5O6Gjm", "76JZCY9c", "v3jgCByk", "V62t49Ba", "4eO4gHxT", "jnO8W3C9", "0rhqQ78m", "rqiLeo6S", "kOcLr168", "dDol4LDr", "fSv2ynqP", "CstYGxiv", "5V9EDj50", "Jbd7KuAr", "zBT69vsi", "tdlootbb", "14Q0Ozew", "DsUFqFsl", "gkdfakrK", "PdG3fITq", "vnENY1R0", "0iwZ96SE", "2l81MkW0", "t4r6CrOy", "yhp76sdX", "VCaQxHnT", "8vq1s9AT", "uvFFzk3H", "LY8oKa9l", "FmAMqeJb", "0dDlWcsd", "W9vM67Gg", "JxtvnfMN", "g52ut4ow", "2cQ02X3Y", "uo98wBIC", "JvBtYXZ9", "bjCUfBPx", "q5Epnwmw", "d242MJvr", "OEsmazdF", "nbLqdFkr", "6pcM06ru", "jN4U6WW7", "AsErXJ4V", "8WPaTfwB"];
         
         const movies = [
             {
-                id: 0,
+                id: 101,
+                title: "Tiểu Yêu Quái Núi Lãng Lãng",
+                subTitle: "Nobody - Yao-Chinese Folktales",
+                year: "2024",
+                info: "Phim Ngắn",
+                desc: "Câu chuyện cảm động về một chú heo con tiểu yêu quái làm việc tại hang quỷ núi Lãng Lãng, phản ánh chân thực nỗi lòng của những người lao động nhỏ bé.",
+                img: "https://i.ytimg.com/vi/aRAraAnh3Ns/maxresdefault.jpg",
+                episodes: [{ name: "Full", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251204/wM0RTCwd/index.m3u8" }]
+            },
+            {
+                id: 102,
                 title: "Còn Ra Thể Thống Gì Nữa",
                 subTitle: "Never Give Up",
                 year: "2024",
-                info: "Phim Bộ",
-                desc: "Một tiểu thư quý tộc trở thành nữ cướp chính nghĩa tên Gil Dong và hoàng tử Joseon Yi Yeol bí mật điều tra cô...",
+                info: "Lồng Tiếng",
+                desc: "Tiểu thư quý tộc và hoàng tử Joseon bị hoán đổi linh hồn, tạo nên vô vàn tình huống hài hước chốn cung đình.",
                 img: "https://pic5.iqiyipic.com/image/20260206/c4/9d/a_100615299_m_601_vi_m2_720_405.jpg",
                 episodes: videoSources1.map((id, i) => ({ name: `Tập ${i+1}`, url: `https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20250827/${id}/index.m3u8` }))
             },
             {
-                id: 1,
+                id: 103,
                 title: "Đường Cung Kỳ Án",
                 subTitle: "The Mystery of Tang Court",
                 year: "2025",
                 info: "Phần 1",
-                desc: "Vụ án mạng kỳ bí tại kinh thành vào đêm Nguyên Tiêu dẫn lối cho đôi bạn trẻ vào những âm mưu Đường triều.",
+                desc: "Theo chân các thám tử trẻ giải mã những vụ án kỳ bí chốn Đường triều vào đêm Nguyên Tiêu.",
                 img: "https://image.tmdb.org/t/p/w780/a2Qi3CQL1KRuL4IYaCbxwqaCKVQ.jpg",
                 episodes: [
-                    { name: "Tập 01 - Lồng tiếng", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260205/BHpU80io/index.m3u8" },
-                    { name: "Tập 02 - Lồng tiếng", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260206/7uu3qRiI/index.m3u8" },
-                    { name: "Tập 03 - Thuyết minh", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260205/bd3s3dd1/index.m3u8" },
-                    { name: "Tập 04 - Thuyết minh", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260205/shTS8xWn/index.m3u8" },
-                    { name: "Tập 05 - Thuyết minh", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260206/K3KwyMw2/index.m3u8" }
+                    { name: "Tập 01 - LT", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260205/BHpU80io/index.m3u8" },
+                    { name: "Tập 02 - LT", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260206/7uu3qRiI/index.m3u8" },
+                    { name: "Tập 03 - TM", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260205/bd3s3dd1/index.m3u8" },
+                    { name: "Tập 04 - TM", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260205/shTS8xWn/index.m3u8" },
+                    { name: "Tập 05 - TM", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260206/K3KwyMw2/index.m3u8" }
                 ]
             }
         ];
 
-        // RENDER BANNER SLIDES
         const wrapper = document.getElementById('main-banner-wrapper');
         movies.forEach(movie => {
             wrapper.innerHTML += `
                 <div class="swiper-slide relative">
                     <div class="banner-img absolute inset-0 bg-cover bg-center" style="background-image: url('${movie.img}')"></div>
                     <div class="absolute inset-0 banner-gradient"></div>
-                    <div class="relative z-10 flex flex-col justify-end md:justify-center h-full px-6 md:px-16 pb-20 md:pb-0 text-center md:text-left">
-                        <h1 class="text-3xl md:text-5xl font-bold mb-2">${movie.title}</h1>
-                        <div class="flex gap-2 items-center justify-center md:justify-start mb-4">
-                            <span class="border border-yellow-500 text-yellow-500 px-2 py-0.5 rounded text-[10px] font-bold">IMDb 8.5</span>
-                            <span class="bg-gray-800/60 px-2 py-0.5 rounded text-[10px]">${movie.year}</span>
-                            <span class="bg-gray-800/60 px-2 py-0.5 rounded text-[10px]">${movie.info}</span>
+                    <div class="relative z-10 flex flex-col justify-end md:justify-center h-full px-6 md:px-16 pb-24 md:pb-0 text-center md:text-left">
+                        <h1 class="text-3xl md:text-5xl font-bold mb-3 drop-shadow-lg">${movie.title}</h1>
+                        <div class="flex gap-2 items-center justify-center md:justify-start mb-5">
+                            <span class="bg-yellow-500 text-black px-2 py-0.5 rounded text-[10px] font-black">TOP 1</span>
+                            <span class="bg-white/10 px-2 py-0.5 rounded text-[10px]">${movie.year}</span>
+                            <span class="bg-white/10 px-2 py-0.5 rounded text-[10px]">${movie.info}</span>
                         </div>
-                        <p class="hidden md:block text-gray-300 line-clamp-2 text-sm max-w-xl mb-6">${movie.desc}</p>
-                        <button onclick="openPlayer(${movie.id})" class="mx-auto md:mx-0 w-max bg-yellow-500 text-black px-10 py-3 rounded-full font-black text-sm flex items-center gap-2 active:scale-95 transition-transform">
+                        <p class="hidden md:block text-gray-300 line-clamp-2 text-sm max-w-xl mb-8">${movie.desc}</p>
+                        <button onclick="openPlayer(${movie.id})" class="mx-auto md:mx-0 w-max bg-yellow-500 text-black px-12 py-3.5 rounded-full font-black text-sm flex items-center gap-2 shadow-xl shadow-yellow-500/20 active:scale-90 transition-all">
                             <i class="fas fa-play"></i> XEM NGAY
                         </button>
                     </div>
@@ -146,10 +144,9 @@
             `;
         });
 
-        // KHỞI TẠO SWIPER (3s đổi, kéo được)
         const swiper = new Swiper(".mySwiper", {
             loop: true,
-            speed: 800,
+            speed: 1000,
             autoplay: { delay: 3000, disableOnInteraction: false },
             pagination: { el: ".swiper-pagination", clickable: true },
         });
@@ -162,17 +159,17 @@
             document.getElementById('overlay-desc').innerText = movie.desc;
             document.getElementById('overlay-year').innerText = movie.year;
             document.getElementById('overlay-type').innerText = movie.info;
-            document.getElementById('overlay-status').innerText = `Đã chiếu: ${movie.episodes.length} tập`;
+            document.getElementById('overlay-status').innerText = movie.episodes.length > 1 ? `Đã chiếu: ${movie.episodes.length} tập` : `Bản Đầy Đủ (Full)`;
             
             const epContainer = document.getElementById('episode-list');
             epContainer.innerHTML = '';
             movie.episodes.forEach((ep, index) => {
                 const btn = document.createElement('button');
-                btn.className = `episode-btn border border-white/5 bg-white/5 py-2.5 rounded-lg text-[11px] hover:bg-yellow-500/20`;
-                btn.innerText = index + 1;
+                btn.className = `episode-btn border border-white/10 bg-white/5 py-3 rounded-xl text-[11px] font-medium transition-all`;
+                btn.innerText = ep.name.includes("Tập") ? (index + 1) : ep.name;
                 btn.onclick = () => {
                     document.getElementById('video-iframe').src = ep.url;
-                    document.getElementById('playing-title').innerText = `Phát: ${movie.title} - ${ep.name}`;
+                    document.getElementById('playing-title').innerText = `Đang phát: ${movie.title} - ${ep.name}`;
                     document.querySelectorAll('.episode-btn').forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
                 };
