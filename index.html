@@ -1,222 +1,120 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xô Phim - Phim hay cả rổ</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        body { background-color: #1a1a20; color: white; font-family: sans-serif; overflow-x: hidden; }
-        .banner-gradient { background: linear-gradient(to top, #1a1a20 5%, rgba(26,26,32,0.6) 40%, rgba(26,26,32,0.2) 100%); }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .movie-card:hover { transform: translateY(-8px); transition: 0.3s; }
-        .animate-fade { animation: fade 0.5s ease-in-out; }
-        @keyframes fade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        #ov-episodes::-webkit-scrollbar { width: 3px; }
-        #ov-episodes::-webkit-scrollbar-thumb { background: #eab308; border-radius: 10px; }
-        .category-card { min-width: 170px; aspect-ratio: 16/10; border-radius: 12px; cursor: pointer; transition: 0.3s; }
-        .category-card:hover { transform: translateY(-5px); filter: brightness(1.2); }
-    </style>
-</head>
-<body>
+// Cấu hình API chuẩn
+const API_LIST = "https://phimapi.com/v1/api/danh-sach/phim-moi-cap-nhat?limit=18";
+const IMG_URL = "https://phimimg.com/";
+let listPhim = [];
 
-    <header class="fixed w-full z-50 flex items-center justify-between px-6 py-4 transition-all" id="header">
-        <div class="flex items-center gap-2">
-            <div class="bg-yellow-500 rounded-full p-1.5 shadow-lg"><i class="fas fa-play text-black text-[10px]"></i></div>
-            <span class="text-xl font-black uppercase tracking-tighter">Xô Phim</span>
-        </div>
-        <div class="flex items-center gap-6 text-sm font-bold uppercase">
-            <a href="#" class="hover:text-yellow-500 hidden md:block">Phim Lẻ</a>
-            <a href="#" class="hover:text-yellow-500 hidden md:block">Phim Bộ</a>
-            <i class="fas fa-search text-lg cursor-pointer hover:text-yellow-500"></i>
-        </div>
-    </header>
+// Hàm khởi tạo chính
+async function loadHome() {
+    const heroTitle = document.getElementById('hero-title');
+    const grid = document.getElementById('movie-grid');
 
-    <section class="relative h-[85vh] w-full overflow-hidden">
-        <div id="banner-bg" class="absolute inset-0 bg-cover bg-center transition-all duration-1000 scale-105"></div>
-        <div class="absolute inset-0 banner-gradient"></div>
-        <div class="relative z-10 flex flex-col items-center justify-end h-full px-6 pb-24 text-center">
-            <h1 id="hero-title" class="text-4xl md:text-6xl font-black mb-2 uppercase italic">Đang tải...</h1>
-            <p id="hero-sub" class="text-yellow-500 text-lg mb-6 font-bold italic opacity-90">--</p>
-            <button id="hero-play-btn" class="bg-yellow-500 text-black px-12 py-3.5 rounded-full font-black text-sm hover:scale-105 transition shadow-xl shadow-yellow-500/30">XEM NGAY</button>
-        </div>
-    </section>
+    try {
+        // Thử fetch dữ liệu
+        const res = await fetch(API_LIST);
+        if (!res.ok) throw new Error("Network response was not ok");
+        
+        const data = await res.json();
+        listPhim = data.data.items;
 
-    <section class="px-6 md:px-12 -mt-10 mb-12 relative z-20">
-        <h2 class="text-xl font-bold mb-6 italic uppercase">Bạn đang quan tâm gì?</h2>
-        <div class="flex gap-4 overflow-x-auto no-scrollbar">
-            <div class="category-card p-4 flex flex-col justify-end bg-gradient-to-br from-blue-600 to-blue-900">
-                <span class="text-lg font-bold">Marvel</span><span class="text-[10px] opacity-70">Xem chủ đề ></span>
-            </div>
-            <div class="category-card p-4 flex flex-col justify-end bg-gradient-to-br from-emerald-600 to-teal-800">
-                <span class="text-lg font-bold">Sitcom</span><span class="text-[10px] opacity-70">Xem chủ đề ></span>
-            </div>
-            <div class="category-card p-4 flex flex-col justify-end bg-gradient-to-br from-purple-600 to-indigo-800">
-                <span class="text-lg font-bold leading-tight">Lồng Tiếng<br>Cực Mạnh</span><span class="text-[10px] opacity-70">Xem chủ đề ></span>
-            </div>
-            <div class="category-card p-4 flex flex-col justify-end bg-gradient-to-br from-orange-500 to-red-600">
-                <span class="text-lg font-bold">Xuyên Không</span><span class="text-[10px] opacity-70">Xem chủ đề ></span>
-            </div>
-            <div class="category-card p-4 flex flex-col justify-end bg-gradient-to-br from-red-600 to-rose-900">
-                <span class="text-lg font-bold">Cổ Trang</span><span class="text-[10px] opacity-70">Xem chủ đề ></span>
-            </div>
-        </div>
-    </section>
+        if (listPhim && listPhim.length > 0) {
+            renderBanner(listPhim[0]);
+            renderGrid(listPhim);
+        } else {
+            throw new Error("Dữ liệu trống");
+        }
 
-    <section class="px-6 md:px-12 mb-20">
-        <h2 class="text-xl font-bold mb-6 italic uppercase tracking-tight text-gray-400">Cập nhật phim mới</h2>
-        <div id="movie-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-5">
-            </div>
-    </section>
+    } catch (err) {
+        console.error("Lỗi kết nối:", err);
+        // Nếu lỗi, hiển thị thông báo thân thiện hơn thay vì để trống
+        heroTitle.innerText = "ĐANG CẬP NHẬT HỆ THỐNG";
+        grid.innerHTML = `<div class="col-span-full text-center py-10 text-gray-500 italic">
+            Hệ thống đang bảo trì kết nối API, vui lòng quay lại sau vài phút...
+        </div>`;
+    }
+}
 
-    <div id="movie-overlay" class="fixed inset-0 z-[100] bg-[#0f0f13] hidden overflow-y-auto animate-fade">
-        <div class="sticky top-0 z-[110] bg-[#0f0f13]/95 backdrop-blur-md flex items-center justify-between px-6 py-4 border-b border-white/5">
-            <div class="flex items-center gap-4">
-                <button onclick="closeOverlay()" class="text-2xl hover:text-yellow-500"><i class="fas fa-arrow-left"></i></button>
-                <h2 id="ov-header-title" class="font-bold text-sm opacity-90 truncate max-w-[200px] md:max-w-none uppercase tracking-tighter"></h2>
-            </div>
-            <button onclick="closeOverlay()" class="text-3xl font-light hover:text-red-500">&times;</button>
-        </div>
-        <div class="max-w-7xl mx-auto pb-20">
-            <div class="w-full bg-black aspect-video lg:max-h-[75vh] relative shadow-2xl">
-                <iframe id="main-player" src="" class="w-full h-full" frameborder="0" allowfullscreen></iframe>
-            </div>
-            <div class="flex flex-wrap items-center gap-6 px-6 py-4 bg-[#16161d] border-b border-white/5 text-[11px] font-bold text-gray-400">
-                <button class="hover:text-white uppercase"><i class="far fa-heart mr-1"></i> Yêu thích</button>
-                <button class="hover:text-white uppercase"><i class="fas fa-plus mr-1"></i> Thêm vào</button>
-                <button class="hover:text-white uppercase"><i class="fas fa-paper-plane mr-1"></i> Chia sẻ</button>
-                <button class="ml-auto text-gray-500 hover:text-red-500 uppercase"><i class="fas fa-flag mr-1"></i> Báo lỗi</button>
-            </div>
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 px-6 pt-8">
-                <div class="lg:col-span-2 space-y-6">
-                    <div class="flex gap-6">
-                        <img id="ov-poster" src="" class="w-32 rounded-lg shadow-2xl border border-white/10 hidden md:block aspect-[2/3] object-cover">
-                        <div class="flex-1">
-                            <h1 id="ov-title" class="text-2xl md:text-3xl font-black italic uppercase"></h1>
-                            <p id="ov-sub" class="text-yellow-500 font-bold mb-4 italic opacity-80"></p>
-                            <div class="flex flex-wrap gap-2 text-[10px] font-bold">
-                                <span class="bg-yellow-500 text-black px-2 py-0.5 rounded uppercase" id="ov-rating"></span>
-                                <span class="bg-white/10 px-2 py-0.5 rounded uppercase" id="ov-year"></span>
-                                <span class="bg-white/10 px-2 py-0.5 rounded uppercase" id="ov-status"></span>
-                            </div>
-                        </div>
+// Hàm render Banner để tránh lỗi "Đang tải..."
+function renderBanner(first) {
+    const bg = document.getElementById('banner-bg');
+    const title = document.getElementById('hero-title');
+    const sub = document.getElementById('hero-sub');
+    const btn = document.getElementById('hero-play-btn');
+
+    bg.style.backgroundImage = `url('${IMG_URL}${first.poster_url}')`;
+    title.innerText = first.name;
+    sub.innerText = first.origin_name;
+    btn.onclick = () => openOverlay(first.slug);
+}
+
+// Hàm render Lưới phim
+function renderGrid(phims) {
+    const grid = document.getElementById('movie-grid');
+    grid.innerHTML = phims.map(p => `
+        <div class="movie-card group cursor-pointer" onclick="openOverlay('${p.slug}')">
+            <div class="relative aspect-[2/3] overflow-hidden rounded-xl bg-[#25252b]">
+                <img src="${IMG_URL}${p.thumb_url}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" 
+                     onerror="this.src='https://via.placeholder.com/300x450?text=No+Image'">
+                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                    <div class="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center text-black shadow-lg">
+                        <i class="fas fa-play text-sm"></i>
                     </div>
-                    <p id="ov-desc" class="text-gray-400 leading-relaxed text-sm italic border-l-4 border-yellow-500 pl-4"></p>
-                </div>
-                <div class="bg-[#16161d] rounded-2xl p-5 border border-white/5 shadow-xl h-fit">
-                    <div class="flex gap-4 border-b border-white/10 mb-5">
-                        <button class="pb-2 border-b-2 border-yellow-500 text-yellow-500 font-black text-xs uppercase italic">Vietsub / Thuyết minh</button>
-                    </div>
-                    <div id="ov-episodes" class="grid grid-cols-4 md:grid-cols-5 gap-2 max-h-[350px] overflow-y-auto pr-1"></div>
                 </div>
             </div>
+            <h3 class="text-[13px] font-bold mt-3 truncate uppercase group-hover:text-yellow-500 transition">${p.name}</h3>
+            <p class="text-[10px] text-gray-500 truncate italic">${p.origin_name}</p>
         </div>
-    </div>
+    `).join('');
+}
 
-    <script>
-        const API_LIST = "https://phimapi.com/v1/api/danh-sach/phim-moi-cap-nhat?limit=18";
-        const IMG_URL = "https://phimimg.com/";
-        let listPhim = [];
+// Mở Overlay (Giữ nguyên logic cũ nhưng thêm bọc Try-Catch)
+async function openOverlay(slug) {
+    try {
+        const res = await fetch(`https://phimapi.com/phim/${slug}`);
+        const data = await res.json();
+        const m = data.movie;
+        const eps = data.episodes[0].server_data;
 
-        // Lấy danh sách phim mới khi load trang
-        async function loadHome() {
-            try {
-                const res = await fetch(API_LIST);
-                const data = await res.json();
-                listPhim = data.data.items;
+        document.getElementById('ov-header-title').innerText = `XEM PHIM: ${m.name}`;
+        document.getElementById('ov-title').innerText = m.name;
+        document.getElementById('ov-sub').innerText = m.origin_name;
+        document.getElementById('ov-desc').innerHTML = m.content;
+        document.getElementById('ov-poster').src = m.thumb_url;
+        document.getElementById('ov-year').innerText = m.year;
+        document.getElementById('ov-status').innerText = m.episode_current;
+        document.getElementById('ov-rating').innerText = `IMDb ${m.tmdb.vote_average || 'N/A'}`;
 
-                // 1. Đổ Banner (Lấy phim đầu tiên)
-                const first = listPhim[0];
-                document.getElementById('banner-bg').style.backgroundImage = `url('${IMG_URL}${first.poster_url}')`;
-                document.getElementById('hero-title').innerText = first.name;
-                document.getElementById('hero-sub').innerText = first.origin_name;
-                document.getElementById('hero-play-btn').onclick = () => openOverlay(first.slug);
+        const epBox = document.getElementById('ov-episodes');
+        epBox.innerHTML = eps.map((e, i) => `
+            <button onclick="playVideo('${e.link}', this)" 
+                    class="ep-btn bg-[#25252b] py-2.5 rounded font-black text-[11px] hover:bg-yellow-500 hover:text-black transition border border-white/5 ${i===0?'bg-yellow-500 text-black':''}">
+                ${e.name}
+            </button>
+        `).join('');
 
-                // 2. Đổ Lưới Phim
-                const grid = document.getElementById('movie-grid');
-                grid.innerHTML = listPhim.map(p => `
-                    <div class="movie-card group cursor-pointer" onclick="openOverlay('${p.slug}')">
-                        <div class="relative aspect-[2/3] overflow-hidden rounded-xl bg-[#25252b]">
-                            <img src="${IMG_URL}${p.thumb_url}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" loading="lazy">
-                            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
-                                <div class="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center text-black shadow-lg">
-                                    <i class="fas fa-play text-sm"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <h3 class="text-[13px] font-bold mt-3 truncate uppercase group-hover:text-yellow-500 transition">${p.name}</h3>
-                        <p class="text-[10px] text-gray-500 truncate italic">${p.origin_name}</p>
-                    </div>
-                `).join('');
+        playVideo(eps[0].link);
+        document.getElementById('movie-overlay').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    } catch (e) {
+        alert("Server phim đang bận, thử lại sau!");
+    }
+}
 
-            } catch (err) {
-                console.error("Lỗi tải phim:", err);
-                document.getElementById('hero-title').innerText = "Lỗi kết nối API";
-            }
-        }
-
-        // Mở Overlay chi tiết phim
-        async function openOverlay(slug) {
-            const overlay = document.getElementById('movie-overlay');
-            try {
-                const res = await fetch(`https://phimapi.com/phim/${slug}`);
-                const data = await res.json();
-                const m = data.movie;
-                const eps = data.episodes[0].server_data;
-
-                // Fill data
-                document.getElementById('ov-header-title').innerText = `XEM PHIM: ${m.name}`;
-                document.getElementById('ov-title').innerText = m.name;
-                document.getElementById('ov-sub').innerText = m.origin_name;
-                document.getElementById('ov-desc').innerHTML = m.content;
-                document.getElementById('ov-poster').src = m.thumb_url;
-                document.getElementById('ov-year').innerText = m.year;
-                document.getElementById('ov-status').innerText = m.episode_current;
-                document.getElementById('ov-rating').innerText = `IMDb ${m.tmdb.vote_average || 'N/A'}`;
-
-                // Render tập phim
-                const epBox = document.getElementById('ov-episodes');
-                epBox.innerHTML = eps.map((e, i) => `
-                    <button onclick="playVideo('${e.link}', this)" 
-                            class="ep-btn bg-[#25252b] py-2.5 rounded font-black text-[11px] hover:bg-yellow-500 hover:text-black transition border border-white/5 ${i===0?'bg-yellow-500 text-black':''}">
-                        ${e.name}
-                    </button>
-                `).join('');
-
-                playVideo(eps[0].link);
-                overlay.classList.remove('hidden');
-                document.body.style.overflow = 'hidden';
-            } catch (e) {
-                alert("Không lấy được link phim!");
-            }
-        }
-
-        function playVideo(url, btn) {
-            document.getElementById('main-player').src = url;
-            if(btn) {
-                document.querySelectorAll('.ep-btn').forEach(b => {
-                    b.classList.remove('bg-yellow-500', 'text-black');
-                    b.classList.add('bg-[#25252b]');
-                });
-                btn.classList.add('bg-yellow-500', 'text-black');
-            }
-        }
-
-        function closeOverlay() {
-            document.getElementById('movie-overlay').classList.add('hidden');
-            document.getElementById('main-player').src = "";
-            document.body.style.overflow = 'auto';
-        }
-
-        // Đổi màu header khi scroll
-        window.addEventListener('scroll', () => {
-            const h = document.getElementById('header');
-            window.scrollY > 50 ? h.classList.add('bg-[#1a1a20]', 'shadow-2xl') : h.classList.remove('bg-[#1a1a20]', 'shadow-2xl');
+function playVideo(url, btn) {
+    document.getElementById('main-player').src = url;
+    if(btn) {
+        document.querySelectorAll('.ep-btn').forEach(b => {
+            b.classList.remove('bg-yellow-500', 'text-black');
+            b.classList.add('bg-[#25252b]');
         });
+        btn.classList.add('bg-yellow-500', 'text-black');
+    }
+}
 
-        // Khởi động
-        loadHome();
-    </script>
-</body>
-</html>
+function closeOverlay() {
+    document.getElementById('movie-overlay').classList.add('hidden');
+    document.getElementById('main-player').src = "";
+    document.body.style.overflow = 'auto';
+}
+
+// Tự động chạy khi load trang
+window.addEventListener('DOMContentLoaded', loadHome);
