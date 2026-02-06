@@ -1,225 +1,47 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đức Movie - Trải Nghiệm Điện Ảnh</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root { --primary: #ff9d00; --bg: #060606; --text: #e5e5e5; --meta-bg: rgba(255,255,255,0.1); }
-        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
-        header { position: fixed; top: 0; width: 100%; height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 4%; background: rgba(0,0,0,0.9); z-index: 1000; box-sizing: border-box; border-bottom: 1px solid #222; }
-        
-        .hero-slider { position: relative; width: 100vw; height: 100vh; overflow: hidden; background: #000; }
-        .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.8s ease; background-size: cover; background-position: center; display: flex; align-items: center; padding: 0 6%; box-sizing: border-box; }
-        .slide.active { opacity: 1; z-index: 10; }
-        .slide::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.95) 100%); }
-        
-        .slide-content { position: relative; z-index: 20; width: 100%; max-width: 800px; animation: fadeIn 1s ease; }
-        .slide-content h1 { font-size: 4rem; margin: 10px 0; color: #fff; text-transform: uppercase; letter-spacing: -1px; }
-        
-        /* Movie Meta Info Style */
-        .meta-info { display: flex; gap: 8px; margin-bottom: 15px; align-items: center; flex-wrap: wrap; }
-        .meta-item { background: var(--meta-bg); padding: 3px 10px; border-radius: 4px; font-size: 12px; font-weight: bold; border: 1px solid rgba(255,255,255,0.2); }
-        .imdb { background: #f5c518; color: #000; border: none; }
-        .genres { display: flex; gap: 10px; margin: 15px 0; font-size: 13px; color: #aaa; }
-
-        .btn-play { background: var(--primary); color: #000; padding: 14px 35px; border-radius: 50px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; margin-top: 10px; transition: 0.3s; text-transform: uppercase; }
-        .btn-play:hover { transform: scale(1.05); background: #fff; }
-        
-        .episode-container { display: none; margin-top: 20px; animation: fadeInUp 0.4s ease; background: rgba(15, 15, 15, 0.95); padding: 25px; border-radius: 15px; border: 1px solid #333; position: relative; backdrop-filter: blur(10px); max-width: 600px; }
-        .slide.watching .episode-container { display: block; }
-        .close-ep { position: absolute; top: 15px; right: 15px; color: #888; cursor: pointer; font-size: 20px; }
-        
-        .season-tabs { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 5px; }
-        .tab-btn { background: #222; border: none; color: #888; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 11px; white-space: nowrap; transition: 0.3s; }
-        .tab-btn.active { background: var(--primary); color: #000; }
-        
-        .ep-grid { display: none; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 8px; max-height: 250px; overflow-y: auto; }
-        .ep-grid.active { display: grid; }
-        .ep-link { background: #1a1a1a; color: #fff; text-align: center; padding: 10px 0; text-decoration: none; border-radius: 4px; font-size: 11px; border: 1px solid #333; }
-        .ep-link:hover { background: var(--primary); color: #000; border-color: var(--primary); }
-
-        .thumbnails { position: absolute; bottom: 40px; right: 4%; z-index: 100; display: flex; gap: 10px; }
-        .thumb { width: 100px; height: 56px; border-radius: 6px; border: 2px solid transparent; cursor: pointer; opacity: 0.4; transition: 0.3s; overflow: hidden; }
-        .thumb.active { border-color: var(--primary); opacity: 1; transform: scale(1.1); }
-        .thumb img { width: 100%; height: 100%; object-fit: cover; }
-
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @media (max-width: 768px) { .slide-content h1 { font-size: 2.2rem; } .thumbnails { display: none; } }
-    </style>
-</head>
-<body>
-
-<header>
-    <div style="font-weight: 900; font-size: 22px; color: var(--primary); letter-spacing: 1px;">ĐỨC<span style="color: #fff;">MOVIE</span></div>
-</header>
-
-<section class="hero-slider">
-    <div class="slide active" id="slide-0" style="background-image: url('poster-stranger 99-.jpg');">
-        <div class="slide-content">
-            <div class="meta-info">
-                <span class="meta-item imdb">IMDb 8.7</span>
-                <span class="meta-item">2016 - 2025</span>
-                <span class="meta-item">5 Phần</span>
-                <span class="meta-item">Full HD</span>
+<div class="slide active" id="slide-0" style="background-image: url('poster-stranger 99-.jpg');">
+    <div class="slide-content">
+        <div class="meta-tags">
+            <span class="tag imdb">IMDb 8.7</span>
+            <span class="tag">2016 - 2026</span>
+            <span class="tag">Full 5 Phần</span>
+            <span class="tag">Viễn tưởng</span>
+        </div>
+        <h1>Stranger Things</h1>
+        <p class="description">Sau khi một cậu bé mất tích, một thị trấn nhỏ phát hiện ra một bí ẩn liên quan đến các thí nghiệm bí mật, các lực lượng siêu nhiên đáng sợ và một cô bé kỳ lạ.</p>
+        <div class="btn-group">
+            <div class="btn-play" onclick="clickBanner(0)"><i class="fas fa-play"></i> CHỌN TẬP</div>
+        </div>
+        <div class="episode-container">
+            <i class="fas fa-times close-ep" onclick="closeBoard(event, 0)"></i>
+            <div class="season-tabs">
+                <button class="tab-btn active" onclick="switchSeason(event, 'st-s5', 0)">Phần 5</button>
+                <button class="tab-btn" onclick="switchSeason(event, 'st-s4', 0)">Phần 4</button>
+                <button class="tab-btn" onclick="switchSeason(event, 'st-s3', 0)">Phần 3</button>
+                <button class="tab-btn" onclick="switchSeason(event, 'st-s2', 0)">Phần 2</button>
+                <button class="tab-btn" onclick="switchSeason(event, 'st-s1', 0)">Phần 1</button>
             </div>
-            <h1>Stranger Things</h1>
-            <div class="genres">Viễn Tưởng • Kinh Dị • Bí Ẩn • Phiêu Lưu</div>
-            <p style="color: #ccc; max-width: 500px; line-height: 1.6;">Khi một cậu bé mất tích, một thị trấn nhỏ phanh phui một bí ẩn liên quan đến các thí nghiệm bí mật, các lực lượng siêu nhiên đáng sợ và một cô bé kỳ lạ.</p>
             
-            <div class="btn-play" onclick="clickBanner(0)"><i class="fas fa-play"></i> Xem Ngay</div>
-
-            <div class="episode-container">
-                <i class="fas fa-times close-ep" onclick="closeBoard(event, 0)"></i>
-                <div class="season-tabs">
-                    <button class="tab-btn active" onclick="switchSeason(event, 'st-s1', 0)">PHẦN 1</button>
-                    <button class="tab-btn" onclick="switchSeason(event, 'st-s2', 0)">PHẦN 2</button>
-                    <button class="tab-btn" onclick="switchSeason(event, 'st-s3', 0)">PHẦN 3</button>
-                    <button class="tab-btn" onclick="switchSeason(event, 'st-s4', 0)">PHẦN 4</button>
-                    <button class="tab-btn" onclick="switchSeason(event, 'st-s5', 0)">PHẦN 5</button>
-                </div>
-                
-                <div id="st-s1-0" class="ep-grid active">
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/eMrQhses/index.m3u8" class="ep-link">TẬP 1</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/yAIeQK28/index.m3u8" class="ep-link">TẬP 2</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/bMLS6ssd/index.m3u8" class="ep-link">TẬP 3</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/9GOe0ERm/index.m3u8" class="ep-link">TẬP 4</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/dt44QZBb/index.m3u8" class="ep-link">TẬP 5</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/rJDxkKag/index.m3u8" class="ep-link">TẬP 6</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/GHYwItQu/index.m3u8" class="ep-link">TẬP 7</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/T9dfPeqG/index.m3u8" class="ep-link">TẬP 8</a>
-                </div>
-                <div id="st-s2-0" class="ep-grid">
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/VpgRLCmQ/index.m3u8" class="ep-link">TẬP 1</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/i4PjdUKJ/index.m3u8" class="ep-link">TẬP 2</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/im9N0WA8/index.m3u8" class="ep-link">TẬP 3</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/97X0NbJ9/index.m3u8" class="ep-link">TẬP 4</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/hD5hYx5P/index.m3u8" class="ep-link">TẬP 5</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/MUqTKn3z/index.m3u8" class="ep-link">TẬP 6</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/devEf5D4/index.m3u8" class="ep-link">TẬP 7</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/PyYxRkFF/index.m3u8" class="ep-link">TẬP 8</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/QfegEzof/index.m3u8" class="ep-link">TẬP 9</a>
-                </div>
-                <div id="st-s3-0" class="ep-grid">
-                    <a href="https://player.phimapi.com/player/?url=https://s4.phim1280.tv/20241219/o5qK1ZiY/index.m3u8" class="ep-link">TẬP 1</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s4.phim1280.tv/20241219/8ljSxIRU/index.m3u8" class="ep-link">TẬP 2</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s4.phim1280.tv/20241219/db4zTKcp/index.m3u8" class="ep-link">TẬP 3</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s4.phim1280.tv/20241219/Glhp1C4V/index.m3u8" class="ep-link">TẬP 4</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s4.phim1280.tv/20241219/fhfXuHNf/index.m3u8" class="ep-link">TẬP 5</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s4.phim1280.tv/20241219/50EapEQV/index.m3u8" class="ep-link">TẬP 6</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s4.phim1280.tv/20241219/rQsJwkx7/index.m3u8" class="ep-link">TẬP 7</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s4.phim1280.tv/20241219/dOCfRLH7/index.m3u8" class="ep-link">TẬP 8</a>
-                </div>
-                <div id="st-s4-0" class="ep-grid">
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/xlXYIN4h/index.m3u8" class="ep-link">TẬP 1</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/DmcR4Ifa/index.m3u8" class="ep-link">TẬP 2</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/s8HrgFqu/index.m3u8" class="ep-link">TẬP 3</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/CnoWNGQP/index.m3u8" class="ep-link">TẬP 4</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/2Z4dBijs/index.m3u8" class="ep-link">TẬP 5</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/74OVKIPn/index.m3u8" class="ep-link">TẬP 6</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/pHLmU9j0/index.m3u8" class="ep-link">TẬP 7</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/bN2uJOQG/index.m3u8" class="ep-link">TẬP 8</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/wlTpiDT6/index.m3u8" class="ep-link">TẬP 9</a>
-                </div>
-                <div id="st-s5-0" class="ep-grid">
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/VdVcTjll/index.m3u8" class="ep-link">TẬP 1</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/Xaex73oM/index.m3u8" class="ep-link">TẬP 2</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/phZU5qEk/index.m3u8" class="ep-link">TẬP 3</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/JudV0Ni1/index.m3u8" class="ep-link">TẬP 4</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251226/AFjYGQ1K/index.m3u8" class="ep-link">TẬP 5</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251226/TPpFJBKF/index.m3u8" class="ep-link">TẬP 6</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251226/oxQZbDQo/index.m3u8" class="ep-link">TẬP 7</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260101/YyOnJ03e/index.m3u8" class="ep-link">TẬP 8</a>
-                </div>
+            <div id="st-s5-0" class="ep-grid active">
+                <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/VdVcTjll/index.m3u8" class="ep-link">TẬP 1</a>
+                <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/Xaex73oM/index.m3u8" class="ep-link">TẬP 2</a>
+                <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/phZU5qEk/index.m3u8" class="ep-link">TẬP 3</a>
+                <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/JudV0Ni1/index.m3u8" class="ep-link">TẬP 4</a>
+                <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251226/AFjYGQ1K/index.m3u8" class="ep-link">TẬP 5</a>
+                <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251226/TPpFJBKF/index.m3u8" class="ep-link">TẬP 6</a>
+                <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251226/oxQZbDQo/index.m3u8" class="ep-link">TẬP 7</a>
+                <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260101/YyOnJ03e/index.m3u8" class="ep-link">TẬP 8</a>
             </div>
-        </div>
+
+            <div id="st-s1-0" class="ep-grid">
+                <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/eMrQhses/index.m3u8" class="ep-link">TẬP 1</a>
+                <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/yAIeQK28/index.m3u8" class="ep-link">TẬP 2</a>
+                <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/bMLS6ssd/index.m3u8" class="ep-link">TẬP 3</a>
+                <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/9GOe0ERm/index.m3u8" class="ep-link">TẬP 4</a>
+                <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/dt44QZBb/index.m3u8" class="ep-link">TẬP 5</a>
+                <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/rJDxkKag/index.m3u8" class="ep-link">TẬP 6</a>
+                <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/GHYwItQu/index.m3u8" class="ep-link">TẬP 7</a>
+                <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/T9dfPeqG/index.m3u8" class="ep-link">TẬP 8</a>
+            </div>
+            </div>
     </div>
-
-    <div class="slide" id="slide-1" style="background-image: url('1.jpg');">
-        <div class="slide-content">
-            <div class="meta-info">
-                <span class="meta-item imdb">IMDb 9.2</span>
-                <span class="meta-item">2023</span>
-                <span class="meta-item">Movie</span>
-                <span class="meta-item">4K</span>
-            </div>
-            <h1>Tiểu Yêu Quái Núi Lãng Lãng</h1>
-            <div class="genres">Hoạt Hình • Đời Thường • Ý Nghĩa</div>
-            <p style="color: #ccc; max-width: 500px; line-height: 1.6;">Một câu chuyện cảm động về cuộc sống của những yêu quái cấp thấp, phản chiếu hình ảnh của những con người nhỏ bé trong xã hội hiện đại.</p>
-            <div class="btn-play" onclick="clickBanner(1)"><i class="fas fa-play"></i> Xem Phim</div>
-            <div class="episode-container">
-                <i class="fas fa-times close-ep" onclick="closeBoard(event, 1)"></i>
-                <div class="ep-grid active">
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251204/wM0RTCwd/index.m3u8" class="ep-link" style="width: 150px;">BẢN FULL HD</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="slide" id="slide-2" style="background-image: url('2.jpg');">
-        <div class="slide-content">
-            <div class="meta-info">
-                <span class="meta-item imdb">IMDb 8.8</span>
-                <span class="meta-item">2013-2022</span>
-                <span class="meta-item">6 Phần</span>
-                <span class="meta-item">Full HD</span>
-            </div>
-            <h1>Peaky Blinders</h1>
-            <div class="genres">Hành Động • Tội Phạm • Kịch Tính</div>
-            <p style="color: #ccc; max-width: 500px; line-height: 1.6;">Gia tộc tội phạm Shelby lũng đoạn Birmingham thời hậu Thế chiến I, được dẫn dắt bởi thủ lĩnh Thomas Shelby đầy tham vọng và tàn nhẫn.</p>
-            <div class="btn-play" onclick="clickBanner(2)"><i class="fas fa-play"></i> Chọn Tập</div>
-            <div class="episode-container">
-                <i class="fas fa-times close-ep" onclick="closeBoard(event, 2)"></i>
-                <div class="season-tabs">
-                    <button class="tab-btn active" onclick="switchSeason(event, 'pb-s1', 2)">P1</button>
-                    <button class="tab-btn" onclick="switchSeason(event, 'pb-s6', 2)">P6</button>
-                </div>
-                <div id="pb-s1-2" class="ep-grid active">
-                    <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/911phIUY/index.m3u8" class="ep-link">TẬP 1</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/u2Kjk583/index.m3u8" class="ep-link">TẬP 6</a>
-                </div>
-                <div id="pb-s6-2" class="ep-grid">
-                    <a href="https://player.phimapi.com/player/?url=https://s1.phim1280.tv/20240304/rSwrRfj9/index.m3u8" class="ep-link">TẬP 1</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s1.phim1280.tv/20240304/63447p0z/index.m3u8" class="ep-link">TẬP 6</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="thumbnails">
-        <div class="thumb active" onclick="goToSlide(0)"><img src="poster-stranger 99-.jpg"></div>
-        <div class="thumb" onclick="goToSlide(1)"><img src="1.jpg"></div>
-        <div class="thumb" onclick="goToSlide(2)"><img src="2.jpg"></div>
-    </div>
-</section>
-
-<script>
-    let currentIdx = 0; let autoSlideActive = true;
-    const slides = document.querySelectorAll('.slide');
-    const thumbs = document.querySelectorAll('.thumb');
-    let slideTimer = setInterval(nextSlide, 8000);
-
-    function nextSlide() { if (autoSlideActive) changeSlide((currentIdx + 1) % slides.length); }
-    function changeSlide(n) {
-        slides[currentIdx].classList.remove('active', 'watching');
-        thumbs[currentIdx].classList.remove('active');
-        currentIdx = n;
-        slides[currentIdx].classList.add('active');
-        thumbs[currentIdx].classList.add('active');
-    }
-    function clickBanner(n) { autoSlideActive = false; clearInterval(slideTimer); slides[n].classList.add('watching'); }
-    function closeBoard(evt, n) { evt.stopPropagation(); slides[n].classList.remove('watching'); autoSlideActive = true; slideTimer = setInterval(nextSlide, 8000); }
-    function goToSlide(n) { autoSlideActive = true; changeSlide(n); clearInterval(slideTimer); slideTimer = setInterval(nextSlide, 8000); }
-    
-    function switchSeason(evt, seasonPrefix, slideId) {
-        evt.stopPropagation();
-        const parent = document.getElementById('slide-' + slideId);
-        parent.querySelectorAll('.ep-grid').forEach(g => g.classList.remove('active'));
-        parent.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(seasonPrefix + '-' + slideId).classList.add('active');
-        evt.currentTarget.classList.add('active');
-    }
-</script>
-</body>
-</html>
+</div>
