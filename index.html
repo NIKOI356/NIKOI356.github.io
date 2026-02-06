@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ao Phim Của Đức - Stranger Things Full Collection</title>
+    <title>Ao Phim Của Đức</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary: #ff9d00;
             --bg-deep: #060606;
-            --bg-card: #121212;
             --text-color: #e5e5e5;
         }
 
@@ -18,73 +17,109 @@
             color: var(--text-color);
             font-family: 'Inter', sans-serif;
             margin: 0; padding: 0;
-            line-height: 1.6;
+            overflow-x: hidden;
         }
 
         header {
-            position: fixed; top: 0; width: 100%; height: 60px;
+            position: fixed; top: 0; width: 100%; height: 70px;
             display: flex; align-items: center; justify-content: space-between;
-            padding: 0 4%; background: rgba(0,0,0,0.95); z-index: 1000; box-sizing: border-box;
-            border-bottom: 1px solid #222;
+            padding: 0 4%; background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+            z-index: 1000; box-sizing: border-box;
         }
-        .logo img { height: 35px; }
+        .logo img { height: 45px; }
 
-        .hero {
-            height: 50vh;
-            background: linear-gradient(to top, var(--bg-deep), transparent),
-                        linear-gradient(to right, rgba(0,0,0,0.7), transparent),
-                        url('poster-stranger 99-.jpg');
-            background-size: cover; background-position: center 20%;
-            display: flex; align-items: center; padding: 0 4%;
+        /* Slider Banner */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 85vh;
+            overflow: hidden;
         }
-        .hero-info h1 { font-size: 2.5rem; margin: 0; text-transform: uppercase; letter-spacing: -1px; text-shadow: 0 0 20px rgba(255, 157, 0, 0.5); }
 
-        .container { padding: 0 4% 50px; margin-top: -30px; position: relative; z-index: 10; }
+        .slide {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-size: cover;
+            background-position: center 20%;
+            display: flex;
+            align-items: center;
+            padding: 0 4%;
+            box-sizing: border-box;
+        }
+
+        .slide.active { opacity: 1; z-index: 10; }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to top, var(--bg-deep), transparent 60%),
+                        linear-gradient(to right, rgba(0,0,0,0.8), transparent);
+        }
+
+        .slide-content {
+            position: relative;
+            z-index: 20;
+            max-width: 650px;
+        }
+
+        .slide-content h1 {
+            font-size: 3.5rem;
+            margin: 0;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+        }
+
+        .slide-content p {
+            font-size: 1.1rem;
+            color: #ccc;
+            margin: 20px 0;
+        }
+
+        .btn-play {
+            background: var(--primary);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Tabs & Episode List */
+        .container { padding: 0 4% 50px; position: relative; z-index: 100; margin-top: -60px; }
         
-        .season-tabs {
-            display: flex; gap: 10px; margin-bottom: 20px;
-            overflow-x: auto; padding-bottom: 10px;
-        }
-        .season-tabs::-webkit-scrollbar { height: 4px; }
-        .season-tabs::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
-
+        .season-tabs { display: flex; gap: 15px; margin-bottom: 25px; overflow-x: auto; padding-bottom: 10px; }
         .season-btn {
             background: #1a1a1a; color: #fff; border: 1px solid #333;
-            padding: 8px 15px; border-radius: 4px; cursor: pointer;
+            padding: 12px 25px; border-radius: 5px; cursor: pointer;
             font-weight: bold; transition: 0.3s; white-space: nowrap;
-            font-size: 12px;
         }
-        .season-btn.active {
-            background: var(--primary); color: #000; border-color: var(--primary);
-        }
+        .season-btn.active { background: var(--primary); color: #000; border-color: var(--primary); }
 
-        /* Tối ưu lại lưới tập phim cho điện thoại */
         .episode-list {
             display: none;
-            background: rgba(18, 18, 18, 0.95); padding: 20px 15px; border-radius: 10px;
-            grid-template-columns: repeat(auto-fill, minmax(65px, 1fr)); gap: 10px;
+            background: rgba(18, 18, 18, 0.95); padding: 30px; border-radius: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 15px;
             border: 1px solid #222;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
         .episode-list.active { display: grid; }
 
         .ep-box {
-            background: #252525; text-align: center; padding: 10px 5px; border-radius: 4px;
+            background: #252525; text-align: center; padding: 15px; border-radius: 6px;
             text-decoration: none; color: #fff; font-weight: bold; border: 1px solid #333;
-            transition: 0.2s; font-size: 11px;
+            transition: 0.3s;
         }
-        .ep-box:hover { 
-            background: var(--primary); color: #000; 
-            border-color: var(--primary);
-        }
+        .ep-box:hover { background: var(--primary); color: #000; transform: translateY(-3px); }
 
-        .row-title { font-size: 18px; margin: 30px 0 15px; display: flex; align-items: center; gap: 8px; }
-        .row-title::before { content: ""; width: 4px; height: 18px; background: var(--primary); border-radius: 10px; }
-
-        @media (max-width: 480px) {
-            .episode-list { grid-template-columns: repeat(4, 1fr); } /* Hiện 4 tập 1 hàng trên mobile */
-            .hero-info h1 { font-size: 1.8rem; }
-            .hero-info p { font-size: 14px; }
+        @media (max-width: 768px) {
+            .slide-content h1 { font-size: 2.2rem; }
+            .slider-container { height: 60vh; }
         }
     </style>
 </head>
@@ -92,28 +127,58 @@
 
 <header>
     <a href="#" class="logo"><img src="logo1.png" alt="Logo"></a>
-    <div style="color: var(--primary); font-weight: bold; font-size: 12px;">CHƠI GAME XONG RỒI XEM NHÉ</div>
+    <div style="color: var(--primary); font-weight: bold; font-size: 14px;">CHƠI GAME XONG RỒI XEM NHÉ</div>
 </header>
 
-<section class="hero">
-    <div class="hero-info">
-        <div style="margin-bottom: 5px; font-weight: bold; color: var(--primary); letter-spacing: 1px; font-size: 12px;">STRANGER THINGS</div>
-        <h1>Full Collection</h1>
-        <p style="max-width: 500px; color: #ddd; font-size: 14px; text-shadow: 2px 2px 10px #000;">
-            Từ thế giới ngược cho đến trận chiến cuối cùng tại Hawkins.
-        </p>
+<section class="slider-container">
+    <div class="slide active" style="background-image: url('poster-stranger 99-.jpg');">
+        <div class="slide-content">
+            <h1 style="color: var(--primary);">Stranger Things 5</h1>
+            <p>Mùa phim mới nhất! Đối đầu với thực thể mạnh nhất từ Upside Down. Cuộc chiến cuối cùng bắt đầu ngay bây giờ.</p>
+            <a href="javascript:void(0)" onclick="scrollToSeason('s5')" class="btn-play"><i class="fas fa-play"></i> XEM PHẦN 5</a>
+        </div>
+    </div>
+
+    <div class="slide" style="background-image: url('https://image.tmdb.org/t/p/original/49Wf9S1CpsR9jJWjn7oRS096uqc.jpg');">
+        <div class="slide-content">
+            <h1>Stranger Things 4</h1>
+            <p>Sự trỗi dậy của Vecna. Nhóm bạn bị chia cắt, nhưng lòng dũng cảm sẽ dẫn lối họ trở về bên nhau.</p>
+            <a href="javascript:void(0)" onclick="scrollToSeason('s4')" class="btn-play"><i class="fas fa-play"></i> XEM PHẦN 4</a>
+        </div>
+    </div>
+
+    <div class="slide" style="background-image: url('https://image.tmdb.org/t/p/original/x2LSRm2Rbp9u87FW399u6Z98l_U.jpg');">
+        <div class="slide-content">
+            <h1>Stranger Things 3</h1>
+            <p>Mùa hè rực lửa tại Hawkins cùng trung tâm thương mại Starcourt và những bí mật kinh hoàng dưới lòng đất.</p>
+            <a href="javascript:void(0)" onclick="scrollToSeason('s3')" class="btn-play"><i class="fas fa-play"></i> XEM PHẦN 3</a>
+        </div>
+    </div>
+
+    <div class="slide" style="background-image: url('https://image.tmdb.org/t/p/original/56v2KjBlU4pCzSfsXoc3ZCDp7WF.jpg');">
+        <div class="slide-content">
+            <h1>Stranger Things 2</h1>
+            <p>Nỗi ám ảnh chưa bao giờ kết thúc. Một thực thể to lớn hơn đang bao trùm lấy thị trấn nhỏ bé.</p>
+            <a href="javascript:void(0)" onclick="scrollToSeason('s2')" class="btn-play"><i class="fas fa-play"></i> XEM PHẦN 2</a>
+        </div>
+    </div>
+
+    <div class="slide" style="background-image: url('https://image.tmdb.org/t/p/original/969B0j9Lf4V7SfsXoc3ZCDp7WF.jpg');">
+        <div class="slide-content">
+            <h1>Stranger Things 1</h1>
+            <p>Sự bắt đầu của mọi chuyện. Cậu bé Will mất tích và cô gái kỳ lạ Eleven xuất hiện.</p>
+            <a href="javascript:void(0)" onclick="scrollToSeason('s1')" class="btn-play"><i class="fas fa-play"></i> XEM PHẦN 1</a>
+        </div>
     </div>
 </section>
 
 <div class="container">
-    <h2 class="row-title">Chọn phần phim của STRANGER THINGS </h2>
-    
     <div class="season-tabs">
-        <button class="season-btn active" onclick="openSeason(event, 's5')">PHẦN 5</button>
-        <button class="season-btn" onclick="openSeason(event, 's4')">PHẦN 4</button>
-        <button class="season-btn" onclick="openSeason(event, 's3')">PHẦN 3</button>
-        <button class="season-btn" onclick="openSeason(event, 's2')">PHẦN 2</button>
-        <button class="season-btn" onclick="openSeason(event, 's1')">PHẦN 1</button>
+        <button id="btn-s5" class="season-btn active" onclick="openSeason(event, 's5')">PHẦN 5</button>
+        <button id="btn-s4" class="season-btn" onclick="openSeason(event, 's4')">PHẦN 4</button>
+        <button id="btn-s3" class="season-btn" onclick="openSeason(event, 's3')">PHẦN 3</button>
+        <button id="btn-s2" class="season-btn" onclick="openSeason(event, 's2')">PHẦN 2</button>
+        <button id="btn-s1" class="season-btn" onclick="openSeason(event, 's1')">PHẦN 1</button>
     </div>
 
     <div id="s5" class="episode-list active">
@@ -172,10 +237,21 @@
         <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/GHYwItQu/index.m3u8" class="ep-box">TẬP 7</a>
         <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/T9dfPeqG/index.m3u8" class="ep-box">TẬP 8</a>
     </div>
-
 </div>
 
 <script>
+    // Tự động chuyển slide banner mỗi 3 giây
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+
+    function nextSlide() {
+        slides[currentSlide].classList.remove('active');
+        currentSlide = (currentSlide + 1) % slides.length;
+        slides[currentSlide].classList.add('active');
+    }
+    setInterval(nextSlide, 3000);
+
+    // Chức năng chuyển đổi Season
     function openSeason(evt, seasonName) {
         var i, tabcontent, tablinks;
         tabcontent = document.getElementsByClassName("episode-list");
@@ -188,7 +264,15 @@
             tablinks[i].classList.remove("active");
         }
         document.getElementById(seasonName).style.display = "grid";
-        evt.currentTarget.classList.add("active");
+        if (evt) evt.currentTarget.classList.add("active");
+    }
+
+    // Cuộn xuống Season tương ứng khi nhấn banner
+    function scrollToSeason(seasonId) {
+        // Mở tab
+        document.getElementById('btn-' + seasonId).click();
+        // Cuộn
+        document.getElementById(seasonId).scrollIntoView({ behavior: 'smooth' });
     }
 </script>
 
