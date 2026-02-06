@@ -3,86 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ao Phim Của Đức - Ultimate Collection</title>
+    <title>Ao Phim Của Đức - Full Collection</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root { --primary: #ff9d00; --bg: #060606; --text: #e5e5e5; }
         body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; overflow: hidden; }
-
-        header {
-            position: fixed; top: 0; width: 100%; height: 60px;
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 0 4%; background: rgba(0,0,0,0.95); z-index: 1000; box-sizing: border-box;
-            border-bottom: 1px solid #222;
-        }
+        header { position: fixed; top: 0; width: 100%; height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 4%; background: rgba(0,0,0,0.95); z-index: 1000; box-sizing: border-box; border-bottom: 1px solid #222; }
         .logo img { height: 35px; }
-
         .hero-slider { position: relative; width: 100vw; height: 100vh; overflow: hidden; background: #000; }
-        .slide {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            opacity: 0; transition: opacity 0.8s ease;
-            background-size: cover; background-position: center 20%;
-            display: flex; align-items: center; padding: 0 6%; box-sizing: border-box;
-        }
+        .slide { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.8s ease; background-size: cover; background-position: center 20%; display: flex; align-items: center; padding: 0 6%; box-sizing: border-box; }
         .slide.active { opacity: 1; z-index: 10; }
-        .slide::after {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(90deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.95) 100%);
-        }
-
-        .slide-content { position: relative; z-index: 20; width: 100%; max-width: 850px; transition: 0.5s; }
-        .slide.watching .slide-content { transform: translateY(-30px); }
-
-        .slide-content h1 { font-size: 3rem; margin: 0; color: #fff; text-transform: uppercase; text-shadow: 0 0 20px rgba(0,0,0,0.5); }
-        .btn-play { 
-            background: var(--primary); color: #000; padding: 12px 35px; border-radius: 4px; 
-            font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; margin-top: 20px;
-        }
-
-        .episode-container { 
-            display: none; margin-top: 20px; animation: fadeInUp 0.4s ease; 
-            background: rgba(15, 15, 15, 0.98); padding: 20px; border-radius: 8px; border: 1px solid #333;
-            position: relative; box-shadow: 0 10px 50px rgba(0,0,0,0.8);
-        }
+        .slide::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.9) 100%); }
+        .slide-content { position: relative; z-index: 20; width: 100%; max-width: 900px; transition: 0.5s; }
+        .slide.watching .slide-content { transform: translateY(-20px); }
+        .slide-content h1 { font-size: 3rem; margin: 0; color: #fff; text-transform: uppercase; }
+        .btn-play { background: var(--primary); color: #000; padding: 12px 35px; border-radius: 4px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; margin-top: 20px; }
+        .episode-container { display: none; margin-top: 20px; animation: fadeInUp 0.4s ease; background: rgba(10, 10, 10, 0.98); padding: 20px; border-radius: 8px; border: 1px solid #333; position: relative; }
         .slide.watching .episode-container { display: block; }
-
         .close-ep { position: absolute; top: 15px; right: 15px; color: #888; cursor: pointer; font-size: 20px; z-index: 100; }
-        .close-ep:hover { color: var(--primary); }
-
         .season-tabs { display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 8px; }
-        .tab-btn { background: #222; border: 1px solid #444; color: #fff; padding: 8px 18px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 11px; white-space: nowrap; }
-        .tab-btn.active { background: var(--primary); color: #000; border-color: var(--primary); }
-
-        .ep-grid { display: none; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 8px; max-height: 250px; overflow-y: auto; }
+        .tab-btn { background: #222; border: 1px solid #444; color: #fff; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 11px; white-space: nowrap; }
+        .tab-btn.active { background: var(--primary); color: #000; }
+        .ep-grid { display: none; grid-template-columns: repeat(auto-fill, minmax(75px, 1fr)); gap: 8px; max-height: 250px; overflow-y: auto; }
         .ep-grid.active { display: grid; }
-        .ep-link { background: #252525; color: #fff; text-align: center; padding: 10px 5px; text-decoration: none; border-radius: 4px; font-size: 11px; font-weight: bold; border: 1px solid #333; }
+        .ep-link { background: #252525; color: #fff; text-align: center; padding: 10px; text-decoration: none; border-radius: 4px; font-size: 11px; font-weight: bold; border: 1px solid #333; }
         .ep-link:hover { background: var(--primary); color: #000; }
-
         .thumbnails { position: absolute; bottom: 30px; right: 4%; z-index: 100; display: flex; gap: 10px; }
-        .thumb { width: 70px; height: 40px; border-radius: 3px; overflow: hidden; border: 2px solid transparent; cursor: pointer; opacity: 0.5; transition: 0.3s; }
-        .thumb.active { border-color: var(--primary); opacity: 1; transform: scale(1.1); }
+        .thumb { width: 70px; height: 40px; border-radius: 3px; border: 2px solid transparent; cursor: pointer; opacity: 0.5; }
+        .thumb.active { border-color: var(--primary); opacity: 1; }
         .thumb img { width: 100%; height: 100%; object-fit: cover; }
-
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @media (max-width: 600px) { 
-            .slide-content h1 { font-size: 1.8rem; } 
-            .ep-grid { grid-template-columns: repeat(4, 1fr); }
-        }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="logo"><img src="logo1.png" alt="Logo"></div>
-    <div style="color: var(--primary); font-weight: bold; font-size: 11px;">CHƠI GAME XONG RỒI XEM NHÉ</div>
+    <div class="logo"><img src="logo1.png"></div>
+    <div style="color: var(--primary); font-weight: bold;">ĐỨC MOVIE - FULL COLLECTION</div>
 </header>
 
 <section class="hero-slider">
     <div class="slide active" id="slide-0" style="background-image: url('poster-stranger 99-.jpg');">
         <div class="slide-content">
-            <h1 style="color: var(--primary);">Stranger Things</h1>
-            <p style="color:#ddd">Full Seasons 1 - 5</p>
-            <div class="btn-play" onclick="clickBanner(0)"><i class="fas fa-play"></i> XEM NGAY</div>
+            <h1>Stranger Things</h1>
+            <div class="btn-play" onclick="clickBanner(0)"><i class="fas fa-play"></i> DANH SÁCH TẬP</div>
             <div class="episode-container">
                 <i class="fas fa-times close-ep" onclick="closeBoard(event, 0)"></i>
                 <div class="season-tabs">
@@ -102,7 +66,24 @@
                 </div>
                 <div id="st-s4-0" class="ep-grid">
                     <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/xlXYIN4h/index.m3u8" class="ep-link">TẬP 1</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/DmcR4Ifa/index.m3u8" class="ep-link">TẬP 2</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/s8HrgFqu/index.m3u8" class="ep-link">TẬP 3</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/CnoWNGQP/index.m3u8" class="ep-link">TẬP 4</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/2Z4dBijs/index.m3u8" class="ep-link">TẬP 5</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/74OVKIPn/index.m3u8" class="ep-link">TẬP 6</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/pHLmU9j0/index.m3u8" class="ep-link">TẬP 7</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/bN2uJOQG/index.m3u8" class="ep-link">TẬP 8</a>
                     <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/wlTpiDT6/index.m3u8" class="ep-link">TẬP 9</a>
+                </div>
+                <div id="st-s1-0" class="ep-grid">
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/eMrQhses/index.m3u8" class="ep-link">TẬP 1</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/yAIeQK28/index.m3u8" class="ep-link">TẬP 2</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/bMLS6ssd/index.m3u8" class="ep-link">TẬP 3</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/9GOe0ERm/index.m3u8" class="ep-link">TẬP 4</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/dt44QZBb/index.m3u8" class="ep-link">TẬP 5</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/rJDxkKag/index.m3u8" class="ep-link">TẬP 6</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/GHYwItQu/index.m3u8" class="ep-link">TẬP 7</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/T9dfPeqG/index.m3u8" class="ep-link">TẬP 8</a>
                 </div>
             </div>
         </div>
@@ -111,12 +92,11 @@
     <div class="slide" id="slide-1" style="background-image: url('1.jpg');">
         <div class="slide-content">
             <h1>Tiểu Yêu Quái Núi Lãng Lãng</h1>
-            <p style="color:#ddd">Full Movie HD</p>
-            <div class="btn-play" onclick="clickBanner(1)"><i class="fas fa-play"></i> XEM NGAY</div>
+            <div class="btn-play" onclick="clickBanner(1)"><i class="fas fa-play"></i> XEM PHIM</div>
             <div class="episode-container">
                 <i class="fas fa-times close-ep" onclick="closeBoard(event, 1)"></i>
                 <div class="ep-grid active">
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251204/wM0RTCwd/index.m3u8" class="ep-link" style="width: 150px;">XEM PHIM FULL HD</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251204/wM0RTCwd/index.m3u8" class="ep-link" style="width: 150px;">BẢN ĐẸP FULL HD</a>
                 </div>
             </div>
         </div>
@@ -124,9 +104,8 @@
 
     <div class="slide" id="slide-2" style="background-image: url('2.jpg');">
         <div class="slide-content">
-            <h1>Bóng Ma Anh Quốc </h1>
-            <p style="color:#ddd">Bóng Ma Anh Quốc - Trọn bộ Phần 1 - 6</p>
-            <div class="btn-play" onclick="clickBanner(2)"><i class="fas fa-play"></i> XEM NGAY</div>
+            <h1>Peaky Blinders</h1>
+            <div class="btn-play" onclick="clickBanner(2)"><i class="fas fa-play"></i> DANH SÁCH TẬP</div>
             <div class="episode-container">
                 <i class="fas fa-times close-ep" onclick="closeBoard(event, 2)"></i>
                 <div class="season-tabs">
@@ -137,22 +116,30 @@
                     <button class="tab-btn" onclick="switchSeason(event, 'pb-s5', 2)">P5</button>
                     <button class="tab-btn" onclick="switchSeason(event, 'pb-s6', 2)">P6</button>
                 </div>
-
                 <div id="pb-s1-2" class="ep-grid active">
                     <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/911phIUY/index.m3u8" class="ep-link">TẬP 1</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/fWRCpaKk/index.m3u8" class="ep-link">TẬP 2</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/KN724ide/index.m3u8" class="ep-link">TẬP 3</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/3ouNqS4T/index.m3u8" class="ep-link">TẬP 4</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/ME0BG0Qz/index.m3u8" class="ep-link">TẬP 5</a>
                     <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/u2Kjk583/index.m3u8" class="ep-link">TẬP 6</a>
                 </div>
-
                 <div id="pb-s2-2" class="ep-grid">
                     <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/Akw2Rs0h/index.m3u8" class="ep-link">TẬP 1</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/WtxbgPMG/index.m3u8" class="ep-link">TẬP 2</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/26UFHU0C/index.m3u8" class="ep-link">TẬP 3</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/UWVu3JpA/index.m3u8" class="ep-link">TẬP 4</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/Kv44OJkw/index.m3u8" class="ep-link">TẬP 5</a>
                     <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/jufAaMzV/index.m3u8" class="ep-link">TẬP 6</a>
                 </div>
-
                 <div id="pb-s3-2" class="ep-grid">
                     <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/Xemam0Ch/index.m3u8" class="ep-link">TẬP 1</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/Jmy7hA1H/index.m3u8" class="ep-link">TẬP 2</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/VbP8cggh/index.m3u8" class="ep-link">TẬP 3</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/pNTexKMh/index.m3u8" class="ep-link">TẬP 4</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/jBefsXbo/index.m3u8" class="ep-link">TẬP 5</a>
                     <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/aHAfCbh7/index.m3u8" class="ep-link">TẬP 6</a>
                 </div>
-
                 <div id="pb-s4-2" class="ep-grid">
                     <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/2S1luE5b/index.m3u8" class="ep-link">TẬP 1</a>
                     <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/Gcve5jbA/index.m3u8" class="ep-link">TẬP 2</a>
@@ -161,7 +148,6 @@
                     <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/lvePnhlm/index.m3u8" class="ep-link">TẬP 5</a>
                     <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/WueLS0gI/index.m3u8" class="ep-link">TẬP 6</a>
                 </div>
-
                 <div id="pb-s5-2" class="ep-grid">
                     <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/vZyyZfnD/index.m3u8" class="ep-link">TẬP 1</a>
                     <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/0XSUWTYN/index.m3u8" class="ep-link">TẬP 2</a>
@@ -170,7 +156,6 @@
                     <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/fTytOcap/index.m3u8" class="ep-link">TẬP 5</a>
                     <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/av5MnBdn/index.m3u8" class="ep-link">TẬP 6</a>
                 </div>
-
                 <div id="pb-s6-2" class="ep-grid">
                     <a href="https://player.phimapi.com/player/?url=https://s1.phim1280.tv/20240304/rSwrRfj9/index.m3u8" class="ep-link">TẬP 1</a>
                     <a href="https://player.phimapi.com/player/?url=https://s1.phim1280.tv/20240304/mUx2DICa/index.m3u8" class="ep-link">TẬP 2</a>
@@ -191,17 +176,12 @@
 </section>
 
 <script>
-    let currentIdx = 0;
-    let autoSlideActive = true;
+    let currentIdx = 0; let autoSlideActive = true;
     const slides = document.querySelectorAll('.slide');
     const thumbs = document.querySelectorAll('.thumb');
-    let timer = setInterval(nextSlide, 4500);
+    let timer = setInterval(nextSlide, 5000);
 
-    function nextSlide() {
-        if (!autoSlideActive) return;
-        changeSlide((currentIdx + 1) % slides.length);
-    }
-
+    function nextSlide() { if (autoSlideActive) changeSlide((currentIdx + 1) % slides.length); }
     function changeSlide(n) {
         slides[currentIdx].classList.remove('active', 'watching');
         thumbs[currentIdx].classList.remove('active');
@@ -209,34 +189,14 @@
         slides[currentIdx].classList.add('active');
         thumbs[currentIdx].classList.add('active');
     }
-
-    function clickBanner(n) {
-        autoSlideActive = false;
-        clearInterval(timer);
-        slides[n].classList.add('watching');
-    }
-
-    function closeBoard(evt, n) {
-        evt.stopPropagation();
-        slides[n].classList.remove('watching');
-        autoSlideActive = true;
-        timer = setInterval(nextSlide, 4500);
-    }
-
-    function goToSlide(n) {
-        autoSlideActive = true;
-        changeSlide(n);
-        clearInterval(timer);
-        timer = setInterval(nextSlide, 4500);
-    }
-
+    function clickBanner(n) { autoSlideActive = false; clearInterval(timer); slides[n].classList.add('watching'); }
+    function closeBoard(evt, n) { evt.stopPropagation(); slides[n].classList.remove('watching'); autoSlideActive = true; timer = setInterval(nextSlide, 5000); }
+    function goToSlide(n) { autoSlideActive = true; changeSlide(n); clearInterval(timer); timer = setInterval(nextSlide, 5000); }
     function switchSeason(evt, seasonPrefix, slideId) {
         evt.stopPropagation();
         const parent = document.getElementById('slide-' + slideId);
-        const grids = parent.querySelectorAll('.ep-grid');
-        const btns = parent.querySelectorAll('.tab-btn');
-        grids.forEach(g => g.classList.remove('active'));
-        btns.forEach(b => b.classList.remove('active'));
+        parent.querySelectorAll('.ep-grid').forEach(g => g.classList.remove('active'));
+        parent.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.getElementById(seasonPrefix + '-' + slideId).classList.add('active');
         evt.currentTarget.classList.add('active');
     }
