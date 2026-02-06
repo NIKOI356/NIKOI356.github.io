@@ -3,184 +3,247 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ao Phim Của Đức - VinFlix Clone</title>
+    <title>Ao Phim Của Đức - VinFlix Edition</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary: #ff9d00;
-            --bg-body: #080808;
-            --bg-card: #141414;
-            --text-main: #ffffff;
-            --text-gray: #b3b3b3;
+            --bg-deep: #060606;
+            --bg-card: #121212;
+            --text-color: #e5e5e5;
+            --transition: all 0.3s ease;
         }
 
         body {
-            background-color: var(--bg-body);
-            color: var(--text-main);
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-color);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             margin: 0;
             padding: 0;
-            overflow-x: hidden;
         }
 
-        /* Header phong cách VinFlix */
+        /* --- NAVIGATION BAR --- */
         header {
-            background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, transparent 100%);
-            padding: 15px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-sizing: border-box;
-            transition: 0.5s;
-        }
-
-        .logo img { height: 40px; width: auto; }
-
-        nav { display: flex; gap: 20px; }
-        nav a {
-            color: var(--text-main);
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: 0.3s;
-        }
-        nav a:hover { color: var(--primary); }
-
-        /* Hero Banner lớn */
-        .hero {
-            height: 80vh;
-            background: linear-gradient(to right, #080808 10%, transparent 60%),
-                        url('poster-stranger 99-.jpg'); /* Ảnh banner của bạn */
-            background-size: cover;
-            background-position: center top;
+            top: 0; width: 100%;
+            height: 70px;
             display: flex;
             align-items: center;
-            padding: 0 5%;
+            justify-content: space-between;
+            padding: 0 4%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, transparent 100%);
+            z-index: 1000;
+            transition: var(--transition);
+            box-sizing: border-box;
         }
 
-        .hero-content { max-width: 500px; }
-        .hero-content h1 { font-size: 3.5rem; margin: 0; text-transform: uppercase; }
-        .hero-meta { margin: 15px 0; display: flex; gap: 10px; align-items: center; }
-        .tag { background: var(--primary); color: #000; padding: 2px 8px; border-radius: 3px; font-weight: bold; font-size: 12px; }
-        .desc { color: var(--text-gray); font-size: 16px; line-height: 1.4; }
+        header.scrolled { background-color: #000; box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
 
-        /* Danh mục & Lọc phim */
-        .container { padding: 40px 5%; margin-top: -50px; position: relative; z-index: 10; }
-        
-        .tabs { display: flex; gap: 20px; margin-bottom: 30px; border-bottom: 1px solid #333; padding-bottom: 10px; }
-        .tab-item { cursor: pointer; color: var(--text-gray); font-weight: bold; text-transform: uppercase; font-size: 14px; }
-        .tab-item.active { color: var(--primary); border-bottom: 2px solid var(--primary); padding-bottom: 10px; }
+        .header-left { display: flex; align-items: center; gap: 30px; }
+        .logo img { height: 45px; width: auto; transition: var(--transition); }
+        .logo img:hover { transform: scale(1.05); }
 
-        /* Lưới phim xịn */
-        .section-title { font-size: 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .section-title::before { content: ""; width: 4px; height: 20px; background: var(--primary); display: inline-block; }
+        nav ul { display: flex; list-style: none; gap: 20px; padding: 0; margin: 0; }
+        nav ul li a { 
+            text-decoration: none; color: #fff; font-size: 14px; font-weight: 500;
+            opacity: 0.8; transition: var(--transition);
+        }
+        nav ul li a:hover { opacity: 1; color: var(--primary); }
 
-        .movie-grid {
+        .header-right { display: flex; align-items: center; gap: 20px; font-size: 18px; }
+        .search-box { cursor: pointer; color: #fff; }
+
+        /* --- HERO BANNER --- */
+        .hero {
+            position: relative;
+            height: 90vh;
+            width: 100%;
+            background: linear-gradient(to top, var(--bg-deep) 10%, transparent 50%),
+                        linear-gradient(to right, rgba(0,0,0,0.8), transparent 70%),
+                        url('poster-stranger 99-.jpg');
+            background-size: cover;
+            background-position: center 20%;
+            display: flex;
+            align-items: center;
+            padding: 0 4%;
+            box-sizing: border-box;
+        }
+
+        .hero-info { max-width: 650px; }
+        .hero-info h1 { font-size: 4rem; margin: 0; text-transform: uppercase; letter-spacing: -1px; }
+        .hero-meta { margin: 20px 0; display: flex; gap: 15px; align-items: center; font-weight: bold; }
+        .imdb { color: #46d369; }
+        .age-limit { border: 1px solid #fff; padding: 0 5px; font-size: 12px; }
+        .hero-desc { font-size: 18px; line-height: 1.5; color: #d2d2d2; text-shadow: 1px 1px 5px #000; }
+
+        .hero-btns { display: flex; gap: 15px; margin-top: 30px; }
+        .btn { 
+            padding: 12px 30px; border-radius: 4px; font-weight: bold; 
+            text-decoration: none; display: flex; align-items: center; gap: 10px; font-size: 16px;
+            transition: var(--transition);
+        }
+        .btn-play { background-color: #fff; color: #000; }
+        .btn-play:hover { background-color: rgba(255,255,255,0.7); }
+        .btn-info { background-color: rgba(109, 109, 110, 0.7); color: #fff; }
+        .btn-info:hover { background-color: rgba(109, 109, 110, 0.4); }
+
+        /* --- MOVIE SECTIONS --- */
+        .main-content { padding: 0 4%; margin-top: -80px; position: relative; z-index: 10; }
+
+        .row-title { font-size: 20px; font-weight: bold; margin: 30px 0 15px; display: flex; align-items: center; gap: 10px; }
+        .row-title span { color: var(--primary); font-size: 14px; cursor: pointer; }
+
+        .movie-slider {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-            gap: 20px;
-            margin-bottom: 50px;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
         }
 
-        .movie-card {
-            background: var(--bg-card);
-            border-radius: 8px;
+        .movie-item {
+            position: relative;
+            border-radius: 4px;
             overflow: hidden;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background-color: var(--bg-card);
+            transition: transform 0.4s;
+            cursor: pointer;
             text-decoration: none;
             color: #fff;
-            border: 1px solid #222;
-            position: relative;
         }
 
-        .movie-card:hover { transform: scale(1.05); border-color: var(--primary); z-index: 5; }
-        .movie-card img { width: 100%; height: 250px; object-fit: cover; }
+        .movie-item:hover { transform: scale(1.08); z-index: 20; box-shadow: 0 10px 20px rgba(0,0,0,0.8); }
+        .movie-item img { width: 100%; height: 280px; object-fit: cover; }
         
-        .movie-card .badge {
-            position: absolute; top: 10px; right: 10px;
-            background: rgba(0,0,0,0.7); font-size: 10px; padding: 3px 6px; border-radius: 4px; color: var(--primary);
+        .movie-overlay {
+            padding: 10px;
+            background: var(--bg-card);
         }
+        .movie-overlay h3 { font-size: 14px; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .ep-tag { color: var(--primary); font-size: 11px; font-weight: bold; }
 
-        .movie-card-info { padding: 10px; text-align: center; }
-        .movie-card-info h3 { font-size: 14px; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        /* --- EPISODE GRID --- */
+        .episode-container {
+            background: #111; padding: 20px; border-radius: 8px; margin-top: 20px;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 10px;
+        }
+        .ep-box { 
+            background: #222; text-align: center; padding: 10px; border-radius: 4px;
+            text-decoration: none; color: #fff; font-weight: bold; font-size: 13px; border: 1px solid #333;
+        }
+        .ep-box:hover { background: var(--primary); color: #000; }
 
-        /* Responsive */
+        /* --- FOOTER --- */
+        footer { padding: 50px 0; text-align: center; border-top: 1px solid #333; margin-top: 100px; color: #666; font-size: 14px; }
+        .social-links { display: flex; justify-content: center; gap: 30px; margin-bottom: 20px; font-size: 24px; }
+        .social-links a { color: #fff; opacity: 0.6; }
+
+        /* --- MOBILE RESPONSIVE --- */
         @media (max-width: 768px) {
-            .hero-content h1 { font-size: 2.5rem; }
-            .movie-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+            .hero-info h1 { font-size: 2.5rem; }
+            nav { display: none; } /* Ẩn menu trên mobile cho giống web thật */
+            .movie-slider { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
         }
     </style>
 </head>
 <body>
 
-<header id="mainHeader">
-    <a href="/" class="logo">
-        <img src="logo1.png" alt="Ao Phim Của Đức"> </a>
-    <nav>
-        <a href="#">PHIM LẺ</a>
-        <a href="#">PHIM BỘ</a>
-        <a href="#">THỂ LOẠI</a>
-    </nav>
+<header id="navbar">
+    <div class="header-left">
+        <a href="#" class="logo"><img src="logo1.png" alt="AO PHIM"></a>
+        <nav>
+            <ul>
+                <li><a href="#">Trang chủ</a></li>
+                <li><a href="#">Phim bộ</a></li>
+                <li><a href="#">Phim lẻ</a></li>
+                <li><a href="#">Mới & Phổ biến</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="header-right">
+        <div class="search-box"><i class="fas fa-search"></i></div>
+        <div class="user-profile"><i class="fas fa-user-circle"></i></div>
+    </div>
 </header>
 
 <section class="hero">
-    <div class="hero-content">
+    <div class="hero-info">
         <div class="hero-meta">
-            <span class="tag">HOT</span>
+            <span class="imdb"><i class="fab fa-imdb"></i> 9.2</span>
             <span>2025</span>
-            <span style="color: #46d369;">95% Trùng khớp</span>
+            <span class="age-limit">18+</span>
+            <span>8 Tập</span>
         </div>
         <h1>Stranger Things</h1>
-        <p class="desc">Khi một cậu bé mất tích, một thị trấn nhỏ phát hiện ra một bí ẩn liên quan đến các thí nghiệm bí mật, các lực lượng siêu nhiên đáng sợ.</p>
-        <div style="margin-top: 20px;">
-            <a href="#play" style="background: var(--primary); color: #000; padding: 10px 25px; text-decoration: none; border-radius: 4px; font-weight: bold; margin-right: 10px;">XEM NGAY</a>
+        <p class="hero-desc">Sau những vết nứt kinh hoàng của phần trước, Hawkins đứng trước bờ vực diệt vong. El và những người bạn phải bước vào trận chiến cuối cùng với Vecna để đóng vĩnh viễn Thế giới ngược.</p>
+        <div class="hero-btns">
+            <a href="#episodes" class="btn btn-play"><i class="fas fa-play"></i> Xem ngay</a>
+            <a href="#" class="btn btn-info"><i class="fas fa-info-circle"></i> Thông tin thêm</a>
         </div>
     </div>
 </section>
 
-<div class="container">
-    <div class="tabs">
-        <div class="tab-item active">Phổ biến nhất</div>
-        <div class="tab-item">Mới cập nhật</div>
-        <div class="tab-item">Hành động</div>
+<div class="main-content">
+    
+    <h2 id="episodes" class="row-title">Danh sách tập phim (Phần 5)</h2>
+    <div class="episode-container">
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/VdVcTjll/index.m3u8" class="ep-box">TẬP 1</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/Xaex73oM/index.m3u8" class="ep-box">TẬP 2</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/phZU5qEk/index.m3u8" class="ep-box">TẬP 3</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/JudV0Ni1/index.m3u8" class="ep-box">TẬP 4</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251226/AFjYGQ1K/index.m3u8" class="ep-box">TẬP 5</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251226/TPpFJBKF/index.m3u8" class="ep-box">TẬP 6</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251226/oxQZbDQo/index.m3u8" class="ep-box">TẬP 7</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260101/YyOnJ03e/index.m3u8" class="ep-box">TẬP 8</a>
     </div>
 
-    <h2 id="play" class="section-title">Danh sách tập - Stranger Things 5</h2>
-    <div class="movie-grid" style="grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));">
-        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/VdVcTjll/index.m3u8" class="movie-card" style="padding: 15px; text-align: center; border-radius: 10px;">TẬP 1</a>
-        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/Xaex73oM/index.m3u8" class="movie-card" style="padding: 15px; text-align: center;">TẬP 2</a>
-        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/phZU5qEk/index.m3u8" class="movie-card" style="padding: 15px; text-align: center;">TẬP 3</a>
-        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/JudV0Ni1/index.m3u8" class="movie-card" style="padding: 15px; text-align: center;">TẬP 4</a>
-        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251226/AFjYGQ1K/index.m3u8" class="movie-card" style="padding: 15px; text-align: center;">TẬP 5</a>
-        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251226/TPpFJBKF/index.m3u8" class="movie-card" style="padding: 15px; text-align: center;">TẬP 6</a>
+    <h2 class="row-title">Phim mới trên Ao Phim <span>Xem tất cả ›</span></h2>
+    <div class="movie-slider">
+        <a href="#" class="movie-item">
+            <img src="https://image.tmdb.org/t/p/w500/z0I64pU9f9M0o6S5z19D9V.jpg" alt="phim">
+            <div class="movie-overlay">
+                <span class="ep-tag">FULL 12/12</span>
+                <h3>Ốc đảo của Oscar 2</h3>
+            </div>
+        </a>
+        <a href="#" class="movie-card movie-item">
+            <img src="https://image.tmdb.org/t/p/w500/vG39vS7zOq6n0X6T9p.jpg" alt="phim">
+            <div class="movie-overlay">
+                <span class="ep-tag">TẬP 8</span>
+                <h3>Vòng Xoáy Giả Tạo</h3>
+            </div>
+        </a>
+        <a href="#" class="movie-card movie-item">
+            <img src="https://image.tmdb.org/t/p/w500/hS21D8sX6jN9O0.jpg" alt="phim">
+            <div class="movie-overlay">
+                <span class="ep-tag">TẬP 250</span>
+                <h3>Thế Giới Hoàn Mỹ</h3>
+            </div>
+        </a>
     </div>
 
-    <h2 class="section-title">Phim đề cử cho bạn</h2>
-    <div class="movie-grid">
-        <a href="#" class="movie-card">
-            <span class="badge">HD</span>
-            <img src="https://image.tmdb.org/t/p/w500/z0I64pU9f9M0o6S5z19D9V.jpg" alt="Phim">
-            <div class="movie-card-info"><h3>Ốc đảo của Oscar 2</h3></div>
-        </a>
-        <a href="#" class="movie-card">
-            <span class="badge">4K</span>
-            <img src="https://image.tmdb.org/t/p/w500/vG39vS7zOq6n0X6T9p.jpg" alt="Phim">
-            <div class="movie-card-info"><h3>Vòng Xoáy Giả Tạo</h3></div>
-        </a>
+    <h2 class="row-title">Phim thịnh hành <span>Xem tất cả ›</span></h2>
+    <div class="movie-slider">
         </div>
+
 </div>
 
+<footer>
+    <div class="social-links">
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+    </div>
+    <p>© 2026 Ao Phim Của Đức - All Rights Reserved</p>
+    <p style="font-size: 12px; margin-top: 10px;">Dịch vụ được cung cấp bởi GitHub Pages</p>
+</footer>
+
 <script>
-    // Hiệu ứng đổi màu Header khi cuộn chuột
-    window.onscroll = function() {
-        var header = document.getElementById("mainHeader");
-        if (window.pageYOffset > 50) {
-            header.style.backgroundColor = "rgba(8, 8, 8, 0.95)";
+    // Xử lý đổi màu thanh Menu khi cuộn
+    const navbar = document.getElementById('navbar');
+    window.onscroll = () => {
+        if (window.scrollY > 100) {
+            navbar.classList.add('scrolled');
         } else {
-            header.style.backgroundColor = "transparent";
+            navbar.classList.remove('scrolled');
         }
     };
 </script>
