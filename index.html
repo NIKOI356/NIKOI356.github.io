@@ -3,103 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xô Phim - Xem Phim Hay</title>
+    <title>RoPhim - Tiểu Yêu Quái</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background-color: #1a1d23; color: white; overflow-x: hidden; }
         .banner-gradient {
-            background: linear-gradient(to right, #1a1d23 20%, rgba(26, 29, 35, 0.6) 50%, transparent 100%);
+            background: linear-gradient(to right, rgba(0,0,0,0.95) 25%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0) 100%);
         }
-        .category-card { transition: all 0.3s ease; border: 1px solid rgba(255,255,255,0.05); }
-        .category-card:hover { transform: translateY(-8px); filter: brightness(1.2); }
-        #banner-bg { transition: background-image 1s ease-in-out; }
+        /* Hiệu ứng mượt cho banner */
+        #banner-bg { transition: background-image 0.8s ease-in-out; }
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
-<body class="font-sans">
+<body class="bg-[#0f0f0f] text-white font-sans overflow-x-hidden">
 
-    <header class="flex items-center justify-between px-10 py-5 absolute w-full z-50 bg-gradient-to-b from-[#1a1d23] to-transparent">
-        <div class="flex items-center gap-6">
-            <div class="flex items-center gap-2">
-                <div class="bg-yellow-500 w-8 h-8 rounded-full flex items-center justify-center">
-                    <i class="fas fa-play text-black text-xs"></i>
-                </div>
-                <span class="text-2xl font-black tracking-tighter uppercase">Xô <span class="text-yellow-500">Phim</span></span>
+    <header class="flex items-center justify-between px-10 py-6 absolute w-full z-50">
+        <div class="flex items-center gap-10">
+            <div class="text-3xl font-black italic tracking-tighter flex items-center gap-2">
+                <span class="text-yellow-500 text-4xl">●</span>RoPhim
             </div>
-            <div class="relative ml-4">
-                <input type="text" placeholder="Tìm kiếm phim, diễn viên" class="bg-[#2d323d] rounded-md py-2 px-10 text-sm w-80 focus:ring-1 focus:ring-yellow-500 outline-none text-gray-300">
-                <i class="fas fa-search absolute left-3 top-3 text-gray-500 text-xs"></i>
-            </div>
-            <nav class="hidden xl:flex gap-6 text-[13px] font-medium text-gray-300 ml-6 uppercase tracking-wide">
+            <nav class="hidden lg:flex gap-8 text-sm font-medium uppercase tracking-widest text-gray-300">
                 <a href="#" class="hover:text-yellow-500">Chủ Đề</a>
-                <a href="#" class="flex items-center gap-1 hover:text-yellow-500">Thể loại <i class="fas fa-caret-down text-[10px]"></i></a>
+                <a href="#" class="hover:text-yellow-500">Thể Loại</a>
                 <a href="#" class="hover:text-yellow-500">Phim Lẻ</a>
                 <a href="#" class="hover:text-yellow-500">Phim Bộ</a>
-                <a href="#" class="text-yellow-500 font-bold">NEW Xem Chung</a>
-                <a href="#" class="flex items-center gap-1 hover:text-yellow-500">Quốc gia <i class="fas fa-caret-down text-[10px]"></i></a>
-                <a href="#" class="hover:text-yellow-500 text-gray-400">Lịch Chiếu</a>
+                <a href="#" class="text-yellow-500">NEW Xem Chung</a>
             </nav>
         </div>
-        <button class="bg-white text-black px-5 py-2 rounded-full text-sm font-bold flex items-center gap-2 hover:bg-yellow-500 transition">
-            <i class="fas fa-user-circle text-lg"></i> Thành viên
-        </button>
+        <div class="flex items-center gap-6">
+            <div class="relative group">
+                <input type="text" placeholder="Tìm kiếm phim..." class="bg-[#1a1a1a] border border-gray-800 rounded-full py-2 px-10 text-sm focus:ring-2 focus:ring-yellow-500 outline-none w-72 transition-all">
+                <i class="fas fa-search absolute left-4 top-3 text-gray-500"></i>
+            </div>
+            <button class="bg-white text-black px-6 py-2 rounded-full text-sm font-bold hover:bg-yellow-500 transition shadow-lg">Thành viên</button>
+        </div>
     </header>
 
-    <section class="relative h-[90vh] w-full overflow-hidden">
-        <div id="banner-bg" class="absolute inset-0 bg-cover bg-center" style="background-image: url('');"></div>
+    <section id="banner-section" class="relative h-[90vh] w-full overflow-hidden">
+        <div id="banner-bg" class="absolute inset-0 bg-cover bg-center scale-100 transition-transform duration-[5000ms]" 
+             style="background-image: url('https://image.tmdb.org/t/p/original/uD79093nF5VlXm4T9uL4rW7E2A8.jpg');"></div>
         <div class="absolute inset-0 banner-gradient"></div>
 
-        <div class="relative z-10 flex flex-col justify-center h-full px-20 max-w-5xl">
-            <h1 id="movie-title" class="text-6xl font-bold mb-3 drop-shadow-2xl">--</h1>
-            <p id="movie-unveil" class="text-yellow-500 text-xs font-bold mb-6 uppercase tracking-[0.3em]">--</p>
+        <div class="relative z-10 flex flex-col justify-center h-full px-16 max-w-4xl space-y-6 fade-in">
+            <h1 id="movie-title" class="text-6xl font-extrabold leading-tight">Tiểu Yêu Quái Núi Lãng Lãng</h1>
             
-            <div id="meta-container" class="flex gap-2 items-center mb-6">
-                </div>
+            <div class="flex gap-3 items-center">
+                <span class="bg-yellow-500 text-black px-3 py-1 rounded-md text-xs font-black">IMDB 9.0</span>
+                <span id="movie-year" class="bg-white/10 backdrop-blur-md px-3 py-1 rounded-md text-xs">2025</span>
+                <span id="movie-info" class="bg-white/10 backdrop-blur-md px-3 py-1 rounded-md text-xs font-bold text-yellow-500">Phần 1 - Tập 1</span>
+            </div>
 
-            <p id="movie-desc" class="text-gray-300 text-lg leading-relaxed max-w-2xl line-clamp-3 mb-8 drop-shadow">
-                --
+            <p id="movie-desc" class="text-gray-400 text-lg leading-relaxed max-w-2xl line-clamp-3">
+                Câu chuyện kể về cuộc sống của một chú heo nhỏ ở Núi Lãng Lãng, một góc nhìn mới lạ và đầy cảm xúc về thế giới yêu quái, sự nỗ lực và những giấc mơ giản đơn.
             </p>
 
-            <div class="flex items-center gap-4">
-                <div id="action-area" class="flex items-center gap-4">
-                    </div>
-                <button class="bg-[#2d323d]/60 hover:bg-red-500 transition p-4 rounded-full text-sm backdrop-blur-md"><i class="far fa-heart"></i></button>
-                <button class="bg-[#2d323d]/60 hover:bg-white/20 transition p-4 rounded-full text-sm backdrop-blur-md"><i class="fas fa-share-alt"></i></button>
+            <div class="flex items-center gap-4 pt-6">
+                <button id="play-btn" class="bg-yellow-500 hover:bg-yellow-400 text-black px-10 py-4 rounded-full font-black text-lg flex items-center gap-3 transition-transform hover:scale-105 active:scale-95 shadow-xl shadow-yellow-500/20">
+                    <i class="fas fa-play"></i> XEM NGAY
+                </button>
+                <button class="bg-white/10 hover:bg-white/20 p-4 rounded-full backdrop-blur-md transition"><i class="far fa-heart text-xl"></i></button>
+                <button class="bg-white/10 hover:bg-white/20 p-4 rounded-full backdrop-blur-md transition"><i class="fas fa-plus text-xl"></i></button>
             </div>
         </div>
     </section>
 
-    <section class="px-20 py-16">
+    <div id="video-overlay" class="fixed inset-0 bg-black z-[100] hidden flex-col">
+        <div class="p-4 flex justify-between items-center bg-[#111]">
+            <span id="playing-title" class="font-bold text-yellow-500"></span>
+            <button onclick="closeVideo()" class="text-white text-3xl hover:text-red-500">&times; ĐÓNG</button>
+        </div>
+        <iframe id="video-iframe" src="" class="w-full h-full border-0" allowfullscreen></iframe>
+    </div>
+
+    <section class="px-16 py-12">
         <h2 class="text-2xl font-bold mb-8 flex items-center gap-3">
-            <span class="w-1 h-6 bg-yellow-500"></span> Bạn đang quan tâm gì?
+            <span class="w-2 h-8 bg-yellow-500 rounded-full"></span> Bạn đang quan tâm gì?
         </h2>
         <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-5">
-            <div class="category-card bg-blue-700 p-6 rounded-2xl h-36 flex flex-col justify-between cursor-pointer shadow-lg shadow-blue-900/20">
-                <span class="font-bold text-xl uppercase italic">Marvel</span>
-                <span class="text-[11px] font-bold opacity-70 tracking-tighter">XEM CHỦ ĐỀ ></span>
+            <div class="category-card bg-gradient-to-br from-blue-600 to-blue-800 p-6 rounded-[2rem] h-40 flex flex-col justify-between cursor-pointer hover:shadow-2xl hover:shadow-blue-500/30 transition-all">
+                <span class="font-bold text-xl uppercase tracking-tighter">Marvel</span>
+                <span class="text-xs font-bold opacity-60 italic">Xem chủ đề ></span>
             </div>
-            <div class="category-card bg-emerald-700 p-6 rounded-2xl h-36 flex flex-col justify-between cursor-pointer">
-                <span class="font-bold text-xl uppercase italic">Sitcom</span>
-                <span class="text-[11px] font-bold opacity-70">XEM CHỦ ĐỀ ></span>
+            <div class="category-card bg-gradient-to-br from-red-600 to-red-900 p-6 rounded-[2rem] h-40 flex flex-col justify-between cursor-pointer hover:shadow-2xl hover:shadow-red-500/30 transition-all">
+                <span class="font-bold text-xl uppercase tracking-tighter">Cổ Trang</span>
+                <span class="text-xs font-bold opacity-60 italic">Xem chủ đề ></span>
             </div>
-            <div class="category-card bg-purple-700 p-6 rounded-2xl h-36 flex flex-col justify-between cursor-pointer">
-                <span class="font-bold text-xl uppercase italic leading-tight">Lồng Tiếng<br>Cực Mạnh</span>
-                <span class="text-[11px] font-bold opacity-70">XEM CHỦ ĐỀ ></span>
-            </div>
-            <div class="category-card bg-orange-600 p-6 rounded-2xl h-36 flex flex-col justify-between cursor-pointer">
-                <span class="font-bold text-xl uppercase italic">Xuyên Không</span>
-                <span class="text-[11px] font-bold opacity-70">XEM CHỦ ĐỀ ></span>
-            </div>
-            <div class="category-card bg-red-700 p-6 rounded-2xl h-36 flex flex-col justify-between cursor-pointer">
-                <span class="font-bold text-xl uppercase italic">Cổ Trang</span>
-                <span class="text-[11px] font-bold opacity-70">XEM CHỦ ĐỀ ></span>
-            </div>
-            <div class="category-card bg-indigo-700 p-6 rounded-2xl h-36 flex flex-col justify-between cursor-pointer">
-                <span class="font-bold text-xl uppercase italic font-black">4K Ultra</span>
-                <span class="text-[11px] font-bold opacity-70">XEM CHỦ ĐỀ ></span>
-            </div>
-            <div class="category-card bg-[#2d323d] p-6 rounded-2xl h-36 flex items-center justify-center cursor-pointer hover:bg-gray-700">
-                <span class="font-bold text-xl">+1 CHỦ ĐỀ</span>
+            <div class="category-card bg-[#1a1a1a] p-6 rounded-[2rem] h-40 flex items-center justify-center cursor-pointer border border-gray-800 hover:bg-gray-800 transition-all">
+                <span class="font-bold text-xl">+1 chủ đề</span>
             </div>
         </div>
     </section>
@@ -108,109 +99,84 @@
         const movies = [
             {
                 title: "Tiểu Yêu Quái Núi Lãng Lãng",
-                unveil: "Unveil: Little Monster",
                 year: "2025",
-                type: "single", // Phim lẻ
-                tags: ["Hoạt hình", "Hài hước"],
-                desc: "Cuộc hành trình đầy cảm hứng của một yêu quái nhỏ bé trong thế giới Tây Du. Một câu chuyện nhân văn về ước mơ và sự nỗ lực vượt qua định kiến.",
-                img: "https://pic3.iqiyipic.com/common/20230105/92135084931a47339d2c448383e5868f.jpg",
-                url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251204/wM0RTCwd/index.m3u8"
+                info: "Phần 1 - Tập 1",
+                desc: "Góc nhìn độc đáo về cuộc đời của một yêu quái nhỏ bé tại Núi Lãng Lãng. Những câu chuyện đời thường nhưng đầy tính triết lý về kiếp làm công cho quái vật cấp cao.",
+                img: "https://image.tmdb.org/t/p/original/uD79093nF5VlXm4T9uL4rW7E2A8.jpg",
+                video: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251204/wM0RTCwd/index.m3u8"
             },
             {
-                title: "Đường Cung Kỳ Án: Thanh Vụ Phong Minh",
-                unveil: "Unveil: Jadewind",
+                title: "Đường Cung Kỳ Án",
                 year: "2026",
-                type: "series", // Phim bộ
-                part: "Phần 1",
-                ep: "Tập 5",
-                tags: ["Chính kịch", "Bí ẩn"],
-                desc: "Vào tiết Nguyên Tiêu, công chúa Ninh Viễn chết một cách kỳ lạ. Những manh mối dẫn đến một âm mưu động trời đằng sau sự hào nhoáng của cung đình.",
+                info: "Phần 1 - Tập 5",
+                desc: "Vụ án bí ẩn tại kinh thành khiến vương triều chao đảo. Những âm mưu đen tối dần được hé lộ qua từng tập phim kịch tính.",
                 img: "https://image.tmdb.org/t/p/original/m9m9Hw5r8Jv8H3x1E0O3F5X5D.jpg",
-                url: "#"
+                video: "#"
             },
             {
-                title: "Chiến Thần Tái Thế",
-                unveil: "The Reborn Warrior",
+                title: "Hắc Nguyệt Quang",
                 year: "2024",
-                type: "single", 
-                tags: ["Hành động", "Võ thuật"],
-                desc: "Sự trở lại của một huyền thoại đã bị lãng quên. Những pha võ thuật mãn nhãn cùng cốt truyện kịch tính từng giây phút.",
+                info: "Full HD",
+                desc: "Siêu phẩm tiên hiệp với kỹ xảo đỉnh cao. Trận chiến giữa tiên và ma chưa bao giờ rực rỡ và bi thương đến thế.",
                 img: "https://image.tmdb.org/t/p/original/5i6SjygrCjSfsZ6tSTH3fZ9ZdE1.jpg",
-                url: "#"
+                video: "#"
             }
         ];
 
         let currentIndex = 0;
-        let isPaused = false;
         let timer;
+        const playBtn = document.getElementById('play-btn');
 
         function updateBanner() {
-            if (isPaused) return;
-
             const movie = movies[currentIndex];
+            const bg = document.getElementById('banner-bg');
             
-            // Cập nhật text & ảnh
-            document.getElementById('banner-bg').style.backgroundImage = `url('${movie.img}')`;
+            // Hiệu ứng zoom nhẹ khi chuyển
+            bg.style.transform = "scale(1.1)";
+            setTimeout(() => {
+                bg.style.backgroundImage = `url('${movie.img}')`;
+                bg.style.transform = "scale(1)";
+            }, 100);
+
             document.getElementById('movie-title').innerText = movie.title;
-            document.getElementById('movie-unveil').innerText = movie.unveil;
+            document.getElementById('movie-year').innerText = movie.year;
+            document.getElementById('movie-info').innerText = movie.info;
             document.getElementById('movie-desc').innerText = movie.desc;
-
-            // Xử lý Meta (IMDB, Năm, Phần/Tập)
-            let metaHtml = `<span class="bg-yellow-500 text-black px-1.5 py-0.5 rounded text-[10px] font-black">IMDB 9.0</span>
-                            <span class="bg-white/10 px-2 py-0.5 rounded text-[11px] font-bold">${movie.year}</span>`;
-            
-            if (movie.type === "series") {
-                metaHtml += `<span class="bg-white/10 px-2 py-0.5 rounded text-[11px] font-bold">${movie.part}</span>`;
-                metaHtml += `<span class="bg-white/10 px-2 py-0.5 rounded text-[11px] font-bold">${movie.ep}</span>`;
-            }
-            document.getElementById('meta-container').innerHTML = metaHtml;
-
-            // Xử lý Nút Xem Ngay
-            let actionHtml = "";
-            if (movie.type === "single") {
-                actionHtml = `
-                    <div class="flex flex-col gap-1">
-                        <button onclick="handlePlay('${movie.url}')" class="bg-yellow-500 hover:bg-yellow-400 text-black px-10 py-3 rounded-full font-black text-sm flex items-center gap-2 transition-all active:scale-95 shadow-lg shadow-yellow-500/20">
-                            <i class="fas fa-play"></i> XEM NGAY
-                        </button>
-                        <span class="text-[10px] text-yellow-500 font-bold ml-4 tracking-tighter uppercase underline decoration-2 offset-2">Full HD - Lồng Tiếng</span>
-                    </div>
-                `;
-            } else {
-                actionHtml = `
-                    <button onclick="handlePlay('${movie.url}')" class="bg-yellow-500 hover:bg-yellow-400 text-black px-10 py-3 rounded-full font-black text-sm flex items-center gap-2 transition-all active:scale-95 shadow-lg shadow-yellow-500/20">
-                        <i class="fas fa-play"></i> XEM NGAY (${movie.ep})
-                    </button>
-                `;
-            }
-            document.getElementById('action-area').innerHTML = actionHtml;
 
             currentIndex = (currentIndex + 1) % movies.length;
         }
 
-        function handlePlay(url) {
-            if(url === "#") {
-                alert("Phim này chưa cập nhật link!");
-                return;
-            }
-            
-            // Ngừng chạy 5s
-            isPaused = true;
-            clearInterval(timer);
-            
-            // Mở link
-            window.open(url, '_blank');
-
-            // Tự chạy lại sau 5s
-            setTimeout(() => {
-                startAuto();
-            }, 5000);
-        }
-
         function startAuto() {
-            isPaused = false;
             clearInterval(timer);
             timer = setInterval(updateBanner, 3000);
+        }
+
+        // Sự kiện click nút XEM NGAY
+        playBtn.addEventListener('click', () => {
+            // Dừng banner ngay lập tức
+            clearInterval(timer);
+            
+            const currentMovie = movies[currentIndex === 0 ? movies.length - 1 : currentIndex - 1];
+            
+            // Mở trình phát phim
+            if(currentMovie.video !== "#") {
+                document.getElementById('playing-title').innerText = "Đang xem: " + currentMovie.title;
+                document.getElementById('video-iframe').src = currentMovie.video;
+                document.getElementById('video-overlay').classList.remove('hidden');
+            }
+
+            // Đợi 5s sau khi nhấn mới cho phép chạy lại (nếu chưa đóng video)
+            setTimeout(() => {
+                if(document.getElementById('video-overlay').classList.contains('hidden')) {
+                    startAuto();
+                }
+            }, 5000);
+        });
+
+        function closeVideo() {
+            document.getElementById('video-overlay').classList.add('hidden');
+            document.getElementById('video-iframe').src = "";
+            startAuto(); // Chạy lại banner khi đóng video
         }
 
         // Khởi động
