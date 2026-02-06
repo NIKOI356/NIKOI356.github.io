@@ -3,26 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ao Phim Của Đức - Xem Phim Hay</title>
+    <title>Ao Phim Của Đức - Stranger Things 5</title>
     <style>
         :root {
-            --primary-color: #ff9d00;
-            --bg-dark: #0b0b0b;
-            --card-bg: #181818;
+            --primary: #ff9d00;
+            --bg: #0b0b0b;
         }
 
         body {
-            background-color: var(--bg-dark);
+            background-color: var(--bg);
             color: #fff;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
             margin: 0;
             padding: 0;
-            line-height: 1.5;
         }
 
-        /* Header chuyên nghiệp */
+        /* Header */
         header {
-            background: rgba(24, 24, 24, 0.95);
+            background: rgba(24, 24, 24, 0.9);
             padding: 10px 5%;
             display: flex;
             justify-content: space-between;
@@ -30,102 +28,93 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(5px);
             border-bottom: 1px solid #333;
         }
 
-        .logo img {
-            height: 40px;
-            width: auto;
-        }
+        .logo img { height: 45px; width: auto; }
 
         nav a {
-            color: #eee;
+            color: #fff;
             text-decoration: none;
-            margin-left: 20px;
             font-weight: bold;
             font-size: 14px;
-            text-transform: uppercase;
         }
 
-        /* Banner Phim Nổi Bật (Giống ảnh mẫu) */
+        /* Banner Lớn */
         .hero-banner {
             position: relative;
             width: 100%;
-            height: 60vh;
-            background: linear-gradient(to bottom, transparent, var(--bg-dark)), 
-                        url('poster-stranger-things.jpg'); /* Banner chính */
+            height: 70vh;
+            /* Cập nhật tên file ảnh bạn yêu cầu */
+            background: linear-gradient(to bottom, rgba(11,11,11,0.2), var(--bg)), 
+                        url('poster-stranger 99-'); 
             background-size: cover;
-            background-position: center;
+            background-position: center top;
             display: flex;
             align-items: flex-end;
-            padding: 40px 5%;
+            padding: 60px 5%;
             box-sizing: border-box;
         }
 
         .hero-content h1 {
-            font-size: 2.5rem;
-            margin: 0;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+            font-size: 3.5rem;
+            margin: 10px 0;
+            text-transform: uppercase;
+            text-shadow: 4px 4px 15px rgba(0,0,0,1);
         }
 
-        .hero-meta {
-            margin: 10px 0;
-            display: flex;
-            gap: 10px;
-        }
+        .hero-meta { display: flex; gap: 10px; margin-bottom: 15px; }
 
         .tag {
-            background: var(--primary-color);
+            background: var(--primary);
             color: #000;
-            padding: 2px 8px;
+            padding: 4px 12px;
             border-radius: 4px;
             font-weight: bold;
-            font-size: 12px;
+            font-size: 14px;
         }
 
-        /* Danh sách tập phim dạng lưới */
-        .container {
-            padding: 20px 5%;
-        }
+        /* Danh sách tập phim */
+        .container { padding: 30px 5%; }
 
         .section-title {
-            font-size: 1.2rem;
-            border-left: 4px solid var(--primary-color);
+            font-size: 1.5rem;
+            border-left: 5px solid var(--primary);
             padding-left: 15px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             text-transform: uppercase;
         }
 
-        .episode-list {
+        .episode-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-            gap: 10px;
-            margin-bottom: 40px;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 15px;
         }
 
-        .episode-item {
-            background: var(--card-bg);
-            color: white;
+        .ep-button {
+            background: #222;
+            color: #fff;
             text-align: center;
-            padding: 12px 0;
+            padding: 15px 0;
             text-decoration: none;
-            border-radius: 5px;
-            border: 1px solid #333;
-            transition: 0.3s;
+            border-radius: 6px;
             font-weight: bold;
+            border: 1px solid #444;
+            transition: 0.3s;
         }
 
-        .episode-item:hover {
-            background: var(--primary-color);
+        .ep-button:hover {
+            background: var(--primary);
             color: #000;
-            border-color: var(--primary-color);
+            border-color: var(--primary);
+            transform: scale(1.05);
         }
 
-        /* Responsive cho mobile */
+        /* Mobile */
         @media (max-width: 768px) {
-            .hero-banner { height: 40vh; }
-            .hero-content h1 { font-size: 1.8rem; }
+            .hero-banner { height: 50vh; }
+            .hero-content h1 { font-size: 2.2rem; }
         }
     </style>
 </head>
@@ -133,42 +122,33 @@
 
 <header>
     <a href="/" class="logo">
-        <img src="logo1.png" alt="Ao Phim Của Đức">
+        <img src="logo1.png" alt="Logo">
     </a>
-    <nav>
-        <a href="#">PHIM LẺ</a>
-        <a href="#">PHIM BỘ</a>
-    </nav>
+    <nav><a href="#">GAME XONG ĐÃ NHÉ</a></nav>
 </header>
 
 <div class="hero-banner">
     <div class="hero-content">
         <div class="hero-meta">
-            <span class="tag">IMDb 9.0</span>
+            <span class="tag">TOP 1</span>
             <span class="tag">2025</span>
-            <span class="tag">Phần 5</span>
+            <span class="tag">PHẦN 5</span>
         </div>
-        <h1>Stranger Things: Thế Giới Ngược</h1>
+        <h1>Stranger Things</h1>
+        <p style="font-size: 18px; color: #ddd; max-width: 700px;">Hành trình cuối cùng của El và nhóm bạn tại Hawkins. Những bí ẩn của Upside Down sẽ được giải mã.</p>
     </div>
 </div>
 
 <div class="container">
-    <h2 class="section-title">Chọn tập phim</h2>
-    
-    <div class="episode-list">
-        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/VdVcTjll/index.m3u8" class="episode-item">Tập 1</a>
-        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/Xaex73oM/index.m3u8" class="episode-item">Tập 2</a>
-        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/phZU5qEk/index.m3u8" class="episode-item">Tập 3</a>
-        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/JudV0Ni1/index.m3u8" class="episode-item">Tập 4</a>
-        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251226/AFjYGQ1K/index.m3u8" class="episode-item">Tập 5</a>
-        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251226/TPpFJBKF/index.m3u8" class="episode-item">Tập 6</a>
+    <h2 class="section-title">Danh sách tập phim</h2>
+    <div class="episode-grid">
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/VdVcTjll/index.m3u8" class="ep-button">TẬP 1</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/Xaex73oM/index.m3u8" class="ep-button">TẬP 2</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/phZU5qEk/index.m3u8" class="ep-button">TẬP 3</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/JudV0Ni1/index.m3u8" class="ep-button">TẬP 4</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251226/AFjYGQ1K/index.m3u8" class="ep-button">TẬP 5</a>
+        <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251226/TPpFJBKF/index.m3u8" class="ep-button">TẬP 6</a>
     </div>
-
-    <h2 class="section-title">Nội dung phim</h2>
-    <p style="color: #bbb; max-width: 800px;">
-        Stranger Things phần 5 là hồi kết đầy kịch tính cho cuộc chiến tại thị trấn Hawkins. 
-        Sau khi cánh cổng dẫn đến Upside Down bị xé toạc, nhóm bạn phải hợp lực để đối đầu với Vecna trong trận chiến cuối cùng để cứu lấy thế giới.
-    </p>
 </div>
 
 </body>
