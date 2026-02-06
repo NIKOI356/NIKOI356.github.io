@@ -7,66 +7,120 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background-color: #1a1a20; color: white; font-family: sans-serif; overflow-x: hidden; }
-        .banner-gradient { background: linear-gradient(to top, #1a1a20 5%, rgba(26,26,32,0.6) 40%, rgba(26,26,32,0.2) 100%); }
-        .overlay-bg { background: rgba(20,20,25,0.98); backdrop-filter: blur(15px); }
+        body { background-color: #1a1a20; color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        .banner-gradient { background: linear-gradient(to top, #1a1a20 0%, rgba(26,26,32,0.3) 50%, rgba(26,26,32,0.1) 100%); }
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        .thumb-circle { width: 45px; height: 45px; border-radius: 50%; border: 2px solid transparent; opacity: 0.5; overflow: hidden; transition: 0.4s; cursor: pointer; flex-shrink: 0; }
-        .thumb-active { border-color: #fff; opacity: 1; transform: scale(1.2) translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
-        .tag { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 2px 10px; border-radius: 4px; font-size: 11px; }
-        .animate-fade { animation: fade 0.8s ease-in-out; }
-        @keyframes fade { from { opacity: 0.4; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Hiệu ứng Banner Thumbs */
+        .thumb-circle { width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.3); transition: 0.3s; cursor: pointer; }
+        .thumb-active { background: #eab308; transform: scale(1.3); box-shadow: 0 0 10px #eab308; }
+
+        /* Card Phim */
+        .movie-card { transition: all 0.3s ease; position: relative; overflow: hidden; border-radius: 12px; }
+        .movie-card:hover { transform: translateY(-8px); }
+        .movie-card:hover .play-btn { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        .play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.5); opacity: 0; transition: 0.3s; background: #eab308; width: 50px; height: 50px; border-radius: 50%; display: flex; items-center; justify-center; z-index: 10; }
+        
+        /* Category Card */
+        .cat-card { min-width: 180px; aspect-ratio: 16/10; border-radius: 16px; transition: 0.3s; }
+        .cat-card:hover { filter: brightness(1.2); transform: translateY(-4px); }
+
+        .animate-fade { animation: fade 0.6s ease-out; }
+        @keyframes fade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <header class="fixed w-full z-50 flex items-center justify-between px-6 py-4 bg-transparent">
-        <div class="flex items-center gap-2">
-            <div class="bg-yellow-500 rounded-full p-1.5 shadow-lg shadow-yellow-500/20"><i class="fas fa-play text-black text-[10px]"></i></div>
-            <span class="text-xl font-black tracking-tight">Xô Phim</span>
+    <header class="fixed w-full z-50 flex items-center justify-between px-6 py-4 transition-all duration-300 bg-transparent" id="main-header">
+        <div class="flex items-center gap-2 cursor-pointer">
+            <div class="bg-yellow-500 rounded-full p-1.5 shadow-lg"><i class="fas fa-play text-black text-[10px]"></i></div>
+            <span class="text-2xl font-black tracking-tighter uppercase">Xô Phim</span>
         </div>
-        <div class="flex items-center gap-6">
-            <div class="hidden md:flex gap-6 text-sm font-medium opacity-80">
-                <a href="#">Phim Lẻ</a><a href="#">Phim Bộ</a><a href="#">Quốc gia</a>
+        <div class="flex items-center gap-8">
+            <nav class="hidden lg:flex gap-8 text-[15px] font-bold uppercase tracking-wide">
+                <a href="#" class="hover:text-yellow-500 transition">Phim Lẻ</a>
+                <a href="#" class="hover:text-yellow-500 transition">Phim Bộ</a>
+                <a href="#" class="hover:text-yellow-500 transition">Quốc Gia</a>
+            </nav>
+            <div class="flex items-center gap-4">
+                <i class="fas fa-search text-xl cursor-pointer hover:text-yellow-500"></i>
+                <div class="w-8 h-8 rounded-full bg-gray-700 flex items-center justify-center"><i class="fas fa-user text-sm"></i></div>
             </div>
-            <i class="fas fa-search text-lg cursor-pointer"></i>
         </div>
     </header>
 
-    <section class="relative h-[90vh] w-full overflow-hidden" id="hero-section">
-        <div id="banner-bg" class="absolute inset-0 bg-cover bg-center transition-all duration-1000 scale-100" style="background-image: url('');"></div>
+    <section class="relative h-[85vh] md:h-screen w-full overflow-hidden" id="hero-section">
+        <div id="banner-bg" class="absolute inset-0 bg-cover bg-center transition-all duration-1000 scale-105" style="background-image: url('');"></div>
         <div class="absolute inset-0 banner-gradient"></div>
 
-        <div class="relative z-10 flex flex-col items-center justify-end h-full px-6 pb-20 text-center">
-            <div id="movie-info-content" class="animate-fade max-w-3xl">
-                <h1 id="movie-title" class="text-4xl md:text-6xl font-bold mb-2 drop-shadow-2xl">--</h1>
-                <p id="movie-sub" class="text-yellow-500 text-lg mb-4 font-medium italic opacity-90">--</p>
+        <div class="relative z-10 flex flex-col justify-end h-full px-6 md:px-12 pb-24 max-w-4xl">
+            <div id="movie-info-content" class="animate-fade">
+                <h1 id="movie-title" class="text-4xl md:text-7xl font-black mb-3 drop-shadow-2xl uppercase italic">--</h1>
+                <div class="flex items-center gap-3 mb-4">
+                    <span id="movie-sub" class="text-yellow-500 text-xl font-bold italic">--</span>
+                    <span class="bg-white/20 px-2 py-0.5 rounded text-xs font-bold uppercase">4K Ultra HD</span>
+                </div>
                 
-                <div class="flex flex-wrap justify-center gap-2 mb-6">
-                    <span class="tag bg-yellow-500 text-black font-bold border-none" id="movie-rating">IMDb --</span>
-                    <span id="movie-year" class="tag">--</span>
-                    <span id="movie-status" class="tag">--</span>
-                    <span class="tag">HD</span>
+                <div class="flex flex-wrap gap-2 mb-6">
+                    <span class="bg-yellow-500 text-black px-3 py-1 rounded-md font-black text-sm" id="movie-rating">IMDb --</span>
+                    <span id="movie-year" class="bg-white/10 px-3 py-1 rounded-md text-sm font-bold">--</span>
+                    <span id="movie-status" class="bg-white/10 px-3 py-1 rounded-md text-sm font-bold border border-white/20">--</span>
                 </div>
 
-                <p id="movie-desc" class="text-gray-300 text-sm md:text-base mb-10 line-clamp-2 md:line-clamp-3 opacity-80 leading-relaxed px-4 md:px-20">--</p>
+                <p id="movie-desc" class="text-gray-300 text-sm md:text-lg mb-8 line-clamp-3 opacity-90 leading-relaxed max-w-2xl">--</p>
 
-                <div class="flex gap-4 justify-center mb-12">
-                    <button onclick="openOverlay()" class="bg-yellow-500 text-black px-12 py-3.5 rounded-full font-black text-sm hover:scale-105 active:scale-95 transition shadow-xl shadow-yellow-500/30">
-                        XEM NGAY
+                <div class="flex gap-4">
+                    <button class="bg-yellow-500 text-black px-10 py-4 rounded-full font-black text-sm hover:scale-105 transition shadow-xl flex items-center gap-2">
+                        <i class="fas fa-play"></i> XEM NGAY
                     </button>
-                    <button class="bg-white/10 backdrop-blur-md text-white px-6 py-3.5 rounded-full font-bold text-sm hover:bg-white/20 transition">
-                        <i class="far fa-heart mr-2"></i>Lưu
+                    <button class="bg-white/10 backdrop-blur-md text-white px-6 py-4 rounded-full font-bold text-sm hover:bg-white/20 transition">
+                        <i class="far fa-heart mr-2"></i> LƯU PHIM
                     </button>
                 </div>
             </div>
 
-            <div id="thumb-container" class="flex gap-4 overflow-x-auto no-scrollbar max-w-full px-4 items-center"></div>
+            <div id="thumb-container" class="flex gap-3 mt-12 items-center"></div>
         </div>
     </section>
 
-    <div id="movie-overlay" class="fixed inset-0 z-[100] overlay-bg hidden overflow-y-auto">
+    <section class="relative z-20 px-6 md:px-12 -mt-16 mb-12">
+        <h2 class="text-xl font-bold mb-6 flex items-center gap-2 italic">
+            <span class="w-1 h-6 bg-yellow-500 rounded-full"></span> BẠN ĐANG QUAN TÂM GÌ?
+        </h2>
+        <div class="flex gap-4 overflow-x-auto no-scrollbar pb-4">
+            <a href="#" class="cat-card flex flex-col justify-end p-4 bg-gradient-to-br from-blue-600 to-blue-900 shadow-lg shadow-blue-900/20">
+                <span class="text-xl font-black italic">MARVEL</span>
+                <span class="text-[10px] opacity-70 uppercase font-bold mt-1">Xem chủ đề <i class="fas fa-chevron-right ml-1"></i></span>
+            </a>
+            <a href="#" class="cat-card flex flex-col justify-end p-4 bg-gradient-to-br from-emerald-600 to-teal-900 shadow-lg shadow-teal-900/20">
+                <span class="text-xl font-black italic">SITCOM</span>
+                <span class="text-[10px] opacity-70 uppercase font-bold mt-1">Xem chủ đề <i class="fas fa-chevron-right ml-1"></i></span>
+            </a>
+            <a href="#" class="cat-card flex flex-col justify-end p-4 bg-gradient-to-br from-purple-600 to-indigo-900 shadow-lg shadow-indigo-900/20">
+                <span class="text-xl font-black italic leading-tight">LỒNG TIẾNG<br>CỰC MẠNH</span>
+                <span class="text-[10px] opacity-70 uppercase font-bold mt-1">Xem chủ đề <i class="fas fa-chevron-right ml-1"></i></span>
+            </a>
+            <a href="#" class="cat-card flex flex-col justify-end p-4 bg-gradient-to-br from-orange-500 to-red-700 shadow-lg shadow-red-900/20">
+                <span class="text-xl font-black italic uppercase">Xuyên Không</span>
+                <span class="text-[10px] opacity-70 uppercase font-bold mt-1">Xem chủ đề <i class="fas fa-chevron-right ml-1"></i></span>
+            </a>
+            <a href="#" class="cat-card flex flex-col justify-end p-4 bg-[#25252b] border border-white/5 shadow-xl">
+                <span class="text-sm font-bold opacity-50">+1 CHỦ ĐỀ</span>
+            </a>
         </div>
+    </section>
+
+    <section class="px-6 md:px-12 mb-20">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-xl font-bold italic flex items-center gap-2">
+                <span class="w-1 h-6 bg-yellow-500 rounded-full"></span> PHIM MỚI CẬP NHẬT
+            </h2>
+            <a href="#" class="text-sm font-bold text-gray-400 hover:text-yellow-500 transition">XEM TẤT CẢ</a>
+        </div>
+        
+        <div id="movie-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+            </div>
+    </section>
 
     <script>
         const movies = [
@@ -75,27 +129,27 @@
                 sub: "Stranger Things",
                 year: "2025",
                 rating: "8.7",
-                status: "Phần 1-5 - Full",
+                status: "Phần 5 - Full",
                 desc: "Khi một cậu bé mất tích, một thị trấn nhỏ phát hiện ra một bí ẩn liên quan đến các cuộc thí nghiệm bí mật, các lực lượng siêu nhiên đáng sợ và một cô bé kỳ lạ.",
-                img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20251127-1/88dfce03b997600f0a898945fe8facb2.jpg"
+                img: "https://phimimg.com/upload/vod/20251127-1/88dfce03b997600f0a898945fe8facb2.jpg"
             },
             {
-                title: "Bóng Ma Anh Quốc Full",
+                title: "Bóng Ma Anh Quốc",
                 sub: "Peaky Blinders",
                 year: "2024",
                 rating: "8.8",
                 status: "Trọn bộ 6 phần",
-                desc: "Một băng đảng tội phạm khét tiếng ở Birmingham, Anh, vào năm 1919, được dẫn dắt bởi Tommy Shelby hung bạo, một ông trùm tội phạm có ý định vươn lên trên thế giới bằng bất cứ giá nào.",
-                img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20240730-1/6c17cbb10c2284bb6001e4a8a79ad786.jpg"
+                desc: "Một băng đảng tội phạm khét tiếng ở Birmingham, Anh, được dẫn dắt bởi Tommy Shelby hung bạo, một ông trùm tội phạm có ý định vươn lên trên thế giới.",
+                img: "https://phimimg.com/upload/vod/20240730-1/6c17cbb10c2284bb6001e4a8a79ad786.jpg"
             },
             {
                 title: "Đường Cung Kỳ Án",
                 sub: "Unveil: Jadewind",
                 year: "2026",
-                rating: "0.0",
+                rating: "9.0",
                 status: "Phần 1 - Tập 5",
-                desc: "Vào tiết Nguyên Tiêu, công chúa Ninh Viễn chết một cách kỳ lạ trong dạ yến. Lý Bội Nghi của Nội Yết Cục và Thái Sử Thừa Tiêu Ly Cẩn được phái đi điều tra những bí ẩn đen tối.",
-                img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20251127-1/88dfce03b997600f0a898945fe8facb2.jpg"
+                desc: "Vào tiết Nguyên Tiêu, công chúa Ninh Viễn chết một cách kỳ lạ. Lý Bội Nghi và Thái Sử Thừa Tiêu Ly Cẩn được phái đi điều tra những bí ẩn đen tối.",
+                img: "https://phimimg.com/upload/vod/20240417/572d475658e6584c6f497330066782a1.jpg"
             },
             {
                 title: "Sói Già Phố Wall",
@@ -103,74 +157,88 @@
                 year: "2013",
                 rating: "8.2",
                 status: "Phim Lẻ",
-                desc: "Dựa trên câu chuyện có thật của Jordan Belfort, từ bước thăng tiến của ông trở thành một nhà môi giới chứng khoán giàu có sống một cuộc đời xa hoa cho đến sự sụp đổ liên quan đến tội phạm và tham nhũng.",
-                img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20231018-1/2e6fd68d5e7002fcc9fa6b8453242a8a.jpg"
+                desc: "Dựa trên câu chuyện có thật của Jordan Belfort, từ bước thăng tiến của ông trở thành một nhà môi giới chứng khoán giàu có cho đến sự sụp đổ.",
+                img: "https://phimimg.com/upload/vod/20231018-1/2e6fd68d5e7002fcc9fa6b8453242a8a.jpg"
             }
         ];
 
         let currentIndex = 0;
-        let timerDuration = 3000; // Mặc định 3s
-        let slideInterval;
-
-        const heroSection = document.getElementById('hero-section');
-
+        
+        // Cập nhật Banner
         function updateBanner() {
             const m = movies[currentIndex];
             const infoBox = document.getElementById('movie-info-content');
             
-            // Hiệu ứng fade thông tin
-            infoBox.style.opacity = 0;
+            infoBox.classList.remove('animate-fade');
+            void infoBox.offsetWidth; 
             
-            setTimeout(() => {
-                document.getElementById('banner-bg').style.backgroundImage = `url('${m.img}')`;
-                document.getElementById('movie-title').innerText = m.title;
-                document.getElementById('movie-sub').innerText = m.sub;
-                document.getElementById('movie-year').innerText = m.year;
-                document.getElementById('movie-rating').innerText = `IMDb ${m.rating}`;
-                document.getElementById('movie-status').innerText = m.status;
-                document.getElementById('movie-desc').innerText = m.desc;
-                
-                infoBox.style.opacity = 1;
-                infoBox.classList.remove('animate-fade');
-                void infoBox.offsetWidth; // Trigger reflow
-                infoBox.classList.add('animate-fade');
-            }, 300);
+            document.getElementById('banner-bg').style.backgroundImage = `url('${m.img}')`;
+            document.getElementById('movie-title').innerText = m.title;
+            document.getElementById('movie-sub').innerText = m.sub;
+            document.getElementById('movie-year').innerText = m.year;
+            document.getElementById('movie-rating').innerText = `IMDb ${m.rating}`;
+            document.getElementById('movie-status').innerText = m.status;
+            document.getElementById('movie-desc').innerText = m.desc;
+            
+            infoBox.classList.add('animate-fade');
 
             document.querySelectorAll('.thumb-circle').forEach((t, i) => {
                 t.classList.toggle('thumb-active', i === currentIndex);
             });
         }
 
-        function startTimer(duration) {
-            clearInterval(slideInterval);
-            slideInterval = setInterval(() => {
-                currentIndex = (currentIndex + 1) % movies.length;
-                updateBanner();
-            }, duration);
-        }
-
-        // Tạo nút tròn
+        // Tạo Dots điều hướng cho Banner
         const thumbContainer = document.getElementById('thumb-container');
-        movies.forEach((m, i) => {
-            const t = document.createElement('div');
-            t.className = `thumb-circle ${i === 0 ? 'thumb-active' : ''}`;
-            t.innerHTML = `<img src="${m.img}" class="w-full h-full object-cover">`;
-            
-            t.onclick = () => {
-                currentIndex = i;
-                updateBanner();
-                startTimer(5000); // Khi click chọn, giãn thời gian lên 5s
-            };
-            thumbContainer.appendChild(t);
+        movies.forEach((_, i) => {
+            const dot = document.createElement('div');
+            dot.className = `thumb-circle ${i === 0 ? 'thumb-active' : ''}`;
+            dot.onclick = () => { currentIndex = i; updateBanner(); };
+            thumbContainer.appendChild(dot);
         });
 
-        // Theo dõi chuột: Khi di chuyển vào vùng Banner sẽ giãn thời gian
-        heroSection.onmouseenter = () => startTimer(5000); 
-        heroSection.onmouseleave = () => startTimer(3000);
+        // Tự động chuyển Banner
+        setInterval(() => {
+            currentIndex = (currentIndex + 1) % movies.length;
+            updateBanner();
+        }, 5000);
 
-        // Khởi tạo
+        // Load Grid Phim phía dưới
+        const movieGrid = document.getElementById('movie-grid');
+        movies.forEach(m => {
+            const card = document.createElement('div');
+            card.className = "movie-card group cursor-pointer";
+            card.innerHTML = `
+                <div class="relative aspect-[2/3] mb-3">
+                    <img src="${m.img}" class="w-full h-full object-cover rounded-xl" alt="${m.title}">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl"></div>
+                    <div class="play-btn text-black shadow-lg shadow-yellow-500/50"><i class="fas fa-play"></i></div>
+                    <div class="absolute top-2 left-2 flex flex-col gap-1">
+                        <span class="bg-yellow-500 text-[10px] font-black text-black px-1.5 py-0.5 rounded italic">IMDb ${m.rating}</span>
+                        <span class="bg-blue-600 text-[10px] font-black text-white px-1.5 py-0.5 rounded uppercase">Full HD</span>
+                    </div>
+                    <div class="absolute bottom-2 right-2">
+                        <span class="bg-black/60 backdrop-blur-md text-[10px] font-bold px-2 py-1 rounded border border-white/20">${m.status}</span>
+                    </div>
+                </div>
+                <h3 class="font-bold text-sm truncate group-hover:text-yellow-500 transition">${m.title}</h3>
+                <p class="text-xs text-gray-500 truncate mt-1 italic">${m.sub}</p>
+            `;
+            movieGrid.appendChild(card);
+        });
+
+        // Hiệu ứng Header khi cuộn
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 50) {
+                header.classList.add('bg-[#141419]', 'shadow-2xl', 'py-3');
+                header.classList.remove('py-4');
+            } else {
+                header.classList.remove('bg-[#141419]', 'shadow-2xl', 'py-3');
+                header.classList.add('py-4');
+            }
+        });
+
         updateBanner();
-        startTimer(3000);
     </script>
 </body>
 </html>
