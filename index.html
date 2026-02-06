@@ -3,105 +3,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RoPhim - Giao diện Phân Tách</title>
+    <title>RoPhim - Hệ Thống Full Dữ Liệu</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
-        body { background-color: #0f1115; color: white; font-family: sans-serif; }
-        .banner-gradient { background: linear-gradient(to right, #0f1115 15%, rgba(15,17,21,0.7) 45%, transparent 100%); }
-        .info-tag { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; }
+        body { background-color: #0f1115; color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .banner-gradient { background: linear-gradient(to right, #0f1115 15%, rgba(15,17,21,0.6) 40%, transparent 100%); }
+        .info-tag { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15); padding: 2px 8px; border-radius: 5px; font-size: 11px; font-weight: 700; }
         .imdb-tag { border-color: #eab308; color: #eab308; }
         
-        /* Player Styles */
-        #player-overlay { transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
-        .episode-btn { background: #1e2129; border-radius: 8px; transition: 0.2s; border: 1px solid transparent; }
-        .episode-btn.active { background: #facc15 !important; color: #000 !important; font-weight: bold; }
+        /* Hiệu ứng lớp phủ */
+        #player-overlay { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); z-index: 9999; }
         
-        .format-tab { cursor: pointer; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 700; color: #6b7280; border: 1px solid transparent; }
-        .format-tab.active { color: white; border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); }
+        /* Nút tập phim đúng chuẩn RoPhim */
+        .ep-btn { background: #1e2129; border-radius: 6px; border: 1px solid transparent; transition: 0.3s; }
+        .ep-btn.active { background: #facc15 !important; color: #000 !important; font-weight: bold; }
+        
+        /* Dropdown & Tabs */
+        .ro-select { background: none; border: none; color: white; font-weight: 800; font-size: 20px; outline: none; cursor: pointer; }
+        .ro-tab { cursor: pointer; padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: bold; color: #9ca3af; border: 1px solid transparent; display: flex; align-items: center; gap: 6px; }
+        .ro-tab.active { color: white; border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.05); }
     </style>
 </head>
 <body>
 
-    <header class="fixed w-full z-50 flex items-center justify-between px-6 py-4 bg-gradient-to-b from-black/60 to-transparent">
-        <div class="flex items-center gap-10">
-            <div class="flex items-center gap-2">
-                <div class="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center text-black"><i class="fas fa-play text-xs"></i></div>
-                <div><h1 class="font-bold text-xl leading-none">RoPhim</h1><p class="text-[9px] text-gray-400">Phim hay cả rổ</p></div>
-            </div>
-            <nav class="hidden lg:flex gap-6 text-sm font-semibold text-gray-300">
-                <a href="#">Chủ đề</a><a href="#">Thể loại</a><a href="#">Phim Lẻ</a><a href="#">Phim Bộ</a>
-            </nav>
-        </div>
-        <div class="flex items-center gap-4 bg-black/40 border border-white/10 px-4 py-2 rounded-xl">
-            <i class="fas fa-search text-gray-400"></i>
-            <input type="text" placeholder="Tìm kiếm phim..." class="bg-transparent outline-none text-xs w-40">
+    <header class="fixed w-full z-[100] flex items-center justify-between px-6 py-4">
+        <div class="flex items-center gap-2">
+            <div class="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center text-black"><i class="fas fa-play text-[10px]"></i></div>
+            <div><h1 class="font-bold text-xl leading-none">RoPhim</h1><p class="text-[9px] text-gray-400">Phim hay cả rổ</p></div>
         </div>
     </header>
 
-    <div class="swiper mySwiper h-screen w-full">
-        <div class="swiper-wrapper" id="banner-render"></div>
+    <div class="swiper mySwiper h-screen">
+        <div class="swiper-wrapper" id="banner-list"></div>
     </div>
 
-    <div id="player-overlay" class="fixed inset-0 bg-[#0f1115] translate-y-full overflow-y-auto z-[100]">
-        <div class="sticky top-0 bg-[#0f1115]/95 backdrop-blur-lg p-4 flex justify-between items-center z-50 border-b border-white/5">
-            <div class="flex items-center gap-3"><div class="w-2 h-2 bg-red-500 rounded-full animate-ping"></div><span id="player-title" class="text-xs font-black uppercase text-gray-400">Đang tải...</span></div>
-            <button onclick="closePlayer()" class="w-10 h-10 hover:bg-white/10 rounded-full transition"><i class="fas fa-times"></i></button>
-        </div>
-
-        <div class="w-full aspect-video bg-black shadow-inner">
-            <iframe id="main-iframe" class="w-full h-full" src="" frameborder="0" allowfullscreen></iframe>
-        </div>
-
-        <div class="max-w-7xl mx-auto p-6 md:p-12">
-            <div class="flex flex-col md:flex-row md:items-center gap-8 py-6 border-b border-white/5 mb-8">
-                <div class="flex items-center gap-3">
-                    <i class="fas fa-list-ul text-yellow-500"></i>
-                    <select id="sel-season" onchange="updateEpisodeGrid()" class="bg-transparent text-xl font-bold outline-none cursor-pointer"></select>
-                </div>
-                <div class="flex gap-2" id="format-container">
-                    </div>
+    <div id="player-overlay" class="fixed inset-0 bg-[#0f1115] translate-y-full overflow-y-auto">
+        <div class="sticky top-0 bg-[#0f1115]/95 backdrop-blur-md p-4 flex justify-between items-center z-[101] border-b border-white/5">
+            <div class="flex items-center gap-3">
+                <i class="fas fa-bars text-yellow-500"></i>
+                <span id="top-title" class="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Đang phát</span>
             </div>
-            <div id="grid-eps" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4"></div>
+            <button onclick="closePlayer()" class="w-10 h-10 flex items-center justify-center text-2xl hover:text-red-500"><i class="fas fa-times"></i></button>
+        </div>
+
+        <div class="w-full aspect-video bg-black shadow-2xl">
+            <iframe id="main-video" class="w-full h-full" src="" frameborder="0" allowfullscreen></iframe>
+        </div>
+
+        <div class="max-w-7xl mx-auto p-6 md:p-10">
+            <div class="flex flex-wrap items-center gap-8 py-4 border-b border-white/5 mb-8">
+                <div class="flex items-center gap-2 border-r border-white/10 pr-6">
+                    <select id="season-drop" onchange="renderEpisodes()" class="ro-select"></select>
+                    <i class="fas fa-chevron-down text-xs opacity-50"></i>
+                </div>
+                <div class="flex gap-2" id="format-list"></div>
+            </div>
+
+            <div id="ep-grid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4"></div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
-        // --- LOGIC XỬ LÝ (TRÌNH ĐIỀU KHIỂN) ---
-        let currentMovie = null;
+        // --- NGUỒN PHIM TÁCH BIỆT ---
+        const movieData = [
+            {
+                id: 1,
+                title: "Đường Cung Kỳ Án",
+                subTitle: "The Mystery of Tang Court",
+                img: "https://image.tmdb.org/t/p/original/a2Qi3CQL1KRuL4IYaCbxwqaCKVQ.jpg",
+                desc: "Kỳ án nơi cung cấm đầy bí ẩn tiết Nguyên Tiêu...",
+                year: "2026", imdb: "8.0",
+                episodes: [
+                    { season: "Phần 1", format: "Lồng Tiếng", name: "Tập 1", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260205/BHpU80io/index.m3u8" },
+                    { season: "Phần 1", format: "Lồng Tiếng", name: "Tập 2", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260206/7uu3qRiI/index.m3u8" },
+                    { season: "Phần 1", format: "Thuyết Minh", name: "Tập 3", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260205/bd3s3dd1/index.m3u8" },
+                    { season: "Phần 1", format: "Thuyết Minh", name: "Tập 4", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260205/shTS8xWn/index.m3u8" },
+                    { season: "Phần 1", format: "Thuyết Minh", name: "Tập 5", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260206/K3KwyMw2/index.m3u8" }
+                ]
+            },
+            {
+                id: 2,
+                title: "Stranger Things",
+                subTitle: "Cậu Bé Mất Tích (Full 5 Phần)",
+                img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20251127-1/4e76c982472d25b28d2b8b0a177f79d7.jpg",
+                desc: "Siêu phẩm kinh dị viễn tưởng từ Netflix...",
+                year: "2016-2026", imdb: "8.7",
+                episodes: [
+                    { season: "Phần 1", format: "Phụ Đề", name: "Tập 1", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/eMrQhses/index.m3u8" },
+                    { season: "Phần 2", format: "Phụ Đề", name: "Tập 1", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/VpgRLCmQ/index.m3u8" },
+                    { season: "Phần 3", format: "Phụ Đề", name: "Tập 1", url: "https://player.phimapi.com/player/?url=https://s4.phim1280.tv/20241219/o5qK1ZiY/index.m3u8" },
+                    { season: "Phần 4", format: "Phụ Đề", name: "Tập 1", url: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240531/ZwgGee0b/index.m3u8" },
+                    { season: "Phần 5", format: "Phụ Đề", name: "Tập 1", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/VdVcTjll/index.m3u8" }
+                ]
+            },
+            {
+                id: 3,
+                title: "Tiểu Yêu Quái Núi Lãng Lãng",
+                subTitle: "Nobody - Yao-Chinese Folktales",
+                img: "https://i.ytimg.com/vi/aRAraAnh3Ns/maxresdefault.jpg",
+                desc: "Một câu chuyện đầy ý nghĩa về kiếp làm thuê của yêu quái nhỏ...",
+                year: "2023", imdb: "8.8",
+                episodes: [{ season: "Phần 1", format: "Phụ Đề", name: "Full Movie", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251204/wM0RTCwd/index.m3u8" }]
+            }
+        ];
 
-        function initApp() {
-            const container = document.getElementById('banner-render');
-            movies.forEach(m => {
-                container.innerHTML += `
-                    <div class="swiper-slide relative">
-                        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('${m.img}')"></div>
-                        <div class="absolute inset-0 banner-gradient"></div>
-                        <div class="relative z-10 flex flex-col justify-center h-full px-8 md:px-20 max-w-4xl">
-                            <h2 class="text-5xl font-black mb-4">${m.title}</h2>
-                            <p class="text-yellow-500 font-bold text-sm mb-6 uppercase tracking-widest">${m.subTitle}</p>
-                            <div class="flex gap-3 mb-6">
-                                <span class="info-tag imdb-tag">IMDb ${m.imdb}</span>
-                                <span class="info-tag">${m.year}</span>
-                                <span class="info-tag">Tập ${m.totalEps}</span>
-                            </div>
-                            <p class="text-gray-400 text-sm leading-relaxed mb-10 line-clamp-3">${m.desc}</p>
-                            <button onclick="openPlayer(${m.id})" class="w-16 h-16 bg-yellow-500 text-black rounded-full flex items-center justify-center text-2xl shadow-2xl shadow-yellow-500/40 hover:scale-110 transition">
-                                <i class="fas fa-play ml-1"></i>
-                            </button>
+        // --- GIAO DIỆN & LOGIC ---
+        let currentMovie = null;
+        let activeFormat = "";
+
+        // Tạo Banner
+        const bannerList = document.getElementById('banner-list');
+        movieData.forEach(m => {
+            bannerList.innerHTML += `
+                <div class="swiper-slide relative overflow-hidden">
+                    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('${m.img}')"></div>
+                    <div class="absolute inset-0 banner-gradient"></div>
+                    <div class="relative z-10 flex flex-col justify-center h-full px-8 md:px-20 max-w-4xl">
+                        <h2 class="text-4xl md:text-6xl font-black mb-2">${m.title}</h2>
+                        <p class="text-yellow-500 font-bold mb-4 italic uppercase text-sm">${m.subTitle}</p>
+                        <div class="flex gap-2 mb-6">
+                            <span class="info-tag imdb-tag">IMDb ${m.imdb}</span>
+                            <span class="info-tag">${m.year}</span>
                         </div>
-                    </div>`;
-            });
-            new Swiper(".mySwiper", { loop: true, autoplay: { delay: 4000 } });
-        }
+                        <button onclick="openPlayer(${m.id})" class="w-16 h-16 bg-yellow-500 text-black rounded-full flex items-center justify-center text-2xl shadow-xl shadow-yellow-500/20 hover:scale-110 transition">
+                            <i class="fas fa-play ml-1"></i>
+                        </button>
+                    </div>
+                </div>`;
+        });
+
+        new Swiper(".mySwiper", { loop: true, autoplay: { delay: 4000 } });
 
         function openPlayer(id) {
-            currentMovie = movies.find(m => m.id === id);
-            const sel = document.getElementById('sel-season');
+            currentMovie = movieData.find(m => m.id === id);
+            
+            // Render Seasons
             const seasons = [...new Set(currentMovie.episodes.map(e => e.season))];
-            sel.innerHTML = seasons.map(s => `<option class="bg-[#1e2129]" value="${s}">${s}</option>`).join('');
+            const drop = document.getElementById('season-drop');
+            drop.innerHTML = seasons.map(s => `<option value="${s}" class="bg-[#1e2129]">${s}</option>`).join('');
             
             updateFormats();
             document.getElementById('player-overlay').classList.remove('translate-y-full');
@@ -109,37 +151,41 @@
         }
 
         function updateFormats() {
-            const container = document.getElementById('format-container');
-            const formats = [...new Set(currentMovie.episodes.map(e => e.format))];
-            container.innerHTML = formats.map((f, i) => `
-                <div class="format-tab ${i===0?'active':''}" onclick="setActiveFormat(this, '${f}')">
+            const season = document.getElementById('season-drop').value;
+            const formats = [...new Set(currentMovie.episodes.filter(e => e.season === season).map(e => e.format))];
+            activeFormat = formats[0];
+            
+            const list = document.getElementById('format-list');
+            list.innerHTML = formats.map(f => `
+                <div class="ro-tab ${f === activeFormat ? 'active' : ''}" onclick="setFormat(this, '${f}')">
                     <i class="${f.includes('Thuyết')?'fas fa-microphone':'far fa-closed-captioning'}"></i> ${f}
                 </div>`).join('');
-            updateEpisodeGrid();
+            
+            renderEpisodes();
         }
 
-        function setActiveFormat(el, formatName) {
-            document.querySelectorAll('.format-tab').forEach(t => t.classList.remove('active'));
+        function setFormat(el, f) {
+            activeFormat = f;
+            document.querySelectorAll('.ro-tab').forEach(t => t.classList.remove('active'));
             el.classList.add('active');
-            updateEpisodeGrid(formatName);
+            renderEpisodes();
         }
 
-        function updateEpisodeGrid(filterFormat = null) {
-            const season = document.getElementById('sel-season').value;
-            const format = filterFormat || document.querySelector('.format-tab.active').innerText.trim();
-            const grid = document.getElementById('grid-eps');
+        function renderEpisodes() {
+            const season = document.getElementById('season-drop').value;
+            const grid = document.getElementById('ep-grid');
             grid.innerHTML = '';
-
-            const filtered = currentMovie.episodes.filter(e => e.season === season && e.format === format);
+            
+            const filtered = currentMovie.episodes.filter(e => e.season === season && e.format === activeFormat);
             filtered.forEach((ep, i) => {
                 const btn = document.createElement('button');
-                btn.className = 'episode-btn py-4 text-xs font-bold';
-                btn.innerHTML = `<i class="fas fa-play text-[8px] opacity-30"></i> ${ep.name}`;
+                btn.className = 'ep-btn py-4 text-xs font-bold';
+                btn.innerHTML = `<i class="fas fa-play text-[8px] opacity-40"></i> ${ep.name}`;
                 btn.onclick = () => {
-                    document.getElementById('main-iframe').src = ep.url;
-                    document.querySelectorAll('.episode-btn').forEach(b => b.classList.remove('active'));
+                    document.getElementById('main-video').src = ep.url;
+                    document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
-                    document.getElementById('player-title').innerText = `${currentMovie.title} - ${ep.name} (${format})`;
+                    document.getElementById('top-title').innerText = `${currentMovie.title} - ${ep.name} (${activeFormat})`;
                 };
                 grid.appendChild(btn);
                 if(i === 0) btn.click();
@@ -148,11 +194,9 @@
 
         function closePlayer() {
             document.getElementById('player-overlay').classList.add('translate-y-full');
-            document.getElementById('main-iframe').src = '';
+            document.getElementById('main-video').src = '';
             document.body.style.overflow = 'auto';
         }
-
-        initApp();
     </script>
 </body>
 </html>
