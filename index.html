@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xô Phim - Tự Thêm Phim</title>
+    <title>Xô Phim - Bản Tổng Hợp</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
@@ -12,9 +12,10 @@
         .swiper-pagination-bullet { background: rgba(255,255,255,0.3); opacity: 1; width: 25px; height: 3px; border-radius: 2px; }
         .swiper-pagination-bullet-active { background: #eab308; width: 35px; }
         #player-overlay { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-        .episode-btn.active { background-color: #eab308; color: black; font-weight: bold; }
+        .episode-btn.active { background-color: #eab308; color: black; font-weight: bold; border-color: #eab308; }
         .banner-img { transition: transform 1.2s ease-out; }
         .swiper-slide-active .banner-img { transform: scale(1.08); }
+        @media (max-width: 768px) { .banner-gradient { background: linear-gradient(to top, rgba(18,18,18,1) 25%, rgba(18,18,18,0) 100%); } }
     </style>
 </head>
 <body class="bg-[#121212] text-white font-sans overflow-x-hidden">
@@ -33,7 +34,7 @@
 
     <div id="player-overlay" class="fixed inset-0 bg-[#0a0a0a] z-[100] translate-y-full overflow-y-auto">
         <div class="sticky top-0 bg-[#0a0a0a]/95 backdrop-blur-md p-4 flex justify-between items-center z-10 border-b border-white/5">
-            <h2 id="playing-title" class="font-bold truncate max-w-[70%] text-yellow-500 text-sm">Đang tải...</h2>
+            <h2 id="playing-title" class="font-bold truncate max-w-[70%] text-yellow-500 text-sm">Xô Phim</h2>
             <button onclick="closePlayer()" class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center"><i class="fas fa-times"></i></button>
         </div>
         <div class="w-full aspect-video bg-black"><iframe id="video-iframe" class="w-full h-full" src="" frameborder="0" allowfullscreen></iframe></div>
@@ -46,52 +47,82 @@
                 <div class="flex-1 text-center md:text-left">
                     <h3 id="overlay-name" class="text-2xl md:text-4xl font-bold mb-1">--</h3>
                     <p id="overlay-subname" class="text-gray-500 text-sm mb-5 italic">--</p>
-                    <div id="episode-list" class="grid grid-cols-3 sm:grid-cols-6 md:grid-cols-10 gap-3 mt-8"></div>
+                    <div class="flex flex-wrap justify-center md:justify-start gap-2 mb-6">
+                        <span id="overlay-year" class="bg-white/10 text-[10px] px-2 py-0.5 rounded border border-white/5">--</span>
+                        <span id="overlay-type" class="bg-white/10 text-[10px] px-2 py-0.5 rounded border border-white/5">--</span>
+                    </div>
+                    <p id="overlay-desc" class="text-gray-400 text-sm leading-relaxed max-w-3xl">--</p>
                 </div>
             </div>
+            <h4 class="font-bold mb-5 flex items-center gap-2 border-l-4 border-yellow-500 pl-3 uppercase">Chọn Tập Phim</h4>
+            <div id="episode-list" class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-10 gap-3 mb-24"></div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
-        /* ============================================================
-           PHẦN 1: NƠI BẠN TỰ THÊM PHIM (DÁN VÀO ĐÂY)
-           ============================================================ */
+        // Data 89 tập cho phim đầu tiên
+        const vSrc1 = ["pFTQlucz", "cQ8tFrQk", "k8Sxo7sx", "7DPRlQzQ", "44KpD8kf", "uOeK0Ujx", "mRWoeJVC", "64poyIqb", "icCNBonE", "e29l3KPG", "YoRPHeuK", "VDkPu5Wo", "vgxx7oQm", "8efPH64M", "EdssnX1K", "22DOenUT", "K2dImsnX", "X9yzcMW3", "Wpb0Ek2g", "ezDSIuDo", "JUd1SmmR", "GAelqsxJ", "XdJaMJCw", "PjAffVy3", "a1kDbj4o", "sPjCpV9X", "bps1Pwws", "qvqP3bc3", "noPVvkIk", "CAVwg7Dq", "magnlHzY", "efleVJL0", "kmhZZ1h0", "lCbgWbJo", "pYqrcrWl", "xU522isQ", "nCBkgpsh", "5lkp4zaB", "JjlvOso2", "0qnGdoCY", "BiZiFI4i", "7qZ2yhPP", "YbJpri4W", "YH5O6Gjm", "76JZCY9c", "v3jgCByk", "V62t49Ba", "4eO4gHxT", "jnO8W3C9", "0rhqQ78m", "rqiLeo6S", "kOcLr168", "dDol4LDr", "fSv2ynqP", "CstYGxiv", "5V9EDj50", "Jbd7KuAr", "zBT69vsi", "tdlootbb", "14Q0Ozew", "DsUFqFsl", "gkdfakrK", "PdG3fITq", "vnENY1R0", "0iwZ96SE", "2l81MkW0", "t4r6CrOy", "yhp76sdX", "VCaQxHnT", "8vq1s9AT", "uvFFzk3H", "LY8oKa9l", "FmAMqeJb", "0dDlWcsd", "W9vM67Gg", "JxtvnfMN", "g52ut4ow", "2cQ02X3Y", "uo98wBIC", "JvBtYXZ9", "bjCUfBPx", "q5Epnwmw", "d242MJvr", "OEsmazdF", "nbLqdFkr", "6pcM06ru", "jN4U6WW7", "AsErXJ4V", "8WPaTfwB"];
+
         const movies = [
             {
                 id: 1,
-                title: "Tiểu Yêu Quái Núi Lãng Lãng",
-                subTitle: "Nobody - Yao-Chinese Folktales",
-                year: "2024",
-                info: "Phim Ngắn",
-                desc: "Câu chuyện cảm động về một chú heo con tiểu yêu quái...",
-                img: "https://i.ytimg.com/vi/aRAraAnh3Ns/maxresdefault.jpg",
+                title: "Cậu Bé Mất Tích (Phần 1)",
+                subTitle: "Stranger Things (Season 1)",
+                year: "2016",
+                info: "Kinh Dị - Viễn Tưởng",
+                desc: "Thị trấn Hawkins xôn xao vì sự mất tích của Will Byers. Một cô bé kỳ lạ xuất hiện cùng những năng lực siêu nhiên, mở màn cho cuộc chiến với thế giới Upside Down.",
+                img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20251127-1/4e76c982472d25b28d2b8b0a177f79d7.jpg",
                 episodes: [
-                    { name: "Full", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251204/wM0RTCwd/index.m3u8" }
+                    { name: "Tập 01", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/eMrQhses/index.m3u8" },
+                    { name: "Tập 02", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/yAIeQK28/index.m3u8" },
+                    { name: "Tập 03", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/bMLS6ssd/index.m3u8" },
+                    { name: "Tập 04", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/9GOe0ERm/index.m3u8" },
+                    { name: "Tập 05", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/dt44QZBb/index.m3u8" },
+                    { name: "Tập 06", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/rJDxkKag/index.m3u8" },
+                    { name: "Tập 07", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/GHYwItQu/index.m3u8" },
+                    { name: "Tập 08", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/T9dfPeqG/index.m3u8" }
                 ]
             },
             {
                 id: 2,
+                title: "Tiểu Yêu Quái Núi Lãng Lãng",
+                subTitle: "Nobody - Yao-Chinese Folktales",
+                year: "2024",
+                info: "Hoạt Hình - Cảm Động",
+                desc: "Góc nhìn độc đáo về cuộc đời của một tiểu yêu quái dưới trướng quỷ vương, một câu chuyện đầy tính nhân văn về kiếp người làm thuê.",
+                img: "https://i.ytimg.com/vi/aRAraAnh3Ns/maxresdefault.jpg",
+                episodes: [{ name: "Full", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251204/wM0RTCwd/index.m3u8" }]
+            },
+            {
+                id: 3,
+                title: "Còn Ra Thể Thống Gì Nữa",
+                subTitle: "Never Give Up",
+                year: "2024",
+                info: "Lồng Tiếng - Hài Hước",
+                desc: "89 tập phim hài hước về màn hoán đổi linh hồn giữa tiểu thư và hoàng tử, hứa hẹn những tràng cười sảng khoái.",
+                img: "https://pic5.iqiyipic.com/image/20260206/c4/9d/a_100615299_m_601_vi_m2_720_405.jpg",
+                episodes: vSrc1.map((id, i) => ({ name: `Tập ${i + 1}`, url: `https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20250827/${id}/index.m3u8` }))
+            },
+            {
+                id: 4,
                 title: "Đường Cung Kỳ Án",
                 subTitle: "The Mystery of Tang Court",
                 year: "2025",
-                info: "Phần 1",
-                desc: "Vụ án mạng kỳ bí tại kinh thành vào đêm Nguyên Tiêu...",
+                info: "Cổ Trang - Phá Án",
+                desc: "Hành trình phá giải những kỳ án chốn cung đình Đường triều đầy bí ẩn và lôi cuốn.",
                 img: "https://image.tmdb.org/t/p/w780/a2Qi3CQL1KRuL4IYaCbxwqaCKVQ.jpg",
                 episodes: [
-                    { name: "Tập 01", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260205/BHpU80io/index.m3u8" },
-                    { name: "Tập 02", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260206/7uu3qRiI/index.m3u8" },
-                    { name: "Tập 03", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260205/bd3s3dd1/index.m3u8" },
-                    { name: "Tập 04", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260205/shTS8xWn/index.m3u8" },
-                    { name: "Tập 05", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260206/K3KwyMw2/index.m3u8" }
+                    { name: "Tập 01 - LT", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260205/BHpU80io/index.m3u8" },
+                    { name: "Tập 02 - LT", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260206/7uu3qRiI/index.m3u8" },
+                    { name: "Tập 03 - TM", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260205/bd3s3dd1/index.m3u8" },
+                    { name: "Tập 04 - TM", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260205/shTS8xWn/index.m3u8" },
+                    { name: "Tập 05 - TM", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260206/K3KwyMw2/index.m3u8" }
                 ]
             }
-            // <-- Dán phim mới của bạn vào đây (nhớ có dấu phẩy ở phim trước đó)
         ];
 
-        /* ============================================================
-           PHẦN 2: HỆ THỐNG XỬ LÝ (KHÔNG CẦN CHỈNH)
-           ============================================================ */
+        // Khởi tạo giao diện
         const wrapper = document.getElementById('main-banner-wrapper');
         movies.forEach(movie => {
             wrapper.innerHTML += `
@@ -100,7 +131,7 @@
                     <div class="absolute inset-0 banner-gradient"></div>
                     <div class="relative z-10 flex flex-col justify-end md:justify-center h-full px-6 md:px-16 pb-24 md:pb-0 text-center md:text-left">
                         <h1 class="text-3xl md:text-5xl font-bold mb-3">${movie.title}</h1>
-                        <p class="hidden md:block text-gray-300 text-sm max-w-xl mb-8">${movie.desc}</p>
+                        <p class="hidden md:block text-gray-300 text-sm max-w-xl mb-8 line-clamp-2">${movie.desc}</p>
                         <button onclick="openPlayer(${movie.id})" class="mx-auto md:mx-0 w-max bg-yellow-500 text-black px-12 py-3.5 rounded-full font-black text-sm flex items-center gap-2 active:scale-90 transition-all">
                             <i class="fas fa-play"></i> XEM NGAY
                         </button>
@@ -120,22 +151,27 @@
             document.getElementById('overlay-name').innerText = movie.title;
             document.getElementById('overlay-subname').innerText = movie.subTitle;
             document.getElementById('overlay-poster').src = movie.img;
-            document.getElementById('overlay-status').innerText = movie.episodes.length > 1 ? `Đã chiếu: ${movie.episodes.length} tập` : `Full HD`;
+            document.getElementById('overlay-year').innerText = movie.year;
+            document.getElementById('overlay-type').innerText = movie.info;
+            document.getElementById('overlay-desc').innerText = movie.desc;
+            document.getElementById('overlay-status').innerText = movie.episodes.length > 1 ? `Đã chiếu: ${movie.episodes.length} tập` : `Bản Full HD`;
+            
             const epContainer = document.getElementById('episode-list');
             epContainer.innerHTML = '';
             movie.episodes.forEach((ep, index) => {
                 const btn = document.createElement('button');
                 btn.className = `episode-btn border border-white/10 bg-white/5 py-3 rounded-xl text-[11px] font-medium`;
-                btn.innerText = ep.name;
+                btn.innerText = (movie.id === 2) ? ep.name : (index + 1);
                 btn.onclick = () => {
                     document.getElementById('video-iframe').src = ep.url;
-                    document.getElementById('playing-title').innerText = `Phát: ${movie.title} - ${ep.name}`;
+                    document.getElementById('playing-title').innerText = `Đang phát: ${movie.title} - ${ep.name}`;
                     document.querySelectorAll('.episode-btn').forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
                 };
                 epContainer.appendChild(btn);
                 if(index === 0) btn.click();
             });
+
             document.getElementById('player-overlay').style.transform = 'translateY(0)';
             document.body.style.overflow = 'hidden';
             swiper.autoplay.stop();
