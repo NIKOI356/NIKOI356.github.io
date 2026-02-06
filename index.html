@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ao Phim Của Đức - Full Seasons</title>
+    <title>Ao Phim Của Đức - Full Data Stranger Things</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root { --primary: #ff9d00; --bg: #060606; --text: #e5e5e5; }
@@ -36,24 +36,29 @@
         .slide-content h1 { font-size: 3.5rem; margin: 0; color: #fff; text-shadow: 2px 2px 10px #000; }
         .btn-play { 
             background: #fff; color: #000; padding: 15px 40px; border-radius: 50px; 
-            font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; margin-top: 20px;
+            font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; margin-top: 20px; transition: 0.3s;
         }
+        .btn-play:hover { background: var(--primary); transform: scale(1.05); }
 
         /* Episode Container */
-        .episode-container { display: none; margin-top: 25px; animation: fadeInUp 0.5s ease; background: rgba(0,0,0,0.6); padding: 20px; border-radius: 10px; border: 1px solid #333; }
+        .episode-container { 
+            display: none; margin-top: 25px; animation: fadeInUp 0.5s ease; 
+            background: rgba(0,0,0,0.7); padding: 25px; border-radius: 12px; border: 1px solid #444; 
+        }
         .slide.watching .episode-container { display: block; }
 
-        .season-tabs { display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
-        .tab-btn { background: #222; border: 1px solid #444; color: #fff; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; white-space: nowrap; }
+        .season-tabs { display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 8px; }
+        .tab-btn { background: #222; border: 1px solid #444; color: #fff; padding: 10px 18px; border-radius: 4px; cursor: pointer; font-weight: bold; white-space: nowrap; transition: 0.3s; }
         .tab-btn.active { background: var(--primary); color: #000; border-color: var(--primary); }
 
-        .ep-grid { display: none; grid-template-columns: repeat(auto-fill, minmax(85px, 1fr)); gap: 10px; max-height: 180px; overflow-y: auto; padding-right: 5px; }
+        .ep-grid { display: none; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 10px; max-height: 220px; overflow-y: auto; padding-right: 8px; }
         .ep-grid.active { display: grid; }
-        .ep-link { background: rgba(255,255,255,0.1); color: #fff; text-align: center; padding: 10px; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 13px; }
-        .ep-link:hover { background: var(--primary); color: #000; }
+        .ep-link { background: rgba(255,255,255,0.1); color: #fff; text-align: center; padding: 12px; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 13px; transition: 0.2s; border: 1px solid #333; }
+        .ep-link:hover { background: var(--primary); color: #000; border-color: var(--primary); }
 
+        /* Thumbnails điều hướng */
         .thumbnails { position: absolute; bottom: 40px; right: 4%; z-index: 100; display: flex; gap: 10px; }
-        .thumb { width: 80px; height: 45px; border-radius: 4px; overflow: hidden; border: 2px solid transparent; cursor: pointer; opacity: 0.6; }
+        .thumb { width: 85px; height: 48px; border-radius: 5px; overflow: hidden; border: 2px solid transparent; cursor: pointer; opacity: 0.6; transition: 0.3s; }
         .thumb.active { border-color: var(--primary); opacity: 1; transform: scale(1.1); }
         .thumb img { width: 100%; height: 100%; object-fit: cover; }
 
@@ -64,14 +69,14 @@
 
 <header>
     <div class="logo"><img src="logo1.png" alt="Logo"></div>
-    <div style="color: var(--primary); font-weight: bold;">CHƠI GAME XONG RỒI XEM NHÉ</div>
+    <div style="color: var(--primary); font-weight: bold; text-transform: uppercase; font-size: 13px;">CHƠI GAME XONG RỒI XEM NHÉ</div>
 </header>
 
 <section class="hero-slider">
     <div class="slide active" id="slide-0" style="background-image: url('poster-stranger 99-.jpg');">
         <div class="slide-content">
-            <h1 style="color: var(--primary);">Stranger Things</h1>
-            <p style="color:#ccc; max-width:500px">Trọn bộ 5 phần phim kinh điển. Nhấn xem ngay để chọn tập từ phần 1 đến phần 5.</p>
+            <h1 style="color: #fff; text-transform: uppercase;">Stranger Things</h1>
+            <p style="color:#bbb; max-width:550px">Hành trình từ sự mất tích bí ẩn của Will Byers đến cuộc chiến sinh tử với Vecna. Trọn bộ tất cả các phần đã sẵn sàng.</p>
             
             <div class="btn-play" onclick="clickBanner(0)"><i class="fas fa-play"></i> XEM NGAY</div>
             
@@ -95,21 +100,47 @@
 
                 <div id="s4-0" class="ep-grid">
                     <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/xlXYIN4h/index.m3u8" class="ep-link">TẬP 1</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/DmcR4Ifa/index.m3u8" class="ep-link">TẬP 2</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/s8HrgFqu/index.m3u8" class="ep-link">TẬP 3</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/CnoWNGQP/index.m3u8" class="ep-link">TẬP 4</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/2Z4dBijs/index.m3u8" class="ep-link">TẬP 5</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/74OVKIPn/index.m3u8" class="ep-link">TẬP 6</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/pHLmU9j0/index.m3u8" class="ep-link">TẬP 7</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/bN2uJOQG/index.m3u8" class="ep-link">TẬP 8</a>
                     <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/wlTpiDT6/index.m3u8" class="ep-link">TẬP 9</a>
                 </div>
 
                 <div id="s3-0" class="ep-grid">
                     <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/0VT1ek7V/index.m3u8" class="ep-link">TẬP 1</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/4ALbRK0U/index.m3u8" class="ep-link">TẬP 2</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/hCnt5Db7/index.m3u8" class="ep-link">TẬP 3</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/R22LSZ4q/index.m3u8" class="ep-link">TẬP 4</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/iB3IqIsM/index.m3u8" class="ep-link">TẬP 5</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/K3fOBZ4T/index.m3u8" class="ep-link">TẬP 6</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/q5z1E9jN/index.m3u8" class="ep-link">TẬP 7</a>
                     <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/ZwVz0i1P/index.m3u8" class="ep-link">TẬP 8</a>
                 </div>
 
                 <div id="s2-0" class="ep-grid">
                     <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/VpgRLCmQ/index.m3u8" class="ep-link">TẬP 1</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/i4PjdUKJ/index.m3u8" class="ep-link">TẬP 2</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/im9N0WA8/index.m3u8" class="ep-link">TẬP 3</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/97X0NbJ9/index.m3u8" class="ep-link">TẬP 4</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/hD5hYx5P/index.m3u8" class="ep-link">TẬP 5</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/MUqTKn3z/index.m3u8" class="ep-link">TẬP 6</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/devEf5D4/index.m3u8" class="ep-link">TẬP 7</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/PyYxRkFF/index.m3u8" class="ep-link">TẬP 8</a>
                     <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/QfegEzof/index.m3u8" class="ep-link">TẬP 9</a>
                 </div>
 
                 <div id="s1-0" class="ep-grid">
                     <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/eMrQhses/index.m3u8" class="ep-link">TẬP 1</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/yAIeQK28/index.m3u8" class="ep-link">TẬP 2</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/bMLS6ssd/index.m3u8" class="ep-link">TẬP 3</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/9GOe0ERm/index.m3u8" class="ep-link">TẬP 4</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/dt44QZBb/index.m3u8" class="ep-link">TẬP 5</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/rJDxkKag/index.m3u8" class="ep-link">TẬP 6</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/GHYwItQu/index.m3u8" class="ep-link">TẬP 7</a>
                     <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/T9dfPeqG/index.m3u8" class="ep-link">TẬP 8</a>
                 </div>
             </div>
@@ -117,10 +148,10 @@
     </div>
 
     <div class="slide" id="slide-1" style="background-image: url('https://image.tmdb.org/t/p/original/69Yp9vU7Yp9v.jpg');">
-        <div class="slide-content"><h1>Phim Khác 1</h1><div class="btn-play" onclick="clickBanner(1)">XEM NGAY</div></div>
+        <div class="slide-content"><h1>Phim Hành Động 02</h1><div class="btn-play" onclick="clickBanner(1)">XEM NGAY</div></div>
     </div>
     <div class="slide" id="slide-2" style="background-image: url('https://image.tmdb.org/t/p/original/wnd99v.jpg');">
-        <div class="slide-content"><h1>Phim Khác 2</h1><div class="btn-play" onclick="clickBanner(2)">XEM NGAY</div></div>
+        <div class="slide-content"><h1>Phim Kinh Dị 03</h1><div class="btn-play" onclick="clickBanner(2)">XEM NGAY</div></div>
     </div>
 
     <div class="thumbnails">
@@ -135,7 +166,7 @@
     let autoSlideActive = true;
     const slides = document.querySelectorAll('.slide');
     const thumbs = document.querySelectorAll('.thumb');
-    let timer = setInterval(nextSlide, 3000);
+    let slideTimer = setInterval(nextSlide, 3000);
 
     function nextSlide() {
         if (!autoSlideActive) return;
@@ -151,20 +182,19 @@
     }
 
     function clickBanner(n) {
-        autoSlideActive = false; // DỪNG SLIDE
-        clearInterval(timer);
+        autoSlideActive = false; // Dừng hẳn slide khi click xem ngay
+        clearInterval(slideTimer);
         slides[n].classList.add('watching');
     }
 
     function goToSlide(n) {
-        autoSlideActive = true; // Chạy lại khi bấm thumb khác
+        autoSlideActive = true; // Tiếp tục slide khi chọn phim khác qua thumb
         changeSlide(n);
-        clearInterval(timer);
-        timer = setInterval(nextSlide, 3000);
+        startTimer();
     }
 
     function switchSeason(evt, seasonPrefix, slideId) {
-        evt.stopPropagation();
+        evt.stopPropagation(); 
         const parent = document.getElementById('slide-' + slideId);
         const grids = parent.querySelectorAll('.ep-grid');
         const btns = parent.querySelectorAll('.tab-btn');
@@ -172,6 +202,11 @@
         btns.forEach(b => b.classList.remove('active'));
         document.getElementById(seasonPrefix + '-' + slideId).classList.add('active');
         evt.currentTarget.classList.add('active');
+    }
+
+    function startTimer() {
+        clearInterval(slideTimer);
+        slideTimer = setInterval(nextSlide, 3000);
     }
 </script>
 </body>
