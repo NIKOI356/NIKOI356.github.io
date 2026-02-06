@@ -3,245 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RoPhim - Phim Hay Cả Rổ</title>
+    <title>Xô Phim - Phim hay cả rổ</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
-        body { background-color: #0f1115; color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; }
-        .banner-gradient { background: linear-gradient(to top, #0f1115 5%, rgba(15,17,21,0.4) 50%, rgba(15,17,21,0.1) 100%); }
-        
-        /* Logo & Header */
-        .logo-text { font-size: 24px; font-weight: 900; tracking: -1px; }
-        .logo-sub { font-size: 10px; color: #9ca3af; margin-top: -5px; }
-
-        /* Nút Xem Ngay chuẩn yêu cầu */
-        .btn-watch { background: #ff6600; color: white; padding: 12px 35px; border-radius: 12px; font-weight: bold; transition: 0.3s; display: flex; align-items: center; gap: 10px; }
-        .btn-watch:hover { background: #e65c00; transform: scale(1.05); }
-
-        /* Overlay & Tags */
-        #player-overlay { transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); z-index: 1000; }
-        .ro-tag { background: #1a1d23; border: 1px solid #333; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; color: #ccc; }
-        .ro-tag-yellow { border-color: #facc15; color: #facc15; }
-        .ep-btn { background: #1e2129; border-radius: 6px; transition: 0.3s; border: 1px solid transparent; }
-        .ep-btn.active { background: #ff6600 !important; color: white !important; font-weight: bold; }
-
-        .close-btn { position: fixed; top: 20px; right: 20px; width: 45px; height: 45px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; items-center; justify-content: center; cursor: pointer; z-index: 1100; backdrop-filter: blur(10px); transition: 0.3s; }
-        .close-btn:hover { background: #ff6600; transform: rotate(90deg); }
+        body { background-color: #1a1a20; color: white; font-family: sans-serif; overflow-x: hidden; }
+        .banner-gradient { background: linear-gradient(to top, #1a1a20 5%, rgba(26,26,32,0.6) 40%, rgba(26,26,32,0.2) 100%); }
+        .overlay-bg { background: rgba(20,20,25,0.98); backdrop-filter: blur(15px); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .thumb-circle { width: 45px; height: 45px; border-radius: 50%; border: 2px solid transparent; opacity: 0.5; overflow: hidden; transition: 0.4s; cursor: pointer; flex-shrink: 0; }
+        .thumb-active { border-color: #fff; opacity: 1; transform: scale(1.2) translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .tag { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 2px 10px; border-radius: 4px; font-size: 11px; }
+        .animate-fade { animation: fade 0.8s ease-in-out; }
+        @keyframes fade { from { opacity: 0.4; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <header class="fixed w-full z-50 flex items-center justify-between px-8 py-5 bg-gradient-to-b from-black/90 to-transparent">
-        <div class="flex items-center gap-12">
-            <div class="flex flex-col">
-                <span class="logo-text text-white">XÔ<span class="text-[#ff6600]">PHIM</span></span>
-                <span class="logo-sub">Phim hay cả rổ</span>
-            </div>
-            <nav class="hidden lg:flex gap-6 text-[13px] font-bold text-gray-400 uppercase tracking-widest">
-                <a href="#" class="hover:text-white">Chủ đề</a>
-                <a href="#" class="hover:text-white">Thể loại</a>
-                <a href="#" class="text-white border-b-2 border-[#ff6600] pb-1">Phim Bộ</a>
-                <a href="#" class="hover:text-white">Phim Lẻ</a>
-            </nav>
+    <header class="fixed w-full z-50 flex items-center justify-between px-6 py-4 bg-transparent">
+        <div class="flex items-center gap-2">
+            <div class="bg-yellow-500 rounded-full p-1.5 shadow-lg shadow-yellow-500/20"><i class="fas fa-play text-black text-[10px]"></i></div>
+            <span class="text-xl font-black tracking-tight">Xô Phim</span>
         </div>
-        <div class="flex items-center gap-4 bg-white/5 border border-white/10 px-4 py-2 rounded-full backdrop-blur-md">
-            <i class="fas fa-search text-gray-500"></i>
-            <input type="text" placeholder="Tìm kiếm phim, diễn viên..." class="bg-transparent outline-none text-xs w-64 text-white">
+        <div class="flex items-center gap-6">
+            <div class="hidden md:flex gap-6 text-sm font-medium opacity-80">
+                <a href="#">Phim Lẻ</a><a href="#">Phim Bộ</a><a href="#">Quốc gia</a>
+            </div>
+            <i class="fas fa-search text-lg cursor-pointer"></i>
         </div>
     </header>
 
-    <div class="swiper mySwiper h-screen">
-        <div class="swiper-wrapper" id="banner-render"></div>
-    </div>
+    <section class="relative h-[90vh] w-full overflow-hidden" id="hero-section">
+        <div id="banner-bg" class="absolute inset-0 bg-cover bg-center transition-all duration-1000 scale-100" style="background-image: url('');"></div>
+        <div class="absolute inset-0 banner-gradient"></div>
 
-    <div id="player-overlay" class="fixed inset-0 bg-[#0f1115] translate-y-full overflow-y-auto">
-        <div class="close-btn" onclick="closePlayer()"><i class="fas fa-times text-white text-xl"></i></div>
+        <div class="relative z-10 flex flex-col items-center justify-end h-full px-6 pb-20 text-center">
+            <div id="movie-info-content" class="animate-fade max-w-3xl">
+                <h1 id="movie-title" class="text-4xl md:text-6xl font-bold mb-2 drop-shadow-2xl">--</h1>
+                <p id="movie-sub" class="text-yellow-500 text-lg mb-4 font-medium italic opacity-90">--</p>
+                
+                <div class="flex flex-wrap justify-center gap-2 mb-6">
+                    <span class="tag bg-yellow-500 text-black font-bold border-none" id="movie-rating">IMDb --</span>
+                    <span id="movie-year" class="tag">--</span>
+                    <span id="movie-status" class="tag">--</span>
+                    <span class="tag">HD</span>
+                </div>
 
-        <div class="w-full bg-black">
-            <div class="max-w-7xl mx-auto">
-                <div class="aspect-video w-full shadow-2xl">
-                    <iframe id="main-video" class="w-full h-full" src="" frameborder="0" allowfullscreen></iframe>
+                <p id="movie-desc" class="text-gray-300 text-sm md:text-base mb-10 line-clamp-2 md:line-clamp-3 opacity-80 leading-relaxed px-4 md:px-20">--</p>
+
+                <div class="flex gap-4 justify-center mb-12">
+                    <button onclick="openOverlay()" class="bg-yellow-500 text-black px-12 py-3.5 rounded-full font-black text-sm hover:scale-105 active:scale-95 transition shadow-xl shadow-yellow-500/30">
+                        XEM NGAY
+                    </button>
+                    <button class="bg-white/10 backdrop-blur-md text-white px-6 py-3.5 rounded-full font-bold text-sm hover:bg-white/20 transition">
+                        <i class="far fa-heart mr-2"></i>Lưu
+                    </button>
                 </div>
             </div>
-            <div class="bg-[#16181d] border-b border-white/5">
-                <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between text-[11px] font-bold text-gray-400 uppercase tracking-widest">
-                    <div class="flex gap-8">
-                        <button class="hover:text-white"><i class="far fa-heart mr-2"></i>Yêu thích</button>
-                        <button class="hover:text-white"><i class="fas fa-share mr-2"></i>Chia sẻ</button>
-                    </div>
-                    <button class="text-red-500"><i class="fas fa-flag mr-2"></i>Báo lỗi</button>
-                </div>
-            </div>
+
+            <div id="thumb-container" class="flex gap-4 overflow-x-auto no-scrollbar max-w-full px-4 items-center"></div>
+        </div>
+    </section>
+
+    <div id="movie-overlay" class="fixed inset-0 z-[100] overlay-bg hidden overflow-y-auto">
         </div>
 
-        <div class="max-w-7xl mx-auto p-10 grid grid-cols-1 lg:grid-cols-3 gap-12">
-            <div class="lg:col-span-2">
-                <div class="flex gap-8 mb-10">
-                    <img id="ol-poster" src="" class="w-40 h-56 object-cover rounded-xl shadow-2xl border border-white/10">
-                    <div>
-                        <h2 id="ol-title" class="text-4xl font-black mb-2">--</h2>
-                        <p id="ol-sub" class="text-[#ff6600] text-sm font-bold mb-6 tracking-widest uppercase">--</p>
-                        <div class="flex gap-2 mb-6">
-                            <span id="ol-imdb" class="ro-tag ro-tag-yellow">IMDb --</span>
-                            <span id="ol-year" class="ro-tag">--</span>
-                        </div>
-                        <p id="ol-desc" class="text-gray-400 text-base leading-relaxed">--</p>
-                    </div>
-                </div>
-
-                <div class="bg-[#16181d] rounded-2xl p-8 border border-white/5">
-                    <div class="flex items-center gap-6 mb-8 border-b border-white/5 pb-5">
-                        <select id="sel-season" onchange="updateFmtTabs()" class="bg-transparent text-xl font-black outline-none text-white cursor-pointer"></select>
-                        <div id="tab-formats" class="flex gap-6"></div>
-                    </div>
-                    <div id="grid-eps" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-4"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
         const movies = [
             {
-                id: 1, title: "Tiểu Yêu Quái Núi Lãng Lãng", subTitle: "Nobody - Yao-Chinese Folktales",
-                year: "2023", imdb: "8.8", desc: "Câu chuyện về một chú lợn nhỏ làm việc trong hang yêu quái, phản ánh chân thực đời sống công sở qua góc nhìn hoạt hình độc đáo.",
-                img: "https://i.ytimg.com/vi/aRAraAnh3Ns/maxresdefault.jpg",
-                episodes: [{ sn: "Phần 1", fmt: "Phụ Đề", name: "Full Movie", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251204/wM0RTCwd/index.m3u8" }]
+                title: "Cậu Bé Mất Tích",
+                sub: "Stranger Things",
+                year: "2025",
+                rating: "8.7",
+                status: "Phần 5 - Tập 8",
+                desc: "Khi một cậu bé mất tích, một thị trấn nhỏ phát hiện ra một bí ẩn liên quan đến các cuộc thí nghiệm bí mật, các lực lượng siêu nhiên đáng sợ và một cô bé kỳ lạ.",
+                img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20251127-1/88dfce03b997600f0a898945fe8facb2.jpg"
             },
             {
-                id: 2, title: "Stranger Things", subTitle: "Cậu Bé Mất Tích (Season 1-5)",
-                year: "2016-2026", imdb: "8.7", desc: "Hawkins, Indiana, nơi những bí mật kinh hoàng và thế giới ngược Upside Down đe dọa cuộc sống của nhóm bạn trẻ.",
-                img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20251127-1/4e76c982472d25b28d2b8b0a177f79d7.jpg",
-                episodes: [
-                    { sn: "Phần 1", fmt: "Phụ Đề", name: "Tập 01", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/eMrQhses/index.m3u8" },
-                    { sn: "Phần 5", fmt: "Phụ Đề", name: "Tập 08", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260101/YyOnJ03e/index.m3u8" }
-                ]
+                title: "Bóng Ma Anh Quốc",
+                sub: "Peaky Blinders",
+                year: "2024",
+                rating: "8.8",
+                status: "Trọn bộ 6 phần",
+                desc: "Một băng đảng tội phạm khét tiếng ở Birmingham, Anh, vào năm 1919, được dẫn dắt bởi Tommy Shelby hung bạo, một ông trùm tội phạm có ý định vươn lên trên thế giới bằng bất cứ giá nào.",
+                img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20240730-1/6c17cbb10c2284bb6001e4a8a79ad786.jpg"
             },
             {
-                id: 3, title: "Vụ Điều Tra Lucy Letby", subTitle: "The Lucy Letby Investigation",
-                year: "2024", imdb: "7.5", desc: "Phim tài liệu điều tra về vụ án gây chấn động ngành y tế liên quan đến nữ y tế Lucy Letby.",
-                img: "https://img.vtv.vn/old/vtv-web-v2/2023/8/22/lucy-letby-16926343588961748805298.jpg",
-                episodes: [{ sn: "Phần 1", fmt: "Thuyết Minh", name: "Tập 01", url: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20231015/vjcMxcM/index.m3u8" }]
+                title: "Đường Cung Kỳ Án",
+                sub: "Unveil: Jadewind",
+                year: "2026",
+                rating: "0.0",
+                status: "Phần 1 - Tập 5",
+                desc: "Vào tiết Nguyên Tiêu, công chúa Ninh Viễn chết một cách kỳ lạ trong dạ yến. Lý Bội Nghi của Nội Yết Cục và Thái Sử Thừa Tiêu Ly Cẩn được phái đi điều tra những bí ẩn đen tối.",
+                img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20251127-1/88dfce03b997600f0a898945fe8facb2.jpg"
             },
             {
-                id: 4, title: "Ác Mộng Phố Elm", subTitle: "A Nightmare on Elm Street",
-                year: "2010", imdb: "5.2", desc: "Freddy Krueger - kẻ sát nhân trong mộng với bàn tay lưỡi dao kinh hoàng quay trở lại ám ảnh giới trẻ.",
-                img: "https://m.media-amazon.com/images/M/MV5BNzFjZmM1ODgtMDBkMS00NWFlLTg2YmUtZDUyYTgzZGNhMjY4XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
-                episodes: [{ sn: "Bản 2010", fmt: "Phụ Đề", name: "Full Movie", url: "https://player.phimapi.com/player/?url=https://s1.phim1280.tv/20240101/horror/index.m3u8" }]
-            },
-            {
-                id: 5, title: "Salvador", subTitle: "Salvador (Puig Antich)",
-                year: "2006", imdb: "7.0", desc: "Dựa trên câu chuyện có thật về những ngày cuối cùng của Salvador Puig Antich, một nhà hoạt động chính trị tại Tây Ban Nha.",
-                img: "https://m.media-amazon.com/images/M/MV5BMjA5OTg5NDk3NF5BMl5BanBnXkFtZTcwNDY5NTM0MQ@@._V1_.jpg",
-                episodes: [{ sn: "Movie", fmt: "Phụ Đề", name: "Full", url: "https://player.phimapi.com/player/?url=https://s1.phim1280.tv/20240202/salvador/index.m3u8" }]
-            },
-            {
-                id: 6, title: "Nhiệm Vụ Tuyệt Mật", subTitle: "Confidential Assignment",
-                year: "2017", imdb: "6.6", desc: "Cuộc hợp tác bất đắc dĩ giữa thám tử Bắc Triều Tiên và cảnh sát Hàn Quốc để truy đuổi tên tội phạm nguy hiểm.",
-                img: "https://m.media-amazon.com/images/M/MV5BZWUyY2UxMDItMmE0NS00ZTRiLWE2ZTMtNWQxN2UxZDIzYmU2XkEyXkFqcGc@._V1_.jpg",
-                episodes: [{ sn: "Phần 1", fmt: "Lồng Tiếng", name: "Full Movie", url: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20230505/assign/index.m3u8" }]
+                title: "Sói Già Phố Wall",
+                sub: "The Wolf of Wall Street",
+                year: "2013",
+                rating: "8.2",
+                status: "Phim Lẻ",
+                desc: "Dựa trên câu chuyện có thật của Jordan Belfort, từ bước thăng tiến của ông trở thành một nhà môi giới chứng khoán giàu có sống một cuộc đời xa hoa cho đến sự sụp đổ liên quan đến tội phạm và tham nhũng.",
+                img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20231018-1/2e6fd68d5e7002fcc9fa6b8453242a8a.jpg"
             }
         ];
 
-        function init() {
-            const b = document.getElementById('banner-render');
-            movies.forEach(m => {
-                b.innerHTML += `
-                <div class="swiper-slide relative">
-                    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('${m.img}')"></div>
-                    <div class="absolute inset-0 banner-gradient"></div>
-                    <div class="relative z-10 flex flex-col justify-center h-full px-24 max-w-5xl">
-                        <h2 class="text-7xl font-black mb-4 drop-shadow-2xl">${m.title}</h2>
-                        <div class="flex gap-3 mb-8">
-                            <span class="ro-tag ro-tag-yellow">IMDb ${m.imdb}</span>
-                            <span class="ro-tag">${m.year}</span>
-                        </div>
-                        <p class="text-gray-300 text-lg leading-relaxed mb-10 max-w-2xl line-clamp-3">${m.desc}</p>
-                        <div class="flex items-center gap-6">
-                            <button onclick="openPlayer(${m.id})" class="btn-watch">
-                                <i class="fas fa-play"></i> XEM NGAY
-                            </button>
-                            <button class="w-14 h-14 bg-white/10 rounded-xl flex items-center justify-center border border-white/20"><i class="far fa-heart text-xl"></i></button>
-                        </div>
-                    </div>
-                </div>`;
-            });
+        let currentIndex = 0;
+        let timerDuration = 3000; // Mặc định 3s
+        let slideInterval;
 
-            // Swiper với delay 3000ms (3 giây)
-            new Swiper(".mySwiper", { 
-                loop: true, 
-                effect: 'fade',
-                autoplay: { delay: 3000, disableOnInteraction: false } 
-            });
-        }
+        const heroSection = document.getElementById('hero-section');
 
-        let activeMovie = null;
-        let activeFmt = "";
+        function updateBanner() {
+            const m = movies[currentIndex];
+            const infoBox = document.getElementById('movie-info-content');
+            
+            // Hiệu ứng fade thông tin
+            infoBox.style.opacity = 0;
+            
+            setTimeout(() => {
+                document.getElementById('banner-bg').style.backgroundImage = `url('${m.img}')`;
+                document.getElementById('movie-title').innerText = m.title;
+                document.getElementById('movie-sub').innerText = m.sub;
+                document.getElementById('movie-year').innerText = m.year;
+                document.getElementById('movie-rating').innerText = `IMDb ${m.rating}`;
+                document.getElementById('movie-status').innerText = m.status;
+                document.getElementById('movie-desc').innerText = m.desc;
+                
+                infoBox.style.opacity = 1;
+                infoBox.classList.remove('animate-fade');
+                void infoBox.offsetWidth; // Trigger reflow
+                infoBox.classList.add('animate-fade');
+            }, 300);
 
-        function openPlayer(id) {
-            activeMovie = movies.find(m => m.id === id);
-            document.getElementById('ol-title').innerText = activeMovie.title;
-            document.getElementById('ol-sub').innerText = activeMovie.subTitle;
-            document.getElementById('ol-imdb').innerText = `IMDb ${activeMovie.imdb}`;
-            document.getElementById('ol-year').innerText = activeMovie.year;
-            document.getElementById('ol-desc').innerText = activeMovie.desc;
-            document.getElementById('ol-poster').src = activeMovie.img;
-
-            const snSelect = document.getElementById('sel-season');
-            const seasons = [...new Set(activeMovie.episodes.map(e => e.sn))];
-            snSelect.innerHTML = seasons.map(s => `<option value="${s}" class="bg-[#1e2129]">${s}</option>`).join('');
-
-            updateFmtTabs();
-            document.getElementById('player-overlay').classList.remove('translate-y-full');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function updateFmtTabs() {
-            const sn = document.getElementById('sel-season').value;
-            const fmts = [...new Set(activeMovie.episodes.filter(e => e.sn === sn).map(e => e.fmt))];
-            activeFmt = fmts[0];
-            const tabBox = document.getElementById('tab-formats');
-            tabBox.innerHTML = fmts.map(f => `
-                <button onclick="changeFmt(this, '${f}')" class="fmt-btn text-[12px] font-bold ${f === activeFmt ? 'text-white' : 'text-gray-500'} uppercase tracking-widest">
-                    ${f}
-                </button>`).join('');
-            renderEps();
-        }
-
-        function changeFmt(btn, f) {
-            activeFmt = f;
-            document.querySelectorAll('.fmt-btn').forEach(b => b.classList.replace('text-white', 'text-gray-500'));
-            btn.classList.replace('text-gray-500', 'text-white');
-            renderEps();
-        }
-
-        function renderEps() {
-            const sn = document.getElementById('sel-season').value;
-            const grid = document.getElementById('grid-eps');
-            grid.innerHTML = '';
-            activeMovie.episodes.filter(e => e.sn === sn && e.fmt === activeFmt).forEach((ep, i) => {
-                const b = document.createElement('button');
-                b.className = 'ep-btn py-4 text-[11px] font-bold';
-                b.innerHTML = `<i class="fas fa-play text-[8px] opacity-40 mr-2"></i> ${ep.name}`;
-                b.onclick = () => {
-                    document.getElementById('main-video').src = ep.url;
-                    document.querySelectorAll('.ep-btn').forEach(el => el.classList.remove('active'));
-                    b.classList.add('active');
-                };
-                grid.appendChild(b);
-                if(i === 0) b.click();
+            document.querySelectorAll('.thumb-circle').forEach((t, i) => {
+                t.classList.toggle('thumb-active', i === currentIndex);
             });
         }
 
-        function closePlayer() {
-            document.getElementById('player-overlay').classList.add('translate-y-full');
-            document.getElementById('main-video').src = '';
-            document.body.style.overflow = 'auto';
+        function startTimer(duration) {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(() => {
+                currentIndex = (currentIndex + 1) % movies.length;
+                updateBanner();
+            }, duration);
         }
 
-        init();
+        // Tạo nút tròn
+        const thumbContainer = document.getElementById('thumb-container');
+        movies.forEach((m, i) => {
+            const t = document.createElement('div');
+            t.className = `thumb-circle ${i === 0 ? 'thumb-active' : ''}`;
+            t.innerHTML = `<img src="${m.img}" class="w-full h-full object-cover">`;
+            
+            t.onclick = () => {
+                currentIndex = i;
+                updateBanner();
+                startTimer(5000); // Khi click chọn, giãn thời gian lên 5s
+            };
+            thumbContainer.appendChild(t);
+        });
+
+        // Theo dõi chuột: Khi di chuyển vào vùng Banner sẽ giãn thời gian
+        heroSection.onmouseenter = () => startTimer(5000); 
+        heroSection.onmouseleave = () => startTimer(3000);
+
+        // Khởi tạo
+        updateBanner();
+        startTimer(3000);
     </script>
 </body>
 </html>
