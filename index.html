@@ -39,7 +39,6 @@
             font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; margin-top: 20px;
         }
 
-        /* Container danh sách tập */
         .episode-container { 
             display: none; margin-top: 20px; animation: fadeInUp 0.5s ease; 
             background: rgba(18,18,18,0.98); padding: 20px; border-radius: 8px; border: 1px solid #333;
@@ -79,14 +78,13 @@
     <div class="slide active" id="slide-0" style="background-image: url('poster-stranger 99-.jpg');">
         <div class="slide-content">
             <h1 style="color: var(--primary);">Stranger Things</h1>
-            <p style="color:#ccc; font-size: 14px;">Full 5 Seasons - Cậu Bé Mất Tích</p>
+            <p style="color:#ccc">Full Collection - Trọn bộ 5 phần phim</p>
             <div class="btn-play" onclick="clickBanner(0)"><i class="fas fa-play"></i> XEM NGAY</div>
             <div class="episode-container">
                 <i class="fas fa-times close-ep" onclick="closeBoard(event, 0)"></i>
                 <div class="season-tabs">
-                    <button class="tab-btn active" onclick="switchSeason(event, 'st-s5', 0)">S5</button>
-                    <button class="tab-btn" onclick="switchSeason(event, 'st-s4', 0)">S4</button>
-                    <button class="tab-btn" onclick="switchSeason(event, 'st-s1', 0)">S1</button>
+                    <button class="tab-btn active" onclick="switchSeason(event, 'st-s5', 0)">PHẦN 5</button>
+                    <button class="tab-btn" onclick="switchSeason(event, 'st-s4', 0)">PHẦN 4</button>
                 </div>
                 <div id="st-s5-0" class="ep-grid active">
                     <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/VdVcTjll/index.m3u8" class="ep-link">TẬP 1</a>
@@ -94,7 +92,6 @@
                 </div>
                 <div id="st-s4-0" class="ep-grid">
                     <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/xlXYIN4h/index.m3u8" class="ep-link">TẬP 1</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/wlTpiDT6/index.m3u8" class="ep-link">TẬP 9</a>
                 </div>
             </div>
         </div>
@@ -103,12 +100,12 @@
     <div class="slide" id="slide-1" style="background-image: url('1.jpg');">
         <div class="slide-content">
             <h1>Tiểu Yêu Quái Núi Lãng Lãng</h1>
-            <p style="color:#ccc">Full Movie HD | 2025</p>
+            <p style="color:#ccc">Bản đẹp Full HD | 118 phút | 2025</p>
             <div class="btn-play" onclick="clickBanner(1)"><i class="fas fa-play"></i> XEM NGAY</div>
             <div class="episode-container">
                 <i class="fas fa-times close-ep" onclick="closeBoard(event, 1)"></i>
                 <div class="ep-grid active">
-                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251204/wM0RTCwd/index.m3u8" class="ep-link" style="width: 120px;">XEM BẢN ĐẸP</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251204/wM0RTCwd/index.m3u8" class="ep-link" style="width: 120px;">XEM PHIM</a>
                 </div>
             </div>
         </div>
@@ -117,36 +114,28 @@
     <div class="slide" id="slide-2" style="background-image: url('2.jpg');">
         <div class="slide-content">
             <h1>Peaky Blinders</h1>
-            <p style="color:#ccc">Bóng Ma Anh Quốc - Full 5 Seasons</p>
+            <p style="color:#ccc">Bóng Ma Anh Quốc - Trọn bộ 6 Phần</p>
             <div class="btn-play" onclick="clickBanner(2)"><i class="fas fa-play"></i> XEM NGAY</div>
             <div class="episode-container">
                 <i class="fas fa-times close-ep" onclick="closeBoard(event, 2)"></i>
                 <div class="season-tabs">
-                    <button class="tab-btn active" onclick="switchSeason(event, 'pb-s1', 2)">PHẦN 1</button>
-                    <button class="tab-btn" onclick="switchSeason(event, 'pb-s2', 2)">PHẦN 2</button>
-                    <button class="tab-btn" onclick="switchSeason(event, 'pb-s3', 2)">PHẦN 3</button>
-                    <button class="tab-btn" onclick="switchSeason(event, 'pb-s4', 2)">PHẦN 4</button>
-                    <button class="tab-btn" onclick="switchSeason(event, 'pb-s5', 2)">PHẦN 5</button>
+                    <button class="tab-btn active" onclick="switchSeason(event, 'pb-s1', 2)">P1</button>
+                    <button class="tab-btn" onclick="switchSeason(event, 'pb-s2', 2)">P2</button>
+                    <button class="tab-btn" onclick="switchSeason(event, 'pb-s3', 2)">P3</button>
+                    <button class="tab-btn" onclick="switchSeason(event, 'pb-s4', 2)">P4</button>
+                    <button class="tab-btn" onclick="switchSeason(event, 'pb-s5', 2)">P5</button>
+                    <button class="tab-btn" onclick="switchSeason(event, 'pb-s6', 2)">P6</button>
                 </div>
-                <div id="pb-s1-2" class="ep-grid active">
-                    <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/911phIUY/index.m3u8" class="ep-link">TẬP 1</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/u2Kjk583/index.m3u8" class="ep-link">TẬP 6</a>
-                </div>
-                <div id="pb-s2-2" class="ep-grid">
-                    <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/Akw2Rs0h/index.m3u8" class="ep-link">TẬP 1</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/jufAaMzV/index.m3u8" class="ep-link">TẬP 6</a>
-                </div>
-                <div id="pb-s3-2" class="ep-grid">
-                    <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/Xemam0Ch/index.m3u8" class="ep-link">TẬP 1</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/aHAfCbh7/index.m3u8" class="ep-link">TẬP 6</a>
-                </div>
-                <div id="pb-s4-2" class="ep-grid">
-                    <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/2S1luE5b/index.m3u8" class="ep-link">TẬP 1</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/WueLS0gI/index.m3u8" class="ep-link">TẬP 6</a>
-                </div>
-                <div id="pb-s5-2" class="ep-grid">
-                    <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/vZyyZfnD/index.m3u8" class="ep-link">TẬP 1</a>
-                    <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/av5MnBdn/index.m3u8" class="ep-link">TẬP 6</a>
+                <div id="pb-s1-2" class="ep-grid active"><a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/911phIUY/index.m3u8" class="ep-link">TẬP 1</a></div>
+                <div id="pb-s5-2" class="ep-grid"><a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/vZyyZfnD/index.m3u8" class="ep-link">TẬP 1</a></div>
+                
+                <div id="pb-s6-2" class="ep-grid">
+                    <a href="https://player.phimapi.com/player/?url=https://s1.phim1280.tv/20240304/rSwrRfj9/index.m3u8" class="ep-link">TẬP 1</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s1.phim1280.tv/20240304/mUx2DICa/index.m3u8" class="ep-link">TẬP 2</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s1.phim1280.tv/20240304/rhyx8T9X/index.m3u8" class="ep-link">TẬP 3</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s1.phim1280.tv/20240304/jJAjfS7k/index.m3u8" class="ep-link">TẬP 4</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s1.phim1280.tv/20240304/p0VaahWb/index.m3u8" class="ep-link">TẬP 5</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s1.phim1280.tv/20240304/63447p0z/index.m3u8" class="ep-link">TẬP 6</a>
                 </div>
             </div>
         </div>
@@ -164,7 +153,7 @@
     let autoSlideActive = true;
     const slides = document.querySelectorAll('.slide');
     const thumbs = document.querySelectorAll('.thumb');
-    let timer = setInterval(nextSlide, 4000);
+    let timer = setInterval(nextSlide, 4500);
 
     function nextSlide() {
         if (!autoSlideActive) return;
@@ -189,14 +178,14 @@
         evt.stopPropagation();
         slides[n].classList.remove('watching');
         autoSlideActive = true;
-        timer = setInterval(nextSlide, 4000);
+        timer = setInterval(nextSlide, 4500);
     }
 
     function goToSlide(n) {
         autoSlideActive = true;
         changeSlide(n);
         clearInterval(timer);
-        timer = setInterval(nextSlide, 4000);
+        timer = setInterval(nextSlide, 4500);
     }
 
     function switchSeason(evt, seasonPrefix, slideId) {
