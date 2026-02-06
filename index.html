@@ -3,113 +3,212 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ao Phim Của Đức</title>
+    <title>Ao Phim Của Đức - Ultimate Collection</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary: #ff9d00;
-            --bg-deep: #060606;
-            --bg-card: #121212;
-            --text-color: #e5e5e5;
-            --blue-info: #00a8ff;
-        }
-
-        body {
-            background-color: var(--bg-deep);
-            color: var(--text-color);
-            font-family: 'Inter', sans-serif;
-            margin: 0; padding: 0;
-            line-height: 1.6;
-        }
+        :root { --primary: #ff9d00; --bg: #060606; --text: #e5e5e5; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; overflow: hidden; }
 
         header {
             position: fixed; top: 0; width: 100%; height: 60px;
             display: flex; align-items: center; justify-content: space-between;
-            padding: 0 4%; background: rgba(0,0,0,0.95); z-index: 1000; box-sizing: border-box;
+            padding: 0 4%; background: rgba(0,0,0,0.9); z-index: 1000; box-sizing: border-box;
             border-bottom: 1px solid #222;
         }
         .logo img { height: 35px; }
 
-        .container { padding: 70px 4% 50px; }
-
-        /* Tiêu đề mục */
-        .row-title { font-size: 18px; margin: 25px 0 15px; display: flex; align-items: center; gap: 8px; color: var(--primary); text-transform: uppercase; }
-        .row-title::before { content: ""; width: 4px; height: 18px; background: var(--primary); border-radius: 10px; }
-
-        /* Lưới tập phim nhỏ gọn cho Mobile */
-        .episode-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(65px, 1fr));
-            gap: 8px;
-            background: var(--bg-card); padding: 15px; border-radius: 8px;
-            border: 1px solid #222;
+        .hero-slider { position: relative; width: 100vw; height: 100vh; overflow: hidden; background: #000; }
+        .slide {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; transition: opacity 0.8s ease;
+            background-size: cover; background-position: center 20%;
+            display: flex; align-items: center; padding: 0 6%; box-sizing: border-box;
+        }
+        .slide.active { opacity: 1; z-index: 10; }
+        .slide::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(90deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.95) 100%);
         }
 
-        .ep-box {
-            background: #252525; text-align: center; padding: 8px 2px; border-radius: 4px;
-            text-decoration: none; color: #fff; font-weight: bold; border: 1px solid #333;
-            font-size: 11px; transition: 0.2s;
-        }
-        .ep-box:hover { background: var(--primary); color: #000; border-color: var(--primary); }
+        .slide-content { position: relative; z-index: 20; width: 100%; max-width: 800px; transition: 0.5s; }
+        .slide.watching .slide-content { transform: translateY(-40px); }
 
-        /* Bảng thông tin phim 2 */
-        .info-table {
-            width: 100%; border-collapse: collapse; margin-top: 10px;
-            background: rgba(0, 168, 255, 0.05); border-radius: 8px; overflow: hidden;
-        }
-        .info-table td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 14px; }
-        .info-table td:first-child { color: var(--blue-info); width: 35%; font-weight: bold; }
-
-        .movie-header-blue {
-            text-align: center; color: #7d5fff; font-size: 20px; margin-bottom: 5px; font-weight: bold;
+        .slide-content h1 { font-size: 3rem; margin: 0; color: #fff; text-transform: uppercase; text-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        .btn-play { 
+            background: var(--primary); color: #000; padding: 12px 35px; border-radius: 4px; 
+            font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; margin-top: 20px;
         }
 
-        @media (max-width: 480px) {
-            .episode-grid { grid-template-columns: repeat(4, 1fr); }
-            .hero-info h1 { font-size: 1.8rem; }
+        /* Container danh sách tập */
+        .episode-container { 
+            display: none; margin-top: 20px; animation: fadeInUp 0.5s ease; 
+            background: rgba(18,18,18,0.98); padding: 20px; border-radius: 8px; border: 1px solid #333;
+            position: relative;
         }
+        .slide.watching .episode-container { display: block; }
+
+        .close-ep { position: absolute; top: 10px; right: 10px; color: #888; cursor: pointer; font-size: 18px; }
+        .close-ep:hover { color: #fff; }
+
+        .season-tabs { display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
+        .tab-btn { background: #222; border: 1px solid #444; color: #fff; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 11px; white-space: nowrap; }
+        .tab-btn.active { background: var(--primary); color: #000; border-color: var(--primary); }
+
+        .ep-grid { display: none; grid-template-columns: repeat(auto-fill, minmax(75px, 1fr)); gap: 8px; max-height: 200px; overflow-y: auto; }
+        .ep-grid.active { display: grid; }
+        .ep-link { background: #252525; color: #fff; text-align: center; padding: 10px; text-decoration: none; border-radius: 4px; font-size: 11px; font-weight: bold; border: 1px solid #333; }
+        .ep-link:hover { background: var(--primary); color: #000; }
+
+        .thumbnails { position: absolute; bottom: 30px; right: 4%; z-index: 100; display: flex; gap: 10px; }
+        .thumb { width: 70px; height: 40px; border-radius: 3px; overflow: hidden; border: 2px solid transparent; cursor: pointer; opacity: 0.5; }
+        .thumb.active { border-color: var(--primary); opacity: 1; transform: scale(1.1); }
+        .thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @media (max-width: 600px) { .slide-content h1 { font-size: 2rem; } .ep-grid { grid-template-columns: repeat(4, 1fr); } }
     </style>
 </head>
 <body>
 
 <header>
-    <a href="#" class="logo"><img src="logo1.png" alt="Logo"></a>
-    <div style="color: var(--primary); font-weight: bold; font-size: 12px;">CHƠI GAME XONG RỒI XEM NHÉ</div>
+    <div class="logo"><img src="logo1.png" alt="Logo"></div>
+    <div style="color: var(--primary); font-weight: bold; font-size: 11px;">CHƠI GAME XONG RỒI XEM NHÉ</div>
 </header>
 
-<div class="container">
-    
-    <h2 class="row-title">Stranger Things - Phần 5</h2>
-    <div class="episode-grid">
-        <a href="URL_TAP_1" class="ep-box">TẬP 1</a>
-        <a href="URL_TAP_2" class="ep-box">TẬP 2</a>
-        <a href="URL_TAP_3" class="ep-box">TẬP 3</a>
-        <a href="URL_TAP_4" class="ep-box">TẬP 4</a>
-        <a href="URL_TAP_5" class="ep-box">TẬP 5</a>
-        <a href="URL_TAP_6" class="ep-box">TẬP 6</a>
-        <a href="URL_TAP_7" class="ep-box">TẬP 7</a>
-        <a href="URL_TAP_8" class="ep-box">TẬP 8</a>
+<section class="hero-slider">
+    <div class="slide active" id="slide-0" style="background-image: url('poster-stranger 99-.jpg');">
+        <div class="slide-content">
+            <h1 style="color: var(--primary);">Stranger Things</h1>
+            <p style="color:#ccc; font-size: 14px;">Full 5 Seasons - Cậu Bé Mất Tích</p>
+            <div class="btn-play" onclick="clickBanner(0)"><i class="fas fa-play"></i> XEM NGAY</div>
+            <div class="episode-container">
+                <i class="fas fa-times close-ep" onclick="closeBoard(event, 0)"></i>
+                <div class="season-tabs">
+                    <button class="tab-btn active" onclick="switchSeason(event, 'st-s5', 0)">S5</button>
+                    <button class="tab-btn" onclick="switchSeason(event, 'st-s4', 0)">S4</button>
+                    <button class="tab-btn" onclick="switchSeason(event, 'st-s1', 0)">S1</button>
+                </div>
+                <div id="st-s5-0" class="ep-grid active">
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/VdVcTjll/index.m3u8" class="ep-link">TẬP 1</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260101/YyOnJ03e/index.m3u8" class="ep-link">TẬP 8</a>
+                </div>
+                <div id="st-s4-0" class="ep-grid">
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/xlXYIN4h/index.m3u8" class="ep-link">TẬP 1</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/wlTpiDT6/index.m3u8" class="ep-link">TẬP 9</a>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <hr style="border: 0; border-top: 1px solid #333; margin: 40px 0;">
+    <div class="slide" id="slide-1" style="background-image: url('1.jpg');">
+        <div class="slide-content">
+            <h1>Tiểu Yêu Quái Núi Lãng Lãng</h1>
+            <p style="color:#ccc">Full Movie HD | 2025</p>
+            <div class="btn-play" onclick="clickBanner(1)"><i class="fas fa-play"></i> XEM NGAY</div>
+            <div class="episode-container">
+                <i class="fas fa-times close-ep" onclick="closeBoard(event, 1)"></i>
+                <div class="ep-grid active">
+                    <a href="https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251204/wM0RTCwd/index.m3u8" class="ep-link" style="width: 120px;">XEM BẢN ĐẸP</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <div class="movie-header-blue">QUÁI VẬT NHỎ NÚI LÃNG LÃNG (TIỂU YÊU QUÁI NÚI LÃNG LÃNG)</div>
-    <div style="text-align: center; color: var(--blue-info); font-style: italic; margin-bottom: 15px;">Nobody</div>
-    
-    <table class="info-table">
-        <tr><td>Tình trạng</td><td>Full</td></tr>
-        <tr><td>Số tập</td><td>1</td></tr>
-        <tr><td>Thời lượng</td><td>118 phút</td></tr>
-        <tr><td>Năm phát hành</td><td>2025</td></tr>
-        <tr><td>Chất lượng</td><td>FHD</td></tr>
-        <tr><td>Ngôn ngữ</td><td>Vietsub + Thuyết Minh</td></tr>
-        <tr><td>Đạo diễn</td><td>Yu Shui</td></tr>
-        <tr><td>Diễn viên</td><td>Lin Qiang, Meng Li, Tom Fu, 刘琮, 张闻天...</td></tr>
-        <tr><td>Thể loại</td><td>Phiêu Lưu, Viễn Tưởng, Hành Động, Hài Hước, Tâm Lý</td></tr>
-        <tr><td>Quốc gia</td><td>Trung Quốc</td></tr>
-    </table>
+    <div class="slide" id="slide-2" style="background-image: url('2.jpg');">
+        <div class="slide-content">
+            <h1>Peaky Blinders</h1>
+            <p style="color:#ccc">Bóng Ma Anh Quốc - Full 5 Seasons</p>
+            <div class="btn-play" onclick="clickBanner(2)"><i class="fas fa-play"></i> XEM NGAY</div>
+            <div class="episode-container">
+                <i class="fas fa-times close-ep" onclick="closeBoard(event, 2)"></i>
+                <div class="season-tabs">
+                    <button class="tab-btn active" onclick="switchSeason(event, 'pb-s1', 2)">PHẦN 1</button>
+                    <button class="tab-btn" onclick="switchSeason(event, 'pb-s2', 2)">PHẦN 2</button>
+                    <button class="tab-btn" onclick="switchSeason(event, 'pb-s3', 2)">PHẦN 3</button>
+                    <button class="tab-btn" onclick="switchSeason(event, 'pb-s4', 2)">PHẦN 4</button>
+                    <button class="tab-btn" onclick="switchSeason(event, 'pb-s5', 2)">PHẦN 5</button>
+                </div>
+                <div id="pb-s1-2" class="ep-grid active">
+                    <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/911phIUY/index.m3u8" class="ep-link">TẬP 1</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/u2Kjk583/index.m3u8" class="ep-link">TẬP 6</a>
+                </div>
+                <div id="pb-s2-2" class="ep-grid">
+                    <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/Akw2Rs0h/index.m3u8" class="ep-link">TẬP 1</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/jufAaMzV/index.m3u8" class="ep-link">TẬP 6</a>
+                </div>
+                <div id="pb-s3-2" class="ep-grid">
+                    <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/Xemam0Ch/index.m3u8" class="ep-link">TẬP 1</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/aHAfCbh7/index.m3u8" class="ep-link">TẬP 6</a>
+                </div>
+                <div id="pb-s4-2" class="ep-grid">
+                    <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/2S1luE5b/index.m3u8" class="ep-link">TẬP 1</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/WueLS0gI/index.m3u8" class="ep-link">TẬP 6</a>
+                </div>
+                <div id="pb-s5-2" class="ep-grid">
+                    <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/vZyyZfnD/index.m3u8" class="ep-link">TẬP 1</a>
+                    <a href="https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/av5MnBdn/index.m3u8" class="ep-link">TẬP 6</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
-</div>
+    <div class="thumbnails">
+        <div class="thumb active" onclick="goToSlide(0)"><img src="poster-stranger 99-.jpg"></div>
+        <div class="thumb" onclick="goToSlide(1)"><img src="1.jpg"></div>
+        <div class="thumb" onclick="goToSlide(2)"><img src="2.jpg"></div>
+    </div>
+</section>
 
+<script>
+    let currentIdx = 0;
+    let autoSlideActive = true;
+    const slides = document.querySelectorAll('.slide');
+    const thumbs = document.querySelectorAll('.thumb');
+    let timer = setInterval(nextSlide, 4000);
+
+    function nextSlide() {
+        if (!autoSlideActive) return;
+        changeSlide((currentIdx + 1) % slides.length);
+    }
+
+    function changeSlide(n) {
+        slides[currentIdx].classList.remove('active', 'watching');
+        thumbs[currentIdx].classList.remove('active');
+        currentIdx = n;
+        slides[currentIdx].classList.add('active');
+        thumbs[currentIdx].classList.add('active');
+    }
+
+    function clickBanner(n) {
+        autoSlideActive = false;
+        clearInterval(timer);
+        slides[n].classList.add('watching');
+    }
+
+    function closeBoard(evt, n) {
+        evt.stopPropagation();
+        slides[n].classList.remove('watching');
+        autoSlideActive = true;
+        timer = setInterval(nextSlide, 4000);
+    }
+
+    function goToSlide(n) {
+        autoSlideActive = true;
+        changeSlide(n);
+        clearInterval(timer);
+        timer = setInterval(nextSlide, 4000);
+    }
+
+    function switchSeason(evt, seasonPrefix, slideId) {
+        evt.stopPropagation();
+        const parent = document.getElementById('slide-' + slideId);
+        const grids = parent.querySelectorAll('.ep-grid');
+        const btns = parent.querySelectorAll('.tab-btn');
+        grids.forEach(g => g.classList.remove('active'));
+        btns.forEach(b => b.classList.remove('active'));
+        document.getElementById(seasonPrefix + '-' + slideId).classList.add('active');
+        evt.currentTarget.classList.add('active');
+    }
+</script>
 </body>
 </html>
