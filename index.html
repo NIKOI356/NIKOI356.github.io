@@ -11,13 +11,11 @@
         .banner-gradient { background: linear-gradient(to top, #1a1a20 5%, rgba(26,26,32,0.6) 40%, rgba(26,26,32,0.2) 100%); }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         
-        /* Hiệu ứng Dots/Thumb */
         .thumb-circle { width: 45px; height: 45px; border-radius: 50%; border: 2px solid transparent; opacity: 0.5; overflow: hidden; transition: 0.4s; cursor: pointer; flex-shrink: 0; }
         .thumb-active { border-color: #fff; opacity: 1; transform: scale(1.1); box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
         
         .tag { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 2px 10px; border-radius: 4px; font-size: 11px; }
         
-        /* Movie Card */
         .movie-card { transition: transform 0.3s ease; }
         .movie-card:hover { transform: translateY(-8px); }
         .category-card { transition: all 0.3s ease; min-width: 170px; aspect-ratio: 16/10; border-radius: 12px; }
@@ -26,7 +24,6 @@
         .animate-fade { animation: fade 0.8s ease-in-out; }
         @keyframes fade { from { opacity: 0.4; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Overlay Player */
         #movie-overlay { background: rgba(10, 10, 12, 0.98); backdrop-filter: blur(20px); }
         .ep-btn.active { background-color: #eab308; color: black; border-color: #eab308; }
     </style>
@@ -87,7 +84,7 @@
                 <span class="text-lg font-bold">MARVEL</span>
                 <span class="text-[10px] opacity-70">Xem chủ đề <i class="fas fa-chevron-right ml-1"></i></span>
             </div>
-            </div>
+        </div>
     </section>
 
     <section class="px-6 md:px-12 mb-20">
@@ -139,9 +136,7 @@
                             <option>Thuyết minh</option>
                         </select>
                     </div>
-                    
-                    <div id="episode-grid" class="grid grid-cols-4 lg:grid-cols-3 gap-2 overflow-y-auto max-h-[50vh] lg:max-h-none pr-2 custom-scrollbar">
-                        </div>
+                    <div id="episode-grid" class="grid grid-cols-4 lg:grid-cols-3 gap-2 overflow-y-auto max-h-[50vh] lg:max-h-none pr-2 custom-scrollbar"></div>
                 </div>
             </div>
         </div>
@@ -166,21 +161,21 @@
                     { name: "Tập 05", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260206/K3KwyMw2/index.m3u8" }
                 ]
             },
-{
-    id: 4,
-    title: "Hố Đen Tử Thần",
-    sub: "Interstellar",
-    year: "2014",
-    rating: "8.7",
-    status: "Full HD",
-    desc: "Trong tương lai, khi Trái Đất bị tàn phá bởi hạn hán và biến đổi khí hậu, một nhóm các nhà du hành vũ trụ đi xuyên qua một hố đen để tìm kiếm một hành tinh mới có thể duy trì sự sống cho nhân loại.",
-    img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20250302-1/4cee31c3afd0fbfd11ed4f14b1bfd816.jpg",
-    episodes: [
-        { name: "Full", link: "https://player.phimapi.com/player/?url=https://s4.phim1280.tv/20250302/BLbAWQOK/index.m3u8" }
-    ]
-}
             {
-                id: 2,
+                id: 4,
+                title: "Hố Đen Tử Thần",
+                sub: "Interstellar",
+                year: "2014",
+                rating: "8.7",
+                status: "Full HD",
+                desc: "Trong tương lai, khi Trái Đất bị tàn phá bởi hạn hán và biến đổi khí hậu, một nhóm các nhà du hành vũ trụ đi xuyên qua một hố đen để tìm kiếm một hành tinh mới có thể duy trì sự sống cho nhân loại.",
+                img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20250302-1/4cee31c3afd0fbfd11ed4f14b1bfd816.jpg",
+                episodes: [
+                    { name: "Full", link: "https://player.phimapi.com/player/?url=https://s4.phim1280.tv/20250302/BLbAWQOK/index.m3u8" }
+                ]
+            },
+            {
+                id: 1,
                 title: "Cậu Bé Mất Tích",
                 sub: "Stranger Things",
                 year: "2025",
@@ -191,7 +186,7 @@
                 episodes: [{ name: "Tập 01", link: "#" }]
             },
             {
-                id: 3,
+                id: 2,
                 title: "Bóng Ma Anh Quốc",
                 sub: "Peaky Blinders",
                 year: "2024",
@@ -202,7 +197,7 @@
                 episodes: [{ name: "Tập 01", link: "#" }]
             },
             {
-                id: 4,
+                id: 3,
                 title: "Sói Già Phố Wall",
                 sub: "The Wolf of Wall Street",
                 year: "2013",
@@ -217,7 +212,6 @@
         let currentIndex = 0;
         let slideInterval;
 
-        // Banner logic
         function updateBanner() {
             const m = movies[currentIndex];
             const infoBox = document.getElementById('movie-info-content');
@@ -243,7 +237,6 @@
             });
         }
 
-        // PLAYER LOGIC
         function openPlayer(movieIdx) {
             const movie = movies[movieIdx];
             const overlay = document.getElementById('movie-overlay');
@@ -252,7 +245,6 @@
             document.getElementById('player-title').innerText = movie.title;
             document.getElementById('player-desc').innerText = movie.desc;
             
-            // Render danh sách tập
             epGrid.innerHTML = movie.episodes.map((ep, i) => `
                 <button onclick="playEpisode('${ep.link}', '${ep.name}', this)" 
                         class="ep-btn border border-white/10 py-2 rounded text-[11px] font-bold hover:bg-yellow-500 hover:text-black transition ${i===0 ? 'active' : ''}">
@@ -260,7 +252,6 @@
                 </button>
             `).join('');
 
-            // Mặc định chạy tập đầu
             if(movie.episodes.length > 0) {
                 playEpisode(movie.episodes[0].link, movie.episodes[0].name);
             }
@@ -285,7 +276,6 @@
             document.body.style.overflow = 'auto';
         }
 
-        // Render Grid
         function renderMovieGrid() {
             document.getElementById('movie-grid').innerHTML = movies.map((m, i) => `
                 <div class="movie-card group cursor-pointer" onclick="openPlayer(${i})">
@@ -311,7 +301,6 @@
             `).join('');
         }
 
-        // Khởi tạo các thành phần khác
         const thumbContainer = document.getElementById('thumb-container');
         movies.forEach((m, i) => {
             const t = document.createElement('div');
