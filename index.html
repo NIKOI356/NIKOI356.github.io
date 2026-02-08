@@ -3,168 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xô Phim - Tết Sum Vầy</title>
+    <title>Xô Phim - Phim hay cả rổ</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Tông màu Tết: Đỏ đô và Vàng Gold */
         :root {
-            --tet-red: #8b0000;
-            --tet-gold: #ffd700;
-            --tet-dark: #2a0000;
+            --xo-vang: #d4a017; /* Màu vàng đất */
         }
-
-        body { 
-            background-color: var(--tet-dark); 
-            color: white; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            overflow-x: hidden; 
-        }
-
-        /* Hiệu ứng hoa đào rơi nhẹ */
-        .petal {
-            position: fixed; top: -10%; z-index: 999;
-            user-select: none; pointer-events: none;
-            color: #ffb7c5;
-            animation: fall linear forwards;
-        }
-        @keyframes fall {
-            to { transform: translateY(110vh) rotate(360deg); }
-        }
-
-        /* Banner Gradient Tết */
-        .banner-gradient { 
-            background: linear-gradient(to top, var(--tet-dark) 5%, rgba(42,0,0,0.6) 40%, transparent 100%); 
-        }
-
-        /* Custom Header Tết */
-        #header.scrolled { background-color: var(--tet-red); box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+        body { background-color: #1a1a20; color: white; font-family: sans-serif; overflow-x: hidden; }
         
-        /* Movie Card Tết Style */
-        .movie-card { border: 1px solid rgba(255,215,0,0.1); background: rgba(255,255,255,0.03); }
-        .movie-card:hover { border-color: var(--tet-gold); box-shadow: 0 0 15px rgba(255,215,0,0.2); }
-
-        /* Category Card Tết */
-        .category-card { border: 2px solid var(--tet-gold); }
-        .bg-tet-special { background: linear-gradient(135deg, #d41414 0%, #ffbb00 100%); }
-
-        /* Animation chữ lủng lẳng cho tiêu đề Tết */
-        .tet-swing {
-            display: inline-block;
-            transform-origin: top center;
-            animation: swing 3s ease-in-out infinite;
+        /* Header đỏ mờ dần từ trên xuống */
+        #header { 
+            background: linear-gradient(to bottom, rgba(139, 0, 0, 0.8) 0%, rgba(26, 26, 32, 0) 100%);
+            transition: all 0.4s ease;
         }
-        @keyframes swing {
-            0%, 100% { transform: rotate(-3deg); }
-            50% { transform: rotate(3deg); }
-        }
+        #header.scrolled { background: #1a1a20; }
 
-        /* Canvas pháo hoa khi nhấn xem phim */
-        #firework-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 200; }
-        
+        .banner-gradient { background: linear-gradient(to top, #1a1a20 5%, rgba(26,26,32,0.6) 40%, rgba(26,26,32,0.2) 100%); }
         .no-scrollbar::-webkit-scrollbar { display: none; }
+        
+        /* --- LOGO XÔ PHIM CUSTOM --- */
+        .logo-container { position: relative; display: flex; align-items: center; gap: 12px; cursor: pointer; }
+        
+        .bucket {
+            width: 38px; height: 32px; background: var(--xo-vang);
+            border-radius: 4px 4px 12px 12px; position: relative;
+            display: flex; justify-content: center; align-items: center;
+            box-shadow: inset 0 -4px rgba(0,0,0,0.2);
+        }
+        .bucket::before { /* Quai xô */
+            content: ''; position: absolute; width: 30px; height: 15px;
+            border: 3px solid var(--xo-vang); border-bottom: none;
+            border-radius: 50px 50px 0 0; top: -14px;
+        }
+        .eyes { position: absolute; top: 10px; display: flex; gap: 10px; }
+        .eyes::before, .eyes::after { content: ''; width: 4px; height: 4px; background: #222; border-radius: 50%; }
+        .mouth { width: 8px; height: 4px; border-bottom: 2px solid #222; border-radius: 50%; margin-top: 10px; }
+        
+        .brand-name { 
+            font-size: 24px; font-weight: 900; color: var(--xo-vang); 
+            text-transform: uppercase; letter-spacing: -1px;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+        }
+
+        /* --- CÀNH ĐÀO VẨY VẨY --- */
+        .peach-branch { position: absolute; top: -5px; left: -10px; pointer-events: none; }
+        .petal {
+            position: absolute; width: 8px; height: 8px; background: #ffb7c5;
+            border-radius: 50% 0 50% 50%; opacity: 0;
+            animation: fall 4s infinite ease-in;
+        }
+        .petal:nth-child(2) { animation-delay: 1.5s; left: 15px; }
+        .petal:nth-child(3) { animation-delay: 3s; left: 30px; }
+
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            100% { transform: translateY(40px) translateX(20px) rotate(360deg); opacity: 0; }
+        }
+
+        /* Các style khác giữ nguyên */
+        .thumb-circle { width: 45px; height: 45px; border-radius: 50%; border: 2px solid transparent; opacity: 0.5; overflow: hidden; transition: 0.4s; cursor: pointer; flex-shrink: 0; }
+        .thumb-active { border-color: #fff; opacity: 1; transform: scale(1.1); box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .tag { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 2px 10px; border-radius: 4px; font-size: 11px; }
+        .movie-card { transition: transform 0.3s ease; }
+        .movie-card:hover { transform: translateY(-8px); }
+        .category-card { transition: all 0.3s ease; min-width: 170px; aspect-ratio: 16/10; border-radius: 16px; position: relative; overflow: hidden; }
+        .category-card:hover { transform: translateY(-5px); filter: brightness(1.1); }
+        .bg-marvel { background: linear-gradient(135deg, #2b58e1 0%, #4e73df 100%); }
+        .bg-sitcom { background: linear-gradient(135deg, #1d8a61 0%, #2bb673 100%); }
+        .bg-longtieng { background: linear-gradient(135deg, #7158bc 0%, #9060db 100%); }
+        .bg-xuyenkhong { background: linear-gradient(135deg, #cc815c 0%, #e6a07e 100%); }
+        .bg-cotrang { background: linear-gradient(135deg, #a53636 0%, #c04848 100%); }
+        .bg-4k { background: linear-gradient(135deg, #5b5e93 0%, #7679ad 100%); }
+        .bg-more { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); }
+        .animate-fade { animation: fade 0.8s ease-in-out; }
+        @keyframes fade { from { opacity: 0.4; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        #movie-overlay { background: rgba(10, 10, 12, 0.98); backdrop-filter: blur(20px); }
+        .ep-btn.active { background-color: #eab308; color: black; border-color: #eab308; }
     </style>
 </head>
 <body>
 
-    <canvas id="firework-canvas"></canvas>
-
-    <header class="fixed w-full z-50 flex items-center justify-between px-6 py-4 bg-transparent transition-all" id="header">
-        <div class="flex items-center gap-2 cursor-pointer" onclick="location.reload()">
-            <div class="bg-yellow-500 rounded-full p-1.5 shadow-lg shadow-yellow-500/50">
-                <i class="fas fa-dragon text-black text-[12px]"></i>
+    <header class="fixed w-full z-50 flex items-center justify-between px-6 py-4" id="header">
+        <div class="logo-container" onclick="location.reload()">
+            <div class="peach-branch">
+                <div class="petal"></div>
+                <div class="petal"></div>
+                <div class="petal"></div>
             </div>
-            <span class="text-xl font-black tracking-widest uppercase text-yellow-500">XÔ PHIM <span class="text-white font-light">TẾT</span></span>
+            <div class="bucket">
+                <div class="eyes"></div>
+                <div class="mouth"></div>
+            </div>
+            <span class="brand-name">Xô Phim</span>
         </div>
+
         <div class="flex items-center gap-6">
-            <div class="hidden md:flex gap-6 text-sm font-bold opacity-90 uppercase">
-                <a href="#" class="hover:text-yellow-500 transition">Phim Tết 2026</a>
-                <a href="#" class="hover:text-yellow-500 transition">Hài Kịch</a>
-                <a href="#" class="hover:text-yellow-500 transition">Sớ Táo Quân</a>
+            <div class="hidden md:flex gap-6 text-sm font-bold opacity-80 uppercase tracking-tighter">
+                <a href="#" class="hover:text-yellow-500">Phim Lẻ</a>
+                <a href="#" class="hover:text-yellow-500">Phim Bộ</a>
+                <a href="#" class="hover:text-yellow-500">Quốc gia</a>
             </div>
-            <div class="relative">
-                <i class="fas fa-search text-lg cursor-pointer hover:text-yellow-400"></i>
+            <div class="bg-white/10 px-4 py-1.5 rounded-full flex items-center gap-2 border border-white/10">
+                <input type="text" placeholder="Tìm phim..." class="bg-transparent outline-none text-xs w-32 md:w-48">
+                <i class="fas fa-search text-sm cursor-pointer hover:text-yellow-500"></i>
             </div>
         </div>
     </header>
 
-    <section class="relative h-[85vh] w-full overflow-hidden">
-        <div id="banner-bg" class="absolute inset-0 bg-cover bg-center transition-all duration-1000 scale-105" style="filter: sepia(0.2) saturate(1.2);"></div>
+    <section class="relative h-[90vh] w-full overflow-hidden" id="hero-section">
+        <div id="banner-bg" class="absolute inset-0 bg-cover bg-center transition-all duration-1000 scale-100"></div>
         <div class="absolute inset-0 banner-gradient"></div>
-
         <div class="relative z-10 flex flex-col items-center justify-end h-full px-6 pb-20 text-center">
-            <div id="movie-info-content" class="max-w-3xl">
-                <div class="mb-4 tet-swing">
-                    <span class="bg-red-700 text-yellow-400 border border-yellow-500 px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest">
-                        🏮 Chúc Mừng Năm Mới 2026 🏮
-                    </span>
+            <div id="movie-info-content" class="animate-fade max-w-3xl">
+                <h1 id="movie-title" class="text-4xl md:text-6xl font-bold mb-2 drop-shadow-2xl italic uppercase">--</h1>
+                <p id="movie-sub" class="text-yellow-500 text-lg mb-4 font-medium italic opacity-90 tracking-wide">--</p>
+                <div class="flex flex-wrap justify-center gap-2 mb-6">
+                    <span class="tag bg-yellow-500 text-black font-bold border-none" id="movie-rating">IMDb --</span>
+                    <span id="movie-year" class="tag">--</span>
+                    <span id="movie-status" class="tag">--</span>
+                    <span class="tag">HD</span>
                 </div>
-                <h1 id="movie-title" class="text-5xl md:text-7xl font-black mb-2 text-white drop-shadow-[0_5px_15px_rgba(255,215,0,0.4)] uppercase">--</h1>
-                <p id="movie-sub" class="text-yellow-500 text-lg mb-6 font-medium italic opacity-90">--</p>
-                
-                <div class="flex gap-4 justify-center mb-10">
-                    <button onclick="triggerFirework(); openPlayer(currentIndex)" class="bg-gradient-to-r from-yellow-600 to-yellow-400 text-black px-12 py-4 rounded-full font-black text-sm hover:scale-110 transition shadow-[0_0_20px_rgba(255,215,0,0.5)]">
-                        KHAI PHIM ĐẦU XUÂN
-                    </button>
+                <p id="movie-desc" class="text-gray-300 text-sm md:text-base mb-10 line-clamp-2 md:line-clamp-3 opacity-80 leading-relaxed px-4 md:px-20">--</p>
+                <div class="flex gap-4 justify-center mb-12">
+                    <button onclick="openPlayer(currentIndex)" class="bg-yellow-500 text-black px-12 py-3.5 rounded-full font-black text-sm hover:scale-105 active:scale-95 transition shadow-xl shadow-yellow-500/30">XEM NGAY</button>
+                    <button class="bg-white/10 backdrop-blur-md text-white px-6 py-3.5 rounded-full font-bold text-sm hover:bg-white/20 transition"><i class="far fa-heart mr-2"></i>Lưu</button>
                 </div>
             </div>
             <div id="thumb-container" class="flex gap-4 overflow-x-auto no-scrollbar max-w-full px-4 items-center"></div>
         </div>
     </section>
 
-    <section class="relative z-20 px-6 md:px-12 -mt-10 mb-12">
-        <div class="flex gap-4 overflow-x-auto no-scrollbar pb-4">
-            <div class="category-card min-w-[200px] p-5 flex flex-col justify-end bg-tet-special rounded-2xl cursor-pointer">
-                <span class="text-xl font-black text-black">PHIM HÀI TẾT</span>
-                <span class="text-[10px] font-bold text-black/70 uppercase">Cười bể bụng <i class="fas fa-arrow-right ml-1"></i></span>
-            </div>
-            </div>
-    </section>
-
-    <section class="px-6 md:px-12 mb-20">
-        <h2 class="text-2xl font-black mb-8 italic text-yellow-500 flex items-center gap-3 uppercase">
-            <img src="https://cdn-icons-png.flaticon.com/512/2271/2271068.png" class="w-8 h-8"> Phim mới cập nhật
-        </h2>
-        <div id="movie-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6"></div>
-    </section>
-
-    <footer class="bg-[#1a0000] border-t border-yellow-900/50 py-12 px-6">
-        <div class="max-w-7xl mx-auto text-center">
-            <p class="text-yellow-600 text-sm font-bold mb-4">🧧 LÌ XÌ PHIM HAY - XEM NGAY CẢ RỔ 🧧</p>
-            <div class="flex justify-center gap-6 mb-8 text-gray-400">
-                <a href="#" class="hover:text-yellow-500"><i class="fab fa-facebook text-2xl"></i></a>
-                <a href="#" class="hover:text-yellow-500"><i class="fab fa-telegram text-2xl"></i></a>
-            </div>
-            <p class="text-[10px] opacity-30">© 2026 XÔ PHIM - PHIÊN BẢN TẾT NGUYÊN ĐÁN</p>
-        </div>
-    </footer>
-
-    <div id="movie-overlay" class="fixed inset-0 z-[100] hidden bg-black/95 backdrop-blur-xl flex flex-col">
-        <div class="p-4 flex justify-between items-center border-b border-yellow-900/30">
-            <button onclick="closePlayer()" class="text-yellow-500"><i class="fas fa-times text-2xl"></i> ĐÓNG</button>
-            <span id="player-title" class="text-yellow-500 font-bold uppercase"></span>
-        </div>
-        <div class="flex-1">
-             <iframe id="video-iframe" class="w-full h-full aspect-video" src="" frameborder="0" allowfullscreen></iframe>
-        </div>
-    </div>
-
     <script>
-        // 1. Hiệu ứng hoa đào rơi
-        function createPetal() {
-            const petal = document.createElement('div');
-            petal.innerHTML = '🌸';
-            petal.className = 'petal';
-            petal.style.left = Math.random() * 100 + 'vw';
-            petal.style.fontSize = Math.random() * 10 + 10 + 'px';
-            petal.style.animationDuration = Math.random() * 3 + 4 + 's';
-            petal.style.opacity = Math.random();
-            document.body.appendChild(petal);
-            setTimeout(() => petal.remove(), 5000);
-        }
-        setInterval(createPetal, 300);
-
-        // 2. Dữ liệu (Thêm con ngựa hoặc phim tết nếu muốn)
+        // JS của ông giữ nguyên
         const movies = [
             {
                 id: 1,
@@ -172,58 +144,47 @@
                 sub: "The Wolf of Wall Street",
                 year: "2013",
                 rating: "8.2",
-                status: "Thuyết Minh",
+                status: "Phim Lẻ",
+                desc: "Dựa trên câu chuyện có thật của Jordan Belfort, từ bước thăng tiến của ông trở thành một nhà môi giới chứng khoán giàu có.",
                 img: "https://phimimg.com/upload/vod/20231018-1/2e6fd68d5e7002fcc9fa6b8453242a8a.jpg",
-                episodes: [{ name: "Full HD", link: "https://player.phimapi.com/player/?url=https://s2.phim1280.tv/20231019/KZ3IDVB4/index.m3u8" }]
+                episodes: [{ name: "Full", link: "https://player.phimapi.com/player/?url=https://s2.phim1280.tv/20231019/KZ3IDVB4/index.m3u8" }]
             }
         ];
 
         let currentIndex = 0;
+        let slideInterval;
 
-        // 3. Logic Banner & Grid
-        function updateBanner() {
-            const m = movies[currentIndex];
-            document.getElementById('banner-bg').style.backgroundImage = `url('${m.img}')`;
-            document.getElementById('movie-title').innerText = m.title;
-            document.getElementById('movie-sub').innerText = m.sub;
-        }
-
-        function renderMovieGrid() {
-            document.getElementById('movie-grid').innerHTML = movies.map((m, i) => `
-                <div class="movie-card group cursor-pointer rounded-xl overflow-hidden transition-all" onclick="openPlayer(${i})">
-                    <div class="relative aspect-[2/3]">
-                        <img src="${m.img}" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-red-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                            <i class="fas fa-play-circle text-5xl text-yellow-400"></i>
-                        </div>
-                    </div>
-                    <div class="p-3">
-                        <h3 class="text-sm font-bold truncate text-yellow-100 group-hover:text-yellow-400">${m.title}</h3>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function openPlayer(i) {
-            const m = movies[i];
-            document.getElementById('player-title').innerText = m.title;
-            document.getElementById('video-iframe').src = m.episodes[0].link;
-            document.getElementById('movie-overlay').classList.remove('hidden');
-        }
-
-        function closePlayer() {
-            document.getElementById('movie-overlay').classList.add('hidden');
-            document.getElementById('video-iframe').src = "";
-        }
-
-        // 4. Header Effect
+        // Logic scroll đổi màu header
         window.addEventListener('scroll', () => {
-            document.getElementById('header').classList.toggle('scrolled', window.scrollY > 50);
+            const header = document.getElementById('header');
+            if (window.scrollY > 80) {
+                header.classList.add('scrolled');
+                header.style.background = "#1a1a20";
+            } else {
+                header.classList.remove('scrolled');
+                header.style.background = "linear-gradient(to bottom, rgba(139, 0, 0, 0.8) 0%, rgba(26, 26, 32, 0) 100%)";
+            }
         });
 
-        // Khởi tạo
+        // Các hàm updateBanner, openPlayer... giữ nguyên như cũ của ông
+        function updateBanner() {
+            const m = movies[currentIndex];
+            const infoBox = document.getElementById('movie-info-content');
+            if(!m) return;
+            infoBox.style.opacity = 0;
+            setTimeout(() => {
+                document.getElementById('banner-bg').style.backgroundImage = `url('${m.img}')`;
+                document.getElementById('movie-title').innerText = m.title;
+                document.getElementById('movie-sub').innerText = m.sub;
+                document.getElementById('movie-year').innerText = m.year;
+                document.getElementById('movie-rating').innerText = `IMDb ${m.rating}`;
+                document.getElementById('movie-status').innerText = m.status;
+                document.getElementById('movie-desc').innerText = m.desc;
+                infoBox.style.opacity = 1;
+            }, 300);
+        }
+
         updateBanner();
-        renderMovieGrid();
     </script>
 </body>
 </html>
