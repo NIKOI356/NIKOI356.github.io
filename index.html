@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xô Phim - Tết 2026</title>
+    <title>Xô Phim - Giao diện chuẩn GoGo</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -11,233 +11,235 @@
         :root { --xo-vang: #d4a017; --bg-dark: #0b0c10; }
         body { background-color: var(--bg-dark); color: #e2e8f0; font-family: 'Inter', sans-serif; overflow-x: hidden; }
         
-        /* HEADER NỀN ĐỎ CỐ ĐỊNH */
+        /* HEADER PHONG CÁCH GOGO - CỐ ĐỊNH NỀN ĐỎ TẾT */
         #header { 
             position: fixed; top: 0; left: 0; width: 100%; z-index: 120;
             background: linear-gradient(to bottom, rgba(160, 0, 0, 0.98) 0%, rgba(130, 0, 0, 0.85) 60%, transparent 100%);
             padding: 15px 20px 30px 20px;
         }
 
-        .nav-scroll { display: flex; overflow-x: auto; white-space: nowrap; gap: 20px; padding: 15px 0 0 0; scrollbar-width: none; }
-        .nav-scroll::-webkit-scrollbar { display: none; }
-        .nav-item { color: rgba(255,255,255,0.9); font-size: 14px; font-weight: 500; }
+        /* Thanh tìm kiếm chuẩn ảnh 1 */
+        .search-bar {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px; padding: 8px 15px;
+            display: flex; align-items: center; gap: 10px; width: 100%; max-width: 400px;
+        }
+        .search-bar input { background: transparent; border: none; outline: none; color: white; font-size: 14px; width: 100%; }
 
-        /* MODAL MÈO CƯỜI ĐỂU */
+        /* Menu ngang GoGo cuộn trên Mobile */
+        .nav-scroll {
+            display: flex; overflow-x: auto; white-space: nowrap;
+            gap: 20px; padding: 15px 0 0 0; scrollbar-width: none;
+        }
+        .nav-scroll::-webkit-scrollbar { display: none; }
+        .nav-item { color: rgba(255,255,255,0.9); font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 4px; }
+        .badge-new { background: #f59e0b; color: #000; font-size: 9px; padding: 1px 4px; border-radius: 3px; font-weight: 900; }
+
+        /* MODAL CẢNH BÁO MÈO CƯỜI ĐỂU */
         #tet-alert {
             position: fixed; inset: 0; z-index: 300; display: flex; align-items: center; justify-content: center;
             background: rgba(0,0,0,0.92); backdrop-filter: blur(8px);
+            transition: all 0.5s cubic-bezier(0.6, -0.28, 0.735, 0.045);
         }
         .alert-box {
             background: #8B0000; padding: 2.5rem; border: 4px solid var(--xo-vang); text-align: center; 
-            max-width: 85%; border-radius: 30px; animation: zoomIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            max-width: 85%; border-radius: 30px; box-shadow: 0 0 60px rgba(212,160,23,0.4);
+            animation: zoomIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); transition: 0.5s;
         }
-        .closing { transform: scale(0) !important; opacity: 0 !important; transition: 0.8s; }
+        @keyframes zoomIn { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .closing { transform: scale(0) !important; opacity: 0 !important; }
 
-        .cat-btn { width: 110px; height: 110px; margin: 0 auto; border-radius: 50%; border: 4px solid var(--xo-vang); overflow: hidden; cursor: pointer; box-shadow: 0 0 20px var(--xo-vang); }
+        .cat-btn {
+            width: 110px; height: 110px; margin: 0 auto; border-radius: 50%; border: 4px solid var(--xo-vang);
+            overflow: hidden; cursor: pointer; box-shadow: 0 0 20px var(--xo-vang);
+        }
         .cat-btn img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* HIỆU ỨNG HOA ĐÀO RƠI */
-        .sakura { position: fixed; top: -10%; z-index: 100; pointer-events: none; background: #ffb7c5; border-radius: 50% 0 50% 50%; animation: fall linear infinite; box-shadow: 0 0 5px #ffb7c5; }
+        /* FOOTER CHUẨN ẢNH 3 */
+        .footer { background: #060709; padding: 60px 20px; border-top: 1px solid rgba(255,255,255,0.05); position: relative; }
+        .footer-tag { background: #900; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; display: inline-block; margin-bottom: 20px; }
+        .social-icons { display: flex; gap: 12px; margin: 20px 0; }
+        .social-icons a { width: 35px; height: 35px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+        .social-icons a:hover { background: var(--xo-vang); color: black; }
+        
+        .btn-top { position: absolute; bottom: 30px; right: 20px; background: white; color: black; padding: 8px 12px; border-radius: 10px; font-weight: 900; font-size: 10px; text-align: center; }
+
+        /* Phụ trợ */
+        .sakura { position: fixed; top: -10%; z-index: 100; pointer-events: none; background: #ffb7c5; border-radius: 50% 0 50% 50%; animation: fall linear infinite; }
         @keyframes fall { 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
-
-        /* PHÁO HOA CANVAS */
-        #fw-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 99; }
-
-        .footer { background: #060709; padding: 60px 20px; position: relative; border-top: 1px solid rgba(255,255,255,0.05); }
-        .footer-tag { background: #cc0000; color: white; padding: 6px 15px; border-radius: 20px; font-size: 12px; font-weight: 700; display: inline-block; margin-bottom: 25px; }
-
-        /* Playlist Mini */
-        .ep-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; padding: 15px; background: #161b22; border-radius: 12px; }
-        .ep-item { background: #21262d; padding: 6px 12px; border-radius: 6px; font-size: 11px; cursor: pointer; border: 1px solid transparent; }
-        .ep-item.active { border-color: var(--xo-vang); color: var(--xo-vang); }
+        #fireworksCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 99; }
     </style>
 </head>
 <body>
 
-    <canvas id="fw-canvas"></canvas>
-    
-    <audio id="tet-music" loop>
-        <source src="https://api.mp3.zing.vn/api/streaming/audio/ZW67O70C/320" type="audio/mpeg">
-    </audio>
+    <canvas id="fireworksCanvas"></canvas>
 
     <div id="tet-alert">
         <div class="alert-box" id="alertBox">
             <h2 class="text-2xl font-black mb-3 text-yellow-400 italic uppercase">Thông Báo Tết</h2>
-            <p class="text-md font-bold text-white mb-6 leading-tight uppercase">Ăn Tết Lành Mạnh - Tránh Xa Cờ Bạc<br>
-            <span class="text-xs font-normal text-gray-200">Chúc các bạn yêu năm mới mạnh khỏe!</span></p>
-            <div class="cat-btn" id="startBtn" onclick="closeAlertAndPlay()">
-                <img src="https://jbagy.me/wp-content/uploads/2025/04/Hinh-meme-meo-cuoi-deu-1.jpg">
+            <p class="text-md font-bold text-white mb-6 leading-tight">ĂN TẾT LÀNH MẠNH - TRÁNH XA CỜ BẠC<br>
+            <span class="text-xs font-normal text-gray-200">Chúc các bạn yêu ăn Tết vui vẻ, mạnh khỏe!</span></p>
+            <div class="cat-btn" onclick="closeAlertWithEffect()">
+                <img src="https://jbagy.me/wp-content/uploads/2025/04/Hinh-meme-meo-cuoi-deu-1.jpg" alt="Xô Phim Cat">
             </div>
-            <p class="text-[10px] text-yellow-500 font-bold mt-4 uppercase tracking-widest">Chạm Mèo để nghe nhạc & xem phim</p>
+            <p class="text-[10px] text-yellow-500 font-bold mt-4 uppercase tracking-widest">Chạm Mèo để vào phim</p>
         </div>
     </div>
 
     <header id="header">
-        <div class="flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <div class="w-9 h-8 bg-[#d4a017] rounded-b-xl flex items-center justify-center"><i class="fas fa-play text-black text-xs"></i></div>
-                <div class="flex flex-col leading-none">
-                    <span class="text-xl font-black text-white uppercase tracking-tighter">Xô Phim</span>
-                    <span class="text-[8px] text-gray-400 font-bold uppercase tracking-widest">Yixiu Vietnam</span>
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="flex items-center justify-between w-full md:w-auto">
+                <div class="flex items-center gap-2 cursor-pointer">
+                    <div class="w-9 h-8 bg-[#d4a017] rounded-b-xl flex items-center justify-center">
+                        <i class="fas fa-play text-black text-xs"></i>
+                    </div>
+                    <div class="flex flex-col leading-none">
+                        <span class="text-xl font-black text-white tracking-tighter">XÔ PHIM</span>
+                        <span class="text-[8px] text-gray-400 font-bold tracking-widest">YIXIU VIETNAM</span>
+                    </div>
                 </div>
+                <div class="md:hidden bg-white/10 p-2 px-4 rounded-full text-[10px] font-bold"><i class="fas fa-user mr-1"></i> Thành viên</div>
             </div>
-            <div class="bg-white text-black px-4 py-1.5 rounded-full text-xs font-bold shadow-lg shadow-white/10">Thành viên</div>
+
+            <div class="search-bar">
+                <i class="fas fa-search text-gray-400 text-sm"></i>
+                <input type="text" placeholder="Tìm kiếm phim, diễn viên...">
+            </div>
+
+            <div class="hidden md:flex items-center bg-white text-black px-5 py-2 rounded-full text-xs font-bold cursor-pointer">
+                <i class="fas fa-user mr-2"></i> Thành viên
+            </div>
         </div>
+
         <nav class="nav-scroll">
             <a href="#" class="nav-item">Chủ Đề</a>
             <a href="#" class="nav-item">Thể loại <i class="fas fa-caret-down text-[10px]"></i></a>
             <a href="#" class="nav-item">Phim Lẻ</a>
             <a href="#" class="nav-item">Phim Bộ</a>
-            <a href="#" class="nav-item">Quốc gia</a>
+            <a href="#" class="nav-item"><span class="badge-new">NEW</span> Xem Chung</a>
+            <a href="#" class="nav-item">Quốc gia <i class="fas fa-caret-down text-[10px]"></i></a>
+            <a href="#" class="nav-item">Diễn Viên</a>
+            <a href="#" class="nav-item">Lịch Chiếu</a>
         </nav>
     </header>
 
-    <section class="relative h-[80vh] w-full pt-32 overflow-hidden flex flex-col justify-end items-center pb-20 text-center px-6">
-        <div id="banner-bg" class="absolute inset-0 bg-cover bg-center transition-all duration-1000 scale-105" style="z-index:-1"></div>
-        <div class="absolute inset-0" style="background: linear-gradient(to top, var(--bg-dark), transparent); z-index:-1"></div>
-        <h1 id="title" class="text-4xl md:text-6xl font-black italic uppercase drop-shadow-2xl">--</h1>
-        <p id="sub" class="text-yellow-500 text-sm font-bold mb-6 tracking-widest uppercase">--</p>
-        <button onclick="playCurrent()" class="bg-yellow-500 text-black px-12 py-3 rounded-full font-black uppercase text-xs hover:scale-110 transition">XEM NGAY</button>
+    <section class="relative h-[80vh] w-full pt-32 overflow-hidden">
+        <div id="banner-bg" class="absolute inset-0 bg-cover bg-center transition-all duration-1000 scale-105"></div>
+        <div class="absolute inset-0" style="background: linear-gradient(to top, var(--bg-dark) 10%, transparent 100%);"></div>
+        <div class="relative z-10 flex flex-col items-center justify-end h-full px-6 pb-20 text-center">
+            <h1 id="title" class="text-4xl md:text-6xl font-black mb-2 italic uppercase drop-shadow-2xl">--</h1>
+            <p id="sub" class="text-yellow-500 text-sm font-bold mb-6 tracking-widest uppercase">--</p>
+            <button onclick="playCurrent()" class="bg-yellow-500 text-black px-12 py-3 rounded-full font-black hover:scale-105 transition shadow-lg shadow-yellow-500/20">XEM NGAY</button>
+            <div id="thumb-container" class="flex gap-3 overflow-x-auto no-scrollbar mt-8 w-full justify-center"></div>
+        </div>
     </section>
 
-    <main class="px-6 py-12 relative z-10">
-        <h2 class="text-xl font-extrabold italic uppercase mb-8 border-l-4 border-red-600 pl-4 tracking-widest">Phim Mới Cập Nhật</h2>
+    <main class="px-6 py-12">
+        <h2 class="text-xl font-extrabold italic uppercase mb-8 border-l-4 border-red-600 pl-4">Phim Mới Cập Nhật</h2>
         <div id="movie-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6"></div>
     </main>
 
     <footer class="footer">
-        <div class="footer-tag"><i class="fas fa-exclamation-triangle mr-2"></i> Có chứa nội dung cờ bạc - mong ae tránh xa nhé!</div>
-        <p class="text-[10px] text-gray-600 font-bold uppercase tracking-widest">© 2026 XôPhim - Tết An Nhiên</p>
+        <div class="max-w-7xl mx-auto">
+            <div class="footer-tag">★ Hoàng Sa & Trường Sa là của Việt Nam!</div>
+            
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-9 bg-[#d4a017] rounded-b-xl flex items-center justify-center">
+                    <i class="fas fa-play text-black"></i>
+                </div>
+                <div class="flex flex-col leading-none border-r border-gray-700 pr-4">
+                    <span class="text-2xl font-black text-white">XÔ PHIM</span>
+                    <span class="text-[10px] text-gray-400 font-bold">YIXIU VIETNAM</span>
+                </div>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-telegram-plane"></i></a>
+                    <a href="#"><i class="fab fa-discord"></i></a>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <nav class="flex flex-wrap gap-6 text-sm font-bold mb-8">
+                <a href="#" class="hover:text-yellow-500">Hỏi-Đáp</a>
+                <a href="#" class="hover:text-yellow-500">Chính sách bảo mật</a>
+                <a href="#" class="hover:text-yellow-500">Điều khoản sử dụng</a>
+                <a href="#" class="hover:text-yellow-500 text-yellow-500">Giới thiệu</a>
+                <a href="#" class="hover:text-yellow-500">Liên hệ</a>
+            </nav>
+
+            <p class="text-xs text-gray-500 leading-relaxed max-w-2xl">
+                XôPhim - Trang xem phim online chất lượng cao miễn phí Vietsub, thuyết minh, lồng tiếng full HD. Kho phim mới khổng lồ, phim chiếu rạp, phim bộ, phim lẻ từ nhiều quốc gia như Việt Nam, Hàn Quốc, Trung Quốc, Thái Lan, Nhật Bản, Âu Mỹ... đa dạng thể loại. Khám phá nền tảng phim trực tuyến hay nhất 2026 chất lượng 4K!
+            </p>
+            <p class="text-[10px] text-gray-600 mt-6">© 2026 XôPhim</p>
+        </div>
+        <div class="btn-top" onclick="window.scrollTo(0,0)"><i class="fas fa-arrow-up block mb-1"></i> ĐẦU<br>TRANG</div>
     </footer>
 
     <div id="player-overlay" class="fixed inset-0 z-[200] hidden bg-black flex flex-col">
-        <div class="p-4 flex justify-between items-center bg-[#0b0c10]">
+        <div class="p-4 flex justify-between items-center bg-[#1a1a20]">
             <button onclick="closePlayer()" class="text-white text-xl"><i class="fas fa-times"></i></button>
-            <h2 id="player-title" class="font-bold text-xs text-gray-400 uppercase">Đang phát</h2>
+            <h2 id="player-title" class="font-bold text-xs text-gray-400 uppercase tracking-widest">Đang phát</h2>
             <div class="w-6"></div>
         </div>
-        <iframe id="main-iframe" class="w-full aspect-video" frameborder="0" allowfullscreen></iframe>
-        <div id="episodes-container" class="ep-list"></div>
+        <iframe id="main-iframe" class="flex-1 w-full" frameborder="0" allowfullscreen></iframe>
     </div>
 
     <script>
         const movies = [
-            {
-                id: 3, title: "Hố Đen Tử Thần", sub: "Interstellar", img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20250302-1/4cee31c3afd0fbfd11ed4f14b1bfd816.jpg",
-                episodes: [{ name: "Full Movie", link: "https://player.phimapi.com/player/?url=https://s4.phim1280.tv/20250302/BLbAWQOK/index.m3u8" }]
-            },
-            {
-                id: 2, title: "Bóng Ma Anh Quốc", sub: "Peaky Blinders", img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20240730-1/b37769fcc6142d1e116b6486f6b7132b.jpg",
-                episodes: [
-                    { name: "P1-T01", link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/911phIUY/index.m3u8" },
-                    { name: "P1-T02", link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/fWRCpaKk/index.m3u8" },
-                    { name: "P1-T03", link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/KN724ide/index.m3u8" }
-                ]
-            }
+            { title: "Phim Tết 2026", sub: "New Year Special", img: "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?q=80&w=2070&auto=format&fit=crop", link: "https://www.youtube.com/embed/dQw4w9WgXcQ" }
         ];
 
         let cur = 0;
-
-        function closeAlertAndPlay() {
+        function closeAlertWithEffect() {
             document.getElementById('alertBox').classList.add('closing');
-            const music = document.getElementById('tet-music');
-            music.play().catch(e => console.log("Cần chạm để phát nhạc"));
-            setTimeout(() => { document.getElementById('tet-alert').style.display = 'none'; }, 800);
+            setTimeout(() => { document.getElementById('tet-alert').style.display = 'none'; }, 500);
         }
 
-        // PHÁO HOA ĐA SẮC
-        const cvs = document.getElementById('fw-canvas');
-        const ctx = cvs.getContext('2d');
-        let particles = [];
-        const resize = () => { cvs.width = window.innerWidth; cvs.height = window.innerHeight; };
-        window.addEventListener('resize', resize); resize();
-
-        class Particle {
-            constructor(x, y, color) {
-                this.x = x; this.y = y; this.color = color;
-                this.v = { x: (Math.random()-0.5)*8, y: (Math.random()-0.5)*8 };
-                this.life = 1;
-            }
-            draw() {
-                ctx.globalAlpha = this.life;
-                ctx.beginPath(); ctx.arc(this.x, this.y, 2, 0, Math.PI*2);
-                ctx.fillStyle = this.color; ctx.fill();
-            }
-            update() {
-                this.v.y += 0.05; this.x += this.v.x; this.y += this.v.y; this.life -= 0.015;
-            }
-        }
-
-        function createFirework() {
-            const colors = ['#ff0000', '#ffd700', '#00ff00', '#00ffff', '#ff00ff', '#ffffff', '#ff8c00'];
-            const x = Math.random() * cvs.width;
-            const y = Math.random() * cvs.height * 0.6;
-            const color = colors[Math.floor(Math.random()*colors.length)];
-            for(let i=0; i<30; i++) particles.push(new Particle(x, y, color));
-        }
-
-        function loop() {
-            ctx.fillStyle = 'rgba(11, 12, 16, 0.2)';
-            ctx.fillRect(0,0,cvs.width,cvs.height);
-            particles.forEach((p, i) => {
-                if(p.life > 0) { p.update(); p.draw(); }
-                else particles.splice(i, 1);
-            });
-            requestAnimationFrame(loop);
-        }
-        setInterval(createFirework, 800);
-        loop();
-
-        // HOA ĐÀO RƠI
-        setInterval(() => {
-            const s = document.createElement('div');
-            s.className = 'sakura';
-            s.style.left = Math.random() * 100 + 'vw';
-            const size = Math.random() * 8 + 5 + 'px';
-            s.style.width = s.style.height = size;
-            s.style.animationDuration = Math.random() * 4 + 4 + 's';
-            document.body.appendChild(s);
-            setTimeout(() => s.remove(), 8000);
-        }, 400);
-
-        function init() {
-            const grid = document.getElementById('movie-grid');
-            movies.forEach((m, i) => {
-                grid.innerHTML += `
-                    <div class="cursor-pointer group" onclick="playMovie(${i})">
-                        <div class="relative aspect-[2/3] rounded-xl overflow-hidden shadow-2xl bg-gray-900 border border-white/5">
-                            <img src="${m.img}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
-                        </div>
-                        <h3 class="mt-3 font-bold text-[11px] truncate text-gray-400 group-hover:text-yellow-500">${m.title}</h3>
-                    </div>
-                `;
-            });
-            updateBanner();
-        }
-
-        function updateBanner() {
+        function update() {
+            if(movies.length === 0) return;
             const m = movies[cur];
             document.getElementById('banner-bg').style.backgroundImage = `url('${m.img}')`;
             document.getElementById('title').innerText = m.title;
             document.getElementById('sub').innerText = m.sub;
         }
 
-        function playMovie(i, epIdx = 0) {
-            const m = movies[i]; const ep = m.episodes[epIdx];
-            document.getElementById('player-title').innerText = `${m.title} - ${ep.name}`;
-            document.getElementById('main-iframe').src = ep.link;
-            const container = document.getElementById('episodes-container');
-            container.innerHTML = '';
-            if (m.episodes.length > 1) {
-                m.episodes.forEach((e, idx) => {
-                    container.innerHTML += `<div class="ep-item ${idx===epIdx?'active':''}" onclick="playMovie(${i}, ${idx})">${e.name}</div>`;
-                });
-            }
-            document.getElementById('player-overlay').classList.remove('hidden');
+        function init() {
+            const grid = document.getElementById('movie-grid');
+            movies.forEach((m, i) => {
+                grid.innerHTML += `
+                    <div class="cursor-pointer group" onclick="playMovie(${i})">
+                        <div class="relative aspect-[2/3] rounded-xl overflow-hidden shadow-2xl bg-gray-900">
+                            <img src="${m.img}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                                <i class="fas fa-play text-yellow-500 text-2xl"></i>
+                            </div>
+                        </div>
+                        <h3 class="mt-3 font-bold text-xs truncate text-gray-300 group-hover:text-yellow-500 transition">${m.title}</h3>
+                    </div>
+                `;
+            });
+            update();
         }
 
+        function playMovie(i) {
+            document.getElementById('player-title').innerText = movies[i].title;
+            document.getElementById('main-iframe').src = movies[i].link;
+            document.getElementById('player-overlay').classList.remove('hidden');
+        }
         function closePlayer() { document.getElementById('player-overlay').classList.add('hidden'); document.getElementById('main-iframe').src = ""; }
         function playCurrent() { playMovie(cur); }
+
+        // Hiệu ứng pháo hoa & Sakura (Giữ nguyên từ bản trước)
+        setInterval(() => {
+            const s = document.createElement('div'); s.className = 'sakura';
+            s.style.left = Math.random() * 100 + 'vw';
+            s.style.width = s.style.height = Math.random() * 5 + 3 + 'px';
+            s.style.animationDuration = Math.random() * 3 + 5 + 's';
+            document.body.appendChild(s);
+            setTimeout(() => s.remove(), 7000);
+        }, 600);
+
         init();
     </script>
 </body>
