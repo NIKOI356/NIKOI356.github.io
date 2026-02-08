@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xô Phim - Phim hay cả xô</title>
+    <title>Xô Phim - Tết 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -11,11 +11,10 @@
         :root { --xo-vang: #d4a017; }
         body { background-color: #1a1a20; color: #e2e8f0; font-family: 'Inter', sans-serif; overflow-x: hidden; }
         
-        /* HEADER ĐỎ MỜ - GIỮ NGUYÊN KHI CUỘN */
+        /* HEADER ĐỎ MỜ CỐ ĐỊNH */
         #header { 
             position: fixed;
             top: 0; left: 0; width: 100%; z-index: 120;
-            /* Hiệu ứng đỏ mờ dần xuống ban đầu */
             background: linear-gradient(to bottom, 
                 rgba(160, 0, 0, 0.98) 0%, 
                 rgba(130, 0, 0, 0.85) 50%, 
@@ -23,42 +22,46 @@
             padding-bottom: 25px;
         }
 
-        /* Menu ngang GoGo */
-        .nav-scroll {
-            display: flex; overflow-x: auto; white-space: nowrap;
-            gap: 15px; padding: 12px 0 0 0; scrollbar-width: none;
-        }
+        .nav-scroll { display: flex; overflow-x: auto; white-space: nowrap; gap: 15px; padding: 12px 0 0 0; scrollbar-width: none; }
         .nav-scroll::-webkit-scrollbar { display: none; }
         .nav-item { color: rgba(255,255,255,0.9); font-size: 13px; font-weight: 500; }
         .badge-new { background: #f59e0b; color: #000; font-size: 8px; padding: 1px 3px; border-radius: 2px; font-weight: 900; }
 
-        /* MODAL CẢNH BÁO (BẢN ĐẸP) */
+        /* MODAL CẢNH BÁO & HIỆU ỨNG THU NHỎ */
         #tet-alert {
             position: fixed; inset: 0; z-index: 300; display: flex; align-items: center; justify-content: center;
-            background: rgba(0,0,0,0.85); backdrop-filter: blur(5px);
-            animation: zoomCenter 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: rgba(0,0,0,0.9); backdrop-filter: blur(5px);
+            transition: all 0.5s cubic-bezier(0.6, -0.28, 0.735, 0.045);
         }
-        @keyframes zoomCenter { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        
+        /* Hiệu ứng phóng to ban đầu */
         .alert-box {
-            background: #990000; padding: 2rem; rounded-3xl: 1.5rem; 
-            border: 4px solid var(--xo-vang); text-align: center; max-width: 90%;
-            box-shadow: 0 0 50px rgba(234,179,8,0.3); border-radius: 24px;
+            background: #990000; padding: 2rem; border: 4px solid var(--xo-vang); text-align: center; 
+            max-width: 85%; border-radius: 24px; box-shadow: 0 0 50px rgba(234,179,8,0.3);
+            animation: zoomIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: all 0.5s ease;
         }
-        .horse-btn { font-size: 50px; cursor: pointer; display: inline-block; animation: gallop 0.6s infinite steps(2); }
-        @keyframes gallop { from { transform: translateY(0); } to { transform: translateY(-10px); } }
+
+        @keyframes zoomIn { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        
+        /* Class khi tắt: thu nhỏ về giữa */
+        .closing { transform: scale(0) !important; opacity: 0 !important; }
+
+        /* Anh Mèo bo tròn viền vàng */
+        .cat-btn {
+            width: 100px; height: 100px; margin: 0 auto;
+            border-radius: 50%; border: 4px solid var(--xo-vang);
+            overflow: hidden; cursor: pointer; transition: transform 0.2s;
+            box-shadow: 0 0 15px var(--xo-vang);
+        }
+        .cat-btn:active { transform: scale(0.9); }
+        .cat-btn img { width: 100%; height: 100%; object-fit: cover; }
 
         /* UI Elements */
         .sakura { position: fixed; top: -10%; z-index: 100; pointer-events: none; background: #ffb7c5; border-radius: 50% 0 50% 50%; animation: fall linear infinite; }
         @keyframes fall { 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
         #fireworksCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 99; }
         .banner-gradient { background: linear-gradient(to top, #1a1a20 0%, rgba(26,26,32,0.5) 50%, transparent 100%); }
-        .thumb-circle { width: 45px; height: 45px; border-radius: 50%; border: 2px solid transparent; opacity: 0.5; overflow: hidden; transition: 0.3s; cursor: pointer; flex-shrink: 0; }
-        .thumb-active { border-color: var(--xo-vang); opacity: 1; transform: scale(1.1); }
-        
-        /* Logo */
-        .logo-container { display: flex; align-items: center; gap: 8px; }
-        .bucket { width: 30px; height: 26px; background: var(--xo-vang); border-radius: 3px 3px 8px 8px; position: relative; }
-        .bucket::before { content: ''; position: absolute; width: 22px; height: 10px; border: 2px solid var(--xo-vang); border-bottom: none; border-radius: 20px 20px 0 0; top: -9px; left: 2px; }
     </style>
 </head>
 <body>
@@ -66,19 +69,23 @@
     <canvas id="fireworksCanvas"></canvas>
 
     <div id="tet-alert">
-        <div class="alert-box">
+        <div class="alert-box" id="alertBox">
             <h2 class="text-2xl font-black mb-3 text-yellow-400 italic uppercase">Thông Báo Tết</h2>
             <p class="text-md font-bold text-white mb-6 leading-tight">ĂN TẾT LÀNH MẠNH - TRÁNH XA CỜ BẠC<br>
             <span class="text-xs font-normal text-gray-200">Chúc các bạn yêu ăn Tết vui vẻ, mạnh khỏe!</span></p>
-            <div class="horse-btn" onclick="closeAlert()">🐎</div>
-            <p class="text-[10px] text-yellow-500 font-bold mt-3 uppercase tracking-widest">Chạm ngựa để vào phim</p>
+            
+            <div class="cat-btn" onclick="closeAlertWithEffect()">
+                <img src="https://jbagy.me/wp-content/uploads/2025/04/Hinh-meme-meo-cuoi-deu-1.jpg" alt="Mèo cười đểu">
+            </div>
+            
+            <p class="text-[10px] text-yellow-500 font-bold mt-4 uppercase tracking-widest">Chạm Mèo để vào phim</p>
         </div>
     </div>
 
     <header id="header" class="px-5 pt-5">
         <div class="flex items-center justify-between mb-1">
-            <div class="logo-container">
-                <div class="bucket"></div>
+            <div class="logo-container flex items-center gap-2">
+                <div class="w-[30px] h-[26px] bg-[#d4a017] rounded-b-lg"></div>
                 <span class="text-lg font-black text-yellow-500 tracking-tighter">XÔ PHIM</span>
             </div>
             <div class="flex items-center gap-4 text-gray-200">
@@ -103,10 +110,10 @@
             <div class="mb-6">
                 <h1 id="title" class="text-4xl font-black mb-2 italic uppercase drop-shadow-md tracking-tight">--</h1>
                 <p id="sub" class="text-yellow-500/90 text-xs font-bold mb-4 tracking-widest">--</p>
-                <div class="flex justify-center gap-2 mb-6">
-                    <span id="rating" class="text-[10px] border border-yellow-500 text-yellow-500 px-2 py-0.5 rounded font-bold">--</span>
-                    <span id="year" class="text-[10px] bg-white/10 px-2 py-0.5 rounded">--</span>
-                    <span id="status" class="text-[10px] bg-white/10 px-2 py-0.5 rounded">--</span>
+                <div class="flex justify-center gap-2 mb-6 text-[10px]">
+                    <span id="rating" class="border border-yellow-500 text-yellow-500 px-2 py-0.5 rounded font-bold">--</span>
+                    <span id="year" class="bg-white/10 px-2 py-0.5 rounded">--</span>
+                    <span id="status" class="bg-white/10 px-2 py-0.5 rounded">--</span>
                 </div>
                 <button onclick="playCurrent()" class="bg-yellow-500 text-black px-10 py-2.5 rounded-full font-black text-xs hover:scale-105 transition shadow-lg uppercase tracking-widest">Xem Ngay</button>
             </div>
@@ -122,7 +129,7 @@
     <div id="player-overlay" class="fixed inset-0 z-[200] hidden bg-black flex flex-col">
         <div class="p-4 flex justify-between items-center bg-[#1a1a20]">
             <button onclick="closePlayer()" class="text-white text-xl"><i class="fas fa-times"></i></button>
-            <h2 id="player-title" class="font-bold uppercase text-[10px] tracking-widest text-gray-400">Đang phát</h2>
+            <h2 id="player-title" class="font-bold uppercase text-[10px] text-gray-400">Đang phát</h2>
             <div class="w-6"></div>
         </div>
         <iframe id="main-iframe" class="flex-1 w-full" frameborder="0" allowfullscreen></iframe>
@@ -130,422 +137,123 @@
 
     <script>
         const movies = [
-           {
-    id: 18,
-    title: "Mưa Đỏ",
-    sub: "Red Rain",
-    year: "2026",
-    rating: "8.2",
-    status: "YouTube",
-    desc: "Một tác phẩm mang đầy màu sắc nghệ thuật và kịch tính. Câu chuyện đưa người xem vào một không gian huyền bí, nơi những cơn mưa đỏ mang theo những bí mật và thay đổi định mệnh của những con người trong cuộc.",
-    img: "https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/0b1372232709307.68a20d789415d.jpg",
-    episodes: [{ name: "Full", link: "https://www.youtube.com/embed/9Ymlum6nHq4" }]
-},
             {
-    id: 17,
-    title: "Quang Phổ",
-    sub: "Spectral",
-    year: "2026",
-    rating: "7.3",
-    status: "Bản Đẹp",
-    desc: "Một đội đặc nhiệm tinh nhuệ được cử đi thực hiện nhiệm vụ tại một thành phố đang bị tàn phá bởi những sinh vật vô hình bí ẩn. Chúng không thể bị tiêu diệt bởi vũ khí thông thường, buộc cả đội phải sử dụng những thiết bị quang phổ tối tân để sống sót.",
-    img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20260116-1/5b1f85f0fbcc96ca4bad610602025626.jpg",
-    episodes: [{ name: "Full", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260116/KvfgltMI/index.m3u8" }]
-},
-            {
-    id: 16,
-    title: "Trò Chơi Kẻ Thao Túng",
-    sub: "My Sister's Bones",
-    year: "2026",
-    rating: "7.6",
-    status: "Phim Mới",
-    desc: "Sau cái chết đột ngột của cha, hai chị em bị lôi kéo vào một trò chơi tâm lý đầy nguy hiểm. Những bí mật đen tối trong quá khứ dần lộ diện, khiến họ phải đặt nghi vấn về sự thật và lòng tin dành cho chính người thân của mình.",
-    img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20260202-1/90b04eb17f3d2b9b3afa7e90aac58e41.jpg",
-    episodes: [{ name: "Full", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260202/T8OE34Fr/index.m3u8" }]
-},
-            {
-    id: 15,
-    title: "The Rig",
-    sub: "The Rig",
-    year: "2023",
-    rating: "6.8",
-    status: "Tập 06/06",
-    desc: "Khi một màn sương mù bí ẩn bao vây giàn khoan dầu Kinloch Bravo ở Biển Bắc, đoàn thủy thủ mất hoàn toàn liên lạc với thế giới bên ngoài. Những hiện tượng kỳ lạ bắt đầu xảy ra, đẩy mọi người vào một cuộc chiến sinh tồn đầy kinh hãi trước một thế lực cổ xưa.",
-    img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20240305-1/af45b3557bc21dcdf87fbbf29423b3aa.jpg",
-    episodes: [
-        { name: "Tập 01", link: "https://player.phimapi.com/player/?url=https://s2.phim1280.tv/20240311/EefofkOB/index.m3u8" },
-        { name: "Tập 02", link: "https://player.phimapi.com/player/?url=https://s2.phim1280.tv/20240311/3FSWdwUS/index.m3u8" },
-        { name: "Tập 03", link: "https://player.phimapi.com/player/?url=https://s2.phim1280.tv/20240311/mkZfY0IZ/index.m3u8" },
-        { name: "Tập 04", link: "https://player.phimapi.com/player/?url=https://s2.phim1280.tv/20240311/utb4mRZc/index.m3u8" },
-        { name: "Tập 05", link: "https://player.phimapi.com/player/?url=https://s2.phim1280.tv/20240311/h9kLC9gD/index.m3u8" },
-        { name: "Tập 06", link: "https://player.phimapi.com/player/?url=https://s2.phim1280.tv/20240311/DSFUnB7s/index.m3u8" }
-    ]
-},
-            {
-    id: 14,
-    title: "Mật Vụ Phụ Hồ",
-    sub: "A Working Man",
-    year: "2025",
-    rating: "7.8",
-    status: "Hành Động",
-    desc: "Câu chuyện xoay quanh một người đàn ông làm nghề phụ hồ bình dị nhưng ẩn sau đó là một quá khứ bí ẩn của một mật vụ tài ba. Khi những người thân yêu bị đe dọa, anh buộc phải phô diễn những kỹ năng sát thủ của mình để thực thi công lý.",
-    img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20250406-1/7c28ab6d499bc41ee5ba9e33f265a7cc.jpg",
-    episodes: [{ name: "Full", link: "https://player.phimapi.com/player/?url=https://s5.phim1280.tv/20250509/o66izJ5l/index.m3u8" }]
-},
-            {
-    id: 13,
-    title: "Siêu Anh Hùng Bloodshot",
-    sub: "Bloodshot",
-    year: "2020",
-    rating: "7.0",
-    status: "Bản Đẹp",
-    desc: "Ray Garrison, một binh lính vừa tử trận, được hồi sinh bởi tập đoàn RST với công nghệ nano siêu việt trong máu, biến anh thành một siêu chiến binh có khả năng phục hồi tức thì. Tuy nhiên, khi ký ức dần trở lại, Ray nhận ra mình đang bị lợi dụng trong một âm mưu thâm độc.",
-    img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20250905-1/e4c64f54f35cd50c496d12d580284dac.jpg",
-    episodes: [{ name: "Full", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20250905/rnRuM8V1/index.m3u8" }]
-},
-            
-            {
-    id: 12,
-    title: "Tiểu Yêu Quái Núi Lãng Lãng",
-    sub: "Nobody",
-    year: "2023",
-    rating: "9.2",
-    status: "Hoạt Hình",
-    desc: "Một góc nhìn đầy mới mẻ và nhân văn về cuộc sống của một tiểu yêu quái bình thường tại Núi Lãng Lãng. Câu chuyện không chỉ là về hành trình của thầy trò Đường Tăng mà còn là lời tự sự sâu sắc về ước mơ và thực tại của những kẻ 'vô danh'.",
-    img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20250907-1/4074dc1b02219548fd890c1a948dac70.jpg",
-    episodes: [{ name: "Full", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251204/wM0RTCwd/index.m3u8" }]
-},
-            
-            {
-    id: 11,
-    title: "Avatar: Lửa và Tro Tàn",
-    sub: "Avatar: Fire and Ash",
-    year: "2025",
-    rating: "9.0",
-    status: "Phim Chiếu Rạp",
-    desc: "Phần thứ ba của siêu phẩm hành tinh Pandora, Jake Sully và Neytiri sẽ phải đối mặt với một bộ tộc Na'vi hung dữ hơn — Tộc Người Tro Tàn. Một cuộc hành trình vào những vùng đất núi lửa đầy nguy hiểm và những thử thách khắc nghiệt nhất từ trước đến nay.",
-    img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20251221-1/687373bb9894616507f27c74c0eaa598.jpg",
-    episodes: [{ name: "Full", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260120/H4h7Crrd/index.m3u8" }]
-},
-            {
-    id: 10,
-    title: "Avatar 2: Dòng Chảy Của Nước",
-    sub: "Avatar: The Way of Water",
-    year: "2022",
-    rating: "8.0",
-    status: "Bản Đẹp 4K",
-    desc: "Jake Sully cùng gia đình mới của mình phải rời bỏ quê hương để tìm kiếm nơi trú ẩn tại các vùng biển xa xôi trên Pandora. Tại đây, họ phải học cách thích nghi với đại dương và đối mặt với sự trở lại của những kẻ thù cũ.",
-    img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20250513-1/59fc5ffe0025ca40c99d48b070b59320.jpg",
-    episodes: [{ name: "Full", link: "https://player.phimapi.com/player/?url=https://s5.phim1280.tv/20250513/XQBfOc33/index.m3u8" }]
-},
-            
-            {
-    id: 9,
-    title: "Avatar 1",
-    sub: "Avatar (2009)",
-    year: "2009",
-    rating: "7.9",
-    status: "Siêu Kinh Điển",
-    desc: "Trên hành tinh Pandora xinh đẹp nhưng đầy hiểm nguy, một cựu binh liệt nửa người tham gia vào một sứ mệnh thay thế đặc biệt. Anh dần bị cuốn vào cuộc chiến bảo vệ vùng đất thiêng liêng của tộc người Na'vi chống lại sự xâm lược của loài người.",
-    img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20251224-1/a14e53706b8086d753874f16c0d232d3.jpg",
-    episodes: [{ name: "Full", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251224/r2a4Q0Z4/index.m3u8" }]
-},
-            {
-    id: 8,
-    title: "Tên Trộm Dấu Yêu",
-    sub: "To My Beloved Thief",
-    year: "2026",
-    rating: "8.5",
-    status: "Tập 08/??",
-    desc: "Một câu chuyện tình đầy kịch tính và lãng mạn giữa một tên trộm tài ba và mục tiêu của mình. Những phi vụ nghẹt thở xen lẫn những rung động không ngờ tới tạo nên một hành trình đầy cảm xúc.",
-    img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20260105-1/0adea2e823ede3d6a2bca22d1f0ac286.jpg",
-    episodes: [
-        { name: "Tập 01", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260110/18klrYcR/index.m3u8" },
-        { name: "Tập 02", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260110/4ZwV76bt/index.m3u8" },
-        { name: "Tập 03", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260117/CGGmfRd9/index.m3u8" },
-        { name: "Tập 04", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260117/eW1xbcRY/index.m3u8" },
-        { name: "Tập 05", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260123/kgLjuYQR/index.m3u8" },
-        { name: "Tập 06", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260123/X9N82oFg/index.m3u8" },
-        { name: "Tập 07", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260201/T8deYm0f/index.m3u8" },
-        { name: "Tập 08", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260201/FqfQaMnQ/index.m3u8" }
-    ]
-},
-            
-            {
-    id: 7,
-    title: "Quái Vật Đầm Lầy",
-    sub: "The Bayou (Đức Sub)",
-    year: "2026",
-    rating: "7.2",
-    status: "Phim Mới",
-    desc: "Một sinh vật bí ẩn và khát máu trỗi dậy từ vùng đầm lầy sâu thẳm, đe dọa mạng sống của những người dân địa phương. Cuộc săn lùng bắt đầu trong bóng tối kinh hoàng của vùng nước đọng.",
-    img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20250515-1/5787cec877bf6d532bfa6486468f914c.jpg",
-    episodes: [{ name: "Full", link: "https://player.phimapi.com/player/?url=https://s5.phim1280.tv/20250515/82qFdZP8/index.m3u8" }]
-},
-            {
-            id: 6,
-            title: "Đảo Rắn Khổng Lồ",
-            sub: "Island Python",
-            year: "2026",
-            rating: "7.5",
-            status: "Phim Mới",
-            desc: "Một nhóm thám hiểm vô tình lạc bước lên hòn đảo biệt lập, nơi ngự trị của những loài trăn khổng lồ khát máu. Cuộc chiến sinh tồn giữa con người và quái vật tự nhiên bắt đầu khi bí mật kinh hoàng của hòn đảo dần được hé lộ.",
-            img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20250204-1/4a2bea191ffbdf6af6c67d1a42b82695.jpg",
-            episodes: [{ name: "Full", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260206/3ywMSHEu/index.m3u8" }]
-        },
-            {
-            
-                id: 5,
-                title: "Cậu Bé Mồ Côi",
-                sub: "Oliver Twist",
-                year: "2005",
-                rating: "6.8",
+                title: "Phim Mẫu 01",
+                sub: "Sample Movie One",
+                year: "2026",
+                rating: "9.0",
                 status: "Full HD",
-                desc: "Câu chuyện về cuộc đời đầy gian truân của cậu bé mồ côi Oliver Twist giữa lòng London khắc nghiệt. Một hành trình tìm kiếm gia đình và sự lương thiện giữa những cạm bẫy của thế giới ngầm.",
-                img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20231101-1/6cbd98d6056b8ee79cdb701f9836e017.jpg",
-                episodes: [{ name: "Full", link: "https://player.phimapi.com/player/?url=https://s2.phim1280.tv/20231103/fUhNyikd/index.m3u8" }]
-            },
-            {
-                id: 4,
-            title: "Cậu Bé Mất Tích",
-            sub: "Stranger Things (Full Season 1-5)",
-            year: "2016-2026",
-            rating: "8.7",
-            status: "Trọn bộ 5 phần",
-            desc: "Khi một cậu bé mất tích, một thị trấn nhỏ phát hiện ra một bí ẩn liên quan đến các cuộc thí nghiệm bí mật, các lực lượng siêu nhiên đáng sợ và một cô bé kỳ lạ có khả năng thấu thị.",
-            img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20251127-1/4e76c982472d25b28d2b8b0a177f79d7.jpg",
-            episodes: [
-                { name: "P1-T1", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/eMrQhses/index.m3u8" },
-                { name: "P1-T2", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/yAIeQK28/index.m3u8" },
-                { name: "P1-T3", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/bMLS6ssd/index.m3u8" },
-                { name: "P1-T4", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/9GOe0ERm/index.m3u8" },
-                { name: "P1-T5", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/dt44QZBb/index.m3u8" },
-                { name: "P1-T6", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/rJDxkKag/index.m3u8" },
-                { name: "P1-T7", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/GHYwItQu/index.m3u8" },
-                { name: "P1-T8", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/T9dfPeqG/index.m3u8" },
-                { name: "P2-T1", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/VpgRLCmQ/index.m3u8" },
-                { name: "P2-T2", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/i4PjdUKJ/index.m3u8" },
-                { name: "P2-T3", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/im9N0WA8/index.m3u8" },
-                { name: "P2-T4", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/97X0NbJ9/index.m3u8" },
-                { name: "P2-T5", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/hD5hYx5P/index.m3u8" },
-                { name: "P2-T6", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/MUqTKn3z/index.m3u8" },
-                { name: "P2-T7", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/devEf5D4/index.m3u8" },
-                { name: "P2-T8", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/PyYxRkFF/index.m3u8" },
-                { name: "P2-T9", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/QfegEzof/index.m3u8" },
-                { name: "P3-T1", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/0VT1ek7V/index.m3u8" },
-                { name: "P3-T2", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/4ALbRK0U/index.m3u8" },
-                { name: "P3-T3", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/hCnt5Db7/index.m3u8" },
-                { name: "P3-T4", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/R22LSZ4q/index.m3u8" },
-                { name: "P3-T5", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/iB3IqIsM/index.m3u8" },
-                { name: "P3-T6", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/K3fOBZ4T/index.m3u8" },
-                { name: "P3-T7", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/q5z1E9jN/index.m3u8" },
-                { name: "P3-T8", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/ZwVz0i1P/index.m3u8" },
-                { name: "P4-T1", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/xlXYIN4h/index.m3u8" },
-                { name: "P4-T2", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/DmcR4Ifa/index.m3u8" },
-                { name: "P4-T3", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/s8HrgFqu/index.m3u8" },
-                { name: "P4-T4", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/CnoWNGQP/index.m3u8" },
-                { name: "P4-T5", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/2Z4dBijs/index.m3u8" },
-                { name: "P4-T6", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/74OVKIPn/index.m3u8" },
-                { name: "P4-T7", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/pHLmU9j0/index.m3u8" },
-                { name: "P4-T8", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/bN2uJOQG/index.m3u8" },
-                { name: "P4-T9", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/wlTpiDT6/index.m3u8" },
-                { name: "P5-T1", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/VdVcTjll/index.m3u8" },
-                { name: "P5-T2", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/Xaex73oM/index.m3u8" },
-                { name: "P5-T3", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/phZU5qEk/index.m3u8" },
-                { name: "P5-T4", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251127/JudV0Ni1/index.m3u8" },
-                { name: "P5-T5", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251226/AFjYGQ1K/index.m3u8" },
-                { name: "P5-T6", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251226/TPpFJBKF/index.m3u8" },
-                { name: "P5-T7", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20251226/oxQZbDQo/index.m3u8" },
-                { name: "P5-T8", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260101/YyOnJ03e/index.m3u8" }
-            ]
-            },
-            {
-                id: 3,
-                title: "Hố Đen Tử Thần",
-                sub: "Interstellar",
-                year: "2014",
-                rating: "8.7",
-                status: "Full HD",
-                desc: "Trong tương lai, khi Trái Đất bị tàn phá bởi hạn hán và biến đổi khí hậu, một nhóm các nhà du hành vũ trụ đi xuyên qua một hố đen để tìm kiếm một hành tinh mới có thể duy trì sự sống cho nhân loại.",
-                img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20250302-1/4cee31c3afd0fbfd11ed4f14b1bfd816.jpg",
-                episodes: [{ name: "Full", link: "https://player.phimapi.com/player/?url=https://s4.phim1280.tv/20250302/BLbAWQOK/index.m3u8" }]
-            },
-            {
-                id: 2,
-        title: "Bóng Ma Anh Quốc",
-        sub: "Peaky Blinders (Season 1-5)",
-        year: "2013 - 2024",
-        rating: "8.8",
-        status: "Trọn bộ 5 phần",
-        desc: "Một băng đảng tội phạm khét tiếng ở Birmingham, Anh, vào năm 1919, được dẫn dắt bởi Tommy Shelby hung bạo và mưu mô. Hành trình vươn lên từ thế giới ngầm đến đỉnh cao quyền lực.",
-        img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20240730-1/b37769fcc6142d1e116b6486f6b7132b.jpg",
-        episodes: [
-            /* Phần 1 */
-            { name: "P1-T01", link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/911phIUY/index.m3u8" },
-            { name: "P1-T02", link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/fWRCpaKk/index.m3u8" },
-            { name: "P1-T03", link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/KN724ide/index.m3u8" },
-            { name: "P1-T04", link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/3ouNqS4T/index.m3u8" },
-            { name: "P1-T05", link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/ME0BG0Qz/index.m3u8" },
-            { name: "P1-T06", link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/u2Kjk583/index.m3u8" },
-            /* Phần 2 */
-            { name: "P2-T01", link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/Akw2Rs0h/index.m3u8" },
-            { name: "P2-T02", link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/WtxbgPMG/index.m3u8" },
-            { name: "P2-T03", link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/26UFHU0C/index.m3u8" },
-            { name: "P2-T04", link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/UWVu3JpA/index.m3u8" },
-            { name: "P2-T05", link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/Kv44OJkw/index.m3u8" },
-            { name: "P2-T06", link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/jufAaMzV/index.m3u8" },
-            /* Phần 3 */
-            { name: "P3-T01", link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/Xemam0Ch/index.m3u8" },
-            { name: "P3-T02", link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/Jmy7hA1H/index.m3u8" },
-            { name: "P3-T03", link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/VbP8cggh/index.m3u8" },
-            { name: "P3-T04", link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/pNTexKMh/index.m3u8" },
-            { name: "P3-T05", link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/jBefsXbo/index.m3u8" },
-            { name: "P3-T06", link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/aHAfCbh7/index.m3u8" },
-            /* Phần 4 */
-            { name: "P4-T01", link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/2S1luE5b/index.m3u8" },
-            { name: "P4-T02", link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/Gcve5jbA/index.m3u8" },
-            { name: "P4-T03", link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/wHcGbWcO/index.m3u8" },
-            { name: "P4-T04", link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/iU1x75YH/index.m3u8" },
-            { name: "P4-T05", link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/lvePnhlm/index.m3u8" },
-            { name: "P4-T06", link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/WueLS0gI/index.m3u8" },
-            /* Phần 5 */
-            { name: "P5-T01", link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/vZyyZfnD/index.m3u8" },
-            { name: "P5-T02", link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/0XSUWTYN/index.m3u8" },
-            { name: "P5-T03", link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/6agWb8yt/index.m3u8" },
-            { name: "P5-T04", link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/ZM7oDPjW/index.m3u8" },
-            { name: "P5-T05", link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/fTytOcap/index.m3u8" },
-            { name: "P5-T06", link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20240730/av5MnBdn/index.m3u8" }
-        ]
-            },
-            {
-                id: 1,
-                title: "Sói Già Phố Wall",
-                sub: "The Wolf of Wall Street",
-                year: "2013",
-                rating: "8.2",
-                status: "Phim Lẻ",
-                desc: "Dựa trên câu chuyện có thật của Jordan Belfort, từ bước thăng tiến của ông trở thành một nhà môi giới chứng khoán giàu có.",
-                img: "https://phimimg.com/upload/vod/20231018-1/2e6fd68d5e7002fcc9fa6b8453242a8a.jpg",
-                episodes: [{ name: "Full", link: "https://player.phimapi.com/player/?url=https://s2.phim1280.tv/20231019/KZ3IDVB4/index.m3u8" }]
+                img: "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?q=80&w=2070&auto=format&fit=crop",
+                link: "https://www.youtube.com/embed/dQw4w9WgXcQ"
             }
         ];
 
-let currentIndex = 0;
-        let slideInterval;
+        let cur = 0; let timer;
 
-        function updateBanner() {
-            const m = movies[currentIndex];
-            const infoBox = document.getElementById('movie-info-content');
+        function closeAlertWithEffect() {
+            const box = document.getElementById('alertBox');
+            const overlay = document.getElementById('tet-alert');
             
-            infoBox.style.opacity = 0;
+            // Hiệu ứng thu nhỏ về tâm
+            box.classList.add('closing');
+            overlay.style.opacity = '0';
+            
             setTimeout(() => {
-                document.getElementById('banner-bg').style.backgroundImage = `url('${m.img}')`;
-                document.getElementById('movie-title').innerText = m.title;
-                document.getElementById('movie-sub').innerText = m.sub;
-                document.getElementById('movie-year').innerText = m.year;
-                document.getElementById('movie-rating').innerText = `IMDb ${m.rating}`;
-                document.getElementById('movie-status').innerText = m.status;
-                document.getElementById('movie-desc').innerText = m.desc;
-                
-                infoBox.style.opacity = 1;
-                infoBox.classList.remove('animate-fade');
-                void infoBox.offsetWidth;
-                infoBox.classList.add('animate-fade');
-            }, 300);
+                overlay.style.display = 'none';
+                startSlide();
+            }, 500);
+        }
 
-            document.querySelectorAll('.thumb-circle').forEach((t, i) => {
-                t.classList.toggle('thumb-active', i === currentIndex);
+        function update() {
+            if(movies.length === 0) return;
+            const m = movies[cur];
+            document.getElementById('banner-bg').style.backgroundImage = `url('${m.img}')`;
+            document.getElementById('title').innerText = m.title;
+            document.getElementById('sub').innerText = m.sub;
+            document.getElementById('year').innerText = m.year;
+            document.getElementById('rating').innerText = `IMDb ${m.rating}`;
+            document.getElementById('status').innerText = m.status;
+            document.querySelectorAll('.cat-btn img').forEach(img => img.style.opacity = '1');
+        }
+
+        function startSlide() {
+            clearInterval(timer);
+            timer = setInterval(() => { cur = (cur + 1) % movies.length; update(); }, 3000);
+        }
+
+        // Sakura nhẹ nhàng
+        setInterval(() => {
+            const s = document.createElement('div');
+            s.className = 'sakura';
+            s.style.left = Math.random() * 100 + 'vw';
+            s.style.width = s.style.height = Math.random() * 5 + 3 + 'px';
+            s.style.animationDuration = Math.random() * 3 + 5 + 's';
+            document.body.appendChild(s);
+            setTimeout(() => s.remove(), 7000);
+        }, 500);
+
+        // Pháo hoa
+        const cvs = document.getElementById('fireworksCanvas');
+        const ctx = cvs.getContext('2d');
+        let pts = [];
+        const resize = () => { cvs.width = innerWidth; cvs.height = innerHeight; };
+        window.onresize = resize; resize();
+
+        class Pt {
+            constructor(x, y, c) {
+                this.x = x; this.y = y; this.c = c;
+                this.v = { x: (Math.random()-0.5)*5, y: (Math.random()-0.5)*5 };
+                this.a = 1;
+            }
+            draw() { ctx.globalAlpha = this.a; ctx.beginPath(); ctx.arc(this.x, this.y, 1.5, 0, 7); ctx.fillStyle = this.c; ctx.fill(); }
+            up() { this.v.y += 0.04; this.x += this.v.x; this.y += this.v.y; this.a -= 0.015; }
+        }
+
+        function loop() {
+            ctx.clearRect(0,0,cvs.width,cvs.height);
+            pts.forEach((p, i) => { if(p.a > 0) { p.up(); p.draw(); } else pts.splice(i,1); });
+            requestAnimationFrame(loop);
+        }
+        setInterval(() => { if(scrollY < 300) {
+            const colors = ['#f59e0b', '#ef4444', '#fff'];
+            const c = colors[Math.floor(Math.random()*3)];
+            const x = Math.random()*cvs.width, y = Math.random()*cvs.height*0.4;
+            for(let i=0; i<15; i++) pts.push(new Pt(x, y, c));
+        }}, 2500);
+        loop();
+
+        function init() {
+            const grid = document.getElementById('movie-grid');
+            const thumbs = document.getElementById('thumb-container');
+            movies.forEach((m, i) => {
+                const t = document.createElement('div');
+                t.className = `thumb-circle w-[45px] h-[45px] rounded-full border-2 border-transparent opacity-50 overflow-hidden cursor-pointer`;
+                t.innerHTML = `<img src="${m.img}" class="w-full h-full object-cover">`;
+                t.onclick = () => { cur = i; update(); };
+                thumbs.appendChild(t);
+                grid.innerHTML += `
+                    <div class="cursor-pointer" onclick="playMovie(${i})">
+                        <div class="relative aspect-[2/3] rounded-lg overflow-hidden bg-gray-900 shadow-lg">
+                            <img src="${m.img}" class="w-full h-full object-cover">
+                        </div>
+                        <h3 class="mt-2 font-semibold text-[11px] truncate text-gray-400">${m.title}</h3>
+                    </div>
+                `;
             });
+            update();
         }
 
-        function openPlayer(movieIdx) {
-            const movie = movies[movieIdx];
-            const overlay = document.getElementById('movie-overlay');
-            const epGrid = document.getElementById('episode-grid');
-            
-            document.getElementById('player-title').innerText = movie.title;
-            document.getElementById('player-desc').innerText = movie.desc;
-            
-            epGrid.innerHTML = movie.episodes.map((ep, i) => `
-                <button onclick="playEpisode('${ep.link}', '${ep.name}', this)" 
-                        class="ep-btn border border-white/10 py-2 rounded text-[11px] font-bold hover:bg-yellow-500 hover:text-black transition ${i===0 ? 'active' : ''}">
-                    ${ep.name}
-                </button>
-            `).join('');
-
-            if(movie.episodes.length > 0) {
-                playEpisode(movie.episodes[0].link, movie.episodes[0].name);
-            }
-
-            overlay.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
+        function playMovie(i) {
+            document.getElementById('main-iframe').src = movies[i].link;
+            document.getElementById('player-overlay').classList.remove('hidden');
         }
-
-        function playEpisode(link, name, btnElement = null) {
-            document.getElementById('video-iframe').src = link;
-            document.getElementById('player-ep-name').innerText = `Đang xem: ${name}`;
-            if(btnElement) {
-                document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
-                btnElement.classList.add('active');
-            }
+        function closePlayer() { 
+            document.getElementById('player-overlay').classList.add('hidden'); 
+            document.getElementById('main-iframe').src = ""; 
         }
+        function playCurrent() { playMovie(cur); }
 
-        function closePlayer() {
-            document.getElementById('movie-overlay').classList.add('hidden');
-            document.getElementById('video-iframe').src = "";
-            document.body.style.overflow = 'auto';
-        }
-
-        function renderMovieGrid() {
-            document.getElementById('movie-grid').innerHTML = movies.map((m, i) => `
-                <div class="movie-card group cursor-pointer" onclick="openPlayer(${i})">
-                    <div class="relative aspect-[2/3] overflow-hidden rounded-xl bg-gray-800">
-                        <img src="${m.img}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
-                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                            <div class="w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center text-black shadow-lg shadow-yellow-500/30 transform scale-50 group-hover:scale-100 transition-transform">
-                                <i class="fas fa-play"></i>
-                            </div>
-                        </div>
-                        <div class="absolute top-2 left-2">
-                            <span class="bg-yellow-500 text-black text-[10px] font-black px-1.5 py-0.5 rounded italic">IMDb ${m.rating}</span>
-                        </div>
-                        <div class="absolute bottom-2 right-2">
-                            <span class="bg-black/70 backdrop-blur-sm text-white text-[10px] px-2 py-1 rounded border border-white/10">${m.status}</span>
-                        </div>
-                    </div>
-                    <div class="mt-3 px-1">
-                        <h3 class="text-sm font-bold truncate group-hover:text-yellow-500 transition">${m.title}</h3>
-                        <p class="text-[11px] text-gray-500 truncate italic">${m.sub}</p>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        const thumbContainer = document.getElementById('thumb-container');
-        movies.forEach((m, i) => {
-            const t = document.createElement('div');
-            t.className = `thumb-circle ${i === 0 ? 'thumb-active' : ''}`;
-            t.innerHTML = `<img src="${m.img}" class="w-full h-full object-cover">`;
-            t.onclick = () => { currentIndex = i; updateBanner(); startTimer(); };
-            thumbContainer.appendChild(t);
-        });
-
-        window.addEventListener('scroll', () => {
-            const header = document.getElementById('header');
-            header.classList.toggle('bg-[#1a1a20]', window.scrollY > 100);
-        });
-
-        function startTimer() {
-            clearInterval(slideInterval);
-            slideInterval = setInterval(() => {
-                currentIndex = (currentIndex + 1) % movies.length;
-                updateBanner();
-            }, 5000);
-        }
-
-        updateBanner();
-        renderMovieGrid();
-        startTimer();
+        init();
     </script>
 </body>
 </html>
