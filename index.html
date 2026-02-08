@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xô Phim - TẾT XUM VẦY</title>
+    <title>Xô Phim - PHIM HAY CẢ XÔ </title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -50,7 +50,10 @@
             overflow: hidden; cursor: pointer; box-shadow: 0 0 20px var(--xo-vang); transition: 0.3s;
         }
         .cat-btn:hover { transform: scale(1.1); }
-        .cat-btn img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Style cho phần Quan tâm */
+        .topic-card { min-width: 160px; height: 90px; border-radius: 16px; p: 1rem; display: flex; flex-direction: column; justify-content: space-between; transition: 0.3s; cursor: pointer; padding: 15px; }
+        .topic-card:hover { transform: translateY(-5px); filter: brightness(1.2); }
 
         .footer { background: #060709; padding: 60px 20px; border-top: 1px solid rgba(255,255,255,0.05); position: relative; }
         .footer-tag { background: #900; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; display: inline-block; margin-bottom: 20px; }
@@ -72,7 +75,7 @@
             <p class="text-md font-bold text-white mb-6 leading-tight">CÓ CHỨA QC CỜ BẠC TRÁNH XA NHÉ!<br>
             <span class="text-xs font-normal text-gray-200">Chúc các bạn yêu nhiều sức khỏe, kiếm nhiều tiền nha!</span></p>
             <div class="cat-btn" onclick="closeAlertWithEffect()">
-                <img src="https://jbagy.me/wp-content/uploads/2025/04/Hinh-meme-meo-cuoi-deu-1.jpg" alt="Xô Phim Cat">
+                <img src="https://jbagy.me/wp-content/uploads/2025/04/Hinh-meme-meo-cuoi-deu-1.jpg" class="w-full h-full object-cover">
             </div>
             <p class="text-[10px] text-yellow-500 font-bold mt-4 uppercase tracking-widest">Chạm Mèo để vào phim</p>
         </div>
@@ -86,46 +89,50 @@
                         <i class="fas fa-play text-black text-xs"></i>
                     </div>
                     <div class="flex flex-col leading-none">
-                        <span class="text-xl font-black text-white tracking-tighter">XÔ PHIM</span>
-                        <span class="text-[8px] text-gray-400 font-bold tracking-widest"> ĐỨC ANH ĐẸP TRAI</span>
+                        <span class="text-xl font-black text-white tracking-tighter uppercase">XÔ PHIM</span>
+                        <span class="text-[8px] text-gray-400 font-bold tracking-widest uppercase">Đức Anh Đẹp Trai</span>
                     </div>
                 </div>
-                <div class="md:hidden bg-white/10 p-2 px-4 rounded-full text-[10px] font-bold"><i class="fas fa-user mr-1"></i> Thành viên</div>
             </div>
-
             <div class="search-bar">
                 <i class="fas fa-search text-gray-400 text-sm"></i>
-                <input type="text" placeholder="Tìm kiếm phim, diễn viên...">
-            </div>
-
-            <div class="hidden md:flex items-center bg-white text-black px-5 py-2 rounded-full text-xs font-bold cursor-pointer hover:bg-yellow-500 transition">
-                <i class="fas fa-user mr-2"></i> Thành viên
+                <input type="text" placeholder="Tìm phim, diễn viên...">
             </div>
         </div>
-
         <nav class="nav-scroll">
             <a href="#" class="nav-item">Chủ Đề</a>
             <a href="#" class="nav-item">Thể loại <i class="fas fa-caret-down text-[10px]"></i></a>
             <a href="#" class="nav-item">Phim Lẻ</a>
             <a href="#" class="nav-item">Phim Bộ</a>
             <a href="#" class="nav-item"><span class="badge-new">NEW</span> Xem Chung</a>
-            <a href="#" class="nav-item">Quốc gia <i class="fas fa-caret-down text-[10px]"></i></a>
-            <a href="#" class="nav-item">Diễn Viên</a>
-            <a href="#" class="nav-item">Lịch Chiếu</a>
+            <a href="#" class="nav-item">Quốc gia</a>
         </nav>
     </header>
 
-    <section class="relative h-[80vh] w-full pt-32 overflow-hidden">
-        <div id="banner-bg" class="absolute inset-0 bg-cover bg-center transition-all duration-1000 scale-105"></div>
-        <div class="absolute inset-0" style="background: linear-gradient(to top, var(--bg-dark) 10%, transparent 100%);"></div>
+    <section class="relative h-[75vh] w-full pt-32 overflow-hidden">
+        <div id="banner-bg" class="absolute inset-0 bg-cover bg-center transition-all duration-1000 scale-105 opacity-60"></div>
+        <div class="absolute inset-0" style="background: linear-gradient(to top, var(--bg-dark) 5%, transparent 100%);"></div>
         <div class="relative z-10 flex flex-col items-center justify-end h-full px-6 pb-20 text-center">
-            <h1 id="title" class="text-4xl md:text-6xl font-black mb-2 italic uppercase drop-shadow-2xl text-white">--</h1>
+            <h1 id="title" class="text-4xl md:text-6xl font-black mb-2 italic uppercase text-white">--</h1>
             <p id="sub" class="text-yellow-500 text-sm font-bold mb-6 tracking-widest uppercase">--</p>
-            <button onclick="playCurrent()" class="bg-yellow-500 text-black px-12 py-3 rounded-full font-black hover:scale-105 transition shadow-lg shadow-yellow-500/20">XEM NGAY</button>
+            <button onclick="playCurrent()" class="bg-yellow-500 text-black px-12 py-3 rounded-full font-black hover:scale-110 transition shadow-lg">XEM NGAY</button>
         </div>
     </section>
 
-    <main class="px-6 py-12">
+    <section class="px-6 py-10">
+        <h2 class="text-lg font-bold text-white mb-6 uppercase tracking-tight">Bạn đang quan tâm gì?</h2>
+        <div class="flex overflow-x-auto gap-4 pb-4" style="scrollbar-width: none;">
+            <div class="topic-card bg-blue-600"><span class="font-black italic text-lg">Marvel</span><span class="text-[10px] uppercase font-bold">Xem chủ đề <i class="fas fa-chevron-right"></i></span></div>
+            <div class="topic-card bg-teal-600"><span class="font-black italic text-lg">Sitcom</span><span class="text-[10px] uppercase font-bold">Xem chủ đề <i class="fas fa-chevron-right"></i></span></div>
+            <div class="topic-card bg-purple-600"><span class="font-black italic text-lg leading-tight">Lồng Tiếng<br>Cực Mạnh</span><span class="text-[10px] uppercase font-bold">Xem chủ đề <i class="fas fa-chevron-right"></i></span></div>
+            <div class="topic-card bg-orange-600"><span class="font-black italic text-lg">Xuyên Không</span><span class="text-[10px] uppercase font-bold">Xem chủ đề <i class="fas fa-chevron-right"></i></span></div>
+            <div class="topic-card bg-red-700"><span class="font-black italic text-lg">Cổ Trang</span><span class="text-[10px] uppercase font-bold">Xem chủ đề <i class="fas fa-chevron-right"></i></span></div>
+            <div class="topic-card bg-indigo-700"><span class="font-black italic text-lg">4k</span><span class="text-[10px] uppercase font-bold">Xem chủ đề <i class="fas fa-chevron-right"></i></span></div>
+            <div class="topic-card bg-gray-800 border border-gray-700 flex items-center justify-center"><span class="font-black uppercase">+1 chủ đề</span></div>
+        </div>
+    </section>
+
+    <main class="px-6 pb-20">
         <h2 class="text-xl font-extrabold italic uppercase mb-8 border-l-4 border-red-600 pl-4">Phim Mới Cập Nhật</h2>
         <div id="movie-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6"></div>
     </main>
@@ -133,36 +140,20 @@
     <footer class="footer">
         <div class="max-w-7xl mx-auto">
             <div class="footer-tag">★ Hoàng Sa & Trường Sa là của Việt Nam!</div>
-            
             <div class="flex items-center gap-3 mb-6">
-                <div class="w-10 h-9 bg-[#d4a017] rounded-b-xl flex items-center justify-center">
-                    <i class="fas fa-play text-black"></i>
-                </div>
+                <div class="w-10 h-9 bg-[#d4a017] rounded-b-xl flex items-center justify-center"><i class="fas fa-play text-black"></i></div>
                 <div class="flex flex-col leading-none border-r border-gray-700 pr-4">
-                    <span class="text-2xl font-black text-white">XÔ PHIM</span>
+                    <span class="text-2xl font-black text-white uppercase">XÔ PHIM</span>
                     <span class="text-[10px] text-gray-400 font-bold">YIXIU VIETNAM</span>
                 </div>
                 <div class="social-icons">
                     <a href="#"><i class="fab fa-telegram-plane"></i></a>
-                    <a href="#"><i class="fab fa-discord"></i></a>
                     <a href="#"><i class="fab fa-facebook-f"></i></a>
                     <a href="#"><i class="fab fa-tiktok"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
-
-            <nav class="flex flex-wrap gap-6 text-sm font-bold mb-8">
-                <a href="#" class="hover:text-yellow-500">Hỏi-Đáp</a>
-                <a href="#" class="hover:text-yellow-500">Chính sách bảo mật</a>
-                <a href="#" class="hover:text-yellow-500">Điều khoản sử dụng</a>
-                <a href="#" class="hover:text-yellow-500 text-yellow-500">Giới thiệu</a>
-                <a href="#" class="hover:text-yellow-500">Liên hệ</a>
-            </nav>
-
-            <p class="text-xs text-gray-500 leading-relaxed max-w-2xl">
-                XôPhim - Xem phim online chất lượng cao miễn phí Vietsub. Khám phá nền tảng phim trực tuyến hay nhất 2026 chất lượng 4K!
-            </p>
-            <p class="text-[10px] text-gray-600 mt-6">© 2026 XôPhim</p>
+            <p class="text-xs text-gray-500 leading-relaxed max-w-2xl">XôPhim - Trải nghiệm điện ảnh 4K tốt nhất 2026.</p>
+            <p class="text-[10px] text-gray-600 mt-6 uppercase font-bold italic">© 2026 XôPhim - Đức Anh Đẹp Trai</p>
         </div>
         <div class="btn-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})"><i class="fas fa-arrow-up block mb-1"></i> ĐẦU<br>TRANG</div>
     </footer>
@@ -178,15 +169,12 @@
 
     <script>
         const movies = [
-            {
-                id: 1,
-                title: "Sói Già Phố Wall",
-                sub: "The Wolf of Wall Street",
-                year: "2013",
-                rating: "8.2",
-                img: "https://phimimg.com/upload/vod/20231018-1/2e6fd68d5e7002fcc9fa6b8453242a8a.jpg",
-                episodes: [{ name: "Full", link: "https://player.phimapi.com/player/?url=https://s2.phim1280.tv/20231019/KZ3IDVB4/index.m3u8" }]
-            }
+            { title: "Sói Già Phố Wall", sub: "The Wolf of Wall Street", img: "https://phimimg.com/upload/vod/20231018-1/2e6fd68d5e7002fcc9fa6b8453242a8a.jpg", episodes: [{ link: "https://player.phimapi.com/player/?url=https://s2.phim1280.tv/20231019/KZ3IDVB4/index.m3u8" }] },
+            { title: "Avatar 2", sub: "The Way of Water", img: "https://phimimg.com/upload/vod/20230620/b349b068e4c73a21685f0967a5416040.jpg", episodes: [{ link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20230620/A8W0G2V4/index.m3u8" }] },
+            { title: "John Wick 4", sub: "Hành động đỉnh cao", img: "https://phimimg.com/upload/vod/20230523/830509a259c63c781057476834f3b174.jpg", episodes: [{ link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20230523/T2B1U7F4/index.m3u8" }] },
+            { title: "Spider-Man", sub: "Across the Verse", img: "https://phimimg.com/upload/vod/20230811/498425d57b897918a55227d8f9211326.jpg", episodes: [{ link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20230811/R4X9O1S4/index.m3u8" }] },
+            { title: "Oppenheimer", sub: "Bom tấn 2024", img: "https://phimimg.com/upload/vod/20231122/72d4b79105432098d5f3d455d3e02021.jpg", episodes: [{ link: "https://player.phimapi.com/player/?url=https://s2.phim1280.tv/20231122/Y4V1N9W4/index.m3u8" }] },
+            { title: "Dune 2", sub: "Hành Tinh Cát", img: "https://phimimg.com/upload/vod/20240416/d2f78e4740e7087617a26f306059d04b.jpg", episodes: [{ link: "https://player.phimapi.com/player/?url=https://s2.phim1280.tv/20240416/A1X2D3F4/index.m3u8" }] }
         ];
 
         let cur = 0;
@@ -196,17 +184,22 @@
             setTimeout(() => { document.getElementById('tet-alert').style.display = 'none'; }, 500);
         }
 
-        function update() {
-            if(movies.length === 0) return;
+        function updateBanner() {
             const m = movies[cur];
-            document.getElementById('banner-bg').style.backgroundImage = `url('${m.img}')`;
-            document.getElementById('title').innerText = m.title;
-            document.getElementById('sub').innerText = m.sub;
+            const bg = document.getElementById('banner-bg');
+            bg.style.opacity = 0;
+            setTimeout(() => {
+                bg.style.backgroundImage = `url('${m.img}')`;
+                document.getElementById('title').innerText = m.title;
+                document.getElementById('sub').innerText = m.sub;
+                bg.style.opacity = 0.6;
+            }, 500);
+            cur = (cur + 1) % movies.length;
         }
 
         function init() {
             const grid = document.getElementById('movie-grid');
-            grid.innerHTML = ""; // Clear grid before init
+            grid.innerHTML = "";
             movies.forEach((m, i) => {
                 grid.innerHTML += `
                     <div class="cursor-pointer group" onclick="playMovie(${i})">
@@ -220,16 +213,15 @@
                     </div>
                 `;
             });
-            update();
+            updateBanner();
+            setInterval(updateBanner, 4000); // TỰ ĐỘNG CHUYỂN 4 GIÂY
         }
 
         function playMovie(i) {
-            const movie = movies[i];
-            document.getElementById('player-title').innerText = movie.title;
-            // Lấy link từ episodes[0]
-            document.getElementById('main-iframe').src = movie.episodes[0].link;
+            document.getElementById('player-title').innerText = movies[i].title;
+            document.getElementById('main-iframe').src = movies[i].episodes[0].link;
             document.getElementById('player-overlay').classList.remove('hidden');
-            document.body.style.overflow = 'hidden'; // Khóa cuộn trang khi xem phim
+            document.body.style.overflow = 'hidden';
         }
 
         function closePlayer() { 
@@ -238,9 +230,8 @@
             document.body.style.overflow = 'auto';
         }
 
-        function playCurrent() { playMovie(cur); }
+        function playCurrent() { playMovie((cur - 1 + movies.length) % movies.length); }
 
-        // Sakura Effect
         setInterval(() => {
             const s = document.createElement('div'); s.className = 'sakura';
             s.style.left = Math.random() * 100 + 'vw';
