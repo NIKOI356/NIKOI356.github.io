@@ -1,164 +1,34 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Chúc Mừng Năm Mới 2026</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background: #b30000; /* Nền đỏ Tết */
-            font-family: 'Arial', sans-serif;
-        }
-
-        /* Container chính */
-        .stage {
-            position: relative;
-            width: 100vw;
-            height: 100vh;
-            background: url('https://googleusercontent.com/image_generation_content/4') no-repeat center center;
-            background-size: cover;
-        }
-
-        /* Hiệu ứng Ngựa chạy từ phải vào */
-        .horse {
-            position: absolute;
-            right: -500px;
-            bottom: 10%;
-            width: 400px;
-            z-index: 10;
-            animation: horseRun 4s forwards cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-
-        @keyframes horseRun {
-            to { right: 10%; }
-        }
-
-        /* Chữ lủng lẳng */
-        .greeting {
-            position: absolute;
-            top: 10%;
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
-            z-index: 20;
-        }
-
-        .hanging-text {
-            display: inline-block;
-            font-size: 5rem;
-            color: #ffd700;
-            text-shadow: 3px 3px 10px rgba(0,0,0,0.5);
-            font-weight: bold;
-            transform-origin: top center;
-            animation: swing 3s ease-in-out infinite;
-        }
-
-        @keyframes swing {
-            0%, 100% { transform: rotate(-5deg); }
-            50% { transform: rotate(5deg); }
-        }
-
-        /* Hoa lá đi vào từ các góc */
-        .flower {
-            position: absolute;
-            width: 150px;
-            z-index: 5;
-            opacity: 0;
-            animation: flowerIn 2s forwards 1s;
-        }
-
-        .top-left { top: -50px; left: -50px; transform: rotate(-15deg); }
-        .bottom-right { bottom: -50px; right: -50px; transform: rotate(15deg); }
-
-        @keyframes flowerIn {
-            to { opacity: 1; transform: translate(50px, 50px); }
-        }
-
-        /* Canvas cho pháo hoa */
-        #fireworks {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 15;
-        }
-    </style>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>Happy New Year 2023</title>
 </head>
 <body>
-
-<div class="stage">
-    <canvas id="fireworks"></canvas>
-
-    <div class="greeting">
-        <div class="hanging-text">CHÚC MỪNG NĂM MỚI 2026</div>
+    <div class="wrapper">
+        <h1>Thời gian chỉ còn...</h1>
+        <div class="box-time">
+            <div class="time">
+                <p>Ngày</p>
+                <span id="days">day</span>
+            </div>
+            <div class="time">
+                <p>Giờ</p>
+                <span id="hours">hours</span>
+            </div>
+            <div class="time">
+                <p>Phút</p>
+                <span id="minutes">minute</span>
+            </div>
+            <div class="time">
+                <p>Giây</p>
+                <span id="seconds">seconds</span>
+            </div>
+        </div>
     </div>
-
-    <img src="https://googleusercontent.com/image_generation_content/0" class="horse" alt="Golden Horse">
-
-    <img src="https://cdn-icons-png.flaticon.com/512/2614/2614603.png" class="flower top-left">
-    <img src="https://cdn-icons-png.flaticon.com/512/2614/2614603.png" class="flower bottom-right">
-</div>
-
-<script>
-    // Script tạo pháo hoa đơn giản
-    const canvas = document.getElementById('fireworks');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    class Particle {
-        constructor(x, y, color) {
-            this.x = x;
-            this.y = y;
-            this.color = color;
-            this.velocity = {
-                x: (Math.random() - 0.5) * 8,
-                y: (Math.random() - 0.5) * 8
-            };
-            this.alpha = 1;
-        }
-        draw() {
-            ctx.save();
-            ctx.globalAlpha = this.alpha;
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
-            ctx.fillStyle = this.color;
-            ctx.fill();
-            ctx.restore();
-        }
-        update() {
-            this.x += this.velocity.x;
-            this.y += this.velocity.y;
-            this.alpha -= 0.01;
-        }
-    }
-
-    let particles = [];
-    function animate() {
-        requestAnimationFrame(animate);
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        if (Math.random() < 0.05) {
-            const x = Math.random() * canvas.width;
-            const y = Math.random() * canvas.height / 2;
-            const color = `hsl(${Math.random() * 360}, 50%, 50%)`;
-            for (let i = 0; i < 30; i++) {
-                particles.push(new Particle(x, y, color));
-            }
-        }
-
-        particles.forEach((p, i) => {
-            if (p.alpha <= 0) particles.splice(i, 1);
-            else { p.update(); p.draw(); }
-        });
-    }
-    animate();
-</script>
-
 </body>
-</html>
+<script src="./app.js"></script>
+</html
