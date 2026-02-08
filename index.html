@@ -24,20 +24,16 @@
         }
         .search-bar input { background: transparent; border: none; outline: none; color: white; font-size: 14px; width: 100%; }
 
+        /* Movie Card Styles */
         .movie-card {
-            position: relative;
-            border-radius: 12px;
-            overflow: hidden;
-            background: #1a1a20;
-            transition: transform 0.3s ease;
+            position: relative; border-radius: 12px; overflow: hidden;
+            background: #1a1a20; transition: transform 0.3s ease;
         }
         .movie-badge-wrapper {
-            position: absolute; bottom: 8px; right: 8px;
-            display: flex; gap: 4px; z-index: 10;
+            position: absolute; bottom: 8px; right: 8px; display: flex; gap: 4px; z-index: 10;
         }
         .badge-item {
-            font-size: 9px; font-weight: 800; padding: 2px 6px;
-            border-radius: 4px; text-transform: uppercase;
+            font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 4px; text-transform: uppercase;
             box-shadow: 0 2px 4px rgba(0,0,0,0.5);
         }
         .bg-vietsub { background: rgba(59, 130, 246, 0.95); color: white; }
@@ -45,51 +41,27 @@
         .bg-episode { background: rgba(75, 85, 99, 0.95); color: white; }
 
         .hover-btn {
-            border: 2px solid var(--xo-vang);
-            color: var(--xo-vang);
-            padding: 5px 15px;
-            border-radius: 99px;
-            font-size: 11px;
-            font-weight: 900;
-            letter-spacing: 1px;
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(4px);
-            transform: translateY(10px);
-            transition: 0.3s ease;
+            border: 2px solid var(--xo-vang); color: var(--xo-vang); padding: 5px 15px;
+            border-radius: 99px; font-size: 11px; font-weight: 900; letter-spacing: 1px;
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+            transform: translateY(10px); transition: 0.3s ease;
         }
         .group:hover .hover-btn { transform: translateY(0); }
 
-        #info-modal {
-            display: none; position: fixed; inset: 0; z-index: 300;
-            background: rgba(0, 0, 0, 0.85); align-items: center;
-            justify-content: center; padding: 20px; backdrop-filter: blur(8px);
-        }
-        .modal-content {
-            background: #16161a; border-radius: 24px; width: 100%; max-width: 450px;
-            overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,0.1);
-        }
-        .btn-main-play {
-            background: var(--xo-vang); color: black; padding: 12px 28px;
-            border-radius: 12px; font-weight: 900; display: flex;
-            align-items: center; gap: 10px; transition: 0.3s;
-        }
-        .btn-main-play:hover { transform: scale(1.05); filter: brightness(1.1); }
-
+        /* Categories Scroll */
         .nav-scroll { display: flex; overflow-x: auto; gap: 20px; padding: 15px 0 0 0; scrollbar-width: none; }
         .nav-scroll::-webkit-scrollbar { display: none; }
         .nav-item { color: rgba(255,255,255,0.9); font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 4px; transition: 0.3s; cursor: pointer; }
         .nav-item:hover { color: var(--xo-vang); }
-        .badge-new { background: #f59e0b; color: #000; font-size: 9px; padding: 1px 4px; border-radius: 3px; font-weight: 900; }
 
-        .footer { background: #060709; padding: 60px 20px; border-top: 1px solid rgba(255,255,255,0.05); position: relative; }
-        .footer-tag { background: #900; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; display: inline-block; margin-bottom: 20px; }
-        .btn-top { position: absolute; bottom: 30px; right: 20px; background: white; color: black; padding: 8px 12px; border-radius: 10px; font-weight: 900; font-size: 10px; text-align: center; cursor: pointer; }
-
+        .footer { background: #060709; padding: 60px 20px; border-top: 1px solid rgba(255,255,255,0.05); }
         .sakura { position: fixed; top: -10%; z-index: 100; pointer-events: none; background: #ffb7c5; border-radius: 50% 0 50% 50%; animation: fall linear infinite; }
         @keyframes fall { 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
 
         .thumb-item { width: 45px; height: 45px; border-radius: 50%; overflow: hidden; cursor: pointer; border: 2px solid transparent; transition: 0.3s; opacity: 0.5; }
         .thumb-item.active { border-color: white; opacity: 1; transform: scale(1.1); }
+        
+        #info-modal { display: none; position: fixed; inset: 0; z-index: 300; background: rgba(0, 0, 0, 0.85); align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(8px); }
     </style>
 </head>
 <body>
@@ -114,10 +86,9 @@
         </div>
         <nav class="nav-scroll">
             <div onclick="loadCustomMovies()" class="nav-item text-yellow-500 font-black"><i class="fas fa-fire"></i> PHIM YÊU CẦU</div>
-            <a href="#" class="nav-item">Thể loại <i class="fas fa-caret-down text-[10px]"></i></a>
             <a href="#" class="nav-item">Phim Lẻ</a>
             <a href="#" class="nav-item">Phim Bộ</a>
-            <a href="#" class="nav-item"><span class="badge-new">NEW</span> Xem Chung</a>
+            <a href="#" class="nav-item">Hoạt Hình</a>
         </nav>
     </header>
 
@@ -138,7 +109,41 @@
         </div>
     </section>
 
-    <main class="px-6 pb-20 mt-10">
+    <div class="px-6 py-10 bg-[#0b0c10]">
+        <h2 class="text-2xl font-bold mb-6 italic border-l-4 border-yellow-500 pl-4 uppercase">Bạn đang quan tâm gì?</h2>
+        <div class="flex flex-wrap gap-4">
+            <div onclick="searchMovies('Chính kịch')" class="relative w-full sm:w-48 h-28 rounded-2xl bg-blue-600 p-4 shadow-lg cursor-pointer overflow-hidden transition transform hover:scale-105 group">
+                <div class="absolute inset-0 bg-black opacity-10"></div>
+                <h3 class="text-xl font-bold relative z-10">Chính kịch</h3>
+                <p class="text-xs mt-2 flex items-center relative z-10">Xem chủ đề <span class="ml-1">›</span></p>
+            </div>
+            <div onclick="searchMovies('Hài hước')" class="relative w-full sm:w-48 h-28 rounded-2xl bg-teal-700 p-4 shadow-lg cursor-pointer overflow-hidden transition transform hover:scale-105 group">
+                <h3 class="text-xl font-bold relative z-10">Hài hước</h3>
+                <p class="text-xs mt-2 flex items-center relative z-10">Xem chủ đề <span class="ml-1">›</span></p>
+            </div>
+            <div onclick="searchMovies('Hành động')" class="relative w-full sm:w-48 h-28 rounded-2xl bg-slate-600 p-4 shadow-lg cursor-pointer overflow-hidden transition transform hover:scale-105 group">
+                <h3 class="text-xl font-bold relative z-10">Hành động</h3>
+                <p class="text-xs mt-2 flex items-center relative z-10">Xem chủ đề <span class="ml-1">›</span></p>
+            </div>
+            <div onclick="searchMovies('Hình sự')" class="relative w-full sm:w-48 h-28 rounded-2xl bg-purple-600 p-4 shadow-lg cursor-pointer overflow-hidden transition transform hover:scale-105 group">
+                <h3 class="text-xl font-bold relative z-10">Hình sự</h3>
+                <p class="text-xs mt-2 flex items-center relative z-10">Xem chủ đề <span class="ml-1">›</span></p>
+            </div>
+            <div onclick="searchMovies('Tình cảm')" class="relative w-full sm:w-48 h-28 rounded-2xl bg-orange-400 p-4 shadow-lg cursor-pointer overflow-hidden transition transform hover:scale-105 group">
+                <h3 class="text-xl font-bold relative z-10 text-white">Tình cảm</h3>
+                <p class="text-xs mt-2 flex items-center relative z-10 text-white">Xem chủ đề <span class="ml-1">›</span></p>
+            </div>
+            <div onclick="searchMovies('Bí ẩn')" class="relative w-full sm:w-48 h-28 rounded-2xl bg-red-800 p-4 shadow-lg cursor-pointer overflow-hidden transition transform hover:scale-105 group">
+                <h3 class="text-xl font-bold relative z-10">Bí ẩn</h3>
+                <p class="text-xs mt-2 flex items-center relative z-10">Xem chủ đề <span class="ml-1">›</span></p>
+            </div>
+            <div class="relative w-full sm:w-48 h-28 rounded-2xl bg-[#2a2d35] p-4 shadow-lg cursor-pointer flex items-center justify-center transition transform hover:scale-105">
+                <h3 class="text-xl font-bold">+15 chủ đề</h3>
+            </div>
+        </div>
+    </div>
+
+    <main class="px-6 pb-20">
         <h2 id="grid-title" class="text-xl font-extrabold italic uppercase mb-8 border-l-4 border-red-600 pl-4">Phim Mới Cập Nhật</h2>
         <div id="movie-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6"></div>
     </main>
@@ -149,29 +154,14 @@
             <div class="p-8">
                 <h2 id="modal-title" class="text-2xl font-black text-white mb-1 uppercase italic tracking-tighter"></h2>
                 <p id="modal-sub" class="text-yellow-500 font-bold text-sm mb-4 italic"></p>
-                <div class="flex gap-2 mb-6">
-                    <span class="bg-white/10 px-2 py-1 rounded text-[10px] font-black uppercase">Full HD</span>
-                    <span id="modal-year" class="bg-white/10 px-2 py-1 rounded text-[10px] font-black">2026</span>
-                    <span class="bg-white/10 px-2 py-1 rounded text-[10px] font-black text-yellow-500">IMDb 8.5</span>
-                </div>
                 <p id="modal-desc" class="text-gray-400 text-xs leading-relaxed mb-8 line-clamp-3 italic"></p>
                 <div class="flex items-center gap-3">
-                    <button id="modal-play-btn" class="btn-main-play text-sm">
-                        <i class="fas fa-play"></i> XEM NGAY
-                    </button>
+                    <button id="modal-play-btn" class="bg-[#d4a017] text-black px-6 py-3 rounded-xl font-bold text-sm">XEM NGAY</button>
                     <button class="bg-white/5 text-white px-5 py-3 rounded-xl text-sm font-bold" onclick="closeInfoModal()">Đóng</button>
                 </div>
             </div>
         </div>
     </div>
-
-    <footer class="footer">
-        <div class="max-w-7xl mx-auto text-center">
-            <div class="footer-tag">★ Hoàng Sa & Trường Sa là của Việt Nam!</div>
-            <p class="text-xs text-gray-500 uppercase font-bold italic">© 2026 XôPhim - Đức Anh Đẹp Trai</p>
-        </div>
-        <div class="btn-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})"><i class="fas fa-arrow-up block mb-1"></i> ĐẦU<br>TRANG</div>
-    </footer>
 
     <div id="player-overlay" class="fixed inset-0 z-[200] hidden bg-black flex flex-col">
         <div class="p-4 flex justify-between items-center bg-[#1a1a20]">
@@ -183,32 +173,27 @@
     </div>
 
     <script>
+        // Copy logic Script cũ của bạn vào đây (bao gồm hàm searchMovies có biểu tượng xoay và thông báo không tìm thấy)
         const customData = [
-            { id: 18, title: "Mưa Đỏ", sub: "Red Rain", year: "2026", status: "YouTube", subType: "TM", img: "https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/0b1372232709307.68a20d789415d.jpg", episodes: [{ name: "Full", link: "https://www.youtube.com/embed/9Ymlum6nHq4" }], desc: "Một câu chuyện đầy kịch tính và cảm xúc trong cơn mưa đỏ định mệnh." },
-            { id: 17, title: "Quang Phổ", sub: "Spectral", year: "2026", status: "Bản Đẹp", subType: "Vietsub", img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20260116-1/5b1f85f0fbcc96ca4bad610602025626.jpg", episodes: [{ name: "Full", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260116/KvfgltMI/index.m3u8" }], desc: "Cuộc chiến chống lại những thực thể siêu nhiên không thể nhìn thấy bằng mắt thường." }
+            { id: 18, title: "Mưa Đỏ", sub: "Red Rain", year: "2026", status: "YouTube", subType: "TM", img: "https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/0b1372232709307.68a20d789415d.jpg", episodes: [{ name: "Full", link: "https://www.youtube.com/embed/9Ymlum6nHq4" }], desc: "Một câu chuyện đầy kịch tính và cảm xúc trong cơn mưa đỏ định mệnh." }
         ];
 
-        let movies = []; 
-        let cur = 0;
-        let bannerInterval;
-        const AUTO_TIME = 4000; 
+        let movies = []; let cur = 0; let bannerInterval;
 
         async function fetchInitialMovies() {
             try {
                 const res = await fetch('https://phimapi.com/danh-sach/phim-moi-cap-nhat?page=1');
                 const data = await res.json();
                 processData(data.items);
-            } catch (e) { console.error("Lỗi API", e); }
+            } catch (e) { console.error(e); }
         }
 
         async function searchMovies(query) {
             if (!query.trim()) return;
-
             const gridTitle = document.getElementById('grid-title');
             const movieGrid = document.getElementById('movie-grid');
             const searchIcon = document.getElementById('search-icon');
 
-            // Hiệu ứng đang tìm kiếm
             searchIcon.className = "fas fa-spinner fa-spin text-yellow-500";
             gridTitle.innerHTML = `<i class="fas fa-search fa-spin text-yellow-500"></i> ĐANG TÌM: "${query.toUpperCase()}"...`;
             window.scrollTo({top: 800, behavior: 'smooth'});
@@ -216,20 +201,13 @@
             try {
                 const res = await fetch(`https://phimapi.com/v1/api/tim-kiem?keyword=${encodeURIComponent(query)}&limit=12`);
                 const data = await res.json();
-                
-                searchIcon.className = "fas fa-search text-gray-400"; // Reset icon
+                searchIcon.className = "fas fa-search text-gray-400";
 
                 if (data.data && data.data.items.length > 0) {
                     gridTitle.innerHTML = `<i class="fas fa-check-circle text-green-500"></i> KẾT QUẢ CHO: "${query.toUpperCase()}"`;
                     movies = data.data.items.map(item => ({
-                        title: item.name,
-                        sub: item.origin_name,
-                        img: `https://phimimg.com/${item.thumb_url}`,
-                        year: item.year || "2026",
-                        slug: item.slug,
-                        status: "HD",
-                        subType: "Vietsub",
-                        desc: "Kết quả tìm kiếm từ Xô Phim - Chúc bạn xem phim vui vẻ!"
+                        title: item.name, sub: item.origin_name, img: `https://phimimg.com/${item.thumb_url}`,
+                        year: item.year || "2026", slug: item.slug, status: "HD", subType: "Vietsub", desc: "Kết quả tìm kiếm từ Xô Phim."
                     }));
                     renderGrid();
                 } else {
@@ -238,61 +216,36 @@
                         <div class="col-span-full text-center py-20 bg-white/5 rounded-3xl border border-dashed border-gray-700">
                             <i class="fas fa-ghost text-5xl text-gray-600 mb-4 block"></i>
                             <p class="text-xl font-bold text-gray-300">Hiện tại mình chưa có phim: "${query}"</p>
-                            <p class="text-sm text-gray-500 mt-2">Bạn yêu thông cảm, Đức Anh sẽ sớm cập nhật cho bạn nhé!</p>
                             <button onclick="location.reload()" class="mt-6 bg-yellow-500 text-black px-6 py-2 rounded-full font-bold text-xs">Quay lại trang chủ</button>
                         </div>`;
                 }
-            } catch (e) { 
-                console.error("Lỗi tìm kiếm", e);
-                searchIcon.className = "fas fa-search text-gray-400";
-            }
+            } catch (e) { searchIcon.className = "fas fa-search text-gray-400"; }
         }
 
         function processData(items) {
             movies = items.map(item => ({
-                title: item.name,
-                sub: item.origin_name,
-                img: item.thumb_url.startsWith('http') ? item.thumb_url : `https://phimimg.com/${item.thumb_url}`,
-                year: item.year || "2026",
-                slug: item.slug,
-                status: "HD",
-                subType: "Vietsub",
-                desc: "Chào mừng bạn đến với Xô Phim, hãy thưởng thức bộ phim này với chất lượng cao nhất và tốc độ tải nhanh nhất."
+                title: item.name, sub: item.origin_name, img: item.thumb_url.startsWith('http') ? item.thumb_url : `https://phimimg.com/${item.thumb_url}`,
+                year: item.year || "2026", slug: item.slug, status: "HD", subType: "Vietsub", desc: "Chào mừng bạn đến với Xô Phim."
             }));
-            renderGrid();
-            updateBanner(0);
-            startBannerCycle();
+            renderGrid(); updateBanner(0); startBannerCycle();
         }
 
         function renderGrid() {
             const grid = document.getElementById('movie-grid');
-            const thumbBox = document.getElementById('banner-thumbs');
             grid.innerHTML = "";
-            thumbBox.innerHTML = "";
-            
             movies.forEach((m, i) => {
-                const badgeTypeClass = m.subType === 'TM' ? 'bg-tm' : 'bg-vietsub';
                 grid.innerHTML += `
                     <div class="cursor-pointer group" onclick="showInfo(${i})">
                         <div class="movie-card aspect-[2/3] shadow-2xl">
                             <img src="${m.img}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
-                            <div class="movie-badge-wrapper">
-                                <span class="badge-item bg-episode">${m.status || 'HD'}</span>
-                                <span class="badge-item ${badgeTypeClass}">${m.subType || 'Vietsub'}</span>
-                            </div>
                             <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
                                 <span class="hover-btn">XEM NGAY</span>
                             </div>
                         </div>
                         <div class="mt-3 text-center px-1">
-                            <h3 class="font-bold text-[13px] leading-tight text-gray-200 group-hover:text-yellow-500 truncate uppercase tracking-tighter">${m.title}</h3>
-                            <p class="text-[10px] text-gray-500 truncate uppercase mt-1 italic">${m.sub}</p>
+                            <h3 class="font-bold text-[13px] text-gray-200 group-hover:text-yellow-500 truncate uppercase">${m.title}</h3>
                         </div>
                     </div>`;
-
-                if (i < 5) {
-                    thumbBox.innerHTML += `<div class="thumb-item" onclick="updateBanner(${i})"><img src="${m.img}" class="w-full h-full object-cover"></div>`;
-                }
             });
         }
 
@@ -300,106 +253,44 @@
             const m = movies[i];
             document.getElementById('modal-img').src = m.img;
             document.getElementById('modal-title').innerText = m.title;
-            document.getElementById('modal-sub').innerText = m.sub;
-            document.getElementById('modal-year').innerText = m.year;
             document.getElementById('modal-desc').innerText = m.desc;
-            
-            document.getElementById('modal-play-btn').onclick = () => {
-                closeInfoModal();
-                playMovie(i);
-            };
-
+            document.getElementById('modal-play-btn').onclick = () => { closeInfoModal(); playMovie(i); };
             document.getElementById('info-modal').style.display = 'flex';
-            document.body.style.overflow = 'hidden';
         }
 
-        function closeInfoModal() {
-            document.getElementById('info-modal').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
+        function closeInfoModal() { document.getElementById('info-modal').style.display = 'none'; document.body.style.overflow = 'auto'; }
 
         async function playMovie(i) {
-            const m = movies[i];
-            const overlay = document.getElementById('player-overlay');
+            const m = movies[i]; const overlay = document.getElementById('player-overlay');
             const iframe = document.getElementById('main-iframe');
-            const epBox = document.getElementById('episode-list');
-            
             document.getElementById('player-title').innerText = m.title;
             overlay.classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-            epBox.innerHTML = "";
-
-            if (m.isCustom) {
-                m.episodes.forEach(ep => {
-                    const btn = document.createElement('button');
-                    btn.className = "bg-red-700 text-white px-4 py-1 rounded-md text-sm font-bold hover:bg-red-600";
-                    btn.innerText = ep.name;
-                    btn.onclick = () => { iframe.src = ep.link; };
-                    epBox.appendChild(btn);
-                });
-                iframe.src = m.episodes[0].link;
-            } else {
-                try {
-                    const res = await fetch(`https://phimapi.com/phim/${m.slug}`);
-                    const data = await res.json();
-                    data.episodes[0].server_data.forEach(ep => {
-                        const btn = document.createElement('button');
-                        btn.className = "bg-gray-700 text-white px-4 py-1 rounded-md text-sm hover:bg-yellow-600";
-                        btn.innerText = ep.name;
-                        btn.onclick = () => { iframe.src = ep.link_embed; };
-                        epBox.appendChild(btn);
-                    });
-                    iframe.src = data.episodes[0].server_data[0].link_embed;
-                } catch (e) { alert("Lỗi tải phim!"); }
-            }
+            try {
+                const res = await fetch(`https://phimapi.com/phim/${m.slug}`);
+                const data = await res.json();
+                iframe.src = data.episodes[0].server_data[0].link_embed;
+            } catch (e) { alert("Lỗi tải phim!"); }
         }
 
         function updateBanner(index) {
             if (movies.length === 0) return;
-            cur = index;
-            const m = movies[cur];
+            cur = index; const m = movies[cur];
             const bg = document.getElementById('banner-bg');
-            bg.style.opacity = 0;
-            setTimeout(() => {
-                bg.style.backgroundImage = `url('${m.img}')`;
-                document.getElementById('title').innerText = m.title;
-                document.getElementById('sub').innerText = m.sub;
-                document.getElementById('desc').innerText = m.desc;
-                document.getElementById('info-badges').innerHTML = `
-                    <span class="bg-yellow-600 text-black px-2 py-0.5 rounded text-xs font-bold uppercase tracking-tighter">HD VIP</span>
-                    <span class="border border-gray-500 px-2 py-0.5 rounded text-xs text-white font-medium">${m.year}</span>
-                    <span class="border border-gray-500 px-2 py-0.5 rounded text-xs text-white font-medium">${m.subType}</span>
-                `;
-                document.querySelectorAll('.thumb-item').forEach((item, idx) => {
-                    idx === cur ? item.classList.add('active') : item.classList.remove('active');
-                });
-                bg.style.opacity = 0.6;
-            }, 400);
+            bg.style.backgroundImage = `url('${m.img}')`;
+            document.getElementById('title').innerText = m.title;
+            document.getElementById('sub').innerText = m.sub;
+            document.getElementById('desc').innerText = m.desc;
         }
 
         function startBannerCycle() {
-            clearInterval(bannerInterval);
             bannerInterval = setInterval(() => {
                 cur = (cur + 1) % Math.min(movies.length, 5);
                 updateBanner(cur);
-            }, AUTO_TIME);
+            }, 4000);
         }
 
-        function closePlayer() { 
-            document.getElementById('player-overlay').classList.add('hidden'); 
-            document.getElementById('main-iframe').src = ""; 
-            document.body.style.overflow = 'auto';
-        }
-        
+        function closePlayer() { document.getElementById('player-overlay').classList.add('hidden'); document.getElementById('main-iframe').src = ""; }
         function playCurrent() { playMovie(cur); }
-
-        function loadCustomMovies() {
-            document.getElementById('grid-title').innerHTML = `<i class="fas fa-star text-yellow-500"></i> PHIM ĐƯỢC YÊU CẦU RIÊNG`;
-            window.scrollTo({top: 800, behavior: 'smooth'});
-            movies = customData.map(item => ({...item, isCustom: true}));
-            renderGrid();
-            updateBanner(0);
-        }
 
         setInterval(() => {
             const s = document.createElement('div'); s.className = 'sakura';
