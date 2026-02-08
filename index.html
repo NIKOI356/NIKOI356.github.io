@@ -11,14 +11,12 @@
         :root { --xo-vang: #d4a017; --bg-dark: #0b0c10; }
         body { background-color: var(--bg-dark); color: #e2e8f0; font-family: 'Inter', sans-serif; overflow-x: hidden; }
         
-        /* HEADER PHONG CÁCH GOGO - CỐ ĐỊNH NỀN ĐỎ TẾT */
         #header { 
             position: fixed; top: 0; left: 0; width: 100%; z-index: 120;
             background: linear-gradient(to bottom, rgba(160, 0, 0, 0.98) 0%, rgba(130, 0, 0, 0.85) 60%, transparent 100%);
             padding: 15px 20px 30px 20px;
         }
 
-        /* Thanh tìm kiếm chuẩn ảnh 1 */
         .search-bar {
             background: rgba(255, 255, 255, 0.1);
             border-radius: 8px; padding: 8px 15px;
@@ -26,20 +24,18 @@
         }
         .search-bar input { background: transparent; border: none; outline: none; color: white; font-size: 14px; width: 100%; }
 
-        /* Menu ngang GoGo cuộn trên Mobile */
         .nav-scroll {
             display: flex; overflow-x: auto; white-space: nowrap;
             gap: 20px; padding: 15px 0 0 0; scrollbar-width: none;
         }
         .nav-scroll::-webkit-scrollbar { display: none; }
-        .nav-item { color: rgba(255,255,255,0.9); font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 4px; }
+        .nav-item { color: rgba(255,255,255,0.9); font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 4px; transition: 0.3s; }
+        .nav-item:hover { color: var(--xo-vang); }
         .badge-new { background: #f59e0b; color: #000; font-size: 9px; padding: 1px 4px; border-radius: 3px; font-weight: 900; }
 
-        /* MODAL CẢNH BÁO MÈO CƯỜI ĐỂU */
         #tet-alert {
             position: fixed; inset: 0; z-index: 300; display: flex; align-items: center; justify-content: center;
             background: rgba(0,0,0,0.92); backdrop-filter: blur(8px);
-            transition: all 0.5s cubic-bezier(0.6, -0.28, 0.735, 0.045);
         }
         .alert-box {
             background: #8B0000; padding: 2.5rem; border: 4px solid var(--xo-vang); text-align: center; 
@@ -51,34 +47,30 @@
 
         .cat-btn {
             width: 110px; height: 110px; margin: 0 auto; border-radius: 50%; border: 4px solid var(--xo-vang);
-            overflow: hidden; cursor: pointer; box-shadow: 0 0 20px var(--xo-vang);
+            overflow: hidden; cursor: pointer; box-shadow: 0 0 20px var(--xo-vang); transition: 0.3s;
         }
+        .cat-btn:hover { transform: scale(1.1); }
         .cat-btn img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* FOOTER CHUẨN ẢNH 3 */
         .footer { background: #060709; padding: 60px 20px; border-top: 1px solid rgba(255,255,255,0.05); position: relative; }
         .footer-tag { background: #900; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; display: inline-block; margin-bottom: 20px; }
         .social-icons { display: flex; gap: 12px; margin: 20px 0; }
         .social-icons a { width: 35px; height: 35px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; transition: 0.3s; }
         .social-icons a:hover { background: var(--xo-vang); color: black; }
         
-        .btn-top { position: absolute; bottom: 30px; right: 20px; background: white; color: black; padding: 8px 12px; border-radius: 10px; font-weight: 900; font-size: 10px; text-align: center; }
+        .btn-top { position: absolute; bottom: 30px; right: 20px; background: white; color: black; padding: 8px 12px; border-radius: 10px; font-weight: 900; font-size: 10px; text-align: center; cursor: pointer; }
 
-        /* Phụ trợ */
         .sakura { position: fixed; top: -10%; z-index: 100; pointer-events: none; background: #ffb7c5; border-radius: 50% 0 50% 50%; animation: fall linear infinite; }
         @keyframes fall { 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
-        #fireworksCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 99; }
     </style>
 </head>
 <body>
-
-    <canvas id="fireworksCanvas"></canvas>
 
     <div id="tet-alert">
         <div class="alert-box" id="alertBox">
             <h2 class="text-2xl font-black mb-3 text-yellow-400 italic uppercase">CẢNH BÁO !</h2>
             <p class="text-md font-bold text-white mb-6 leading-tight">CÓ CHỨA QC CỜ BẠC TRÁNH XA NHÉ!<br>
-            <span class="text-xs font-normal text-gray-200">Chúc các bạn yêu nhiều sức khỏe , kiếm nhiều tiền nha!</span></p>
+            <span class="text-xs font-normal text-gray-200">Chúc các bạn yêu nhiều sức khỏe, kiếm nhiều tiền nha!</span></p>
             <div class="cat-btn" onclick="closeAlertWithEffect()">
                 <img src="https://jbagy.me/wp-content/uploads/2025/04/Hinh-meme-meo-cuoi-deu-1.jpg" alt="Xô Phim Cat">
             </div>
@@ -106,7 +98,7 @@
                 <input type="text" placeholder="Tìm kiếm phim, diễn viên...">
             </div>
 
-            <div class="hidden md:flex items-center bg-white text-black px-5 py-2 rounded-full text-xs font-bold cursor-pointer">
+            <div class="hidden md:flex items-center bg-white text-black px-5 py-2 rounded-full text-xs font-bold cursor-pointer hover:bg-yellow-500 transition">
                 <i class="fas fa-user mr-2"></i> Thành viên
             </div>
         </div>
@@ -127,10 +119,9 @@
         <div id="banner-bg" class="absolute inset-0 bg-cover bg-center transition-all duration-1000 scale-105"></div>
         <div class="absolute inset-0" style="background: linear-gradient(to top, var(--bg-dark) 10%, transparent 100%);"></div>
         <div class="relative z-10 flex flex-col items-center justify-end h-full px-6 pb-20 text-center">
-            <h1 id="title" class="text-4xl md:text-6xl font-black mb-2 italic uppercase drop-shadow-2xl">--</h1>
+            <h1 id="title" class="text-4xl md:text-6xl font-black mb-2 italic uppercase drop-shadow-2xl text-white">--</h1>
             <p id="sub" class="text-yellow-500 text-sm font-bold mb-6 tracking-widest uppercase">--</p>
             <button onclick="playCurrent()" class="bg-yellow-500 text-black px-12 py-3 rounded-full font-black hover:scale-105 transition shadow-lg shadow-yellow-500/20">XEM NGAY</button>
-            <div id="thumb-container" class="flex gap-3 overflow-x-auto no-scrollbar mt-8 w-full justify-center"></div>
         </div>
     </section>
 
@@ -169,16 +160,16 @@
             </nav>
 
             <p class="text-xs text-gray-500 leading-relaxed max-w-2xl">
-                XôPhim - Trang xem phim online chất lượng cao miễn phí Vietsub, thuyết minh, lồng tiếng full HD. Kho phim mới khổng lồ, phim chiếu rạp, phim bộ, phim lẻ từ nhiều quốc gia như Việt Nam, Hàn Quốc, Trung Quốc, Thái Lan, Nhật Bản, Âu Mỹ... đa dạng thể loại. Khám phá nền tảng phim trực tuyến hay nhất 2026 chất lượng 4K!
+                XôPhim - Xem phim online chất lượng cao miễn phí Vietsub. Khám phá nền tảng phim trực tuyến hay nhất 2026 chất lượng 4K!
             </p>
             <p class="text-[10px] text-gray-600 mt-6">© 2026 XôPhim</p>
         </div>
-        <div class="btn-top" onclick="window.scrollTo(0,0)"><i class="fas fa-arrow-up block mb-1"></i> ĐẦU<br>TRANG</div>
+        <div class="btn-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})"><i class="fas fa-arrow-up block mb-1"></i> ĐẦU<br>TRANG</div>
     </footer>
 
     <div id="player-overlay" class="fixed inset-0 z-[200] hidden bg-black flex flex-col">
         <div class="p-4 flex justify-between items-center bg-[#1a1a20]">
-            <button onclick="closePlayer()" class="text-white text-xl"><i class="fas fa-times"></i></button>
+            <button onclick="closePlayer()" class="text-white text-xl hover:text-red-500 transition"><i class="fas fa-times"></i></button>
             <h2 id="player-title" class="font-bold text-xs text-gray-400 uppercase tracking-widest">Đang phát</h2>
             <div class="w-6"></div>
         </div>
@@ -193,14 +184,13 @@
                 sub: "The Wolf of Wall Street",
                 year: "2013",
                 rating: "8.2",
-                status: "Phim Lẻ",
-                desc: "Dựa trên câu chuyện có thật của Jordan Belfort, từ bước thăng tiến của ông trở thành một nhà môi giới chứng khoán giàu có.",
                 img: "https://phimimg.com/upload/vod/20231018-1/2e6fd68d5e7002fcc9fa6b8453242a8a.jpg",
                 episodes: [{ name: "Full", link: "https://player.phimapi.com/player/?url=https://s2.phim1280.tv/20231019/KZ3IDVB4/index.m3u8" }]
             }
         ];
 
         let cur = 0;
+
         function closeAlertWithEffect() {
             document.getElementById('alertBox').classList.add('closing');
             setTimeout(() => { document.getElementById('tet-alert').style.display = 'none'; }, 500);
@@ -216,6 +206,7 @@
 
         function init() {
             const grid = document.getElementById('movie-grid');
+            grid.innerHTML = ""; // Clear grid before init
             movies.forEach((m, i) => {
                 grid.innerHTML += `
                     <div class="cursor-pointer group" onclick="playMovie(${i})">
@@ -233,14 +224,23 @@
         }
 
         function playMovie(i) {
-            document.getElementById('player-title').innerText = movies[i].title;
-            document.getElementById('main-iframe').src = movies[i].link;
+            const movie = movies[i];
+            document.getElementById('player-title').innerText = movie.title;
+            // Lấy link từ episodes[0]
+            document.getElementById('main-iframe').src = movie.episodes[0].link;
             document.getElementById('player-overlay').classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Khóa cuộn trang khi xem phim
         }
-        function closePlayer() { document.getElementById('player-overlay').classList.add('hidden'); document.getElementById('main-iframe').src = ""; }
+
+        function closePlayer() { 
+            document.getElementById('player-overlay').classList.add('hidden'); 
+            document.getElementById('main-iframe').src = ""; 
+            document.body.style.overflow = 'auto';
+        }
+
         function playCurrent() { playMovie(cur); }
 
-        // Hiệu ứng pháo hoa & Sakura (Giữ nguyên từ bản trước)
+        // Sakura Effect
         setInterval(() => {
             const s = document.createElement('div'); s.className = 'sakura';
             s.style.left = Math.random() * 100 + 'vw';
