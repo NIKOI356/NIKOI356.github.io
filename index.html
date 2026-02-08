@@ -10,57 +10,26 @@
     <style>
         :root { --xo-vang: #d4a017; --bg-dark: #0b0c10; }
         body { background-color: var(--bg-dark); color: #e2e8f0; font-family: 'Inter', sans-serif; overflow-x: hidden; }
-        
-        #header { 
-            position: fixed; top: 0; left: 0; width: 100%; z-index: 120;
-            background: linear-gradient(to bottom, rgba(160, 0, 0, 0.98) 0%, rgba(130, 0, 0, 0.85) 60%, transparent 100%);
-            padding: 15px 20px 30px 20px;
-        }
-
-        .search-bar {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px; padding: 8px 15px;
-            display: flex; align-items: center; gap: 10px; width: 100%; max-width: 400px;
-        }
+        #header { position: fixed; top: 0; left: 0; width: 100%; z-index: 120; background: linear-gradient(to bottom, rgba(160, 0, 0, 0.98) 0%, rgba(130, 0, 0, 0.85) 60%, transparent 100%); padding: 15px 20px 30px 20px; }
+        .search-bar { background: rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 8px 15px; display: flex; align-items: center; gap: 10px; width: 100%; max-width: 400px; }
         .search-bar input { background: transparent; border: none; outline: none; color: white; font-size: 14px; width: 100%; }
-
-        /* Movie Card Styles */
-        .movie-card {
-            position: relative; border-radius: 12px; overflow: hidden;
-            background: #1a1a20; transition: transform 0.3s ease;
-        }
-        .movie-badge-wrapper {
-            position: absolute; bottom: 8px; right: 8px; display: flex; gap: 4px; z-index: 10;
-        }
-        .badge-item {
-            font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 4px; text-transform: uppercase;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.5);
-        }
+        .movie-card { position: relative; border-radius: 12px; overflow: hidden; background: #1a1a20; transition: transform 0.3s ease; }
+        .movie-badge-wrapper { position: absolute; bottom: 8px; right: 8px; display: flex; gap: 4px; z-index: 10; }
+        .badge-item { font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; box-shadow: 0 2px 4px rgba(0,0,0,0.5); }
         .bg-vietsub { background: rgba(59, 130, 246, 0.95); color: white; }
         .bg-tm { background: rgba(16, 185, 129, 0.95); color: white; }
         .bg-episode { background: rgba(75, 85, 99, 0.95); color: white; }
-
-        .hover-btn {
-            border: 2px solid var(--xo-vang); color: var(--xo-vang); padding: 5px 15px;
-            border-radius: 99px; font-size: 11px; font-weight: 900; letter-spacing: 1px;
-            background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
-            transform: translateY(10px); transition: 0.3s ease;
-        }
+        .hover-btn { border: 2px solid var(--xo-vang); color: var(--xo-vang); padding: 5px 15px; border-radius: 99px; font-size: 11px; font-weight: 900; letter-spacing: 1px; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); transform: translateY(10px); transition: 0.3s ease; }
         .group:hover .hover-btn { transform: translateY(0); }
-
-        /* Categories Scroll */
         .nav-scroll { display: flex; overflow-x: auto; gap: 20px; padding: 15px 0 0 0; scrollbar-width: none; }
         .nav-scroll::-webkit-scrollbar { display: none; }
         .nav-item { color: rgba(255,255,255,0.9); font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 4px; transition: 0.3s; cursor: pointer; }
         .nav-item:hover { color: var(--xo-vang); }
-
         .footer { background: #060709; padding: 60px 20px; border-top: 1px solid rgba(255,255,255,0.05); }
         .sakura { position: fixed; top: -10%; z-index: 100; pointer-events: none; background: #ffb7c5; border-radius: 50% 0 50% 50%; animation: fall linear infinite; }
         @keyframes fall { 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
-
         .thumb-item { width: 45px; height: 45px; border-radius: 50%; overflow: hidden; cursor: pointer; border: 2px solid transparent; transition: 0.3s; opacity: 0.5; }
         .thumb-item.active { border-color: white; opacity: 1; transform: scale(1.1); }
-        
         #info-modal { display: none; position: fixed; inset: 0; z-index: 300; background: rgba(0, 0, 0, 0.85); align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(8px); }
     </style>
 </head>
@@ -68,15 +37,13 @@
 
     <header id="header">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div onclick="location.reload()" class="flex items-center justify-between w-full md:w-auto">
-                <div class="flex items-center gap-2 cursor-pointer">
-                    <div class="w-9 h-8 bg-[#d4a017] rounded-b-xl flex items-center justify-center">
-                        <i class="fas fa-play text-black text-xs"></i>
-                    </div>
-                    <div class="flex flex-col leading-none">
-                        <span class="text-xl font-black text-white tracking-tighter uppercase">XÔ PHIM</span>
-                        <span class="text-[8px] text-gray-400 font-bold tracking-widest uppercase">Đức Anh Đẹp Trai</span>
-                    </div>
+            <div onclick="location.reload()" class="flex items-center gap-2 cursor-pointer">
+                <div class="w-9 h-8 bg-[#d4a017] rounded-b-xl flex items-center justify-center">
+                    <i class="fas fa-play text-black text-xs"></i>
+                </div>
+                <div class="flex flex-col leading-none">
+                    <span class="text-xl font-black text-white tracking-tighter uppercase">XÔ PHIM</span>
+                    <span class="text-[8px] text-gray-400 font-bold tracking-widest uppercase">Đức Anh Đẹp Trai</span>
                 </div>
             </div>
             <div class="search-bar">
@@ -96,14 +63,12 @@
         <div id="banner-bg" class="absolute inset-0 bg-cover bg-center transition-all duration-1000 scale-105 opacity-60"></div>
         <div class="absolute inset-0" style="background: linear-gradient(to top, var(--bg-dark) 5%, transparent 100%), linear-gradient(to right, rgba(0,0,0,0.8) 0%, transparent 60%);"></div>
         <div class="relative z-10 flex flex-col items-start justify-end h-full px-10 pb-20 max-w-4xl text-left">
-            <h1 id="title" class="text-4xl md:text-6xl font-black mb-2 text-white drop-shadow-lg leading-tight uppercase italic">ĐANG TẢI...</h1>
+            <h1 id="title" class="text-4xl md:text-6xl font-black mb-2 text-white uppercase italic">ĐANG TẢI...</h1>
             <p id="sub" class="text-yellow-500 text-lg font-bold mb-4 italic">--</p>
             <div id="info-badges" class="flex flex-wrap gap-2 mb-4"></div>
-            <p id="desc" class="text-gray-300 text-sm md:text-base mb-8 line-clamp-3 max-w-2xl leading-relaxed italic"></p>
+            <p id="desc" class="text-gray-300 text-sm mb-8 line-clamp-3 italic"></p>
             <div class="flex flex-col gap-6">
-                <button onclick="playCurrent()" class="bg-yellow-500 text-black w-fit px-10 py-3 rounded-full font-black hover:scale-110 transition shadow-lg flex items-center gap-2">
-                    <i class="fas fa-play"></i> XEM NGAY
-                </button>
+                <button onclick="playCurrent()" class="bg-yellow-500 text-black w-fit px-10 py-3 rounded-full font-black hover:scale-110 transition flex items-center gap-2"><i class="fas fa-play"></i> XEM NGAY</button>
                 <div id="banner-thumbs" class="flex gap-3"></div>
             </div>
         </div>
@@ -112,33 +77,17 @@
     <div class="px-6 py-10 bg-[#0b0c10]">
         <h2 class="text-2xl font-bold mb-6 italic border-l-4 border-yellow-500 pl-4 uppercase">Bạn đang quan tâm gì?</h2>
         <div class="flex flex-wrap gap-4">
-            <div onclick="searchMovies('Chính kịch')" class="relative w-full sm:w-48 h-28 rounded-2xl bg-blue-600 p-4 shadow-lg cursor-pointer overflow-hidden transition transform hover:scale-105 group">
-                <div class="absolute inset-0 bg-black opacity-10"></div>
-                <h3 class="text-xl font-bold relative z-10">Chính kịch</h3>
-                <p class="text-xs mt-2 flex items-center relative z-10">Xem chủ đề <span class="ml-1">›</span></p>
+            <div onclick="searchMovies('Chính kịch')" class="relative w-48 h-28 rounded-2xl bg-blue-600 p-4 cursor-pointer transition transform hover:scale-105">
+                <h3 class="text-xl font-bold">Chính kịch</h3><p class="text-xs mt-2">Xem chủ đề ›</p>
             </div>
-            <div onclick="searchMovies('Hài hước')" class="relative w-full sm:w-48 h-28 rounded-2xl bg-teal-700 p-4 shadow-lg cursor-pointer overflow-hidden transition transform hover:scale-105 group">
-                <h3 class="text-xl font-bold relative z-10">Hài hước</h3>
-                <p class="text-xs mt-2 flex items-center relative z-10">Xem chủ đề <span class="ml-1">›</span></p>
+            <div onclick="searchMovies('Hành động')" class="relative w-48 h-28 rounded-2xl bg-slate-600 p-4 cursor-pointer transition transform hover:scale-105">
+                <h3 class="text-xl font-bold">Hành động</h3><p class="text-xs mt-2">Xem chủ đề ›</p>
             </div>
-            <div onclick="searchMovies('Hành động')" class="relative w-full sm:w-48 h-28 rounded-2xl bg-slate-600 p-4 shadow-lg cursor-pointer overflow-hidden transition transform hover:scale-105 group">
-                <h3 class="text-xl font-bold relative z-10">Hành động</h3>
-                <p class="text-xs mt-2 flex items-center relative z-10">Xem chủ đề <span class="ml-1">›</span></p>
+            <div onclick="searchMovies('Tình cảm')" class="relative w-48 h-28 rounded-2xl bg-orange-400 p-4 cursor-pointer transition transform hover:scale-105">
+                <h3 class="text-xl font-bold">Tình cảm</h3><p class="text-xs mt-2">Xem chủ đề ›</p>
             </div>
-            <div onclick="searchMovies('Hình sự')" class="relative w-full sm:w-48 h-28 rounded-2xl bg-purple-600 p-4 shadow-lg cursor-pointer overflow-hidden transition transform hover:scale-105 group">
-                <h3 class="text-xl font-bold relative z-10">Hình sự</h3>
-                <p class="text-xs mt-2 flex items-center relative z-10">Xem chủ đề <span class="ml-1">›</span></p>
-            </div>
-            <div onclick="searchMovies('Tình cảm')" class="relative w-full sm:w-48 h-28 rounded-2xl bg-orange-400 p-4 shadow-lg cursor-pointer overflow-hidden transition transform hover:scale-105 group">
-                <h3 class="text-xl font-bold relative z-10 text-white">Tình cảm</h3>
-                <p class="text-xs mt-2 flex items-center relative z-10 text-white">Xem chủ đề <span class="ml-1">›</span></p>
-            </div>
-            <div onclick="searchMovies('Bí ẩn')" class="relative w-full sm:w-48 h-28 rounded-2xl bg-red-800 p-4 shadow-lg cursor-pointer overflow-hidden transition transform hover:scale-105 group">
-                <h3 class="text-xl font-bold relative z-10">Bí ẩn</h3>
-                <p class="text-xs mt-2 flex items-center relative z-10">Xem chủ đề <span class="ml-1">›</span></p>
-            </div>
-            <div class="relative w-full sm:w-48 h-28 rounded-2xl bg-[#2a2d35] p-4 shadow-lg cursor-pointer flex items-center justify-center transition transform hover:scale-105">
-                <h3 class="text-xl font-bold">+15 chủ đề</h3>
+            <div onclick="searchMovies('Hoạt hình')" class="relative w-48 h-28 rounded-2xl bg-red-800 p-4 cursor-pointer transition transform hover:scale-105">
+                <h3 class="text-xl font-bold">Hoạt hình</h3><p class="text-xs mt-2">Xem chủ đề ›</p>
             </div>
         </div>
     </div>
@@ -152,9 +101,9 @@
         <div class="modal-content" onclick="event.stopPropagation()">
             <img id="modal-img" src="" class="w-full h-64 object-cover">
             <div class="p-8">
-                <h2 id="modal-title" class="text-2xl font-black text-white mb-1 uppercase italic tracking-tighter"></h2>
+                <h2 id="modal-title" class="text-2xl font-black text-white mb-1 uppercase italic"></h2>
                 <p id="modal-sub" class="text-yellow-500 font-bold text-sm mb-4 italic"></p>
-                <p id="modal-desc" class="text-gray-400 text-xs leading-relaxed mb-8 line-clamp-3 italic"></p>
+                <p id="modal-desc" class="text-gray-400 text-xs leading-relaxed mb-8 italic line-clamp-3"></p>
                 <div class="flex items-center gap-3">
                     <button id="modal-play-btn" class="bg-[#d4a017] text-black px-6 py-3 rounded-xl font-bold text-sm">XEM NGAY</button>
                     <button class="bg-white/5 text-white px-5 py-3 rounded-xl text-sm font-bold" onclick="closeInfoModal()">Đóng</button>
@@ -165,17 +114,18 @@
 
     <div id="player-overlay" class="fixed inset-0 z-[200] hidden bg-black flex flex-col">
         <div class="p-4 flex justify-between items-center bg-[#1a1a20]">
-            <button onclick="closePlayer()" class="text-white text-xl hover:text-red-500 transition"><i class="fas fa-times"></i></button>
-            <h2 id="player-title" class="font-bold text-xs text-gray-400 uppercase tracking-widest text-center flex-1">Đang phát</h2>
+            <button onclick="closePlayer()" class="text-white text-xl hover:text-red-500"><i class="fas fa-times"></i></button>
+            <h2 id="player-title" class="font-bold text-xs text-gray-400 uppercase text-center flex-1">Đang phát</h2>
         </div>
         <div id="episode-list" class="flex gap-2 p-2 overflow-x-auto bg-[#1a1a20] border-t border-gray-800"></div>
         <iframe id="main-iframe" class="flex-1 w-full" frameborder="0" allowfullscreen></iframe>
     </div>
 
     <script>
-        // Copy logic Script cũ của bạn vào đây (bao gồm hàm searchMovies có biểu tượng xoay và thông báo không tìm thấy)
+        // DỮ LIỆU PHIM YÊU CẦU
         const customData = [
-            { id: 18, title: "Mưa Đỏ", sub: "Red Rain", year: "2026", status: "YouTube", subType: "TM", img: "https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/0b1372232709307.68a20d789415d.jpg", episodes: [{ name: "Full", link: "https://www.youtube.com/embed/9Ymlum6nHq4" }], desc: "Một câu chuyện đầy kịch tính và cảm xúc trong cơn mưa đỏ định mệnh." }
+            { id: 18, title: "Mưa Đỏ", sub: "Red Rain", year: "2026", status: "YouTube", subType: "TM", img: "https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/0b1372232709307.68a20d789415d.jpg", episodes: [{ name: "Full", link: "https://www.youtube.com/embed/9Ymlum6nHq4" }], desc: "Một câu chuyện đầy kịch tính và cảm xúc trong cơn mưa đỏ định mệnh." },
+            { id: 17, title: "Quang Phổ", sub: "Spectral", year: "2026", status: "Bản Đẹp", subType: "Vietsub", img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20260116-1/5b1f85f0fbcc96ca4bad610602025626.jpg", episodes: [{ name: "Full", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260116/KvfgltMI/index.m3u8" }], desc: "Cuộc chiến chống lại những thực thể siêu nhiên không thể nhìn thấy." }
         ];
 
         let movies = []; let cur = 0; let bannerInterval;
@@ -193,31 +143,23 @@
             const gridTitle = document.getElementById('grid-title');
             const movieGrid = document.getElementById('movie-grid');
             const searchIcon = document.getElementById('search-icon');
-
             searchIcon.className = "fas fa-spinner fa-spin text-yellow-500";
             gridTitle.innerHTML = `<i class="fas fa-search fa-spin text-yellow-500"></i> ĐANG TÌM: "${query.toUpperCase()}"...`;
             window.scrollTo({top: 800, behavior: 'smooth'});
-
             try {
                 const res = await fetch(`https://phimapi.com/v1/api/tim-kiem?keyword=${encodeURIComponent(query)}&limit=12`);
                 const data = await res.json();
                 searchIcon.className = "fas fa-search text-gray-400";
-
                 if (data.data && data.data.items.length > 0) {
-                    gridTitle.innerHTML = `<i class="fas fa-check-circle text-green-500"></i> KẾT QUẢ CHO: "${query.toUpperCase()}"`;
+                    gridTitle.innerHTML = `<i class="fas fa-check-circle text-green-500"></i> KẾT QUẢ: "${query.toUpperCase()}"`;
                     movies = data.data.items.map(item => ({
                         title: item.name, sub: item.origin_name, img: `https://phimimg.com/${item.thumb_url}`,
-                        year: item.year || "2026", slug: item.slug, status: "HD", subType: "Vietsub", desc: "Kết quả tìm kiếm từ Xô Phim."
+                        year: item.year || "2026", slug: item.slug, status: "HD", subType: "Vietsub", desc: "Kết quả từ Xô Phim."
                     }));
                     renderGrid();
                 } else {
                     gridTitle.innerHTML = `<i class="fas fa-times-circle text-red-500"></i> KHÔNG TÌM THẤY`;
-                    movieGrid.innerHTML = `
-                        <div class="col-span-full text-center py-20 bg-white/5 rounded-3xl border border-dashed border-gray-700">
-                            <i class="fas fa-ghost text-5xl text-gray-600 mb-4 block"></i>
-                            <p class="text-xl font-bold text-gray-300">Hiện tại mình chưa có phim: "${query}"</p>
-                            <button onclick="location.reload()" class="mt-6 bg-yellow-500 text-black px-6 py-2 rounded-full font-bold text-xs">Quay lại trang chủ</button>
-                        </div>`;
+                    movieGrid.innerHTML = `<div class="col-span-full text-center py-20 bg-white/5 rounded-3xl"><i class="fas fa-ghost text-5xl text-gray-600 mb-4 block"></i><p class="text-xl font-bold">Hiện mình chưa có phim: "${query}"</p><button onclick="location.reload()" class="mt-6 bg-yellow-500 text-black px-6 py-2 rounded-full font-bold text-xs">Quay lại</button></div>`;
                 }
             } catch (e) { searchIcon.className = "fas fa-search text-gray-400"; }
         }
@@ -232,20 +174,11 @@
 
         function renderGrid() {
             const grid = document.getElementById('movie-grid');
-            grid.innerHTML = "";
+            const thumbBox = document.getElementById('banner-thumbs');
+            grid.innerHTML = ""; thumbBox.innerHTML = "";
             movies.forEach((m, i) => {
-                grid.innerHTML += `
-                    <div class="cursor-pointer group" onclick="showInfo(${i})">
-                        <div class="movie-card aspect-[2/3] shadow-2xl">
-                            <img src="${m.img}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
-                            <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
-                                <span class="hover-btn">XEM NGAY</span>
-                            </div>
-                        </div>
-                        <div class="mt-3 text-center px-1">
-                            <h3 class="font-bold text-[13px] text-gray-200 group-hover:text-yellow-500 truncate uppercase">${m.title}</h3>
-                        </div>
-                    </div>`;
+                grid.innerHTML += `<div class="cursor-pointer group" onclick="showInfo(${i})"><div class="movie-card aspect-[2/3] shadow-2xl"><img src="${m.img}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700"><div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center"><span class="hover-btn">XEM NGAY</span></div></div><div class="mt-3 text-center px-1"><h3 class="font-bold text-[13px] text-gray-200 group-hover:text-yellow-500 truncate uppercase">${m.title}</h3></div></div>`;
+                if (i < 5) thumbBox.innerHTML += `<div class="thumb-item" onclick="updateBanner(${i})"><img src="${m.img}" class="w-full h-full object-cover"></div>`;
             });
         }
 
@@ -253,6 +186,7 @@
             const m = movies[i];
             document.getElementById('modal-img').src = m.img;
             document.getElementById('modal-title').innerText = m.title;
+            document.getElementById('modal-sub').innerText = m.sub;
             document.getElementById('modal-desc').innerText = m.desc;
             document.getElementById('modal-play-btn').onclick = () => { closeInfoModal(); playMovie(i); };
             document.getElementById('info-modal').style.display = 'flex';
@@ -263,13 +197,30 @@
         async function playMovie(i) {
             const m = movies[i]; const overlay = document.getElementById('player-overlay');
             const iframe = document.getElementById('main-iframe');
+            const epBox = document.getElementById('episode-list');
             document.getElementById('player-title').innerText = m.title;
-            overlay.classList.remove('hidden');
-            try {
-                const res = await fetch(`https://phimapi.com/phim/${m.slug}`);
-                const data = await res.json();
-                iframe.src = data.episodes[0].server_data[0].link_embed;
-            } catch (e) { alert("Lỗi tải phim!"); }
+            overlay.classList.remove('hidden'); epBox.innerHTML = "";
+            if (m.isCustom) {
+                m.episodes.forEach(ep => {
+                    const btn = document.createElement('button');
+                    btn.className = "bg-red-700 text-white px-4 py-1 rounded-md text-sm font-bold";
+                    btn.innerText = ep.name; btn.onclick = () => { iframe.src = ep.link; };
+                    epBox.appendChild(btn);
+                });
+                iframe.src = m.episodes[0].link;
+            } else {
+                try {
+                    const res = await fetch(`https://phimapi.com/phim/${m.slug}`);
+                    const data = await res.json();
+                    data.episodes[0].server_data.forEach(ep => {
+                        const btn = document.createElement('button');
+                        btn.className = "bg-gray-700 text-white px-4 py-1 rounded-md text-sm";
+                        btn.innerText = ep.name; btn.onclick = () => { iframe.src = ep.link_embed; };
+                        epBox.appendChild(btn);
+                    });
+                    iframe.src = data.episodes[0].server_data[0].link_embed;
+                } catch (e) { alert("Lỗi tải phim!"); }
+            }
         }
 
         function updateBanner(index) {
@@ -280,9 +231,13 @@
             document.getElementById('title').innerText = m.title;
             document.getElementById('sub').innerText = m.sub;
             document.getElementById('desc').innerText = m.desc;
+            document.querySelectorAll('.thumb-item').forEach((item, idx) => {
+                idx === cur ? item.classList.add('active') : item.classList.remove('active');
+            });
         }
 
         function startBannerCycle() {
+            clearInterval(bannerInterval);
             bannerInterval = setInterval(() => {
                 cur = (cur + 1) % Math.min(movies.length, 5);
                 updateBanner(cur);
@@ -291,6 +246,13 @@
 
         function closePlayer() { document.getElementById('player-overlay').classList.add('hidden'); document.getElementById('main-iframe').src = ""; }
         function playCurrent() { playMovie(cur); }
+
+        function loadCustomMovies() {
+            document.getElementById('grid-title').innerHTML = `<i class="fas fa-star text-yellow-500"></i> PHIM ĐƯỢC YÊU CẦU RIÊNG`;
+            window.scrollTo({top: 800, behavior: 'smooth'});
+            movies = customData.map(item => ({...item, isCustom: true}));
+            renderGrid();
+        }
 
         setInterval(() => {
             const s = document.createElement('div'); s.className = 'sakura';
