@@ -114,13 +114,29 @@
         </nav>
     </header>
 
-    <section class="relative h-[75vh] w-full pt-32 overflow-hidden">
+    <section class="relative h-[85vh] w-full pt-32 overflow-hidden">
         <div id="banner-bg" class="absolute inset-0 bg-cover bg-center transition-all duration-1000 scale-105 opacity-60"></div>
-        <div class="absolute inset-0" style="background: linear-gradient(to top, var(--bg-dark) 5%, transparent 100%);"></div>
-        <div class="relative z-10 flex flex-col items-center justify-end h-full px-6 pb-20 text-center">
-            <h1 id="title" class="text-4xl md:text-6xl font-black mb-2 italic uppercase text-white">--</h1>
-            <p id="sub" class="text-yellow-500 text-sm font-bold mb-6 tracking-widest uppercase">--</p>
-            <button onclick="playCurrent()" class="bg-yellow-500 text-black px-12 py-3 rounded-full font-black hover:scale-110 transition shadow-lg">XEM NGAY</button>
+        <div class="absolute inset-0" style="background: linear-gradient(to top, var(--bg-dark) 5%, transparent 100%), linear-gradient(to right, rgba(0,0,0,0.8) 0%, transparent 60%);"></div>
+        
+        <div class="relative z-10 flex flex-col items-start justify-end h-full px-10 pb-20 max-w-4xl text-left">
+            <h1 id="title" class="text-4xl md:text-6xl font-black mb-2 text-white drop-shadow-lg leading-tight uppercase italic">--</h1>
+            <p id="sub" class="text-yellow-500 text-lg font-bold mb-4 italic">--</p>
+            
+            <div id="info-badges" class="flex flex-wrap gap-2 mb-4"></div>
+            <div id="genres" class="flex flex-wrap gap-2 mb-6"></div>
+            <p id="desc" class="text-gray-300 text-sm md:text-base mb-8 line-clamp-3 max-w-2xl leading-relaxed">--</p>
+            
+            <div class="flex items-center gap-4">
+                <button onclick="playCurrent()" class="bg-yellow-500 text-black px-10 py-3 rounded-full font-black hover:scale-110 transition shadow-lg flex items-center gap-2">
+                    <i class="fas fa-play"></i> XEM NGAY
+                </button>
+                <button class="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center hover:bg-white/20 transition">
+                    <i class="far fa-heart text-white"></i>
+                </button>
+                <button class="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center hover:bg-white/20 transition">
+                    <i class="fas fa-exclamation-circle text-white"></i>
+                </button>
+            </div>
         </div>
     </section>
 
@@ -173,13 +189,35 @@
     </div>
 
     <script>
+        // Cập nhật mảng movies với đầy đủ thông tin chi tiết
         const movies = [
-            { title: "Sói Già Phố Wall", sub: "The Wolf of Wall Street", img: "https://phimimg.com/upload/vod/20231018-1/2e6fd68d5e7002fcc9fa6b8453242a8a.jpg", episodes: [{ link: "https://player.phimapi.com/player/?url=https://s2.phim1280.tv/20231019/KZ3IDVB4/index.m3u8" }] },
-            { title: "Avatar 2", sub: "The Way of Water", img: "https://phimimg.com/upload/vod/20230620/b349b068e4c73a21685f0967a5416040.jpg", episodes: [{ link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20230620/A8W0G2V4/index.m3u8" }] },
-            { title: "John Wick 4", sub: "Hành động đỉnh cao", img: "https://phimimg.com/upload/vod/20230523/830509a259c63c781057476834f3b174.jpg", episodes: [{ link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20230523/T2B1U7F4/index.m3u8" }] },
-            { title: "Spider-Man", sub: "Across the Verse", img: "https://phimimg.com/upload/vod/20230811/498425d57b897918a55227d8f9211326.jpg", episodes: [{ link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20230811/R4X9O1S4/index.m3u8" }] },
-            { title: "Oppenheimer", sub: "Bom tấn 2024", img: "https://phimimg.com/upload/vod/20231122/72d4b79105432098d5f3d455d3e02021.jpg", episodes: [{ link: "https://player.phimapi.com/player/?url=https://s2.phim1280.tv/20231122/Y4V1N9W4/index.m3u8" }] },
-            { title: "Dune 2", sub: "Hành Tinh Cát", img: "https://phimimg.com/upload/vod/20240416/d2f78e4740e7087617a26f306059d04b.jpg", episodes: [{ link: "https://player.phimapi.com/player/?url=https://s2.phim1280.tv/20240416/A1X2D3F4/index.m3u8" }] }
+            { 
+                title: "Sói Già Phố Wall", 
+                sub: "The Wolf of Wall Street", 
+                img: "https://phimimg.com/upload/vod/20231018-1/2e6fd68d5e7002fcc9fa6b8453242a8a.jpg", 
+                imdb: "8.2", year: "2013", season: "Bản Gốc", episode: "Full",
+                genres: ["Hài Hước", "Tội Phạm", "Chính Kịch"],
+                desc: "Dựa trên câu chuyện có thật về cuộc đời của Jordan Belfort, từ sự nghiệp thăng tiến thành một người môi giới chứng khoán giàu có tại New York đến sự sụp đổ bởi lối sống trụy lạc và gian lận tài chính.",
+                episodes: [{ link: "https://player.phimapi.com/player/?url=https://s2.phim1280.tv/20231019/KZ3IDVB4/index.m3u8" }] 
+            },
+            { 
+                title: "Avatar 2", 
+                sub: "The Way of Water", 
+                img: "https://phimimg.com/upload/vod/20230620/b349b068e4c73a21685f0967a5416040.jpg", 
+                imdb: "7.6", year: "2022", season: "Phần 2", episode: "Full HD",
+                genres: ["Hành Động", "Phiêu Lưu", "Viễn Tưởng"],
+                desc: "Jake Sully và Ney'tiri đã lập gia đình và đang làm mọi cách để giữ cho gia đình họ luôn hạnh phúc bên nhau. Tuy nhiên, họ phải rời khỏi nhà và khám phá các vùng đất mới của Pandora.",
+                episodes: [{ link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20230620/A8W0G2V4/index.m3u8" }] 
+            },
+            { 
+                title: "John Wick 4", 
+                sub: "Baba Yaga", 
+                img: "https://phimimg.com/upload/vod/20230523/830509a259c63c781057476834f3b174.jpg", 
+                imdb: "7.7", year: "2023", season: "Phần 4", episode: "4K",
+                genres: ["Hành Động", "Gay Cấn", "Tội Phạm"],
+                desc: "John Wick tìm ra con đường để đánh bại High Table. Nhưng trước khi có thể giành lại tự do, Wick phải đối đầu với một kẻ thù mới với các liên minh hùng mạnh.",
+                episodes: [{ link: "https://player.phimapi.com/player/?url=https://s3.phim1280.tv/20230523/T2B1U7F4/index.m3u8" }] 
+            }
         ];
 
         let cur = 0;
@@ -198,6 +236,21 @@
                 bg.style.backgroundImage = `url('${m.img}')`;
                 document.getElementById('title').innerText = m.title;
                 document.getElementById('sub').innerText = m.sub;
+                document.getElementById('desc').innerText = m.desc;
+
+                // Cập nhật badges
+                document.getElementById('info-badges').innerHTML = `
+                    <span class="bg-yellow-600 text-black px-2 py-0.5 rounded text-xs font-bold uppercase tracking-tighter">IMDb ${m.imdb}</span>
+                    <span class="border border-gray-500 px-2 py-0.5 rounded text-xs text-white font-medium">${m.year}</span>
+                    <span class="border border-gray-500 px-2 py-0.5 rounded text-xs text-white font-medium">${m.season}</span>
+                    <span class="border border-gray-500 px-2 py-0.5 rounded text-xs text-white font-medium">${m.episode}</span>
+                `;
+
+                // Cập nhật thể loại
+                document.getElementById('genres').innerHTML = m.genres.map(g => `
+                    <span class="bg-white/10 px-3 py-1 rounded text-[11px] text-gray-200 uppercase font-semibold border border-white/5">${g}</span>
+                `).join('');
+
                 bg.style.opacity = 0.6;
             }, 500);
             cur = (cur + 1) % movies.length;
@@ -220,7 +273,7 @@
                 `;
             });
             updateBanner();
-            setInterval(updateBanner, 4000);
+            setInterval(updateBanner, 5000); // Đổi 5s để kịp xem mô tả
         }
 
         function playMovie(i) {
@@ -252,11 +305,7 @@
         const canvas = document.getElementById('fw-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
-
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.addEventListener('resize', resize);
         resize();
 
@@ -267,18 +316,13 @@
                 this.alpha = 1; this.friction = 0.95;
             }
             draw() {
-                ctx.globalAlpha = this.alpha;
-                ctx.beginPath();
+                ctx.globalAlpha = this.alpha; ctx.beginPath();
                 ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
-                ctx.fillStyle = this.color;
-                ctx.fill();
+                ctx.fillStyle = this.color; ctx.fill();
             }
             update() {
-                this.velocity.x *= this.friction;
-                this.velocity.y *= this.friction;
-                this.y += 0.1; // trọng lực nhẹ
-                this.x += this.velocity.x;
-                this.y += this.velocity.y;
+                this.velocity.x *= this.friction; this.velocity.y *= this.friction;
+                this.y += 0.1; this.x += this.velocity.x; this.y += this.velocity.y;
                 this.alpha -= 0.01;
             }
         }
@@ -287,9 +331,7 @@
             const x = Math.random() * canvas.width;
             const y = Math.random() * (canvas.height * 0.5);
             const color = `hsl(${Math.random() * 360}, 100%, 60%)`;
-            for (let i = 0; i < 30; i++) {
-                particles.push(new Particle(x, y, color));
-            }
+            for (let i = 0; i < 30; i++) { particles.push(new Particle(x, y, color)); }
         }
 
         function animate() {
