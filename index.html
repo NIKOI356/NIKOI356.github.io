@@ -3,81 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xô Phim - Tết Nhẹ Nhàng</title>
+    <title>Xô Phim - Tết 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --xo-vang: #d4a017; }
-        body { 
-            background-color: #1a1a20; 
-            color: #e2e8f0; 
-            font-family: 'Inter', sans-serif; /* Font chữ mới mềm hơn */
-            overflow-x: hidden; 
-        }
+        body { background-color: #1a1a20; color: #e2e8f0; font-family: 'Inter', sans-serif; overflow-x: hidden; }
         
-        /* Header Cố định với Gradient mềm */
+        /* HEADER ĐỎ MỜ - GIỮ NGUYÊN KHI CUỘN */
         #header { 
             position: fixed;
             top: 0; left: 0; width: 100%; z-index: 120;
+            /* Hiệu ứng đỏ mờ dần xuống ban đầu */
             background: linear-gradient(to bottom, 
-                rgba(140, 0, 0, 1) 0%, 
-                rgba(120, 0, 0, 0.8) 50%, 
+                rgba(160, 0, 0, 0.98) 0%, 
+                rgba(130, 0, 0, 0.85) 50%, 
                 rgba(26, 26, 32, 0) 100%);
-            padding-bottom: 20px;
-            transition: all 0.3s ease;
-        }
-        #header.scrolled {
-            background: rgba(20, 20, 25, 0.95);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 25px;
         }
 
-        /* Menu ngang nhỏ nhắn */
+        /* Menu ngang GoGo */
         .nav-scroll {
             display: flex; overflow-x: auto; white-space: nowrap;
-            gap: 15px; padding: 10px 0 0 0; scrollbar-width: none;
+            gap: 15px; padding: 12px 0 0 0; scrollbar-width: none;
         }
         .nav-scroll::-webkit-scrollbar { display: none; }
-        .nav-item { 
-            color: rgba(255,255,255,0.8); 
-            font-size: 13px; /* Nhỏ lại cho tinh tế */
-            font-weight: 400; 
-            transition: 0.3s;
-        }
-        .nav-item:hover { color: var(--xo-vang); }
-        .badge-new { 
-            background: var(--xo-vang); color: #000; 
-            font-size: 8px; padding: 1px 3px; border-radius: 2px; 
-            font-weight: 800; margin-right: 2px;
-        }
+        .nav-item { color: rgba(255,255,255,0.9); font-size: 13px; font-weight: 500; }
+        .badge-new { background: #f59e0b; color: #000; font-size: 8px; padding: 1px 3px; border-radius: 2px; font-weight: 900; }
 
-        /* Hiệu ứng Sakura & Pháo hoa */
+        /* MODAL CẢNH BÁO (BẢN ĐẸP) */
+        #tet-alert {
+            position: fixed; inset: 0; z-index: 300; display: flex; align-items: center; justify-content: center;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(5px);
+            animation: zoomCenter 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes zoomCenter { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .alert-box {
+            background: #990000; padding: 2rem; rounded-3xl: 1.5rem; 
+            border: 4px solid var(--xo-vang); text-align: center; max-width: 90%;
+            box-shadow: 0 0 50px rgba(234,179,8,0.3); border-radius: 24px;
+        }
+        .horse-btn { font-size: 50px; cursor: pointer; display: inline-block; animation: gallop 0.6s infinite steps(2); }
+        @keyframes gallop { from { transform: translateY(0); } to { transform: translateY(-10px); } }
+
+        /* UI Elements */
         .sakura { position: fixed; top: -10%; z-index: 100; pointer-events: none; background: #ffb7c5; border-radius: 50% 0 50% 50%; animation: fall linear infinite; }
         @keyframes fall { 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
         #fireworksCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 99; }
-
-        /* Modal Cảnh Báo */
-        #tet-alert {
-            position: fixed; inset: 0; z-index: 300; display: flex; align-items: center; justify-content: center;
-            background: rgba(0,0,0,0.9); backdrop-filter: blur(4px);
-            animation: zoomCenter 0.4s ease-out;
-        }
-        @keyframes zoomCenter { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-        .horse-btn { font-size: 45px; cursor: pointer; animation: gallop 0.6s infinite alternate; display: inline-block; }
-        @keyframes gallop { from { transform: translateY(0); } to { transform: translateY(-8px); } }
-
-        /* Banner Phim */
-        .banner-gradient { background: linear-gradient(to top, #1a1a20 0%, rgba(26,26,32,0.4) 50%, transparent 100%); }
-        .thumb-circle { width: 45px; height: 45px; border-radius: 50%; border: 1.5px solid transparent; opacity: 0.5; overflow: hidden; transition: 0.3s; cursor: pointer; flex-shrink: 0; }
+        .banner-gradient { background: linear-gradient(to top, #1a1a20 0%, rgba(26,26,32,0.5) 50%, transparent 100%); }
+        .thumb-circle { width: 45px; height: 45px; border-radius: 50%; border: 2px solid transparent; opacity: 0.5; overflow: hidden; transition: 0.3s; cursor: pointer; flex-shrink: 0; }
         .thumb-active { border-color: var(--xo-vang); opacity: 1; transform: scale(1.1); }
         
         /* Logo */
-        .logo-container { display: flex; align-items: center; gap: 8px; z-index: 130; }
+        .logo-container { display: flex; align-items: center; gap: 8px; }
         .bucket { width: 30px; height: 26px; background: var(--xo-vang); border-radius: 3px 3px 8px 8px; position: relative; }
         .bucket::before { content: ''; position: absolute; width: 22px; height: 10px; border: 2px solid var(--xo-vang); border-bottom: none; border-radius: 20px 20px 0 0; top: -9px; left: 2px; }
-        .eyes { position: absolute; top: 8px; left: 7px; display: flex; gap: 6px; }
-        .eyes::before, .eyes::after { content: ''; width: 3px; height: 3px; background: #222; border-radius: 50%; }
     </style>
 </head>
 <body>
@@ -85,64 +66,64 @@
     <canvas id="fireworksCanvas"></canvas>
 
     <div id="tet-alert">
-        <div class="bg-[#2a1010] p-10 rounded-2xl border border-red-500/30 text-center max-w-[85%] shadow-2xl">
-            <h2 class="text-xl font-extrabold mb-3 text-red-500 tracking-widest uppercase">Thông Báo</h2>
-            <p class="text-sm text-gray-300 mb-8 leading-relaxed">Ăn Tết lành mạnh, tránh xa cờ bạc.<br>Chúc các bạn yêu năm mới mạnh khỏe!</p>
-            <div onclick="closeAlert()" class="horse-btn">🐎</div>
-            <p class="text-[9px] text-gray-500 mt-4 uppercase tracking-[3px]">Chạm ngựa để vào</p>
+        <div class="alert-box">
+            <h2 class="text-2xl font-black mb-3 text-yellow-400 italic uppercase">Thông Báo Tết</h2>
+            <p class="text-md font-bold text-white mb-6 leading-tight">ĂN TẾT LÀNH MẠNH - TRÁNH XA CỜ BẠC<br>
+            <span class="text-xs font-normal text-gray-200">Chúc các bạn yêu ăn Tết vui vẻ, mạnh khỏe!</span></p>
+            <div class="horse-btn" onclick="closeAlert()">🐎</div>
+            <p class="text-[10px] text-yellow-500 font-bold mt-3 uppercase tracking-widest">Chạm ngựa để vào phim</p>
         </div>
     </div>
 
     <header id="header" class="px-5 pt-5">
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between mb-1">
             <div class="logo-container">
-                <div class="bucket"><div class="eyes"></div></div>
-                <span class="text-lg font-extrabold text-yellow-500 tracking-tight">XÔ PHIM</span>
+                <div class="bucket"></div>
+                <span class="text-lg font-black text-yellow-500 tracking-tighter">XÔ PHIM</span>
             </div>
-            <div class="flex items-center gap-5 text-gray-300">
+            <div class="flex items-center gap-4 text-gray-200">
                 <i class="fas fa-search text-sm"></i>
-                <div class="w-7 h-7 rounded-full bg-yellow-600 flex items-center justify-center text-black font-bold text-[10px]">AD</div>
+                <div class="w-7 h-7 rounded-full bg-yellow-500 flex items-center justify-center text-black font-bold text-[10px]">AD</div>
             </div>
         </div>
         <nav class="nav-scroll">
-            <a href="#" class="nav-item">Chủ đề</a>
+            <a href="#" class="nav-item">Chủ Đề</a>
             <a href="#" class="nav-item">Thể loại <i class="fas fa-angle-down text-[10px]"></i></a>
             <a href="#" class="nav-item">Phim Lẻ</a>
             <a href="#" class="nav-item">Phim Bộ</a>
             <a href="#" class="nav-item"><span class="badge-new">NEW</span> Xem Chung</a>
-            <a href="#" class="nav-item">Quốc Gia</a>
+            <a href="#" class="nav-item">Quốc gia</a>
         </nav>
     </header>
 
-    <section class="relative h-[80vh] w-full overflow-hidden">
-        <div id="banner-bg" class="absolute inset-0 bg-cover bg-center transition-all duration-1000"></div>
+    <section class="relative h-[75vh] w-full overflow-hidden">
+        <div id="banner-bg" class="absolute inset-0 bg-cover bg-center transition-all duration-1000 scale-105"></div>
         <div class="absolute inset-0 banner-gradient"></div>
-        
         <div class="relative z-10 flex flex-col items-center justify-end h-full px-6 pb-12 text-center">
             <div class="mb-6">
-                <h1 id="title" class="text-4xl md:text-5xl font-extrabold mb-2 tracking-tight uppercase italic drop-shadow-md">--</h1>
-                <p id="sub" class="text-yellow-500/80 text-sm font-medium mb-4 uppercase tracking-[2px]">--</p>
-                <div class="flex justify-center gap-2 mb-6 opacity-80">
-                    <span id="rating" class="text-[10px] border border-yellow-500/50 text-yellow-500 px-2 py-0.5 rounded">--</span>
+                <h1 id="title" class="text-4xl font-black mb-2 italic uppercase drop-shadow-md tracking-tight">--</h1>
+                <p id="sub" class="text-yellow-500/90 text-xs font-bold mb-4 tracking-widest">--</p>
+                <div class="flex justify-center gap-2 mb-6">
+                    <span id="rating" class="text-[10px] border border-yellow-500 text-yellow-500 px-2 py-0.5 rounded font-bold">--</span>
                     <span id="year" class="text-[10px] bg-white/10 px-2 py-0.5 rounded">--</span>
                     <span id="status" class="text-[10px] bg-white/10 px-2 py-0.5 rounded">--</span>
                 </div>
-                <button onclick="playCurrent()" class="bg-yellow-500 text-black px-10 py-2.5 rounded-full font-bold text-sm hover:scale-105 transition shadow-lg shadow-yellow-500/10 uppercase tracking-widest">Xem Ngay</button>
+                <button onclick="playCurrent()" class="bg-yellow-500 text-black px-10 py-2.5 rounded-full font-black text-xs hover:scale-105 transition shadow-lg uppercase tracking-widest">Xem Ngay</button>
             </div>
             <div id="thumb-container" class="flex gap-3 overflow-x-auto no-scrollbar pb-2 w-full justify-center"></div>
         </div>
     </section>
 
     <main class="px-5 py-10 relative z-20">
-        <h2 class="text-lg font-bold uppercase tracking-widest mb-8 border-l-2 border-yellow-500 pl-3">Phim Mới</h2>
+        <h2 class="text-md font-black italic uppercase mb-8 border-l-4 border-yellow-500 pl-3 tracking-widest">Phim Mới Cập Nhật</h2>
         <div id="movie-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4"></div>
     </main>
 
     <div id="player-overlay" class="fixed inset-0 z-[200] hidden bg-black flex flex-col">
         <div class="p-4 flex justify-between items-center bg-[#1a1a20]">
-            <button onclick="closePlayer()" class="text-white text-xl px-2"><i class="fas fa-chevron-left"></i></button>
-            <h2 id="player-title" class="font-bold uppercase text-[12px] tracking-wider text-gray-400">Đang phát</h2>
-            <div class="w-8"></div>
+            <button onclick="closePlayer()" class="text-white text-xl"><i class="fas fa-times"></i></button>
+            <h2 id="player-title" class="font-bold uppercase text-[10px] tracking-widest text-gray-400">Đang phát</h2>
+            <div class="w-6"></div>
         </div>
         <iframe id="main-iframe" class="flex-1 w-full" frameborder="0" allowfullscreen></iframe>
     </div>
@@ -160,10 +141,9 @@
             }
         ];
 
-        let cur = 0;
-        let timer;
-
+        let cur = 0; let timer;
         function closeAlert() { document.getElementById('tet-alert').style.display = 'none'; startSlide(); }
+        
         function update() {
             if(movies.length === 0) return;
             const m = movies[cur];
@@ -181,10 +161,9 @@
             timer = setInterval(() => { cur = (cur + 1) % movies.length; update(); }, 3000);
         }
 
-        // Sakura 
+        // Sakura & Pháo hoa
         function createSakura() {
-            const s = document.createElement('div');
-            s.className = 'sakura';
+            const s = document.createElement('div'); s.className = 'sakura';
             s.style.left = Math.random() * 100 + 'vw';
             s.style.width = s.style.height = Math.random() * 5 + 3 + 'px';
             s.style.animationDuration = Math.random() * 3 + 5 + 's';
@@ -193,7 +172,6 @@
         }
         setInterval(createSakura, 500);
 
-        // Pháo hoa nhẹ nhàng
         const cvs = document.getElementById('fireworksCanvas');
         const ctx = cvs.getContext('2d');
         let pts = [];
@@ -211,9 +189,9 @@
         }
 
         function explode(x, y) {
-            const colors = ['#f59e0b', '#ef4444', '#3b82f6', '#fff'];
-            const c = colors[Math.floor(Math.random()*colors.length)];
-            for(let i=0; i<20; i++) pts.push(new Pt(x, y, c));
+            const colors = ['#f59e0b', '#ef4444', '#fff'];
+            const c = colors[Math.floor(Math.random()*3)];
+            for(let i=0; i<15; i++) pts.push(new Pt(x, y, c));
         }
 
         function loop() {
@@ -235,13 +213,13 @@
                 thumbs.appendChild(t);
                 grid.innerHTML += `
                     <div class="group cursor-pointer" onclick="playMovie(${i})">
-                        <div class="relative aspect-[2/3] rounded-lg overflow-hidden bg-gray-900">
+                        <div class="relative aspect-[2/3] rounded-lg overflow-hidden bg-gray-900 shadow-lg">
                             <img src="${m.img}" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
                             <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
-                                <i class="fas fa-play text-lg text-yellow-500"></i>
+                                <i class="fas fa-play text-yellow-500"></i>
                             </div>
                         </div>
-                        <h3 class="mt-2 font-semibold text-[13px] truncate text-gray-300 group-hover:text-yellow-500">${m.title}</h3>
+                        <h3 class="mt-2 font-semibold text-[12px] truncate text-gray-400 group-hover:text-yellow-500">${m.title}</h3>
                     </div>
                 `;
             });
@@ -253,17 +231,8 @@
             document.getElementById('main-iframe').src = movies[i].link;
             document.getElementById('player-overlay').classList.remove('hidden');
         }
-
-        function closePlayer() {
-            document.getElementById('player-overlay').classList.add('hidden');
-            document.getElementById('main-iframe').src = "";
-        }
-
+        function closePlayer() { document.getElementById('player-overlay').classList.add('hidden'); document.getElementById('main-iframe').src = ""; }
         function playCurrent() { playMovie(cur); }
-
-        window.onscroll = () => { 
-            document.getElementById('header').classList.toggle('scrolled', scrollY > 40); 
-        };
 
         init();
     </script>
