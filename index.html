@@ -3,19 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xô Phim - Tết cùng xo phim </title>
+    <title>Xô Phim - Phim Hay Xuyên Tết </title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --xo-vang: #d4a017; }
         body { background-color: #1a1a20; color: white; font-family: sans-serif; overflow-x: hidden; }
         
-        /* Header Gradient Đỏ Mờ */
+        /* Header Gradient Đỏ Dài & Đậm hơn cho Mobile */
         #header { 
-            background: linear-gradient(to bottom, rgba(139, 0, 0, 0.9) 0%, rgba(26, 26, 32, 0.4) 70%, transparent 100%);
+            background: linear-gradient(to bottom, 
+                rgba(160, 0, 0, 0.98) 0%, 
+                rgba(130, 0, 0, 0.85) 50%, 
+                rgba(26, 26, 32, 0) 100%);
             transition: all 0.4s ease;
+            padding-bottom: 25px;
         }
         #header.scrolled { background: #1a1a20; border-bottom: 1px solid rgba(255,255,255,0.05); }
+
+        /* Menu ngang GoGo tối ưu Mobile */
+        .nav-scroll {
+            display: flex; overflow-x: auto; white-space: nowrap;
+            gap: 18px; padding: 12px 0 5px 0; scrollbar-width: none;
+        }
+        .nav-scroll::-webkit-scrollbar { display: none; }
+        .nav-item { color: #eee; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 4px; }
+        .badge-new { background: #f59e0b; color: #000; font-size: 8px; padding: 1px 4px; border-radius: 3px; font-weight: 900; }
 
         .banner-gradient { background: linear-gradient(to top, #1a1a20 5%, rgba(26,26,32,0.6) 40%, rgba(26,26,32,0.2) 100%); }
         .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -42,6 +55,17 @@
         @keyframes fall { 100% { transform: translateY(110vh) rotate(720deg) translateX(50px); opacity: 0; } }
         #fireworksCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 99; }
 
+        /* MODAL CẢNH BÁO */
+        #tet-alert {
+            position: fixed; inset: 0; z-index: 300; display: flex; align-items: center; justify-content: center;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(5px);
+            animation: zoomCenter 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes zoomCenter { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        
+        .horse-btn { font-size: 50px; cursor: pointer; display: inline-block; animation: gallop 0.6s infinite steps(2); }
+        @keyframes gallop { from { transform: translateY(0); } to { transform: translateY(-10px); } }
+
         /* Banner & Card */
         .thumb-circle { width: 50px; height: 50px; border-radius: 50%; border: 2px solid transparent; opacity: 0.4; overflow: hidden; transition: 0.4s; cursor: pointer; flex-shrink: 0; }
         .thumb-active { border-color: #fff; opacity: 1; transform: scale(1.1); }
@@ -54,20 +78,40 @@
 
     <canvas id="fireworksCanvas"></canvas>
 
-    <header class="fixed w-full z-[120] flex items-center justify-between px-6 py-4 transition-all" id="header">
-        <div class="logo-container">
-            <div class="bucket"><div class="eyes"></div><div class="mouth"></div></div>
-            <span class="text-xl font-black text-yellow-500 uppercase tracking-tighter ml-1">Xô Phim</span>
+    <div id="tet-alert">
+        <div class="bg-red-700 p-8 rounded-3xl border-4 border-yellow-500 text-center max-w-[90%] shadow-[0_0_50px_rgba(234,179,8,0.3)]">
+            <h2 class="text-3xl font-black mb-4 text-yellow-400 italic">THÔNG BÁO TẾT</h2>
+            <p class="text-lg font-bold leading-tight mb-6">ĂN TẾT LÀNH MẠNH - TRÁNH XA CỜ BẠC<br>
+            <span class="text-sm font-normal text-gray-200">Chúc các bạn yêu ăn Tết vui vẻ, mạnh khỏe!</span></p>
+            
+            <div class="mb-4">
+                <div class="horse-btn" onclick="closeAlert()">🐎</div>
+                <p class="text-[10px] uppercase tracking-widest mt-2 text-yellow-500 font-bold">Ấn vào con ngựa để vào xem phim</p>
+            </div>
         </div>
-        <div class="hidden md:flex gap-8 text-xs font-bold uppercase tracking-widest">
-            <a href="#" class="hover:text-yellow-500 transition">Phim Lẻ</a>
-            <a href="#" class="hover:text-yellow-500 transition">Phim Bộ</a>
-            <a href="#" class="hover:text-yellow-500 transition">Hoạt Hình</a>
+    </div>
+
+    <header class="fixed w-full z-[120] px-6 pt-4 transition-all" id="header">
+        <div class="flex items-center justify-between mb-2">
+            <div class="logo-container">
+                <div class="bucket"><div class="eyes"></div><div class="mouth"></div></div>
+                <span class="text-xl font-black text-yellow-500 uppercase tracking-tighter ml-1">Xô Phim</span>
+            </div>
+            <div class="flex items-center gap-4 text-lg">
+                <i class="fas fa-search cursor-pointer hover:text-yellow-500"></i>
+                <div class="w-8 h-8 rounded-full bg-yellow-500 flex items-center justify-center text-black font-bold text-xs">AD</div>
+            </div>
         </div>
-        <div class="flex items-center gap-4">
-            <i class="fas fa-search cursor-pointer hover:text-yellow-500"></i>
-            <div class="w-8 h-8 rounded-full bg-yellow-500 flex items-center justify-center text-black font-bold text-xs">AD</div>
-        </div>
+        
+        <nav class="nav-scroll">
+            <a href="#" class="nav-item">Chủ Đề</a>
+            <a href="#" class="nav-item">Thể loại <i class="fas fa-caret-down"></i></a>
+            <a href="#" class="nav-item">Phim Lẻ</a>
+            <a href="#" class="nav-item">Phim Bộ</a>
+            <a href="#" class="nav-item"><span class="badge-new">NEW</span> Xem Chung</a>
+            <a href="#" class="nav-item">Quốc Gia <i class="fas fa-caret-down"></i></a>
+            <a href="#" class="nav-item">Diễn Viên</a>
+        </nav>
     </header>
 
     <section class="relative h-[85vh] w-full overflow-hidden">
@@ -85,7 +129,7 @@
                 </div>
                 <button onclick="playCurrent()" class="bg-yellow-500 text-black px-12 py-3 rounded-full font-black hover:scale-105 transition shadow-lg shadow-yellow-500/20">XEM NGAY</button>
             </div>
-            <div id="thumb-container" class="flex gap-4 overflow-x-auto no-scrollbar pb-2"></div>
+            <div id="thumb-container" class="flex gap-4 overflow-x-auto no-scrollbar pb-2 w-full justify-center"></div>
         </div>
     </section>
 
@@ -97,15 +141,37 @@
     <div id="player-overlay" class="fixed inset-0 z-[200] hidden bg-black flex flex-col">
         <div class="p-4 flex justify-between items-center bg-[#1a1a20]">
             <button onclick="closePlayer()" class="text-white text-2xl px-4"><i class="fas fa-times"></i></button>
-            <h2 id="player-title" class="font-bold uppercase italic">Đang phát</h2>
+            <h2 id="player-title" class="font-bold uppercase italic text-sm">Đang phát</h2>
             <div></div>
         </div>
         <iframe id="main-iframe" class="flex-1 w-full" frameborder="0" allowfullscreen></iframe>
     </div>
 
     <script>
-        /* --- ÔNG TỰ CHO PHIM VÀO ĐÂY NHÉ --- */
+        // DATA PHIM (TỰ THÊM TẠI ĐÂY)
         const movies = [
+            {
+    id: 11,
+    title: "Avatar: Lửa và Tro Tàn",
+    sub: "Avatar: Fire and Ash",
+    year: "2025",
+    rating: "9.0",
+    status: "Phim Chiếu Rạp",
+    desc: "Phần thứ ba của siêu phẩm hành tinh Pandora, Jake Sully và Neytiri sẽ phải đối mặt với một bộ tộc Na'vi hung dữ hơn — Tộc Người Tro Tàn. Một cuộc hành trình vào những vùng đất núi lửa đầy nguy hiểm và những thử thách khắc nghiệt nhất từ trước đến nay.",
+    img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20251221-1/687373bb9894616507f27c74c0eaa598.jpg",
+    episodes: [{ name: "Full", link: "https://player.phimapi.com/player/?url=https://s6.kkphimplayer6.com/20260120/H4h7Crrd/index.m3u8" }]
+},
+            {
+    id: 10,
+    title: "Avatar 2: Dòng Chảy Của Nước",
+    sub: "Avatar: The Way of Water",
+    year: "2022",
+    rating: "8.0",
+    status: "Bản Đẹp 4K",
+    desc: "Jake Sully cùng gia đình mới của mình phải rời bỏ quê hương để tìm kiếm nơi trú ẩn tại các vùng biển xa xôi trên Pandora. Tại đây, họ phải học cách thích nghi với đại dương và đối mặt với sự trở lại của những kẻ thù cũ.",
+    img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20250513-1/59fc5ffe0025ca40c99d48b070b59320.jpg",
+    episodes: [{ name: "Full", link: "https://player.phimapi.com/player/?url=https://s5.phim1280.tv/20250513/XQBfOc33/index.m3u8" }]
+},
             {
                 title: "Phim Mẫu 01",
                 sub: "Sample Movie One",
@@ -120,7 +186,10 @@
         let cur = 0;
         let timer;
 
-        // Logic Banner
+        function closeAlert() {
+            document.getElementById('tet-alert').style.display = 'none';
+        }
+
         function update() {
             if(movies.length === 0) return;
             const m = movies[cur];
@@ -130,7 +199,6 @@
             document.getElementById('year').innerText = m.year;
             document.getElementById('rating').innerText = `IMDb ${m.rating}`;
             document.getElementById('status').innerText = m.status;
-
             document.querySelectorAll('.thumb-circle').forEach((t, i) => t.classList.toggle('thumb-active', i === cur));
         }
 
@@ -139,7 +207,7 @@
             timer = setInterval(() => { cur = (cur + 1) % movies.length; update(); }, 3000);
         }
 
-        // Logic Hiệu ứng
+        // Sakura & Pháo hoa
         function createSakura() {
             const s = document.createElement('div');
             s.className = 'sakura';
@@ -149,9 +217,8 @@
             document.body.appendChild(s);
             setTimeout(() => s.remove(), 6000);
         }
-        setInterval(createSakura, 300);
+        setInterval(createSakura, 400);
 
-        // Pháo hoa Canvas
         const cvs = document.getElementById('fireworksCanvas');
         const ctx = cvs.getContext('2d');
         let pts = [];
@@ -179,23 +246,18 @@
             pts.forEach((p, i) => { if(p.a > 0) { p.up(); p.draw(); } else pts.splice(i,1); });
             requestAnimationFrame(loop);
         }
-        setInterval(() => { if(scrollY < 400) explode(Math.random()*cvs.width, Math.random()*cvs.height*0.5); }, 1500);
+        setInterval(() => { if(scrollY < 400) explode(Math.random()*cvs.width, Math.random()*cvs.height*0.5); }, 2000);
         loop();
 
-        // Khởi tạo giao diện
         function init() {
             const grid = document.getElementById('movie-grid');
             const thumbs = document.getElementById('thumb-container');
-            
             movies.forEach((m, i) => {
-                // Thumbs
                 const t = document.createElement('div');
                 t.className = `thumb-circle`;
                 t.innerHTML = `<img src="${m.img}" class="w-full h-full object-cover">`;
                 t.onclick = () => { cur = i; update(); startSlide(); };
                 thumbs.appendChild(t);
-
-                // Grid
                 grid.innerHTML += `
                     <div class="movie-card group cursor-pointer" onclick="playMovie(${i})">
                         <div class="relative aspect-[2/3] rounded-xl overflow-hidden bg-gray-800">
@@ -225,7 +287,9 @@
 
         function playCurrent() { playMovie(cur); }
 
-        window.onscroll = () => { document.getElementById('header').classList.toggle('scrolled', scrollY > 50); };
+        window.onscroll = () => { 
+            document.getElementById('header').classList.toggle('scrolled', scrollY > 50); 
+        };
 
         init();
     </script>
