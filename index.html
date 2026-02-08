@@ -51,8 +51,7 @@
         }
         .cat-btn:hover { transform: scale(1.1); }
 
-        /* Style cho phần Quan tâm */
-        .topic-card { min-width: 160px; height: 90px; border-radius: 16px; p: 1rem; display: flex; flex-direction: column; justify-content: space-between; transition: 0.3s; cursor: pointer; padding: 15px; }
+        .topic-card { min-width: 160px; height: 90px; border-radius: 16px; display: flex; flex-direction: column; justify-content: space-between; transition: 0.3s; cursor: pointer; padding: 15px; }
         .topic-card:hover { transform: translateY(-5px); filter: brightness(1.2); }
 
         .footer { background: #060709; padding: 60px 20px; border-top: 1px solid rgba(255,255,255,0.05); position: relative; }
@@ -63,11 +62,17 @@
         
         .btn-top { position: absolute; bottom: 30px; right: 20px; background: white; color: black; padding: 8px 12px; border-radius: 10px; font-weight: 900; font-size: 10px; text-align: center; cursor: pointer; }
 
+        /* Hoa đào */
         .sakura { position: fixed; top: -10%; z-index: 100; pointer-events: none; background: #ffb7c5; border-radius: 50% 0 50% 50%; animation: fall linear infinite; }
         @keyframes fall { 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
+
+        /* Canvas Pháo Hoa */
+        #fw-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 90; }
     </style>
 </head>
 <body>
+
+    <canvas id="fw-canvas"></canvas>
 
     <div id="tet-alert">
         <div class="alert-box" id="alertBox">
@@ -187,6 +192,7 @@
         function updateBanner() {
             const m = movies[cur];
             const bg = document.getElementById('banner-bg');
+            if(!bg) return;
             bg.style.opacity = 0;
             setTimeout(() => {
                 bg.style.backgroundImage = `url('${m.img}')`;
@@ -214,7 +220,7 @@
                 `;
             });
             updateBanner();
-            setInterval(updateBanner, 4000); // TỰ ĐỘNG CHUYỂN 4 GIÂY
+            setInterval(updateBanner, 4000);
         }
 
         function playMovie(i) {
@@ -232,6 +238,7 @@
 
         function playCurrent() { playMovie((cur - 1 + movies.length) % movies.length); }
 
+        // Hiệu ứng hoa đào
         setInterval(() => {
             const s = document.createElement('div'); s.className = 'sakura';
             s.style.left = Math.random() * 100 + 'vw';
@@ -240,6 +247,61 @@
             document.body.appendChild(s);
             setTimeout(() => s.remove(), 7000);
         }, 600);
+
+        // --- CODE PHÁO HOA ---
+        const canvas = document.getElementById('fw-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor(x, y, color) {
+                this.x = x; this.y = y; this.color = color;
+                this.velocity = { x: (Math.random() - 0.5) * 8, y: (Math.random() - 0.5) * 8 };
+                this.alpha = 1; this.friction = 0.95;
+            }
+            draw() {
+                ctx.globalAlpha = this.alpha;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+            update() {
+                this.velocity.x *= this.friction;
+                this.velocity.y *= this.friction;
+                this.y += 0.1; // trọng lực nhẹ
+                this.x += this.velocity.x;
+                this.y += this.velocity.y;
+                this.alpha -= 0.01;
+            }
+        }
+
+        function createFirework() {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * (canvas.height * 0.5);
+            const color = `hsl(${Math.random() * 360}, 100%, 60%)`;
+            for (let i = 0; i < 30; i++) {
+                particles.push(new Particle(x, y, color));
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach((p, i) => {
+                if (p.alpha <= 0) particles.splice(i, 1);
+                else { p.update(); p.draw(); }
+            });
+            if (Math.random() < 0.03) createFirework();
+            requestAnimationFrame(animate);
+        }
+        animate();
 
         init();
     </script>
