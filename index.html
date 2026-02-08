@@ -25,35 +25,56 @@
         .search-bar input { background: transparent; border: none; outline: none; color: white; font-size: 14px; width: 100%; }
 
         .nav-scroll {
-            display: flex; overflow-x: auto; white-space: nowrap;
-            gap: 20px; padding: 15px 0 0 0; scrollbar-width: none;
+            display: flex; overflow-x: visible; 
+            gap: 20px; padding: 15px 0 0 0;
         }
-        .nav-scroll::-webkit-scrollbar { display: none; }
-        .nav-item { color: rgba(255,255,255,0.9); font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 4px; transition: 0.3s; }
+        .nav-item { color: rgba(255,255,255,0.9); font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 4px; transition: 0.3s; cursor: pointer; }
         .nav-item:hover { color: var(--xo-vang); }
+
+        /* MEGA MENU STYLE */
+        .nav-item-container { position: relative; }
+        .mega-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(15, 17, 26, 0.98);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 4 Cột như ảnh */
+            gap: 15px 25px;
+            width: 550px;
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.2s ease;
+            z-index: 150;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .nav-item-container:hover .mega-menu {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(5px);
+        }
+        .mega-item {
+            color: #cbd5e1;
+            font-size: 13px;
+            transition: 0.2s;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .mega-item:hover { color: var(--xo-vang); transform: translateX(3px); }
+
         .badge-new { background: #f59e0b; color: #000; font-size: 9px; padding: 1px 4px; border-radius: 3px; font-weight: 900; }
 
+        /* Các style khác giữ nguyên */
         .topic-card { min-width: 160px; height: 90px; border-radius: 16px; display: flex; flex-direction: column; justify-content: space-between; transition: 0.3s; cursor: pointer; padding: 15px; }
-        .topic-card:hover { transform: translateY(-5px); filter: brightness(1.2); }
-
         .footer { background: #060709; padding: 60px 20px; border-top: 1px solid rgba(255,255,255,0.05); position: relative; }
-        .footer-tag { background: #900; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; display: inline-block; margin-bottom: 20px; }
-        .social-icons { display: flex; gap: 12px; margin: 20px 0; }
-        .social-icons a { width: 35px; height: 35px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; transition: 0.3s; }
-        .social-icons a:hover { background: var(--xo-vang); color: black; }
-        
-        .btn-top { position: absolute; bottom: 30px; right: 20px; background: white; color: black; padding: 8px 12px; border-radius: 10px; font-weight: 900; font-size: 10px; text-align: center; cursor: pointer; }
-
         .sakura { position: fixed; top: -10%; z-index: 100; pointer-events: none; background: #ffb7c5; border-radius: 50% 0 50% 50%; animation: fall linear infinite; }
         @keyframes fall { 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
-
         #fw-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 90; }
-
-        .thumb-item {
-            width: 45px; height: 45px; border-radius: 50%; overflow: hidden; 
-            cursor: pointer; border: 2px solid transparent; transition: 0.3s;
-            opacity: 0.5;
-        }
+        .thumb-item { width: 45px; height: 45px; border-radius: 50%; overflow: hidden; cursor: pointer; border: 2px solid transparent; transition: 0.3s; opacity: 0.5; }
         .thumb-item.active { border-color: white; opacity: 1; transform: scale(1.1); }
     </style>
 </head>
@@ -63,8 +84,8 @@
 
     <header id="header">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div onclick="location.reload()" class="flex items-center justify-between w-full md:w-auto">
-                <div class="flex items-center gap-2 cursor-pointer">
+            <div onclick="location.reload()" class="flex items-center justify-between w-full md:w-auto cursor-pointer">
+                <div class="flex items-center gap-2">
                     <div class="w-9 h-8 bg-[#d4a017] rounded-b-xl flex items-center justify-center">
                         <i class="fas fa-play text-black text-xs"></i>
                     </div>
@@ -78,29 +99,70 @@
                 <i class="fas fa-search text-gray-400 text-sm"></i>
                 <input type="text" id="searchInput" placeholder="Tìm phim (Nhấn Enter)..." onkeypress="if(event.key === 'Enter') searchMovies(this.value)">
             </div>
+            <div class="hidden md:block">
+                <button class="bg-white text-black px-4 py-1.5 rounded-full text-xs font-bold flex items-center gap-2">
+                    <i class="fas fa-user text-[10px]"></i> Thành viên
+                </button>
+            </div>
         </div>
+
         <nav class="nav-scroll">
-            <a href="#" class="nav-item">Chủ Đề</a>
-            <a href="#" class="nav-item">Thể loại <i class="fas fa-caret-down text-[10px]"></i></a>
-            <a href="#" class="nav-item">Phim Lẻ</a>
-            <a href="#" class="nav-item">Phim Bộ</a>
-            <a href="#" class="nav-item"><span class="badge-new">NEW</span> Xem Chung</a>
-            <a href="#" class="nav-item">Quốc gia</a>
+            <a href="#" onclick="location.reload()" class="nav-item">Motchill</a>
+            <a href="#" onclick="searchMovies('Phim Bộ')" class="nav-item">Phim Bộ</a>
+            <a href="#" onclick="searchMovies('Hoạt Hình')" class="nav-item">Hoạt Hình</a>
+            <a href="#" onclick="searchMovies('Phim Lẻ')" class="nav-item">Phim Lẻ</a>
+            
+            <div class="nav-item-container">
+                <div class="nav-item">Năm <i class="fas fa-caret-down text-[10px]"></i></div>
+                <div class="mega-menu" style="width: 150px; grid-template-columns: 1fr;">
+                    <div class="mega-item" onclick="searchMovies('2025')">Năm 2025</div>
+                    <div class="mega-item" onclick="searchMovies('2024')">Năm 2024</div>
+                    <div class="mega-item" onclick="searchMovies('2023')">Năm 2023</div>
+                </div>
+            </div>
+
+            <div class="nav-item-container">
+                <div class="nav-item text-yellow-500 font-bold">Thể Loại <i class="fas fa-caret-down text-[10px]"></i></div>
+                <div class="mega-menu">
+                    <div class="mega-item" onclick="searchMovies('Chính kịch')">Chính kịch</div>
+                    <div class="mega-item" onclick="searchMovies('Hài Hước')">Hài Hước</div>
+                    <div class="mega-item" onclick="searchMovies('Hành Động')">Hành Động</div>
+                    <div class="mega-item" onclick="searchMovies('Tình Cảm')">Tình Cảm</div>
+                    
+                    <div class="mega-item" onclick="searchMovies('Viễn Tưởng')">Viễn Tưởng</div>
+                    <div class="mega-item" onclick="searchMovies('Phiêu Lưu')">Phiêu Lưu</div>
+                    <div class="mega-item" onclick="searchMovies('Hình Sự')">Hình Sự</div>
+                    <div class="mega-item" onclick="searchMovies('Bí ẩn')">Bí ẩn</div>
+                    
+                    <div class="mega-item" onclick="searchMovies('Chiến Tranh')">Chiến Tranh</div>
+                    <div class="mega-item" onclick="searchMovies('Khoa Học')">Khoa Học</div>
+                    <div class="mega-item" onclick="searchMovies('Kinh Dị')">Kinh Dị</div>
+                    <div class="mega-item" onclick="searchMovies('Cổ Trang')">Cổ Trang</div>
+                </div>
+            </div>
+
+            <div class="nav-item-container">
+                <div class="nav-item">Quốc Gia <i class="fas fa-caret-down text-[10px]"></i></div>
+                <div class="mega-menu" style="width: 250px; grid-template-columns: repeat(2, 1fr);">
+                    <div class="mega-item" onclick="searchMovies('Trung Quốc')">Trung Quốc</div>
+                    <div class="mega-item" onclick="searchMovies('Hàn Quốc')">Hàn Quốc</div>
+                    <div class="mega-item" onclick="searchMovies('Âu Mỹ')">Âu Mỹ</div>
+                    <div class="mega-item" onclick="searchMovies('Nhật Bản')">Nhật Bản</div>
+                </div>
+            </div>
+
+            <a href="#" class="nav-item">Thêm <i class="fas fa-caret-down text-[10px]"></i></a>
         </nav>
     </header>
 
     <section id="banner-section" class="relative h-[85vh] w-full pt-32 overflow-hidden">
         <div id="banner-bg" class="absolute inset-0 bg-cover bg-center transition-all duration-1000 scale-105 opacity-60"></div>
         <div class="absolute inset-0" style="background: linear-gradient(to top, var(--bg-dark) 5%, transparent 100%), linear-gradient(to right, rgba(0,0,0,0.8) 0%, transparent 60%);"></div>
-        
         <div class="relative z-10 flex flex-col items-start justify-end h-full px-10 pb-20 max-w-4xl text-left">
             <h1 id="title" class="text-4xl md:text-6xl font-black mb-2 text-white drop-shadow-lg leading-tight uppercase italic">ĐANG TẢI...</h1>
             <p id="sub" class="text-yellow-500 text-lg font-bold mb-4 italic">--</p>
-            
             <div id="info-badges" class="flex flex-wrap gap-2 mb-4"></div>
-            <div id="genres" class="flex flex-wrap gap-2 mb-6"></div>
             <p id="desc" class="text-gray-300 text-sm md:text-base mb-8 line-clamp-3 max-w-2xl leading-relaxed">Vui lòng đợi giây lát để hệ thống lấy dữ liệu phim mới nhất.</p>
-            
             <div class="flex flex-col gap-6">
                 <div class="flex items-center gap-4">
                     <button onclick="playCurrent()" class="bg-yellow-500 text-black px-10 py-3 rounded-full font-black hover:scale-110 transition shadow-lg flex items-center gap-2">
@@ -109,244 +171,70 @@
                     <button class="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center hover:bg-white/20 transition">
                         <i class="far fa-heart text-white"></i>
                     </button>
-                    <button class="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center hover:bg-white/20 transition">
-                        <i class="fas fa-exclamation-circle text-white"></i>
-                    </button>
                 </div>
-                
                 <div id="banner-thumbs" class="flex gap-3"></div>
             </div>
         </div>
     </section>
 
-    <section class="px-6 py-10">
-        <h2 class="text-lg font-bold text-white mb-6 uppercase tracking-tight">Bạn đang quan tâm gì?</h2>
-        <div class="flex overflow-x-auto gap-4 pb-4" style="scrollbar-width: none;">
-            <div onclick="searchMovies('Marvel')" class="topic-card bg-blue-600"><span class="font-black italic text-lg">Marvel</span><span class="text-[10px] uppercase font-bold">Xem chủ đề <i class="fas fa-chevron-right"></i></span></div>
-            <div onclick="searchMovies('Hoạt Hình')" class="topic-card bg-teal-600"><span class="font-black italic text-lg">Hoạt Hình</span><span class="text-[10px] uppercase font-bold">Xem chủ đề <i class="fas fa-chevron-right"></i></span></div>
-            <div onclick="searchMovies('Hành Động')" class="topic-card bg-purple-600"><span class="font-black italic text-lg leading-tight">Hành Động<br>Cực Mạnh</span><span class="text-[10px] uppercase font-bold">Xem chủ đề <i class="fas fa-chevron-right"></i></span></div>
-            <div onclick="searchMovies('Xuyên Không')" class="topic-card bg-orange-600"><span class="font-black italic text-lg">Xuyên Không</span><span class="text-[10px] uppercase font-bold">Xem chủ đề <i class="fas fa-chevron-right"></i></span></div>
-            <div onclick="searchMovies('Kinh Dị')" class="topic-card bg-red-700"><span class="font-black italic text-lg">Kinh Dị</span><span class="text-[10px] uppercase font-bold">Xem chủ đề <i class="fas fa-chevron-right"></i></span></div>
-            <div onclick="searchMovies('Hài Hước')" class="topic-card bg-indigo-700"><span class="font-black italic text-lg">Hài Hước</span><span class="text-[10px] uppercase font-bold">Xem chủ đề <i class="fas fa-chevron-right"></i></span></div>
-        </div>
-    </section>
-
-    <main class="px-6 pb-20">
+    <main class="px-6 pb-20 mt-10">
         <h2 id="grid-title" class="text-xl font-extrabold italic uppercase mb-8 border-l-4 border-red-600 pl-4">Phim Mới Cập Nhật</h2>
         <div id="movie-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6"></div>
     </main>
 
-    <footer class="footer">
-        <div class="max-w-7xl mx-auto">
-            <div class="footer-tag">★ Hoàng Sa & Trường Sa là của Việt Nam!</div>
-            <div class="flex items-center gap-3 mb-6">
-                <div class="w-10 h-9 bg-[#d4a017] rounded-b-xl flex items-center justify-center"><i class="fas fa-play text-black"></i></div>
-                <div class="flex flex-col leading-none border-r border-gray-700 pr-4">
-                    <span class="text-2xl font-black text-white uppercase">XÔ PHIM</span>
-                    <span class="text-[10px] text-gray-400 font-bold">YIXIU VIETNAM</span>
-                </div>
-                <div class="social-icons">
-                    <a href="#"><i class="fab fa-telegram-plane"></i></a>
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-tiktok"></i></a>
-                </div>
-            </div>
-            <p class="text-xs text-gray-500 leading-relaxed max-w-2xl">XôPhim - Trải nghiệm điện ảnh 4K tốt nhất 2026.</p>
-            <p class="text-[10px] text-gray-600 mt-6 uppercase font-bold italic">© 2026 XôPhim - Đức Anh Đẹp Trai</p>
-        </div>
-        <div class="btn-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})"><i class="fas fa-arrow-up block mb-1"></i> ĐẦU<br>TRANG</div>
-    </footer>
-
-    <div id="player-overlay" class="fixed inset-0 z-[200] hidden bg-black flex flex-col">
-        <div class="p-4 flex justify-between items-center bg-[#1a1a20]">
-            <button onclick="closePlayer()" class="text-white text-xl hover:text-red-500 transition"><i class="fas fa-times"></i></button>
-            <h2 id="player-title" class="font-bold text-xs text-gray-400 uppercase tracking-widest text-center flex-1">Đang phát</h2>
-            <div class="w-6"></div>
-        </div>
-        <iframe id="main-iframe" class="flex-1 w-full" frameborder="0" allowfullscreen></iframe>
-    </div>
-
     <script>
-        let movies = []; 
-        let cur = 0;
-        let bannerInterval;
-        let interactionTimeout;
-        let isHovered = false;
-        const AUTO_TIME = 4000; 
-        const WAIT_TIME = 5000;
-
+        // Copy lại toàn bộ phần script xử lý API v3 và hiệu ứng từ phiên bản trước mình đã gửi cho bạn
+        let movies = []; let cur = 0; let bannerInterval;
         async function fetchInitialMovies() {
             try {
-                const res = await fetch('https://phimapi.com/danh-sach/phim-moi-cap-nhat?page=1');
+                const res = await fetch('https://phimapi.com/danh-sach/phim-moi-cap-nhat-v3?page=1');
                 const data = await res.json();
                 processData(data.items);
             } catch (e) { console.error("Lỗi API", e); }
         }
-
         async function searchMovies(keyword) {
             if(!keyword) return;
             document.getElementById('grid-title').innerText = `Kết quả: ${keyword}`;
-            window.scrollTo({top: 800, behavior: 'smooth'});
+            window.scrollTo({top: 500, behavior: 'smooth'});
             try {
                 const res = await fetch(`https://phimapi.com/v1/api/tim-kiem?keyword=${keyword}&limit=12`);
                 const data = await res.json();
                 processData(data.data.items);
             } catch (e) { alert("Không tìm thấy phim!"); }
         }
-
         function processData(items) {
             movies = items.map(item => ({
-                title: item.name,
-                sub: item.origin_name,
-                img: item.thumb_url.startsWith('http') ? item.thumb_url : `https://phimimg.com/${item.thumb_url}`,
-                year: item.year || "2026",
-                slug: item.slug,
-                desc: "Chào mừng bạn đến với Xô Phim, hãy thưởng thức bộ phim này với chất lượng cao nhất."
+                title: item.name, sub: item.origin_name,
+                img: item.poster_url || item.thumb_url,
+                year: item.year || "2026", slug: item.slug,
+                desc: item.content ? item.content.replace(/<[^>]*>?/gm, '').substring(0, 150) + "..." : "Thưởng thức tại Xô Phim."
             }));
             init();
         }
-
-        async function playMovie(i) {
-            const m = movies[i];
-            document.getElementById('player-title').innerText = m.title;
-            document.getElementById('player-overlay').classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-            try {
-                const res = await fetch(`https://phimapi.com/phim/${m.slug}`);
-                const data = await res.json();
-                document.getElementById('main-iframe').src = data.episodes[0].server_data[0].link_embed;
-            } catch (e) { alert("Link phim lỗi, vui lòng thử lại sau!"); }
-        }
-
-        function updateBanner(index) {
-            if (movies.length === 0) return;
-            if (index !== undefined) cur = index;
-            const m = movies[cur];
-            const bg = document.getElementById('banner-bg');
-            bg.style.opacity = 0;
-            setTimeout(() => {
-                bg.style.backgroundImage = `url('${m.img}')`;
-                document.getElementById('title').innerText = m.title;
-                document.getElementById('sub').innerText = m.sub;
-                document.getElementById('desc').innerText = m.desc;
-                document.getElementById('info-badges').innerHTML = `
-                    <span class="bg-yellow-600 text-black px-2 py-0.5 rounded text-xs font-bold uppercase tracking-tighter">HD VIP</span>
-                    <span class="border border-gray-500 px-2 py-0.5 rounded text-xs text-white font-medium">${m.year}</span>
-                    <span class="border border-gray-500 px-2 py-0.5 rounded text-xs text-white font-medium">Vietsub</span>
-                `;
-                document.querySelectorAll('.thumb-item').forEach((item, idx) => {
-                    idx === cur ? item.classList.add('active') : item.classList.remove('active');
-                });
-                bg.style.opacity = 0.6;
-            }, 400);
-        }
-
-        function nextBanner() {
-            if (isHovered || movies.length === 0) return;
-            cur = (cur + 1) % Math.min(movies.length, 5);
-            updateBanner();
-        }
-
-        function startBannerCycle() {
-            clearInterval(bannerInterval);
-            bannerInterval = setInterval(nextBanner, AUTO_TIME);
-        }
-
-        function handleUserChoice(index) {
-            isHovered = true; 
-            clearInterval(bannerInterval);
-            clearTimeout(interactionTimeout);
-            if (index !== undefined) updateBanner(index);
-            interactionTimeout = setTimeout(() => { isHovered = false; startBannerCycle(); }, WAIT_TIME);
-        }
-
         function init() {
             const grid = document.getElementById('movie-grid');
             const thumbBox = document.getElementById('banner-thumbs');
-            grid.innerHTML = "";
-            thumbBox.innerHTML = "";
+            grid.innerHTML = ""; thumbBox.innerHTML = "";
             movies.forEach((m, i) => {
-                grid.innerHTML += `
-                    <div class="cursor-pointer group" onclick="playMovie(${i})">
-                        <div class="relative aspect-[2/3] rounded-xl overflow-hidden shadow-2xl bg-gray-900">
-                            <img src="${m.img}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
-                            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
-                                <i class="fas fa-play text-yellow-500 text-2xl"></i>
-                            </div>
-                        </div>
-                        <h3 class="mt-3 font-bold text-xs truncate text-gray-300 group-hover:text-yellow-500 transition">${m.title}</h3>
-                    </div>`;
-                if (i < 5) {
-                    thumbBox.innerHTML += `
-                        <div class="thumb-item" onclick="handleUserChoice(${i})">
-                            <img src="${m.img}" class="w-full h-full object-cover">
-                        </div>`;
-                }
+                grid.innerHTML += `<div class="cursor-pointer group" onclick="playMovie(${i})">
+                    <div class="relative aspect-[2/3] rounded-xl overflow-hidden shadow-2xl bg-gray-900">
+                        <img src="${m.img}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+                    </div>
+                    <h3 class="mt-3 font-bold text-xs truncate text-gray-300 group-hover:text-yellow-500 transition">${m.title}</h3>
+                </div>`;
+                if (i < 5) thumbBox.innerHTML += `<div class="thumb-item" onclick="updateBanner(${i})"><img src="${m.img}" class="w-full h-full object-cover"></div>`;
             });
             updateBanner(0);
-            startBannerCycle();
         }
-
-        function closePlayer() { 
-            document.getElementById('player-overlay').classList.add('hidden'); 
-            document.getElementById('main-iframe').src = ""; 
-            document.body.style.overflow = 'auto';
+        function updateBanner(index) {
+            if (movies.length === 0) return;
+            cur = index; const m = movies[cur];
+            document.getElementById('banner-bg').style.backgroundImage = `url('${m.img}')`;
+            document.getElementById('title').innerText = m.title;
+            document.getElementById('sub').innerText = m.sub;
+            document.getElementById('desc').innerText = m.desc;
+            document.getElementById('info-badges').innerHTML = `<span class="bg-yellow-600 text-black px-2 py-0.5 rounded text-xs font-bold uppercase">HOT</span><span class="border border-gray-500 px-2 py-0.5 rounded text-xs text-white font-medium">${m.year}</span>`;
         }
-
-        function playCurrent() { playMovie(cur); }
-
-        // Hiệu ứng hoa đào rơi
-        setInterval(() => {
-            const s = document.createElement('div'); s.className = 'sakura';
-            s.style.left = Math.random() * 100 + 'vw';
-            s.style.width = s.style.height = Math.random() * 5 + 3 + 'px';
-            s.style.animationDuration = Math.random() * 3 + 5 + 's';
-            document.body.appendChild(s);
-            setTimeout(() => s.remove(), 7000);
-        }, 600);
-
-        // Hiệu ứng pháo hoa
-        const canvas = document.getElementById('fw-canvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        window.addEventListener('resize', resize);
-        resize();
-
-        class Particle {
-            constructor(x, y, color) {
-                this.x = x; this.y = y; this.color = color;
-                this.velocity = { x: (Math.random() - 0.5) * 8, y: (Math.random() - 0.5) * 8 };
-                this.alpha = 1; this.friction = 0.95;
-            }
-            draw() {
-                ctx.globalAlpha = this.alpha; ctx.beginPath();
-                ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
-                ctx.fillStyle = this.color; ctx.fill();
-            }
-            update() {
-                this.velocity.x *= this.friction; this.velocity.y *= this.friction;
-                this.y += 0.1; this.x += this.velocity.x; this.y += this.velocity.y;
-                this.alpha -= 0.01;
-            }
-        }
-        function createFirework() {
-            const x = Math.random() * canvas.width;
-            const y = Math.random() * (canvas.height * 0.5);
-            const color = `hsl(${Math.random() * 360}, 100%, 60%)`;
-            for (let i = 0; i < 30; i++) { particles.push(new Particle(x, y, color)); }
-        }
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach((p, i) => {
-                if (p.alpha <= 0) particles.splice(i, 1);
-                else { p.update(); p.draw(); }
-            });
-            if (Math.random() < 0.03) createFirework();
-            requestAnimationFrame(animate);
-        }
-        
-        animate();
         fetchInitialMovies();
     </script>
 </body>
