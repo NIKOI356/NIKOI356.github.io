@@ -24,7 +24,6 @@
         }
         .search-bar input { background: transparent; border: none; outline: none; color: white; font-size: 14px; width: 100%; }
 
-        /* TÙY CHỈNH THẺ PHIM */
         .movie-card {
             position: relative;
             border-radius: 12px;
@@ -45,7 +44,6 @@
         .bg-tm { background: rgba(16, 185, 129, 0.95); color: white; }
         .bg-episode { background: rgba(75, 85, 99, 0.95); color: white; }
 
-        /* Nút Xem Ngay khi hover */
         .hover-btn {
             border: 2px solid var(--xo-vang);
             color: var(--xo-vang);
@@ -61,7 +59,6 @@
         }
         .group:hover .hover-btn { transform: translateY(0); }
 
-        /* Modal thông tin phim */
         #info-modal {
             display: none; position: fixed; inset: 0; z-index: 300;
             background: rgba(0, 0, 0, 0.85); align-items: center;
@@ -202,6 +199,32 @@
                 const data = await res.json();
                 processData(data.items);
             } catch (e) { console.error("Lỗi API", e); }
+        }
+
+        async function searchMovies(query) {
+            if (!query.trim()) return;
+            document.getElementById('grid-title').innerHTML = `<i class="fas fa-search text-yellow-500"></i> KẾT QUẢ CHO: "${query.toUpperCase()}"`;
+            window.scrollTo({top: 800, behavior: 'smooth'});
+
+            try {
+                const res = await fetch(`https://phimapi.com/v1/api/tim-kiem?keyword=${encodeURIComponent(query)}&limit=12`);
+                const data = await res.json();
+                if (data.data && data.data.items.length > 0) {
+                    movies = data.data.items.map(item => ({
+                        title: item.name,
+                        sub: item.origin_name,
+                        img: `https://phimimg.com/${item.thumb_url}`,
+                        year: item.year || "2026",
+                        slug: item.slug,
+                        status: "HD",
+                        subType: "Vietsub",
+                        desc: "Kết quả tìm kiếm từ Xô Phim."
+                    }));
+                    renderGrid();
+                } else {
+                    document.getElementById('movie-grid').innerHTML = `<p class="col-span-full text-center text-gray-500 py-20 italic">Không tìm thấy phim phù hợp...</p>`;
+                }
+            } catch (e) { console.error("Lỗi tìm kiếm", e); }
         }
 
         function processData(items) {
@@ -357,7 +380,6 @@
             updateBanner(0);
         }
 
-        // Sakura Effect
         setInterval(() => {
             const s = document.createElement('div'); s.className = 'sakura';
             s.style.left = Math.random() * 100 + 'vw';
