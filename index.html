@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>RoPhim - Phim hay cả rổ</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -17,13 +17,9 @@
             --dropdown-bg: #15181e;
         }
 
-        * {
-            margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
 
-        body {
-            background-color: var(--bg-dark); color: white; min-height: 100vh; scroll-behavior: smooth;
-        }
+        body { background-color: var(--bg-dark); color: white; min-height: 100vh; scroll-behavior: smooth; }
 
         /* --- Header --- */
         .navbar {
@@ -34,98 +30,64 @@
         }
 
         .nav-left { display: flex; align-items: center; gap: 20px; }
+        .menu-toggle { display: none; font-size: 20px; cursor: pointer; color: white; }
         
-        /* Logo chuẩn ảnh */
         .logo-wrap { display: flex; align-items: center; gap: 12px; text-decoration: none; color: white; }
-        .logo-img { width: 42px; height: 42px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .logo-img { width: 42px; height: 42px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .logo-img::after { content: "\f144"; font-family: "Font Awesome 6 Free"; font-weight: 900; color: #222; font-size: 22px; }
         .brand-name { font-size: 24px; font-weight: 800; line-height: 1; }
         .tagline { font-size: 11px; color: var(--text-gray); display: block; margin-top: 2px; }
 
-        /* --- Thanh Tìm Kiếm Cập Nhật (Fix lỗi thiếu icon) --- */
-        .search-container {
-            position: relative;
-            width: 320px;
-            margin-left: 10px;
-        }
-
+        /* --- Thanh Tìm Kiếm --- */
+        .search-container { position: relative; width: 320px; margin-left: 10px; }
         .search-container input {
-            width: 100%;
-            padding: 10px 15px 10px 45px; /* Chừa chỗ cho icon kính lúp */
-            background: rgba(255, 255, 255, 0.08);
-            border: none;
-            border-radius: 8px;
-            color: white;
-            font-size: 14px;
-            outline: none;
-            transition: 0.3s;
+            width: 100%; padding: 10px 15px 10px 45px;
+            background: rgba(255, 255, 255, 0.08); border: none; border-radius: 8px;
+            color: white; font-size: 14px; outline: none; transition: 0.3s;
         }
-
-        .search-container input:focus {
-            background: rgba(255, 255, 255, 0.12);
-        }
-
-        .search-container i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #999;
-            font-size: 16px;
-        }
+        .search-container input:focus { background: rgba(255, 255, 255, 0.12); }
+        .search-container i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #999; font-size: 16px; }
 
         /* --- Menu & Dropdown --- */
         .nav-center { display: flex; align-items: center; gap: 20px; }
         .nav-item { position: relative; padding: 15px 0; }
-        
-        .nav-link {
-            text-decoration: none; color: #eee; font-size: 14px; font-weight: 500;
-            transition: 0.3s; white-space: nowrap; cursor: pointer;
-            display: flex; align-items: center; gap: 5px;
-        }
+        .nav-link { text-decoration: none; color: #eee; font-size: 14px; font-weight: 500; transition: 0.3s; white-space: nowrap; cursor: pointer; display: flex; align-items: center; gap: 5px; }
         .nav-link:hover { color: var(--primary-yellow); }
 
-        /* Dropdown chung */
         .dropdown-menu {
-            position: absolute; top: 100%; left: 0;
-            background-color: var(--dropdown-bg);
+            position: absolute; top: 100%; left: 0; background-color: var(--dropdown-bg);
             padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);
             opacity: 0; visibility: hidden; transform: translateY(10px);
-            transition: all 0.3s ease; box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); box-shadow: 0 15px 30px rgba(0,0,0,0.5);
         }
-
         .nav-item:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
-
-        /* Dropdown Thể loại (4 cột) */
-        .mega-menu {
-            min-width: 550px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px 15px;
-        }
-
-        /* Dropdown Quốc gia (1 cột dọc) */
-        .country-menu {
-            min-width: 160px; display: flex; flex-direction: column; gap: 5px;
-        }
-
-        .dropdown-menu a {
-            color: #ccc; text-decoration: none; font-size: 14px; padding: 6px 0; transition: 0.2s;
-        }
+        .mega-menu { min-width: 550px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px 15px; }
+        .country-menu { min-width: 160px; display: flex; flex-direction: column; gap: 5px; }
+        .dropdown-menu a { color: #ccc; text-decoration: none; font-size: 14px; padding: 6px 0; transition: 0.2s; }
         .dropdown-menu a:hover { color: var(--primary-yellow); padding-left: 5px; }
 
-        .badge-new {
-            background-color: var(--primary-yellow); color: #000; font-size: 9px;
-            font-weight: 800; padding: 2px 4px; border-radius: 3px; margin-right: 5px;
-        }
+        .badge-new { background-color: var(--primary-yellow); color: #000; font-size: 9px; font-weight: 800; padding: 2px 4px; border-radius: 3px; margin-right: 5px; }
 
-        /* Nút Thành viên */
-        .btn-member {
-            background-color: #f1f3f5; color: #1a1a1b; border: none; 
-            padding: 10px 22px; border-radius: 25px; font-weight: 600; 
-            cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.3s;
-        }
+        .btn-member { background-color: #f1f3f5; color: #1a1a1b; border: none; padding: 10px 22px; border-radius: 25px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.3s; }
         .btn-member:hover { background-color: #fff; transform: scale(1.02); }
 
-        /* --- Topic Section --- */
-        .topic-section { padding: 40px; background-color: #121418; }
+        /* --- Mobile Search Overlay (Chống phóng to) --- */
+        .mobile-search-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-dark); display: none; align-items: center;
+            padding: 0 15px; z-index: 1001;
+        }
+        .mobile-search-overlay.active { display: flex; }
+        .search-input-wrap { flex: 1; background: rgba(255, 255, 255, 0.08); border-radius: 8px; display: flex; align-items: center; padding: 5px 15px; }
+        .search-input-wrap input {
+            width: 100%; background: transparent; border: none;
+            color: white; outline: none; font-size: 16px; /* Font 16px để chống auto-zoom iPhone/Android */
+            height: 40px;
+        }
+        .close-search { color: #ff5c5c; font-size: 22px; margin-left: 15px; cursor: pointer; }
+
+        /* --- Topic Section (Mặc định ẩn) --- */
+        .topic-section { padding: 40px; background-color: #121418; display: none; }
         .topic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
         .topic-card { height: 180px; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; justify-content: flex-end; text-decoration: none; transition: 0.3s; overflow: hidden; }
         .topic-card:hover { transform: translateY(-8px); }
@@ -139,12 +101,25 @@
         .t-6 { background: linear-gradient(to bottom right, #1e1b4b, #6366f1); }
         .t-7 { background: linear-gradient(to bottom right, #831843, #ec4899); }
 
+        /* --- Sidebar & Mobile Actions --- */
+        .mobile-icons { display: none; gap: 20px; align-items: center; }
+        .sidebar { position: fixed; top: 0; left: -100%; width: 280px; height: 100vh; background: var(--dropdown-bg); padding: 60px 25px; transition: 0.4s ease; z-index: 2000; display: flex; flex-direction: column; gap: 15px; box-shadow: 5px 0 15px rgba(0,0,0,0.5); }
+        .sidebar.active { left: 0; }
+        .close-sidebar { position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; }
+
+        @media (max-width: 1100px) {
+            .navbar { padding: 12px 20px; }
+            .nav-center, .search-container, .btn-member { display: none; }
+            .menu-toggle, .mobile-icons { display: block; }
+            .mobile-icons { display: flex; }
+        }
     </style>
 </head>
 <body>
 
     <header class="navbar">
         <div class="nav-left">
+            <div class="menu-toggle" id="bars-btn"><i class="fa-solid fa-bars-staggered"></i></div>
             <a href="#" class="logo-wrap">
                 <div class="logo-img"></div>
                 <div><span class="brand-name">RoPhim</span><span class="tagline">Phim hay cả rổ</span></div>
@@ -157,7 +132,7 @@
         </div>
 
         <nav class="nav-center">
-            <div class="nav-item"><a href="#chu-de" class="nav-link">Chủ Đề</a></div>
+            <div class="nav-item"><a class="nav-link" id="btn-topic-desktop">Chủ Đề</a></div>
             
             <div class="nav-item">
                 <a class="nav-link">Thể loại <i class="fa-solid fa-caret-down"></i></a>
@@ -176,14 +151,8 @@
             <div class="nav-item">
                 <a class="nav-link">Quốc gia <i class="fa-solid fa-caret-down"></i></a>
                 <div class="dropdown-menu country-menu">
-                    <a href="#">Hàn Quốc</a>
-                    <a href="#">Thái Lan</a>
-                    <a href="#">Nhật Bản</a>
-                    <a href="#">Âu Mỹ</a>
-                    <a href="#">Hồng Kông</a>
-                    <a href="#">Trung Quốc</a>
-                    <a href="#">Anh</a>
-                    <a href="#">Ấn Độ</a>
+                    <a href="#">Hàn Quốc</a> <a href="#">Thái Lan</a> <a href="#">Nhật Bản</a> <a href="#">Âu Mỹ</a>
+                    <a href="#">Hồng Kông</a> <a href="#">Trung Quốc</a> <a href="#">Anh</a> <a href="#">Ấn Độ</a>
                 </div>
             </div>
 
@@ -193,11 +162,32 @@
         </nav>
 
         <div class="nav-right">
+            <div class="mobile-icons">
+                <i class="fa-regular fa-bell" style="font-size: 20px;"></i>
+                <i class="fa-solid fa-magnifying-glass" id="open-search-mobile" style="font-size: 20px; cursor: pointer;"></i>
+            </div>
             <button class="btn-member">
                 <i class="fa-solid fa-user"></i> Thành viên
             </button>
         </div>
+
+        <div class="mobile-search-overlay" id="search-overlay">
+            <div class="search-input-wrap">
+                <input type="text" id="mobile-search-input" placeholder="Tìm kiếm phim, diễn viên">
+            </div>
+            <i class="fa-solid fa-xmark close-search" id="close-search"></i>
+        </div>
     </header>
+
+    <nav class="sidebar" id="sidebar">
+        <i class="fa-solid fa-xmark close-sidebar" id="close-sidebar"></i>
+        <button class="btn-member" style="width: 100%; margin-bottom: 20px;"><i class="fa-solid fa-user"></i> Thành viên</button>
+        <a href="#" class="nav-link" id="btn-topic-mobile" style="font-size: 18px; padding: 10px 0;">Chủ Đề</a>
+        <a href="#" class="nav-link" style="font-size: 18px; padding: 10px 0;">Thể loại</a>
+        <a href="#" class="nav-link" style="font-size: 18px; padding: 10px 0;">Phim Lẻ</a>
+        <a href="#" class="nav-link" style="font-size: 18px; padding: 10px 0;">Phim Bộ</a>
+        <a href="#" class="nav-link" style="font-size: 18px; padding: 10px 0;">Quốc gia</a>
+    </nav>
 
     <section class="topic-section" id="chu-de">
         <h2 style="margin-bottom:25px;">Các chủ đề</h2>
@@ -212,5 +202,41 @@
         </div>
     </section>
 
+    <script>
+        // 1. Fix lỗi phóng to tìm kiếm Mobile
+        const openSearch = document.getElementById('open-search-mobile');
+        const closeSearch = document.getElementById('close-search');
+        const searchOverlay = document.getElementById('search-overlay');
+        const searchInput = document.getElementById('mobile-search-input');
+
+        if(openSearch) {
+            openSearch.onclick = () => {
+                searchOverlay.classList.add('active');
+                searchInput.focus();
+            };
+        }
+        closeSearch.onclick = () => searchOverlay.classList.remove('active');
+
+        // 2. Xử lý Sidebar Mobile
+        const barsBtn = document.getElementById('bars-btn');
+        const sidebar = document.getElementById('sidebar');
+        const closeSidebar = document.getElementById('close-sidebar');
+
+        barsBtn.onclick = () => sidebar.classList.add('active');
+        closeSidebar.onclick = () => sidebar.classList.remove('active');
+
+        // 3. Xử lý Hiện/Ẩn Chủ đề khi nhấn nút
+        const topicSection = document.getElementById('chu-de');
+        const toggleTopic = (e) => {
+            e.preventDefault();
+            const isVisible = window.getComputedStyle(topicSection).display !== 'none';
+            topicSection.style.display = isVisible ? 'none' : 'block';
+            if (!isVisible) topicSection.scrollIntoView({ behavior: 'smooth' });
+            if (sidebar.classList.contains('active')) sidebar.classList.remove('active');
+        };
+
+        document.getElementById('btn-topic-desktop').onclick = toggleTopic;
+        document.getElementById('btn-topic-mobile').onclick = toggleTopic;
+    </script>
 </body>
 </html>
