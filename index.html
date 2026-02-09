@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RoPhim - ok 1 Final Design</title>
+    <title>RoPhim - ok 1 Final Fix</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
@@ -18,11 +18,12 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background-color: var(--bg-dark); color: white; min-height: 100vh; overflow-x: hidden; }
 
-        /* --- Header chuẩn ok 1 --- */
+        /* --- Header khôi phục đầy đủ (ok 1) --- */
         .navbar {
             display: flex; align-items: center; justify-content: space-between;
-            padding: 12px 40px; background-color: rgba(15, 17, 21, 0.9);
+            padding: 12px 40px; background-color: rgba(15, 17, 21, 0.95);
             position: absolute; top: 0; width: 100%; z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
         .nav-left { display: flex; align-items: center; gap: 20px; }
         .logo-wrap { display: flex; align-items: center; gap: 10px; text-decoration: none; color: white; }
@@ -32,17 +33,33 @@
 
         .search-container { position: relative; width: 280px; }
         .search-container input {
-            width: 100%; padding: 10px 15px 10px 40px;
-            background: rgba(255, 255, 255, 0.15); border: none; border-radius: 8px;
+            width: 100%; padding: 10px 15px 10px 45px;
+            background: rgba(255, 255, 255, 0.12); border: none; border-radius: 8px;
             color: white; font-size: 14px; outline: none;
         }
-        .search-container i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #fff; }
+        .search-container i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #999; }
 
         .nav-center { display: flex; align-items: center; gap: 18px; }
-        .nav-link { text-decoration: none; color: #eee; font-size: 14px; font-weight: 500; cursor: pointer; }
+        .nav-item { position: relative; padding: 15px 0; }
+        .nav-link { text-decoration: none; color: #eee; font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 5px; }
         .nav-link:hover { color: var(--primary-yellow); }
 
-        /* --- Banner mở rộng (Hero Section) --- */
+        /* --- Khôi phục Dropdowns --- */
+        .dropdown-menu {
+            position: absolute; top: 100%; left: 0; background-color: var(--dropdown-bg);
+            padding: 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);
+            opacity: 0; visibility: hidden; transform: translateY(10px); transition: 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .nav-item:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        
+        .mega-menu { min-width: 500px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .country-menu { min-width: 160px; display: flex; flex-direction: column; gap: 5px; }
+        
+        .dropdown-menu a { color: #ccc; text-decoration: none; font-size: 13px; display: block; padding: 5px 0; transition: 0.2s; }
+        .dropdown-menu a:hover { color: var(--primary-yellow); padding-left: 5px; }
+
+        /* --- Banner mở rộng --- */
         .hero-banner {
             position: relative; width: 100%; height: 100vh;
             display: flex; align-items: center; padding: 0 60px;
@@ -51,52 +68,28 @@
         }
         .hero-banner::before {
             content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to right, var(--bg-dark) 20%, transparent 60%, rgba(15,17,21,0.4) 100%),
-                        linear-gradient(to top, var(--bg-dark) 10%, transparent 40%);
+            background: linear-gradient(to right, var(--bg-dark) 20%, transparent 70%);
         }
 
-        .hero-content { z-index: 2; max-width: 600px; padding-top: 80px; }
-        .movie-logo-text { font-size: 55px; font-weight: 900; color: var(--primary-yellow); line-height: 1; margin-bottom: 20px; text-transform: uppercase; }
-        
-        .movie-meta { display: flex; gap: 10px; margin-bottom: 20px; }
-        .meta-tag { background: rgba(255,255,255,0.1); padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 700; border: 1px solid rgba(255,255,255,0.2); }
-        .imdb-tag { color: var(--primary-yellow); border-color: var(--primary-yellow); }
+        .hero-content { z-index: 2; max-width: 600px; }
+        .movie-title { font-size: 55px; font-weight: 900; color: #fff; margin-bottom: 10px; text-transform: uppercase; }
 
-        .movie-desc { color: #ccc; line-height: 1.6; font-size: 15px; margin-bottom: 35px; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
-
-        /* Nút Xem Ngay màu cam bo cong chuẩn ảnh */
+        /* Nút Xem Ngay màu cam */
         .btn-xem-ngay {
             display: inline-flex; align-items: center; gap: 12px;
             background: linear-gradient(to right, #f37022, #f7941e);
             color: white; padding: 14px 35px; border-radius: 50px;
             text-decoration: none; font-weight: 700; font-size: 18px;
-            transition: 0.3s; box-shadow: 0 4px 15px rgba(243, 112, 34, 0.4);
+            transition: 0.3s;
         }
-        .btn-xem-ngay:hover { transform: scale(1.05); filter: brightness(1.1); }
-        .btn-xem-ngay i { 
-            background: white; color: #f37022; width: 30px; height: 30px; 
-            border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px;
-        }
+        .btn-xem-ngay i { background: white; color: #f37022; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; }
 
-        /* --- Phần Bạn đang quan tâm gì --- */
+        /* Phần Bạn đang quan tâm gì */
         .interest-section { padding: 40px 60px; background-color: var(--bg-dark); }
-        .section-title { font-size: 22px; font-weight: 700; margin-bottom: 25px; color: #fff; }
         .topic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
-        .topic-card {
-            height: 160px; border-radius: 12px; padding: 20px;
-            display: flex; flex-direction: column; justify-content: flex-end;
-            text-decoration: none; transition: 0.3s;
-        }
-        .topic-card h3 { color: #fff; font-size: 17px; font-weight: 700; margin-bottom: 5px; }
-        .topic-card span { font-size: 11px; color: rgba(255,255,255,0.7); }
-        
+        .topic-card { height: 160px; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; justify-content: flex-end; text-decoration: none; }
         .t-1 { background: linear-gradient(135deg, #4b5563, #991b1b); }
         .t-2 { background: linear-gradient(135deg, #10b981, #064e3b); }
-        .t-3 { background: linear-gradient(135deg, #8b5cf6, #4c1d95); }
-        .t-4 { background: linear-gradient(135deg, #f59e0b, #9a3412); }
-        .t-5 { background: linear-gradient(135deg, #ef4444, #7f1d1d); }
-        .t-6 { background: linear-gradient(135deg, #6366f1, #312e81); }
-        .t-7 { background: linear-gradient(135deg, #444, #222); }
     </style>
 </head>
 <body>
@@ -113,33 +106,40 @@
             </div>
         </div>
         <nav class="nav-center">
-            <a class="nav-link">Chủ Đề</a>
-            <a class="nav-link">Thể loại</a>
-            <a class="nav-link">Phim Lẻ</a>
-            <a class="nav-link">Phim Bộ</a>
-            <a class="nav-link">Quốc gia</a>
-            <a class="nav-link"><span style="background:var(--primary-yellow); color:#000; font-size:9px; padding:2px 4px; border-radius:30px; font-weight:800; margin-right:5px;">NEW</span>Reviews</a>
+            <div class="nav-item"><a class="nav-link">Chủ Đề</a></div>
+            
+            <div class="nav-item">
+                <a class="nav-link">Thể loại <i class="fa-solid fa-caret-down"></i></a>
+                <div class="dropdown-menu mega-menu">
+                    <a href="#">Chính kịch</a> <a href="#">Khoa học</a> <a href="#">Tình cảm</a> <a href="#">Cổ trang</a>
+                    <a href="#">Tâm lý</a> <a href="#">Bí ẩn</a> <a href="#">Hành động</a> <a href="#">Hình sự</a>
+                    <a href="#">Hài hước</a> <a href="#">Phiêu lưu</a> <a href="#">Gia đình</a> <a href="#">Kinh dị</a>
+                </div>
+            </div>
+
+            <div class="nav-item"><a class="nav-link">Phim Lẻ</a></div>
+            <div class="nav-item"><a class="nav-link">Phim Bộ</a></div>
+
+            <div class="nav-item">
+                <a class="nav-link">Quốc gia <i class="fa-solid fa-caret-down"></i></a>
+                <div class="dropdown-menu country-menu">
+                    <a href="#">Hàn Quốc</a> <a href="#">Thái Lan</a> <a href="#">Nhật Bản</a> <a href="#">Âu Mỹ</a>
+                    <a href="#">Hồng Kông</a> <a href="#">Trung Quốc</a> <a href="#">Anh</a> <a href="#">Ấn Độ</a>
+                </div>
+            </div>
+
+            <div class="nav-item"><a class="nav-link">Diễn Viên</a></div>
+            <div class="nav-item"><a class="nav-link"><span style="background:var(--primary-yellow); color:#000; font-size:9px; padding:2px 4px; border-radius:4px; font-weight:800; margin-right:5px;">NEW</span>Reviews</a></div>
         </nav>
-        <button style="background: #fff; color:#000; border:none; padding: 10px 22px; border-radius: 25px; font-weight: 600; cursor: pointer;">
+        <button style="background: #fff; color:#000; border:none; padding: 10px 22px; border-radius: 25px; font-weight: 600;">
             <i class="fa-solid fa-user"></i> Thành viên
         </button>
     </header>
 
     <section class="hero-banner" id="hero-banner">
         <div class="hero-content">
-            <div class="movie-logo-text" id="m-title">THE<br>GLAMOROUS<br>NIGHT</div>
-            
-            <div class="movie-meta">
-                <span class="meta-tag imdb-tag" id="m-rating">IMDb 9.0</span>
-                <span class="meta-tag">T16</span>
-                <span class="meta-tag" id="m-year">2026</span>
-                <span class="meta-tag" id="m-status">Phần 1</span>
-            </div>
-
-            <p class="movie-desc" id="m-desc">
-                Dưới vỏ bọc của một bữa tiệc thịnh soạn đã khiến sóng ngầm giấu kín bấy lâu nay trỗi dậy...
-            </p>
-
+            <h1 class="movie-title" id="m-title"></h1>
+            <p id="m-desc" style="color:#ccc; margin-bottom:30px; line-height:1.6;"></p>
             <a href="#" class="btn-xem-ngay" id="m-link">
                 <i class="fa-solid fa-play"></i> Xem Ngay
             </a>
@@ -147,23 +147,17 @@
     </section>
 
     <section class="interest-section">
-        <h2 class="section-title">Bạn đang quan tâm gì?</h2>
+        <h2 style="margin-bottom:25px;">Bạn đang quan tâm gì?</h2>
         <div class="topic-grid">
-            <a href="#" class="topic-card t-1"><h3>Thuyết Minh Tuổi Thơ</h3><span>Xem chủ đề ></span></a>
-            <a href="#" class="topic-card t-2"><h3>Sitcom</h3><span>Xem chủ đề ></span></a>
-            <a href="#" class="topic-card t-3"><h3>Lồng Tiếng Cực Mạnh</h3><span>Xem chủ đề ></span></a>
-            <a href="#" class="topic-card t-4"><h3>Xuyên Không</h3><span>Xem chủ đề ></span></a>
-            <a href="#" class="topic-card t-5"><h3>Cổ Trang</h3><span>Xem chủ đề ></span></a>
-            <a href="#" class="topic-card t-6"><h3>4k</h3><span>Xem chủ đề ></span></a>
-            <a href="#" class="topic-card t-7"><h3>+1 chủ đề</h3><span>Xem thêm ></span></a>
+            <a href="#" class="topic-card t-1"><h3>Thuyết Minh Tuổi Thơ</h3></a>
+            <a href="#" class="topic-card t-2"><h3>Sitcom</h3></a>
         </div>
     </section>
 
     <script>
         const movies = [
-            { title: "Mưa Đỏ", year: "2026", rating: "8.2", status: "YouTube", desc: "Một tác phẩm mang đầy màu sắc nghệ thuật và kịch tính. Những cơn mưa đỏ mang theo những bí mật thay đổi định mệnh.", img: "https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/0b1372232709307.68a20d789415d.jpg" },
-            { title: "Avatar: Lửa và Tro Tàn", year: "2025", rating: "9.0", status: "Chiếu Rạp", desc: " Jake Sully và Neytiri sẽ phải đối mặt với một bộ tộc Na'vi hung dữ hơn — Tộc Người Tro Tàn.", img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20251221-1/687373bb9894616507f27c74c0eaa598.jpg" },
-            { title: "Spectral", year: "2026", rating: "7.3", status: "Bản Đẹp", desc: "Một đội đặc nhiệm tinh nhuệ thực hiện nhiệm vụ tại một thành phố đang bị tàn phá bởi những sinh vật vô hình.", img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20260116-1/5b1f85f0fbcc96ca4bad610602025626.jpg" }
+            { title: "Mưa Đỏ", desc: "Một tác phẩm mang đầy màu sắc nghệ thuật và kịch tính. Những cơn mưa đỏ mang theo những bí mật thay đổi định mệnh.", img: "https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/0b1372232709307.68a20d789415d.jpg" },
+            { title: "Avatar: Lửa và Tro Tàn", desc: "Jake Sully và Neytiri đối mặt với Tộc Người Tro Tàn trong cuộc hành trình đầy nguy hiểm.", img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20251221-1/687373bb9894616507f27c74c0eaa598.jpg" }
         ];
 
         let currentIndex = 0;
@@ -172,14 +166,11 @@
             const m = movies[currentIndex];
             document.getElementById('hero-banner').style.backgroundImage = `url('${m.img}')`;
             document.getElementById('m-title').innerText = m.title;
-            document.getElementById('m-rating').innerText = `IMDb ${m.rating}`;
-            document.getElementById('m-year').innerText = m.year;
-            document.getElementById('m-status').innerText = m.status;
             document.getElementById('m-desc').innerText = m.desc;
         }
 
         setInterval(nextMovie, 3000);
-        nextMovie(); // Khởi tạo phim đầu tiên
+        nextMovie();
     </script>
 </body>
 </html>
