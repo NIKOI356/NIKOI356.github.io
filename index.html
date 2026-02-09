@@ -29,18 +29,30 @@
         }
         .nav-left { display: flex; align-items: center; gap: 20px; }
         .menu-toggle { display: block; font-size: 20px; cursor: pointer; color: white; }
+        
         .logo-wrap { display: flex; align-items: center; gap: 12px; text-decoration: none; color: white; }
         .logo-img { width: 42px; height: 42px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .logo-img::after { content: "\f144"; font-family: "Font Awesome 6 Free"; font-weight: 900; color: #222; font-size: 22px; }
         .brand-name { font-size: 24px; font-weight: 800; line-height: 1; }
         .tagline { font-size: 11px; color: var(--text-gray); display: block; margin-top: 2px; }
+
         .search-container { position: relative; width: 320px; margin-left: 10px; }
-        .search-container input { width: 100%; padding: 10px 15px 10px 45px; background: rgba(255, 255, 255, 0.08); border: none; border-radius: 8px; color: white; font-size: 14px; outline: none; transition: 0.3s; }
+        .search-container input {
+            width: 100%; padding: 10px 15px 10px 45px;
+            background: rgba(255, 255, 255, 0.08); border: none; border-radius: 8px;
+            color: white; font-size: 14px; outline: none; transition: 0.3s;
+        }
         .search-container i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #999; font-size: 16px; }
+
         .nav-center { display: flex; align-items: center; gap: 20px; }
         .nav-item { position: relative; padding: 15px 0; }
         .nav-link { text-decoration: none; color: #eee; font-size: 14px; font-weight: 500; transition: 0.3s; white-space: nowrap; cursor: pointer; display: flex; align-items: center; gap: 5px; }
-        .dropdown-menu { position: absolute; top: 100%; left: 0; background-color: var(--dropdown-bg); padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s; box-shadow: 0 15px 30px rgba(0,0,0,0.5); }
+        .dropdown-menu {
+            position: absolute; top: 100%; left: 0; background-color: var(--dropdown-bg);
+            padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);
+            opacity: 0; visibility: hidden; transform: translateY(10px);
+            transition: all 0.3s; box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+        }
         .nav-item:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
         .mega-menu { min-width: 550px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px 15px; }
         .country-menu { min-width: 160px; display: flex; flex-direction: column; gap: 5px; }
@@ -49,47 +61,70 @@
         .badge-new { background-color: var(--primary-yellow); color: #000; font-size: 9px; font-weight: 800; padding: 2px 4px; border-radius: 3px; margin-right: 5px; }
         .btn-member { background-color: #f1f3f5; color: #1a1a1b; border: none; padding: 10px 22px; border-radius: 25px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.3s; }
 
-        /* --- Banner Hero FULL (Giữ nguyên) --- */
-        .hero-section { position: relative; height: 85vh; overflow: hidden; background: #000; }
+        /* --- Banner Hero Tối Ưu Như Ảnh Mẫu --- */
+        .hero-section { position: relative; height: 75vh; overflow: hidden; background: #000; }
         .slider-wrapper { height: 100%; width: 100%; }
-        .slide { position: absolute; inset: 0; background-size: cover; background-position: center 20%; opacity: 0; transition: opacity 1.2s ease-in-out; display: flex; align-items: center; padding: 0 8%; }
+        .slide {
+            position: absolute; inset: 0;
+            background-size: cover; background-position: center 15%;
+            opacity: 0; transition: opacity 1.2s ease-in-out;
+            display: flex; align-items: center; padding: 0 8%;
+        }
         .slide.active { opacity: 1; z-index: 1; }
-        .slide::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(20,22,27,1) 0%, rgba(20,22,27,0.7) 35%, transparent 100%); }
-        .slide-content { position: relative; z-index: 2; max-width: 550px; }
-        .movie-title { font-size: clamp(28px, 5vw, 48px); font-weight: 800; color: #fff; margin-bottom: 10px; line-height: 1.2; }
-        .movie-title-alt { font-size: 14px; color: var(--primary-yellow); margin-bottom: 12px; display: block; }
+        
+        /* Hiệu ứng Vignette bao quanh chuẩn web họ */
+        .slide::before {
+            content: ''; position: absolute; inset: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(20,22,27,0.1) 0%, rgba(20,22,27,0.9) 90%);
+            z-index: 1;
+        }
+        .slide::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(to right, rgba(20,22,27,1) 0%, rgba(20,22,27,0.4) 40%, transparent 100%);
+            z-index: 1;
+        }
+
+        .slide-content { position: relative; z-index: 2; max-width: 500px; }
+        .movie-title { font-size: 38px; font-weight: 800; color: #fff; margin-bottom: 5px; line-height: 1.1; }
+        .movie-title-alt { font-size: 13px; color: var(--primary-yellow); margin-bottom: 15px; display: block; text-transform: uppercase; letter-spacing: 1px; }
         .movie-meta { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
-        .badge-imdb { background: #f5c518; color: #000; padding: 2px 8px; border-radius: 4px; font-weight: 800; font-size: 12px; }
-        .meta-item { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 2px 10px; border-radius: 4px; font-size: 12px; color: #eee; }
-        .movie-desc { color: #ccc; line-height: 1.6; font-size: 14px; margin-bottom: 30px; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
-        .slide-actions { display: flex; gap: 20px; align-items: center; }
-        .btn-play-hero { width: 65px; height: 65px; border-radius: 50%; border: none; background: #fff; color: #000; font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+        .badge-imdb { background: #f5c518; color: #000; padding: 1px 6px; border-radius: 4px; font-weight: 800; font-size: 11px; }
+        .meta-item { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 1px 10px; border-radius: 4px; font-size: 11px; color: #eee; }
+        .movie-desc { color: #bbb; line-height: 1.6; font-size: 14px; margin-bottom: 30px; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+        
+        .slide-actions { display: flex; gap: 15px; align-items: center; }
+        .btn-play-hero { width: 55px; height: 55px; border-radius: 50%; border: none; background: #fff; color: #000; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
         .btn-play-hero:hover { transform: scale(1.1); background: var(--primary-yellow); }
-        .btn-circle-hero { width: 45px; height: 45px; border-radius: 50%; border: 1px solid #555; background: rgba(0,0,0,0.5); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
-        .banner-thumbs { position: absolute; bottom: 40px; right: 5%; display: flex; gap: 12px; z-index: 10; }
-        .thumb { width: 90px; height: 50px; border-radius: 6px; overflow: hidden; cursor: pointer; border: 2px solid transparent; opacity: 0.6; transition: 0.3s; }
+        .btn-circle-hero { width: 40px; height: 40px; border-radius: 50%; border: 1px solid #555; background: rgba(0,0,0,0.5); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+
+        .banner-thumbs { position: absolute; bottom: 40px; right: 5%; display: flex; gap: 10px; z-index: 10; }
+        .thumb { width: 80px; height: 45px; border-radius: 6px; overflow: hidden; cursor: pointer; border: 2px solid transparent; opacity: 0.5; transition: 0.3s; }
         .thumb.active { border-color: #fff; opacity: 1; transform: translateY(-5px); }
         .thumb img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* --- Sidebar & Topic (Giữ nguyên) --- */
+        /* --- Mobile Responsive --- */
+        @media (max-width: 1100px) {
+            .nav-center, .search-container, .btn-member { display: none; }
+            .navbar { padding: 12px 20px; }
+            .hero-section { height: 75vh; }
+            .banner-thumbs { bottom: 20px; right: 20px; gap: 8px; }
+            .thumb { width: 60px; height: 35px; }
+            .slide { padding: 0 20px; background-position: center top; }
+            .slide::after { background: linear-gradient(0deg, rgba(20,22,27,1) 30%, transparent 100%); }
+            .slide-content { align-self: flex-end; padding-bottom: 50px; }
+            .movie-title { font-size: 28px; }
+        }
+
+        /* --- Sidebar & Topic (Giữ nguyên mục cũ) --- */
+        .sidebar { position: fixed; top: 0; left: -100%; width: 280px; height: 100vh; background: var(--dropdown-bg); padding: 60px 25px; transition: 0.4s ease; z-index: 2000; box-shadow: 5px 0 15px rgba(0,0,0,0.5); overflow-y: auto; }
+        .sidebar.active { left: 0; }
+        .close-sidebar { position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; }
         .topic-section { padding: 40px; background-color: #121418; display: none; }
         .topic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
         .topic-card { height: 180px; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; justify-content: flex-end; text-decoration: none; transition: 0.3s; overflow: hidden; }
         .topic-card h3 { color: #fff; font-size: 18px; font-weight: 700; }
         .t-1 { background: linear-gradient(to bottom right, #3f4c6b, #991b1b); }
         .t-2 { background: linear-gradient(to bottom right, #134e4a, #10b981); }
-        .sidebar { position: fixed; top: 0; left: -100%; width: 280px; height: 100vh; background: var(--dropdown-bg); padding: 60px 25px; transition: 0.4s ease; z-index: 2000; box-shadow: 5px 0 15px rgba(0,0,0,0.5); overflow-y: auto; }
-        .sidebar.active { left: 0; }
-        .close-sidebar { position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; }
-        .side-link { text-decoration: none; color: #eee; font-size: 17px; font-weight: 500; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; }
-
-        @media (max-width: 1100px) {
-            .nav-center, .search-container, .btn-member { display: none; }
-            .navbar { padding: 12px 20px; }
-            .hero-section { height: 70vh; }
-            .banner-thumbs { bottom: 20px; right: 20px; gap: 8px; }
-            .thumb { width: 60px; height: 35px; }
-        }
     </style>
 </head>
 <body>
@@ -111,20 +146,13 @@
             <div class="nav-item">
                 <a class="nav-link">Thể loại <i class="fa-solid fa-caret-down"></i></a>
                 <div class="dropdown-menu mega-menu">
-                    <a href="#">Chính kịch</a> <a href="#">Khoa học</a> <a href="#">Tình cảm</a> <a href="#">Cổ trang</a>
                     <a href="#">Hành động</a> <a href="#">Hình sự</a> <a href="#">Hài hước</a> <a href="#">Kinh dị</a>
-                    <a href="#">Tài liệu</a> <a href="#">Hoạt hình</a> <a href="#">Chiếu rạp</a> <a href="#">Học đường</a>
                 </div>
             </div>
             <div class="nav-item"><a href="#" class="nav-link">Phim Lẻ</a></div>
             <div class="nav-item"><a href="#" class="nav-link">Phim Bộ</a></div>
             <div class="nav-item"><a href="#" class="nav-link">Xem Chung</a></div>
-            <div class="nav-item">
-                <a class="nav-link">Quốc gia <i class="fa-solid fa-caret-down"></i></a>
-                <div class="dropdown-menu country-menu">
-                    <a href="#">Hàn Quốc</a> <a href="#">Thái Lan</a> <a href="#">Nhật Bản</a> <a href="#">Trung Quốc</a>
-                </div>
-            </div>
+            <div class="nav-item"><a class="nav-link">Quốc gia</a></div>
             <div class="nav-item"><a href="#" class="nav-link">Diễn Viên</a></div>
             <div class="nav-item"><a href="#" class="nav-link">Lịch Chiếu</a></div>
             <div class="nav-item"><a href="#" class="nav-link"><span class="badge-new">NEW</span>Reviews</a></div>
@@ -154,8 +182,6 @@
         <div class="topic-grid" style="padding: 0 40px;">
             <a href="#" class="topic-card t-1"><h3>Thuyết Minh Tuổi Thơ</h3></a>
             <a href="#" class="topic-card t-2"><h3>Sitcom</h3></a>
-            <a href="#" class="topic-card t-1"><h3>Lồng Tiếng Cực Mạnh</h3></a>
-            <a href="#" class="topic-card t-2"><h3>Xuyên Không</h3></a>
         </div>
     </section>
 
@@ -167,14 +193,13 @@
         const topicSection = document.getElementById('chu-de');
         const toggleTopic = (e) => {
             e.preventDefault();
-            const isVisible = window.getComputedStyle(topicSection).display !== 'none';
-            topicSection.style.display = isVisible ? 'none' : 'block';
-            if (!isVisible) topicSection.scrollIntoView({ behavior: 'smooth' });
+            topicSection.style.display = topicSection.style.display === 'block' ? 'none' : 'block';
+            if (topicSection.style.display === 'block') topicSection.scrollIntoView({ behavior: 'smooth' });
         };
         document.getElementById('btn-topic-desktop').onclick = toggleTopic;
         document.getElementById('btn-topic-mobile').onclick = toggleTopic;
 
-        // 2. BANNER API (ĐÃ TỐI ƯU ẢNH WEBP CHO CẢ BANNER VÀ THUMB)
+        // 2. Banner API FULL XỊN
         const sliderWrapper = document.querySelector('.slider-wrapper');
         const thumbWrapper = document.querySelector('.banner-thumbs');
 
@@ -189,14 +214,10 @@
 
                 movies.forEach((movie, index) => {
                     const activeClass = index === 0 ? 'active' : '';
-                    
-                    // Lấy link gốc
-                    const posterImgOrigin = movie.poster_url.includes('http') ? movie.poster_url : `https://phimimg.com/${movie.poster_url}`;
-                    const thumbImgSrcOrigin = movie.thumb_url.includes('http') ? movie.thumb_url : `https://phimimg.com/${movie.thumb_url}`;
-                    
-                    // TỐI ƯU HÓA SANG WEBP
-                    const webpBanner = `https://phimapi.com/image.php?url=${posterImgOrigin}`;
-                    const webpThumb = `https://phimapi.com/image.php?url=${thumbImgSrcOrigin}`;
+                    const posterImg = movie.poster_url.includes('http') ? movie.poster_url : `https://phimimg.com/${movie.poster_url}`;
+                    const thumbImg = `https://phimapi.com/image.php?url=https://phimimg.com/${movie.thumb_url}`;
+                    // Tối ưu ảnh Banner lớn sang WebP
+                    const webpBanner = `https://phimapi.com/image.php?url=${posterImg}`;
 
                     sliderWrapper.innerHTML += `
                         <div class="slide ${activeClass}" style="background-image: url('${webpBanner}')">
@@ -209,7 +230,7 @@
                                     <span class="meta-item">HD</span>
                                     <span class="meta-item">Vietsub</span>
                                 </div>
-                                <p class="movie-desc">Hành trình lôi cuốn vừa được cập nhật bản đẹp nhất tại RoPhim. Xem ngay!</p>
+                                <p class="movie-desc">Thưởng thức siêu phẩm vừa cập nhật bản đẹp nhất tại RoPhim. Hình ảnh sắc nét, âm thanh sống động đang chờ bạn!</p>
                                 <div class="slide-actions">
                                     <button class="btn-play-hero"><i class="fa-solid fa-play"></i></button>
                                     <button class="btn-circle-hero"><i class="fa-regular fa-heart"></i></button>
@@ -220,7 +241,7 @@
 
                     thumbWrapper.innerHTML += `
                         <div class="thumb ${activeClass}" onclick="currentSlide(${index})">
-                            <img src="${webpThumb}" alt="thumb">
+                            <img src="${thumbImg}" alt="thumb">
                         </div>`;
                 });
                 startAutoSlide();
