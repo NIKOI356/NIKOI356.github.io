@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RoPhim - ok 1 Transparent Header</title>
+    <title>RoPhim - ok 1 Mobile Optimized</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
@@ -12,162 +12,139 @@
             --bg-dark: #0f1115;
             --primary-orange: #f37022;
             --primary-yellow: #ffc107;
-            --dropdown-bg: rgba(21, 24, 30, 0.95);
+            --dropdown-bg: rgba(21, 24, 30, 0.98);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background-color: var(--bg-dark); color: white; min-height: 100vh; overflow-x: hidden; }
 
-        /* --- Header TRONG SUỐT (Transparent) --- */
+        /* --- Header Trong Suốt & Responsive --- */
         .navbar {
             display: flex; align-items: center; justify-content: space-between;
             padding: 15px 40px; 
-            background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 100%); /* Nền trong suốt có đổ bóng nhẹ phía trên */
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, transparent 100%);
             position: absolute; top: 0; width: 100%; z-index: 1000;
-            transition: background 0.3s;
+            transition: 0.3s;
         }
 
-        /* Khi cuộn trang web xuống, header sẽ đổi màu để dễ nhìn (Tùy chọn) */
-        .navbar.scrolled {
-            background: rgba(15, 17, 21, 0.95);
-            backdrop-filter: blur(10px);
-            position: fixed;
-        }
+        .nav-left { display: flex; align-items: center; gap: 15px; }
+        .logo-wrap { display: flex; align-items: center; gap: 8px; text-decoration: none; color: white; }
+        .logo-img { width: 35px; height: 35px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .logo-img::after { content: "\f144"; font-family: "Font Awesome 6 Free"; font-weight: 900; color: #222; font-size: 18px; }
+        .brand-name { font-size: 20px; font-weight: 800; }
 
-        .nav-left { display: flex; align-items: center; gap: 20px; }
-        .logo-wrap { display: flex; align-items: center; gap: 10px; text-decoration: none; color: white; }
-        .logo-img { width: 40px; height: 40px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-        .logo-img::after { content: "\f144"; font-family: "Font Awesome 6 Free"; font-weight: 900; color: #222; font-size: 20px; }
-        .brand-name { font-size: 24px; font-weight: 800; }
-
-        /* Search Bar trong suốt chuẩn ảnh */
-        .search-container { position: relative; width: 280px; }
+        /* Search Bar thu gọn trên mobile */
+        .search-container { position: relative; width: 250px; }
         .search-container input {
-            width: 100%; padding: 10px 15px 10px 45px;
-            background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.1); 
-            border-radius: 8px; color: white; font-size: 14px; outline: none;
+            width: 100%; padding: 8px 12px 8px 35px;
+            background: rgba(255, 255, 255, 0.15); border: none; border-radius: 20px;
+            color: white; font-size: 13px; outline: none;
         }
-        .search-container i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #fff; }
+        .search-container i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #fff; font-size: 12px; }
 
-        .nav-center { display: flex; align-items: center; gap: 18px; }
-        .nav-item { position: relative; padding: 10px 0; }
-        .nav-link { text-decoration: none; color: #fff; font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 5px; }
-        .nav-link:hover { color: var(--primary-yellow); }
+        /* Menu chính */
+        .nav-center { display: flex; align-items: center; gap: 15px; }
+        .nav-item { position: relative; }
+        .nav-link { text-decoration: none; color: #fff; font-size: 14px; font-weight: 500; cursor: pointer; white-space: nowrap; }
+        
+        /* Mobile Menu Toggle */
+        .menu-toggle { display: none; font-size: 22px; cursor: pointer; color: white; }
 
-        /* Dropdowns khôi phục từ bản trước */
-        .dropdown-menu {
-            position: absolute; top: 100%; left: 0; background-color: var(--dropdown-bg);
-            padding: 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);
-            opacity: 0; visibility: hidden; transform: translateY(10px); transition: 0.3s;
-            backdrop-filter: blur(15px);
+        /* --- MEDIA QUERIES CHO ĐIỆN THOẠI --- */
+        @media (max-width: 992px) {
+            .navbar { padding: 15px 20px; }
+            .nav-center {
+                position: fixed; top: 0; right: -100%; width: 70%; height: 100vh;
+                background: var(--dropdown-bg); flex-direction: column; 
+                align-items: flex-start; padding: 80px 30px; transition: 0.4s;
+                backdrop-filter: blur(20px);
+            }
+            .nav-center.active { right: 0; }
+            .menu-toggle { display: block; z-index: 1001; }
+            .search-container { width: 150px; }
+            .nav-link { font-size: 18px; padding: 15px 0; display: block; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.05); }
         }
-        .nav-item:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
-        .mega-menu { min-width: 500px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-        .country-menu { min-width: 160px; display: flex; flex-direction: column; gap: 5px; }
-        .dropdown-menu a { color: #ccc; text-decoration: none; font-size: 13px; display: block; padding: 5px 0; }
-        .dropdown-menu a:hover { color: var(--primary-yellow); padding-left: 5px; }
 
-        /* --- Banner Mở Rộng --- */
+        /* Banner & Nút Xem Ngay */
         .hero-banner {
             position: relative; width: 100%; height: 100vh;
-            display: flex; align-items: center; padding: 0 60px;
+            display: flex; align-items: center; padding: 0 40px;
             background-size: cover; background-position: center;
-            transition: background 0.8s ease-in-out;
         }
-        .hero-banner::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to right, var(--bg-dark) 20%, transparent 70%);
-        }
-
-        .hero-content { z-index: 2; max-width: 600px; }
-        .movie-title { font-size: 55px; font-weight: 900; color: #fff; margin-bottom: 10px; text-transform: uppercase; }
-
-        /* Nút Xem Ngay màu cam rực rỡ */
+        .hero-content { z-index: 2; max-width: 550px; }
         .btn-xem-ngay {
-            display: inline-flex; align-items: center; gap: 12px;
+            display: inline-flex; align-items: center; gap: 10px;
             background: linear-gradient(to right, #f37022, #f7941e);
-            color: white; padding: 14px 35px; border-radius: 50px;
-            text-decoration: none; font-weight: 700; font-size: 18px; transition: 0.3s;
+            color: white; padding: 12px 30px; border-radius: 50px;
+            text-decoration: none; font-weight: 700; transition: 0.3s;
         }
-        .btn-xem-ngay i { background: white; color: #f37022; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; }
     </style>
 </head>
 <body>
 
-    <header class="navbar" id="main-nav">
+    <header class="navbar">
         <div class="nav-left">
+            <div class="menu-toggle" id="mobile-menu"><i class="fa-solid fa-bars"></i></div>
             <a href="#" class="logo-wrap">
                 <div class="logo-img"></div>
                 <span class="brand-name">RoPhim</span>
             </a>
+        </div>
+
+        <nav class="nav-center" id="nav-list">
+            <a class="nav-link">Chủ Đề</a>
+            <a class="nav-link">Thể loại</a>
+            <a class="nav-link">Phim Lẻ</a>
+            <a class="nav-link">Phim Bộ</a>
+            <a class="nav-link">Quốc gia</a>
+            <a class="nav-link">Diễn Viên</a>
+        </nav>
+
+        <div class="nav-right" style="display: flex; align-items: center; gap: 15px;">
             <div class="search-container">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" placeholder="Tìm kiếm phim, diễn viên">
+                <input type="text" placeholder="Tìm kiếm...">
             </div>
+            <i class="fa-solid fa-user" style="font-size: 18px; cursor: pointer;"></i>
         </div>
-        <nav class="nav-center">
-            <div class="nav-item"><a class="nav-link">Chủ Đề</a></div>
-            <div class="nav-item">
-                <a class="nav-link">Thể loại <i class="fa-solid fa-caret-down"></i></a>
-                <div class="dropdown-menu mega-menu">
-                    <a href="#">Chính kịch</a> <a href="#">Khoa học</a> <a href="#">Tình cảm</a> <a href="#">Cổ trang</a>
-                    <a href="#">Tâm lý</a> <a href="#">Bí ẩn</a> <a href="#">Hành động</a> <a href="#">Hình sự</a>
-                </div>
-            </div>
-            <div class="nav-item"><a class="nav-link">Phim Lẻ</a></div>
-            <div class="nav-item"><a class="nav-link">Phim Bộ</a></div>
-            <div class="nav-item">
-                <a class="nav-link">Quốc gia <i class="fa-solid fa-caret-down"></i></a>
-                <div class="dropdown-menu country-menu">
-                    <a href="#">Hàn Quốc</a> <a href="#">Thái Lan</a> <a href="#">Nhật Bản</a> <a href="#">Âu Mỹ</a>
-                    <a href="#">Trung Quốc</a> <a href="#">Anh</a> <a href="#">Ấn Độ</a> <a href="#">Hồng Kông</a>
-                </div>
-            </div>
-            <div class="nav-item"><a class="nav-link">Diễn Viên</a></div>
-            <div class="nav-item"><a class="nav-link"><span style="background:var(--primary-yellow); color:#000; font-size:9px; padding:2px 4px; border-radius:4px; font-weight:800; margin-right:5px;">NEW</span>Reviews</a></div>
-        </nav>
-        <button style="background: #fff; color:#000; border:none; padding: 10px 22px; border-radius: 25px; font-weight: 600; cursor: pointer;">
-            <i class="fa-solid fa-user"></i> Thành viên
-        </button>
     </header>
 
     <section class="hero-banner" id="hero-banner">
         <div class="hero-content">
-            <h1 class="movie-title" id="m-title">ĐANG TẢI...</h1>
-            <p id="m-desc" style="color:#ccc; margin-bottom:30px; line-height:1.6;"></p>
-            <a href="#" class="btn-xem-ngay" id="m-link">
-                <i class="fa-solid fa-play"></i> Xem Ngay
+            <h1 id="m-title" style="font-size: 40px; margin-bottom: 10px;">Mưa Đỏ</h1>
+            <p id="m-desc" style="color:#ccc; margin-bottom:25px; font-size: 14px;">Một tác phẩm mang đầy màu sắc nghệ thuật và kịch tính...</p>
+            <a href="#" class="btn-xem-ngay">
+                <i class="fa-solid fa-play" style="background:white; color:#f37022; width:25px; height:25px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px;"></i> 
+                Xem Ngay
             </a>
         </div>
     </section>
 
     <script>
+        // Xử lý đóng mở Menu Mobile
+        const menuToggle = document.getElementById('mobile-menu');
+        const navList = document.getElementById('nav-list');
+
+        menuToggle.addEventListener('click', () => {
+            navList.classList.toggle('active');
+            // Đổi icon bars sang xmark
+            const icon = menuToggle.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-xmark');
+        });
+
+        // Tự động chuyển banner (như cũ)
         const movies = [
-            { title: "Mưa Đỏ", desc: "Một tác phẩm mang đầy màu sắc nghệ thuật và kịch tính. Những cơn mưa đỏ mang theo những bí mật thay đổi định mệnh.", img: "https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/0b1372232709307.68a20d789415d.jpg" },
-            { title: "Avatar: Lửa và Tro Tàn", desc: "Jake Sully và Neytiri đối mặt với Tộc Người Tro Tàn trong cuộc hành trình đầy nguy hiểm bảo vệ hành tinh Pandora.", img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20251221-1/687373bb9894616507f27c74c0eaa598.jpg" }
+            { title: "Mưa Đỏ", desc: "Nghệ thuật và kịch tính hòa quyện...", img: "https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/0b1372232709307.68a20d789415d.jpg" },
+            { title: "Avatar 3", desc: "Cuộc chiến tại Tộc Người Tro Tàn...", img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20251221-1/687373bb9894616507f27c74c0eaa598.jpg" }
         ];
-
         let currentIndex = 0;
-        function nextMovie() {
+        setInterval(() => {
             currentIndex = (currentIndex + 1) % movies.length;
-            const m = movies[currentIndex];
-            document.getElementById('hero-banner').style.backgroundImage = `url('${m.img}')`;
-            document.getElementById('m-title').innerText = m.title;
-            document.getElementById('m-desc').innerText = m.desc;
-        }
-
-        setInterval(nextMovie, 3000);
-        nextMovie();
-
-        // Hiệu ứng đổi màu Header khi cuộn
-        window.onscroll = function() {
-            const nav = document.getElementById('main-nav');
-            if (window.pageYOffset > 50) {
-                nav.classList.add("scrolled");
-            } else {
-                nav.classList.remove("scrolled");
-            }
-        };
+            document.getElementById('hero-banner').style.backgroundImage = `url('${movies[currentIndex].img}')`;
+            document.getElementById('m-title').innerText = movies[currentIndex].title;
+            document.getElementById('m-desc').innerText = movies[currentIndex].desc;
+        }, 3000);
     </script>
 </body>
 </html>
