@@ -12,35 +12,43 @@
         :root {
             --bg-dark: #14161b;
             --primary-yellow: #ffc107;
-            --primary-orange: #f37022;
             --text-gray: #b5b5b5;
+            --input-bg: #2b2f3a;
             --dropdown-bg: #15181e;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--bg-dark); color: white; min-height: 100vh; scroll-behavior: smooth; overflow-x: hidden; }
 
-        /* --- Header chuẩn bản Desktop --- */
+        body { background-color: var(--bg-dark); color: white; min-height: 100vh; scroll-behavior: smooth; }
+
+        /* --- Header --- */
         .navbar {
             display: flex; align-items: center; justify-content: space-between;
             padding: 12px 40px; background-color: var(--bg-dark);
             border-bottom: 1px solid rgba(255,255,255,0.05);
             position: sticky; top: 0; z-index: 1000;
         }
+
         .nav-left { display: flex; align-items: center; gap: 20px; }
         .menu-toggle { display: none; font-size: 20px; cursor: pointer; color: white; }
+        
         .logo-wrap { display: flex; align-items: center; gap: 12px; text-decoration: none; color: white; }
         .logo-img { width: 42px; height: 42px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .logo-img::after { content: "\f144"; font-family: "Font Awesome 6 Free"; font-weight: 900; color: #222; font-size: 22px; }
         .brand-name { font-size: 24px; font-weight: 800; line-height: 1; }
+        .tagline { font-size: 11px; color: var(--text-gray); display: block; margin-top: 2px; }
+
+        /* --- Thanh Tìm Kiếm Desktop --- */
         .search-container { position: relative; width: 320px; margin-left: 10px; }
         .search-container input {
             width: 100%; padding: 10px 15px 10px 45px;
             background: rgba(255, 255, 255, 0.08); border: none; border-radius: 8px;
             color: white; font-size: 14px; outline: none; transition: 0.3s;
         }
+        .search-container input:focus { background: rgba(255, 255, 255, 0.12); }
         .search-container i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #999; font-size: 16px; }
 
+        /* --- Menu & Dropdown Desktop --- */
         .nav-center { display: flex; align-items: center; gap: 20px; }
         .nav-item { position: relative; padding: 15px 0; }
         .nav-link { text-decoration: none; color: #eee; font-size: 14px; font-weight: 500; transition: 0.3s; white-space: nowrap; cursor: pointer; display: flex; align-items: center; gap: 5px; }
@@ -55,76 +63,69 @@
         .nav-item:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
         .mega-menu { min-width: 550px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px 15px; }
         .country-menu { min-width: 160px; display: flex; flex-direction: column; gap: 5px; }
-        .dropdown-menu a { color: #ccc; text-decoration: none; font-size: 14px; padding: 6px 0; }
+        .dropdown-menu a { color: #ccc; text-decoration: none; font-size: 14px; padding: 6px 0; transition: 0.2s; }
         .dropdown-menu a:hover { color: var(--primary-yellow); padding-left: 5px; }
 
+        .badge-new { background-color: var(--primary-yellow); color: #000; font-size: 9px; font-weight: 800; padding: 2px 4px; border-radius: 3px; margin-right: 5px; }
+
         .btn-member { background-color: #f1f3f5; color: #1a1a1b; border: none; padding: 10px 22px; border-radius: 25px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.3s; }
+        .btn-member:hover { background-color: #fff; transform: scale(1.02); }
 
-        /* --- PHẦN BANNER MỚI (Desktop & Mobile) --- */
-        .hero-section { position: relative; width: 100%; height: 580px; background-color: #000; overflow: hidden; }
-        .hero-slide { position: absolute; inset: 0; background-size: cover; background-position: center; display: none; transition: opacity 0.8s ease-in-out; }
-        .hero-slide.active { display: flex; align-items: center; }
-        .hero-slide::before {
-            content: ''; position: absolute; inset: 0;
-            background: linear-gradient(to right, rgba(20,22,27,1) 15%, rgba(20,22,27,0.4) 50%, rgba(20,22,27,0.8) 100%),
-                        linear-gradient(to top, rgba(20,22,27,1) 5%, transparent 30%);
+        /* --- Mobile Search Overlay --- */
+        .mobile-search-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-dark); display: none; align-items: center;
+            padding: 0 15px; z-index: 1001;
         }
-        .hero-content { position: relative; z-index: 2; padding: 0 60px; max-width: 750px; }
-        .m-title { font-size: 50px; font-weight: 900; line-height: 1.1; margin-bottom: 10px; color: #fff; text-transform: uppercase; }
-        .m-sub { font-size: 18px; color: var(--primary-yellow); margin-bottom: 20px; font-style: italic; font-weight: 500; }
-        .m-meta { display: flex; gap: 10px; margin-bottom: 20px; }
-        .tag { background: rgba(255,255,255,0.15); padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: 700; border: 1px solid rgba(255,255,255,0.1); }
-        .tag-imdb { color: var(--primary-yellow); border-color: var(--primary-yellow); }
-        .m-desc { font-size: 15px; line-height: 1.6; color: #ddd; margin-bottom: 30px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-        
-        .btn-xem-ngay {
-            display: inline-flex; align-items: center; gap: 10px;
-            background: linear-gradient(to right, #f37022, #f7941e);
-            color: white; padding: 12px 30px; border-radius: 10px;
-            text-decoration: none; font-weight: 700; font-size: 16px; transition: 0.3s;
-        }
-        .hero-thumbs { position: absolute; right: 60px; bottom: 40px; display: flex; gap: 10px; z-index: 10; }
-        .thumb-item { width: 60px; height: 35px; border-radius: 4px; background-size: cover; cursor: pointer; border: 2px solid rgba(255,255,255,0.2); transition: 0.3s; }
-        .thumb-item.active { border-color: var(--primary-yellow); transform: scale(1.1); }
-
-        /* --- PHẦN CHỦ ĐỀ --- */
-        .topic-section { padding: 40px; background-color: #121418; display: none; }
-        .topic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
-        .topic-card { height: 160px; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; justify-content: flex-end; text-decoration: none; transition: 0.3s; overflow: hidden; }
-        .topic-card h3 { color: #fff; font-size: 18px; font-weight: 700; }
-        .t-1 { background: linear-gradient(135deg, #4b5563, #991b1b); }
-        .t-2 { background: linear-gradient(135deg, #10b981, #064e3b); }
-        .t-3 { background: linear-gradient(135deg, #8b5cf6, #4c1d95); }
-        .t-4 { background: linear-gradient(135deg, #f59e0b, #9a3412); }
-        .t-5 { background: linear-gradient(135deg, #ef4444, #7f1d1d); }
-        .t-6 { background: linear-gradient(135deg, #6366f1, #312e81); }
-
-        /* --- Mobile Sidebar & Overlay --- */
-        .sidebar { position: fixed; top: 0; left: -100%; width: 280px; height: 100vh; background: var(--dropdown-bg); padding: 60px 25px; transition: 0.4s ease; z-index: 2000; box-shadow: 5px 0 15px rgba(0,0,0,0.5); overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-        .sidebar.active { left: 0; }
-        .close-sidebar { position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; }
-        .side-link { text-decoration: none; color: #eee; font-size: 17px; font-weight: 500; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; }
-        .side-submenu { display: none; padding-left: 15px; }
-        .side-item.open .side-submenu { display: block; }
-        
-        .mobile-search-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-dark); display: none; align-items: center; padding: 0 15px; z-index: 1001; }
         .mobile-search-overlay.active { display: flex; }
         .search-input-wrap { flex: 1; background: rgba(255, 255, 255, 0.08); border-radius: 8px; display: flex; align-items: center; padding: 5px 15px; }
-        .search-input-wrap input { width: 100%; background: transparent; border: none; color: white; outline: none; font-size: 16px; height: 40px; }
+        .search-input-wrap input {
+            width: 100%; background: transparent; border: none;
+            color: white; outline: none; font-size: 16px; height: 40px;
+        }
         .close-search { color: #ff5c5c; font-size: 22px; margin-left: 15px; cursor: pointer; }
+
+        /* --- Topic Section --- */
+        .topic-section { padding: 40px; background-color: #121418; display: none; }
+        .topic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
+        .topic-card { height: 180px; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; justify-content: flex-end; text-decoration: none; transition: 0.3s; overflow: hidden; }
+        .topic-card h3 { color: #fff; font-size: 18px; font-weight: 700; }
+        
+        .t-1 { background: linear-gradient(to bottom right, #3f4c6b, #991b1b); }
+        .t-2 { background: linear-gradient(to bottom right, #134e4a, #10b981); }
+        .t-3 { background: linear-gradient(to bottom right, #4c1d95, #8b5cf6); }
+        .t-4 { background: linear-gradient(to bottom right, #78350f, #f59e0b); }
+        .t-5 { background: linear-gradient(to bottom right, #7f1d1d, #ef4444); }
+        .t-6 { background: linear-gradient(to bottom right, #1e1b4b, #6366f1); }
+        .t-7 { background: linear-gradient(to bottom right, #831843, #ec4899); }
+
+        /* --- Sidebar Mobile (Fix Missing Items) --- */
+        .sidebar { 
+            position: fixed; top: 0; left: -100%; width: 280px; height: 100vh; 
+            background: var(--dropdown-bg); padding: 60px 25px; transition: 0.4s ease; 
+            z-index: 2000; display: flex; flex-direction: column; gap: 10px; 
+            box-shadow: 5px 0 15px rgba(0,0,0,0.5); overflow-y: auto;
+        }
+        .sidebar.active { left: 0; }
+        .close-sidebar { position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; }
+        
+        .side-link { 
+            text-decoration: none; color: #eee; font-size: 17px; font-weight: 500; 
+            padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .side-link:hover { color: var(--primary-yellow); }
+
+        /* Mobile Submenu */
+        .side-submenu { display: none; padding-left: 15px; }
+        .side-item.open .side-submenu { display: block; }
+        .side-submenu a { display: block; color: #aaa; padding: 8px 0; text-decoration: none; font-size: 15px; }
 
         @media (max-width: 1100px) {
             .navbar { padding: 12px 20px; }
-            .nav-center, .navbar .search-container, .navbar .btn-member { display: none; }
-            .menu-toggle, .mobile-icons { display: block; }
+            .nav-center, .search-container, .btn-member { display: none; }
+            .menu-toggle, .mobile-icons { display: flex; }
             .mobile-icons { display: flex; gap: 20px; align-items: center; }
-            
-            .hero-section { height: 450px; }
-            .hero-content { padding: 0 20px; text-align: center; margin-top: 100px; }
-            .m-title { font-size: 32px; }
-            .m-desc { display: none; }
-            .hero-thumbs { left: 50%; right: auto; transform: translateX(-50%); bottom: 20px; gap: 8px; }
-            .thumb-item { width: 45px; height: 45px; border-radius: 50%; }
         }
     </style>
 </head>
@@ -137,6 +138,7 @@
                 <div class="logo-img"></div>
                 <div><span class="brand-name">RoPhim</span><span class="tagline">Phim hay cả rổ</span></div>
             </a>
+            
             <div class="search-container">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input type="text" placeholder="Tìm kiếm phim, diễn viên">
@@ -145,35 +147,47 @@
 
         <nav class="nav-center">
             <div class="nav-item"><a class="nav-link" id="btn-topic-desktop">Chủ Đề</a></div>
+            
             <div class="nav-item">
                 <a class="nav-link">Thể loại <i class="fa-solid fa-caret-down"></i></a>
                 <div class="dropdown-menu mega-menu">
                     <a href="#">Chính kịch</a> <a href="#">Khoa học</a> <a href="#">Tình cảm</a> <a href="#">Cổ trang</a>
-                    <a href="#">Tâm lý</a> <a href="#">Bí ẩn</a> <a href="#">Hành động</a> <a href="#">Hình sự</a>
-                    <a href="#">Hài hước</a> <a href="#">Hoạt hình</a> <a href="#">Chiếu rạp</a> <a href="#">Học đường</a>
+                    <a href="#">Hành động</a> <a href="#">Hình sự</a> <a href="#">Hài hước</a> <a href="#">Kinh dị</a>
+                    <a href="#">Tài liệu</a> <a href="#">Hoạt hình</a> <a href="#">Chiếu rạp</a> <a href="#">Học đường</a>
                 </div>
             </div>
+
             <div class="nav-item"><a href="#" class="nav-link">Phim Lẻ</a></div>
             <div class="nav-item"><a href="#" class="nav-link">Phim Bộ</a></div>
+            <div class="nav-item"><a href="#" class="nav-link">Xem Chung</a></div>
+
             <div class="nav-item">
                 <a class="nav-link">Quốc gia <i class="fa-solid fa-caret-down"></i></a>
                 <div class="dropdown-menu country-menu">
-                    <a href="#">Hàn Quốc</a> <a href="#">Thái Lan</a> <a href="#">Âu Mỹ</a> <a href="#">Trung Quốc</a>
+                    <a href="#">Hàn Quốc</a> <a href="#">Thái Lan</a> <a href="#">Nhật Bản</a> <a href="#">Âu Mỹ</a>
+                    <a href="#">Hồng Kông</a> <a href="#">Trung Quốc</a> <a href="#">Anh</a> <a href="#">Ấn Độ</a>
                 </div>
             </div>
+
+            <div class="nav-item"><a href="#" class="nav-link">Diễn Viên</a></div>
             <div class="nav-item"><a href="#" class="nav-link">Lịch Chiếu</a></div>
+            <div class="nav-item"><a href="#" class="nav-link"><span class="badge-new">NEW</span>Reviews</a></div>
         </nav>
 
         <div class="nav-right">
-            <div class="mobile-icons" style="display: none;">
+            <div class="mobile-icons">
                 <i class="fa-regular fa-bell" style="font-size: 20px;"></i>
                 <i class="fa-solid fa-magnifying-glass" id="open-search-mobile" style="font-size: 20px; cursor: pointer;"></i>
             </div>
-            <button class="btn-member"><i class="fa-solid fa-user"></i> Thành viên</button>
+            <button class="btn-member">
+                <i class="fa-solid fa-user"></i> Thành viên
+            </button>
         </div>
 
         <div class="mobile-search-overlay" id="search-overlay">
-            <div class="search-input-wrap"><input type="text" id="mobile-search-input" placeholder="Tìm kiếm phim, diễn viên"></div>
+            <div class="search-input-wrap">
+                <input type="text" id="mobile-search-input" placeholder="Tìm kiếm phim, diễn viên">
+            </div>
             <i class="fa-solid fa-xmark close-search" id="close-search"></i>
         </div>
     </header>
@@ -181,20 +195,34 @@
     <nav class="sidebar" id="sidebar">
         <i class="fa-solid fa-xmark close-sidebar" id="close-sidebar"></i>
         <button class="btn-member" style="width: 100%; margin-bottom: 20px;"><i class="fa-solid fa-user"></i> Thành viên</button>
-        <a href="#" class="side-link" id="btn-topic-mobile">Chủ Đề</a>
+        
+        <div class="side-item"><a href="#" class="side-link" id="btn-topic-mobile">Chủ Đề</a></div>
+        
         <div class="side-item">
             <div class="side-link toggle-sub">Thể loại <i class="fa-solid fa-chevron-down" style="font-size: 12px;"></i></div>
-            <div class="side-submenu"><a href="#">Hành động</a> <a href="#">Tình cảm</a> <a href="#">Kinh dị</a></div>
+            <div class="side-submenu">
+                <a href="#">Hành động</a> <a href="#">Tình cảm</a> <a href="#">Kinh dị</a> <a href="#">Cổ trang</a> <a href="#">Học đường</a>
+            </div>
         </div>
-        <a href="#" class="side-link">Phim Lẻ</a>
-        <a href="#" class="side-link">Phim Bộ</a>
-        <a href="#" class="side-link">Quốc gia</a>
+
+        <div class="side-item"><a href="#" class="side-link">Phim Lẻ</a></div>
+        <div class="side-item"><a href="#" class="side-link">Phim Bộ</a></div>
+        <div class="side-item"><a href="#" class="side-link">Xem Chung</a></div>
+
+        <div class="side-item">
+            <div class="side-link toggle-sub">Quốc gia <i class="fa-solid fa-chevron-down" style="font-size: 12px;"></i></div>
+            <div class="side-submenu">
+                <a href="#">Hàn Quốc</a> <a href="#">Trung Quốc</a> <a href="#">Thái Lan</a> <a href="#">Âu Mỹ</a>
+            </div>
+        </div>
+
+        <div class="side-item"><a href="#" class="side-link">Diễn Viên</a></div>
+        <div class="side-item"><a href="#" class="side-link">Lịch Chiếu</a></div>
+        <div class="side-item"><a href="#" class="side-link">Reviews <span class="badge-new">NEW</span></a></div>
     </nav>
 
-    <section class="hero-section" id="hero-slider"></section>
-
     <section class="topic-section" id="chu-de">
-        <h2 style="margin-bottom:25px; color: white;">Các chủ đề</h2>
+        <h2 style="margin-bottom:25px;">Các chủ đề</h2>
         <div class="topic-grid">
             <a href="#" class="topic-card t-1"><h3>Thuyết Minh Tuổi Thơ</h3></a>
             <a href="#" class="topic-card t-2"><h3>Sitcom</h3></a>
@@ -202,46 +230,50 @@
             <a href="#" class="topic-card t-4"><h3>Xuyên Không</h3></a>
             <a href="#" class="topic-card t-5"><h3>Cổ Trang</h3></a>
             <a href="#" class="topic-card t-6"><h3>4k</h3></a>
+            <a href="#" class="topic-card t-7"><h3>Chữa lành</h3></a>
         </div>
     </section>
 
     <script>
-        const bannerMovies = [
-            { title: "Sắc Đêm Ngập Tràn", imdb: "9.0", year: "2026", status: "Tập 22", desc: "Dưới vỏ bọc của một bữa tiệc thịnh soạn đã khiến sóng ngầm giấu kín bấy lâu nay trỗi dậy...", bg: "https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/0b1372232709307.68a20d789415d.jpg" },
-            { title: "Mưa Đỏ", imdb: "8.2", year: "2026", status: "Bản Đẹp", desc: "Một tác phẩm mang đầy màu sắc nghệ thuật và kịch tính về những cơn mưa bí ẩn...", bg: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20260116-1/5b1f85f0fbcc96ca4bad610602025626.jpg" }
-        ];
+        // 1. Tìm kiếm Mobile
+        const openSearch = document.getElementById('open-search-mobile');
+        const closeSearch = document.getElementById('close-search');
+        const searchOverlay = document.getElementById('search-overlay');
+        const searchInput = document.getElementById('mobile-search-input');
 
-        let currentSlide = 0;
-        function renderBanner() {
-            const slider = document.getElementById('hero-slider');
-            let slidesHTML = '', thumbsHTML = '<div class="hero-thumbs">';
-            bannerMovies.forEach((m, i) => {
-                slidesHTML += `<div class="hero-slide ${i===0?'active':''}" style="background-image: url('${m.bg}')"><div class="hero-content"><h1 class="m-title">${m.title}</h1><div class="m-sub">The Glamorous Night</div><div class="m-meta"><span class="tag tag-imdb">IMDb ${m.imdb}</span><span class="tag">T16</span><span class="tag">${m.year}</span><span class="tag">${m.status}</span></div><p class="m-desc">${m.desc}</p><a href="#" class="btn-xem-ngay"><i class="fa-solid fa-play"></i> XEM NGAY</a></div></div>`;
-                thumbsHTML += `<div class="thumb-item ${i===0?'active':''}" style="background-image: url('${m.bg}')" onclick="goToSlide(${i})"></div>`;
-            });
-            slider.innerHTML = slidesHTML + thumbsHTML + '</div>';
+        if(openSearch) {
+            openSearch.onclick = () => {
+                searchOverlay.classList.add('active');
+                searchInput.focus();
+            };
         }
-
-        function goToSlide(index) {
-            const slides = document.querySelectorAll('.hero-slide'), thumbs = document.querySelectorAll('.thumb-item');
-            slides[currentSlide].classList.remove('active'); thumbs[currentSlide].classList.remove('active');
-            currentSlide = index;
-            slides[currentSlide].classList.add('active'); thumbs[currentSlide].classList.add('active');
-        }
-        renderBanner(); setInterval(() => goToSlide((currentSlide + 1) % bannerMovies.length), 5000);
-
-        // Sidebar & Search Mobile logic
-        const openSearch = document.getElementById('open-search-mobile'), closeSearch = document.getElementById('close-search'), searchOverlay = document.getElementById('search-overlay'), searchInput = document.getElementById('mobile-search-input');
-        if(openSearch) openSearch.onclick = () => { searchOverlay.classList.add('active'); searchInput.focus(); };
         closeSearch.onclick = () => searchOverlay.classList.remove('active');
-        
-        const barsBtn = document.getElementById('bars-btn'), sidebar = document.getElementById('sidebar'), closeSidebar = document.getElementById('close-sidebar');
+
+        // 2. Sidebar Mobile
+        const barsBtn = document.getElementById('bars-btn');
+        const sidebar = document.getElementById('sidebar');
+        const closeSidebar = document.getElementById('close-sidebar');
+
         barsBtn.onclick = () => sidebar.classList.add('active');
         closeSidebar.onclick = () => sidebar.classList.remove('active');
-        document.querySelectorAll('.toggle-sub').forEach(btn => btn.onclick = function() { this.parentElement.classList.toggle('open'); });
 
+        // 3. Dropdown trong Sidebar
+        document.querySelectorAll('.toggle-sub').forEach(btn => {
+            btn.onclick = function() {
+                this.parentElement.classList.toggle('open');
+            };
+        });
+
+        // 4. Hiện/Ẩn Chủ đề
         const topicSection = document.getElementById('chu-de');
-        const toggleTopic = (e) => { e.preventDefault(); topicSection.style.display = topicSection.style.display === 'block' ? 'none' : 'block'; if(sidebar.classList.contains('active')) sidebar.classList.remove('active'); };
+        const toggleTopic = (e) => {
+            e.preventDefault();
+            const isVisible = window.getComputedStyle(topicSection).display !== 'none';
+            topicSection.style.display = isVisible ? 'none' : 'block';
+            if (!isVisible) topicSection.scrollIntoView({ behavior: 'smooth' });
+            if (sidebar.classList.contains('active')) sidebar.classList.remove('active');
+        };
+
         document.getElementById('btn-topic-desktop').onclick = toggleTopic;
         document.getElementById('btn-topic-mobile').onclick = toggleTopic;
     </script>
