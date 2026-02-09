@@ -61,7 +61,7 @@
         .badge-new { background-color: var(--primary-yellow); color: #000; font-size: 9px; font-weight: 800; padding: 2px 4px; border-radius: 3px; margin-right: 5px; }
         .btn-member { background-color: #f1f3f5; color: #1a1a1b; border: none; padding: 10px 22px; border-radius: 25px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.3s; }
 
-        /* --- Banner Hero Tối Ưu Như Ảnh Mẫu --- */
+        /* --- Banner Hero --- */
         .hero-section { position: relative; height: 75vh; overflow: hidden; background: #000; }
         .slider-wrapper { height: 100%; width: 100%; }
         .slide {
@@ -71,8 +71,6 @@
             display: flex; align-items: center; padding: 0 8%;
         }
         .slide.active { opacity: 1; z-index: 1; }
-        
-        /* Hiệu ứng Vignette bao quanh chuẩn web họ */
         .slide::before {
             content: ''; position: absolute; inset: 0;
             background: radial-gradient(circle at 50% 50%, rgba(20,22,27,0.1) 0%, rgba(20,22,27,0.9) 90%);
@@ -98,9 +96,9 @@
         .btn-circle-hero { width: 40px; height: 40px; border-radius: 50%; border: 1px solid #555; background: rgba(0,0,0,0.5); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
 
         .banner-thumbs { position: absolute; bottom: 40px; right: 5%; display: flex; gap: 10px; z-index: 10; }
-        .thumb { width: 80px; height: 45px; border-radius: 6px; overflow: hidden; cursor: pointer; border: 2px solid transparent; opacity: 0.5; transition: 0.3s; }
+        .thumb { width: 80px; height: 45px; border-radius: 6px; overflow: hidden; cursor: pointer; border: 2px solid transparent; opacity: 0.5; transition: 0.3s; background: #333; }
         .thumb.active { border-color: #fff; opacity: 1; transform: translateY(-5px); }
-        .thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
         /* --- Mobile Responsive --- */
         @media (max-width: 1100px) {
@@ -115,10 +113,11 @@
             .movie-title { font-size: 28px; }
         }
 
-        /* --- Sidebar & Topic (Giữ nguyên mục cũ) --- */
+        /* --- Sidebar & Topic --- */
         .sidebar { position: fixed; top: 0; left: -100%; width: 280px; height: 100vh; background: var(--dropdown-bg); padding: 60px 25px; transition: 0.4s ease; z-index: 2000; box-shadow: 5px 0 15px rgba(0,0,0,0.5); overflow-y: auto; }
         .sidebar.active { left: 0; }
         .close-sidebar { position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; }
+        .side-link { text-decoration: none; color: #eee; font-size: 17px; font-weight: 500; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; }
         .topic-section { padding: 40px; background-color: #121418; display: none; }
         .topic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
         .topic-card { height: 180px; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; justify-content: flex-end; text-decoration: none; transition: 0.3s; overflow: hidden; }
@@ -199,7 +198,7 @@
         document.getElementById('btn-topic-desktop').onclick = toggleTopic;
         document.getElementById('btn-topic-mobile').onclick = toggleTopic;
 
-        // 2. Banner API FULL XỊN
+        // 2. Banner API FULL XỊN (ĐÃ FIX HIỂN THỊ ẢNH NHỎ)
         const sliderWrapper = document.querySelector('.slider-wrapper');
         const thumbWrapper = document.querySelector('.banner-thumbs');
 
@@ -214,9 +213,12 @@
 
                 movies.forEach((movie, index) => {
                     const activeClass = index === 0 ? 'active' : '';
+                    
+                    // Link gốc server phimimg.com
                     const posterImg = movie.poster_url.includes('http') ? movie.poster_url : `https://phimimg.com/${movie.poster_url}`;
-                    const thumbImg = `https://phimapi.com/image.php?url=https://phimimg.com/${movie.thumb_url}`;
-                    // Tối ưu ảnh Banner lớn sang WebP
+                    const thumbImg = movie.thumb_url.includes('http') ? movie.thumb_url : `https://phimimg.com/${movie.thumb_url}`;
+                    
+                    // Banner to dùng nén WebP
                     const webpBanner = `https://phimapi.com/image.php?url=${posterImg}`;
 
                     sliderWrapper.innerHTML += `
@@ -230,7 +232,7 @@
                                     <span class="meta-item">HD</span>
                                     <span class="meta-item">Vietsub</span>
                                 </div>
-                                <p class="movie-desc">Thưởng thức siêu phẩm vừa cập nhật bản đẹp nhất tại RoPhim. Hình ảnh sắc nét, âm thanh sống động đang chờ bạn!</p>
+                                <p class="movie-desc">Thưởng thức siêu phẩm vừa cập nhật bản đẹp nhất tại RoPhim. Xem ngay!</p>
                                 <div class="slide-actions">
                                     <button class="btn-play-hero"><i class="fa-solid fa-play"></i></button>
                                     <button class="btn-circle-hero"><i class="fa-regular fa-heart"></i></button>
@@ -240,12 +242,12 @@
                         </div>`;
 
                     thumbWrapper.innerHTML += `
-                        <div class="thumb ${activeClass}" onclick="currentSlide(${index})">
-                            <img src="${thumbImg}" alt="thumb">
+                        <div class="thumb ${activeClass}" onclick="currentSlide(${index})" style="display:block !important;">
+                            <img src="${thumbImg}" alt="thumb" style="width:100%; height:100%; object-fit:cover; display:block;">
                         </div>`;
                 });
                 startAutoSlide();
-            } catch (error) { console.error(error); }
+            } catch (error) { console.error("Lỗi Banner API:", error); }
         }
 
         let slideIndex = 0, slideTimer;
