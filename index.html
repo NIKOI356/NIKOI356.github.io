@@ -19,7 +19,7 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
 
-        body { background-color: var(--bg-dark); color: white; min-height: 100vh; scroll-behavior: smooth; }
+        body { background-color: var(--bg-dark); color: white; min-height: 100vh; scroll-behavior: smooth; overflow-x: hidden; }
 
         /* --- Header --- */
         .navbar {
@@ -71,6 +71,35 @@
         .btn-member { background-color: #f1f3f5; color: #1a1a1b; border: none; padding: 10px 22px; border-radius: 25px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.3s; }
         .btn-member:hover { background-color: #fff; transform: scale(1.02); }
 
+        /* --- Banner Hero --- */
+        .hero-section { position: relative; height: 85vh; overflow: hidden; }
+        .slide {
+            position: absolute; inset: 0;
+            background-size: cover; background-position: center 20%;
+            opacity: 0; transition: opacity 1.2s ease-in-out;
+            display: flex; align-items: center; padding: 0 8%;
+        }
+        .slide.active { opacity: 1; z-index: 1; }
+        .slide::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(90deg, rgba(20,22,27,1) 0%, rgba(20,22,27,0.7) 35%, transparent 100%);
+        }
+        .slide-content { position: relative; z-index: 2; max-width: 550px; }
+        .movie-title { font-size: clamp(32px, 5vw, 50px); font-weight: 800; color: var(--primary-yellow); margin-bottom: 15px; }
+        .movie-meta { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+        .badge-imdb { background: #f5c518; color: #000; padding: 2px 8px; border-radius: 4px; font-weight: 800; font-size: 12px; }
+        .meta-item { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); padding: 2px 10px; border-radius: 4px; font-size: 12px; color: #eee; }
+        .movie-desc { color: #ccc; line-height: 1.6; font-size: 14px; margin-bottom: 30px; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+        .slide-actions { display: flex; gap: 20px; align-items: center; }
+        .btn-play-hero { width: 65px; height: 65px; border-radius: 50%; border: none; background: #fff; color: #000; font-size: 24px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
+        .btn-play-hero:hover { transform: scale(1.1); background: var(--primary-yellow); }
+        .btn-circle-hero { width: 45px; height: 45px; border-radius: 50%; border: 1px solid #555; background: rgba(0,0,0,0.5); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+
+        .banner-thumbs { position: absolute; bottom: 40px; right: 5%; display: flex; gap: 12px; z-index: 10; }
+        .thumb { width: 90px; height: 50px; border-radius: 6px; overflow: hidden; cursor: pointer; border: 2px solid transparent; opacity: 0.6; transition: 0.3s; }
+        .thumb.active { border-color: #fff; opacity: 1; transform: translateY(-5px); }
+        .thumb img { width: 100%; height: 100%; object-fit: cover; }
+
         /* --- Mobile Search Overlay --- */
         .mobile-search-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -99,7 +128,7 @@
         .t-6 { background: linear-gradient(to bottom right, #1e1b4b, #6366f1); }
         .t-7 { background: linear-gradient(to bottom right, #831843, #ec4899); }
 
-        /* --- Sidebar Mobile (Fix Missing Items) --- */
+        /* --- Sidebar Mobile --- */
         .sidebar { 
             position: fixed; top: 0; left: -100%; width: 280px; height: 100vh; 
             background: var(--dropdown-bg); padding: 60px 25px; transition: 0.4s ease; 
@@ -116,7 +145,6 @@
         }
         .side-link:hover { color: var(--primary-yellow); }
 
-        /* Mobile Submenu */
         .side-submenu { display: none; padding-left: 15px; }
         .side-item.open .side-submenu { display: block; }
         .side-submenu a { display: block; color: #aaa; padding: 8px 0; text-decoration: none; font-size: 15px; }
@@ -126,6 +154,8 @@
             .nav-center, .search-container, .btn-member { display: none; }
             .menu-toggle, .mobile-icons { display: flex; }
             .mobile-icons { display: flex; gap: 20px; align-items: center; }
+            .hero-section { height: 60vh; }
+            .banner-thumbs { display: none; }
         }
     </style>
 </head>
@@ -191,6 +221,52 @@
             <i class="fa-solid fa-xmark close-search" id="close-search"></i>
         </div>
     </header>
+
+    <section class="hero-section">
+        <div class="slider-wrapper">
+            <div class="slide active" style="background-image: url('https://image.tmdb.org/t/p/original/6921db.jpg');">
+                <div class="slide-content">
+                    <h1 class="movie-title">The Glamorous Night</h1>
+                    <div class="movie-meta">
+                        <span class="badge-imdb">IMDb 9.0</span>
+                        <span class="meta-item">T16</span>
+                        <span class="meta-item">2026</span>
+                        <span class="meta-item">Phần 1</span>
+                        <span class="meta-item">Tập 22</span>
+                    </div>
+                    <p class="movie-desc">Dưới vỏ bọc của một bữa tiệc thịnh soạn đã khiến sóng ngầm giấu kín bấy lâu nay trỗi dậy, đánh thức tất cả những kẻ đang giả vờ ngủ say...</p>
+                    <div class="slide-actions">
+                        <button class="btn-play-hero"><i class="fa-solid fa-play"></i></button>
+                        <button class="btn-circle-hero"><i class="fa-regular fa-heart"></i></button>
+                        <button class="btn-circle-hero"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="slide" style="background-image: url('https://image.tmdb.org/t/p/original/4m1v98.jpg');">
+                <div class="slide-content">
+                    <h1 class="movie-title">Hành Tinh Cát</h1>
+                    <div class="movie-meta">
+                        <span class="badge-imdb">IMDb 8.5</span>
+                        <span class="meta-item">4K</span>
+                        <span class="meta-item">2024</span>
+                    </div>
+                    <p class="movie-desc">Cuộc chiến giành quyền lực tại vùng đất xa xôi nhất vũ trụ, nơi chứa đựng loại tài nguyên quý giá nhất nhân loại.</p>
+                    <div class="slide-actions">
+                        <button class="btn-play-hero"><i class="fa-solid fa-play"></i></button>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+        <div class="banner-thumbs">
+            <div class="thumb active" data-index="0"><img src="https://image.tmdb.org/t/p/w200/6921db.jpg"></div>
+            <div class="thumb" data-index="1"><img src="https://image.tmdb.org/t/p/w200/4m1v98.jpg"></div>
+            <div class="thumb" data-index="2"><img src="https://via.placeholder.com/200x120/333/fff?text=Phim+3"></div>
+            <div class="thumb" data-index="3"><img src="https://via.placeholder.com/200x120/444/fff?text=Phim+4"></div>
+            <div class="thumb" data-index="4"><img src="https://via.placeholder.com/200x120/555/fff?text=Phim+5"></div>
+            <div class="thumb" data-index="5"><img src="https://via.placeholder.com/200x120/666/fff?text=Phim+6"></div>
+        </div>
+    </section>
 
     <nav class="sidebar" id="sidebar">
         <i class="fa-solid fa-xmark close-sidebar" id="close-sidebar"></i>
@@ -276,6 +352,36 @@
 
         document.getElementById('btn-topic-desktop').onclick = toggleTopic;
         document.getElementById('btn-topic-mobile').onclick = toggleTopic;
+
+        // 5. BANNER AUTO SLIDE (3 GIÂY)
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const thumbs = document.querySelectorAll('.thumb');
+
+        function showSlide(index) {
+            slides.forEach(s => s.classList.remove('active'));
+            thumbs.forEach(t => t.classList.remove('active'));
+            
+            slides[index].classList.add('active');
+            thumbs[index].classList.add('active');
+            currentSlide = index;
+        }
+
+        let slideInterval = setInterval(() => {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }, 3000);
+
+        thumbs.forEach((thumb, idx) => {
+            thumb.onclick = () => {
+                clearInterval(slideInterval);
+                showSlide(idx);
+                slideInterval = setInterval(() => {
+                    currentSlide = (currentSlide + 1) % slides.length;
+                    showSlide(currentSlide);
+                }, 3000);
+            }
+        });
     </script>
 </body>
 </html>
