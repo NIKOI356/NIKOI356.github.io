@@ -1,50 +1,118 @@
 <!DOCTYPE html>
-<html lang="vi" class="__className_f367f3">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RoPhim - Xem Phim Mới</title>
+    <title>RoPhim - Giao diện chuẩn</title>
+
     <style>
-        /* FONT CHỮ BẠN GỬI */
-        @font-face {
-            font-family: 'Tektur';
-            src: url(https://fonts.gstatic.com/s/tektur/v6/XoH62YHtS7q969kXCjzlV0aSkS_o8OacszScvGHE.woff2) format('woff2');
-        }
+        /* 1. NHÚNG FONT CHỮ TEKTUR TỪ GOOGLE FONTS */
+        @import url('https://fonts.googleapis.com/css2?family=Tektur:wght@400;500;600;700;800;900&display=swap');
 
         :root {
             --bg-body: #0a0a0a;
             --primary: #07bc0c;
-            --font-tektur: 'Tektur', sans-serif;
+            --text-main: #ffffff;
+            --text-sub: #cccccc;
+            /* Thiết lập font chính */
+            --font-main: 'Tektur', sans-serif;
         }
 
-        body { margin: 0; background: var(--bg-body); color: #fff; font-family: var(--font-tektur); overflow-x: hidden; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased; /* Làm chữ mượt hơn trên máy Mac/iPhone */
+        }
 
         /* HEADER */
-        .header-wrap { position: fixed; top: 0; width: 100%; height: 70px; background: rgba(18,18,18,0.8); backdrop-filter: blur(10px); z-index: 1000; display: flex; align-items: center; padding: 0 5%; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .logo img { height: 35px; }
+        .header-wrap {
+            position: fixed; top: 0; width: 100%; height: 70px;
+            background: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(15px); z-index: 1000;
+            display: flex; align-items: center; padding: 0 5%;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
 
-        /* SLIDE BANNER */
+        .nav-list { display: flex; list-style: none; gap: 30px; margin-left: 50px; }
+        .nav-list a { 
+            color: var(--text-sub); 
+            text-decoration: none; 
+            font-weight: 600; 
+            font-size: 14px;
+            letter-spacing: 1px; /* Giãn chữ giống web gốc */
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+        .nav-list a:hover { color: var(--primary); }
+
+        /* HERO SLIDER */
         .hero-slider { position: relative; height: 85vh; width: 100%; overflow: hidden; }
         .slide-item { 
             position: absolute; width: 100%; height: 100%; 
-            opacity: 0; transition: opacity 1s ease-in-out; 
-            display: flex; align-items: center; padding: 0 5%;
+            opacity: 0; transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1); 
+            display: flex; align-items: center; padding: 0 7%;
         }
         .slide-item.active { opacity: 1; z-index: 1; }
         
         .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
-        .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(90deg, #0a0a0a 15%, transparent 75%), linear-gradient(0deg, #0a0a0a 0%, transparent 35%); z-index: -1; }
+        .hero-overlay { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            background: linear-gradient(90deg, #0a0a0a 20%, transparent 80%),
+                        linear-gradient(0deg, #0a0a0a 0%, transparent 40%);
+            z-index: -1; 
+        }
 
-        .movie-title { font-size: 4rem; font-weight: 900; text-transform: uppercase; margin: 15px 0; }
-        .imdb-tag { background: #f1c40f; color: #000; padding: 2px 10px; border-radius: 4px; font-weight: bold; }
+        /* ĐỊNH DẠNG FONT CHỮ BANNER (Cực quan trọng) */
+        .movie-title { 
+            font-size: clamp(2.5rem, 6vw, 4.5rem); 
+            font-weight: 900; 
+            text-transform: uppercase; 
+            margin: 15px 0; 
+            line-height: 1.1;
+            letter-spacing: -1px; /* Tiêu đề lớn thường hơi sít lại cho ngầu */
+        }
         
-        .btn-play { background: var(--primary); border: none; color: white; padding: 15px 40px; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: var(--font-tektur); margin-top: 20px; }
+        .imdb-tag { 
+            background: #f1c40f; color: #000; 
+            padding: 3px 12px; border-radius: 4px; 
+            font-weight: 800; font-size: 14px;
+        }
+
+        .movie-desc {
+            color: var(--text-sub);
+            max-width: 550px;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            /* Làm mờ nhẹ mô tả */
+            opacity: 0.9;
+        }
+
+        .btn-play { 
+            background: var(--primary); border: none; color: white; 
+            padding: 16px 45px; border-radius: 8px; 
+            font-weight: 800; font-size: 16px;
+            cursor: pointer; font-family: var(--font-main);
+            text-transform: uppercase; letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(7, 188, 12, 0.3);
+        }
     </style>
 </head>
 <body>
 
     <header class="header-wrap">
-        <div class="logo"><img src="https://rophimm.net/images/logo.svg"></div>
+        <div class="logo"><img src="https://rophimm.net/images/logo.svg" height="35"></div>
+        <nav class="nav-list">
+            <li><a href="#">Trang Chủ</a></li>
+            <li><a href="#">Phim Lẻ</a></li>
+            <li><a href="#">Phim Bộ</a></li>
+            <li><a href="#">Phim Hot</a></li>
+        </nav>
     </header>
 
     <section class="hero-slider" id="heroSlider">
@@ -53,8 +121,8 @@
             <img src="https://image.rophimm.net/images/films/z27pWxc4kLdMatQuSnNXOVVXZc6.webp" class="hero-bg">
             <div class="hero-info">
                 <span class="imdb-tag">IMDB 9.0</span>
-                <h1 class="movie-title">Sắc Đêm Ngập Tràn</h1>
-                <p style="color:#ccc;">Phim bộ Trung Quốc mới nhất 2026.</p>
+                <h1 class="movie-title">Sắc Đêm<br>Ngập Tràn</h1>
+                <p class="movie-desc">Hành trình tìm lại công lý trong màn đêm huyền bí của thành phố đầy rẫy những cạm bẫy và âm mưu.</p>
                 <button class="btn-play">XEM NGAY</button>
             </div>
         </div>
@@ -63,9 +131,9 @@
             <div class="hero-overlay"></div>
             <img src="https://image.rophimm.net/images/films/vFpS8p9A0M6v8WpW0YpW0YpW0Yp.jpg" class="hero-bg">
             <div class="hero-info">
-                <span class="imdb-tag">IMDB 8.5</span>
-                <h1 class="movie-title">Hạnh Phúc: Chung Cư Có Độc</h1>
-                <p style="color:#ccc;">Hành động, Kịch tính, Kinh dị.</p>
+                <span class="imdb-tag">IMDB 8.8</span>
+                <h1 class="movie-title">Chung Cư<br>Có Độc</h1>
+                <p class="movie-desc">Một căn bệnh lạ bùng phát biến tòa chung cư cao cấp thành địa ngục trần gian trong tích tắc.</p>
                 <button class="btn-play">XEM NGAY</button>
             </div>
         </div>
@@ -81,8 +149,7 @@
             slides[currentSlide].classList.add('active');
         }
 
-        // Tự động chạy sau 3000ms (3 giây)
-        setInterval(nextSlide, 3000);
+        setInterval(nextSlide, 3500); // Thay đổi sau 3.5 giây để người dùng kịp đọc
     </script>
 
 </body>
