@@ -3,125 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xô Phim - Phim Hay Mỗi Ngày</title>
+    <title>Xô Phim - Phim Hay cả xô </title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background-color: #0f0f0f; color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        .glass-nav { background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(10px); }
-        .hero-gradient { background: linear-gradient(0deg, #0f0f0f 0%, transparent 100%); }
-        .banner-slide { transition: opacity 0.5s ease-in-out; }
+        body { background-color: #0c0c0c; color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        .glass-nav { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .hero-gradient { background: linear-gradient(to top, #0c0c0c 5%, transparent 100%); }
+        .fade-in { animation: fadeIn 0.8s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(1.05); } to { opacity: 1; transform: scale(1); } }
+        .thumb-active { border: 2px solid #eab308 !important; transform: scale(1.1); }
     </style>
 </head>
 <body>
 
     <nav class="fixed w-full z-50 glass-nav px-6 py-4 flex justify-between items-center">
-        <div class="flex items-center space-x-8">
-            <h1 class="text-2xl font-bold text-yellow-500 tracking-tighter">XÔ PHIM</h1>
-            <div class="hidden md:flex space-x-6 text-sm font-medium">
-                <a href="#" class="hover:text-yellow-500">Chủ đề</a>
-                <a href="#" class="hover:text-yellow-500">Thể loại</a>
-                <a href="#" class="hover:text-yellow-500">Phim Lẻ</a>
-                <a href="#" class="hover:text-yellow-500">Phim Bộ</a>
-                <a href="#" class="hover:text-yellow-500">Quốc gia</a>
+        <div class="flex items-center space-x-10">
+            <h1 class="text-3xl font-black text-yellow-500 tracking-tighter cursor-pointer">XÔ PHIM</h1>
+            <div class="hidden lg:flex space-x-6 text-sm font-bold uppercase tracking-wide">
+                <a href="#" class="hover:text-yellow-500 transition">Trang Chủ</a>
+                <a href="#" class="hover:text-yellow-500 transition">Phim Lẻ</a>
+                <a href="#" class="hover:text-yellow-500 transition">Phim Bộ</a>
+                <a href="#" class="hover:text-yellow-500 transition">Mới Cập Nhật</a>
             </div>
         </div>
         <div class="flex items-center space-x-4">
-            <div class="relative hidden sm:block">
-                <input type="text" placeholder="Tìm kiếm phim..." class="bg-zinc-800 rounded-full py-1 px-4 text-sm focus:outline-none w-64">
-                <i class="fas fa-search absolute right-3 top-2 text-zinc-400"></i>
-            </div>
-            <button class="bg-zinc-800 px-4 py-1.5 rounded-lg text-sm font-bold">Thành viên</button>
+            <button class="bg-yellow-500 hover:bg-yellow-600 text-black px-5 py-2 rounded-full text-sm font-bold transition">Đăng nhập</button>
         </div>
     </nav>
 
-    <div id="hero-container" class="relative h-[85vh] w-full overflow-hidden">
-        <div id="banner-content" class="h-full w-full relative">
-            <div class="flex items-center justify-center h-full text-zinc-500">Đang tải phim mới...</div>
-        </div>
-        <div class="absolute bottom-0 left-0 w-full h-32 hero-gradient"></div>
-    </div>
-
-    <div class="px-6 -mt-20 relative z-10">
-        <h2 class="text-xl font-semibold mb-6">Bạn đang quan tâm gì?</h2>
-        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
-            <div class="bg-gradient-to-br from-zinc-700 to-zinc-900 p-6 rounded-xl h-24 flex flex-col justify-end cursor-pointer hover:scale-105 transition shadow-lg">
-                <span class="text-sm font-bold">Thuyết Minh</span>
+    <div id="hero-slider" class="relative h-screen w-full bg-black">
+        <div id="banner-render" class="h-full w-full">
             </div>
-            <div class="bg-gradient-to-br from-emerald-700 to-teal-900 p-6 rounded-xl h-24 flex flex-col justify-end cursor-pointer hover:scale-105 transition shadow-lg">
-                <span class="text-sm font-bold">Sitcom</span>
-            </div>
-            <div class="bg-gradient-to-br from-purple-700 to-indigo-900 p-6 rounded-xl h-24 flex flex-col justify-end cursor-pointer hover:scale-105 transition shadow-lg">
-                <span class="text-sm font-bold">Lồng Tiếng</span>
-            </div>
-            <div class="bg-gradient-to-br from-orange-700 to-red-900 p-6 rounded-xl h-24 flex flex-col justify-end cursor-pointer hover:scale-105 transition shadow-lg">
-                <span class="text-sm font-bold">Xuyên Không</span>
-            </div>
-            <div class="bg-gradient-to-br from-red-800 to-rose-950 p-6 rounded-xl h-24 flex flex-col justify-end cursor-pointer hover:scale-105 transition shadow-lg">
-                <span class="text-sm font-bold">Cổ Trang</span>
-            </div>
-            <div class="bg-gradient-to-br from-blue-700 to-blue-900 p-6 rounded-xl h-24 flex flex-col justify-end cursor-pointer hover:scale-105 transition shadow-lg">
-                <span class="text-sm font-bold">4K Phim</span>
-            </div>
-            <div class="bg-zinc-800 p-6 rounded-xl h-24 flex items-center justify-center cursor-pointer hover:bg-zinc-700 transition">
-                <span class="text-sm font-bold">+1 chủ đề</span>
-            </div>
-        </div>
+        
+        <div class="absolute bottom-0 left-0 h-1 bg-yellow-500 transition-all duration-[3000ms] ease-linear w-0" id="progress-bar"></div>
     </div>
 
     <script>
         const API_URL = 'https://phimapi.com/danh-sach/phim-moi-cap-nhat-v3?page=1';
-        
-        async function fetchBannerMovies() {
+        let movies = [];
+        let currentIndex = 0;
+        let slideInterval;
+
+        async function init() {
             try {
                 const response = await fetch(API_URL);
                 const data = await response.json();
-                // Lấy 6 phim đầu tiên cho banner
-                const movies = data.items.slice(0, 6);
-                renderBanner(movies);
+                movies = data.items.slice(0, 6); // Lấy 6 phim
+                renderContent();
+                startTimer();
             } catch (error) {
-                console.error('Lỗi khi tải phim:', error);
-                document.getElementById('banner-content').innerHTML = "Không thể tải dữ liệu.";
+                console.error("Lỗi API:", error);
             }
         }
 
-        function renderBanner(movies) {
-            const container = document.getElementById('banner-content');
-            // Demo lấy phim đầu tiên làm banner lớn
-            const hero = movies[0];
+        function renderContent() {
+            const container = document.getElementById('banner-render');
+            const movie = movies[currentIndex];
             
             container.innerHTML = `
-                <div class="absolute inset-0">
-                    <img src="${hero.poster_url}" class="w-full h-full object-cover opacity-40" alt="${hero.name}">
-                    <div class="absolute inset-0 bg-black/40"></div>
-                </div>
-                
-                <div class="relative z-10 h-full flex items-center px-10 md:px-20">
-                    <div class="max-w-2xl">
-                        <h3 class="text-yellow-500 font-bold mb-2 uppercase tracking-widest text-sm">Phim mới cập nhật</h3>
-                        <h1 class="text-5xl md:text-7xl font-extrabold mb-4">${hero.name}</h1>
-                        <p class="text-zinc-300 text-lg mb-6 line-clamp-3 italic">"${hero.origin_name} - Một siêu phẩm mới vừa được cập nhật trên hệ thống Xô Phim."</p>
+                <div class="relative h-full w-full fade-in">
+                    <div class="absolute inset-0">
+                        <img src="${movie.poster_url}" class="w-full h-full object-cover object-top opacity-50" alt="${movie.name}">
+                        <div class="absolute inset-0 bg-black/30"></div>
+                        <div class="absolute inset-0 hero-gradient"></div>
+                    </div>
+
+                    <div class="relative z-10 h-full flex flex-col justify-center px-8 md:px-20 max-w-4xl">
+                        <div class="flex items-center space-x-2 mb-4">
+                            <span class="bg-yellow-500 text-black text-xs font-bold px-2 py-1 rounded">HOT</span>
+                            <span class="text-zinc-300 font-medium">${movie.year} • ${movie.episode_current}</span>
+                        </div>
+                        <h2 class="text-5xl md:text-7xl font-black mb-4 leading-tight">${movie.name}</h2>
+                        <h3 class="text-xl text-zinc-400 mb-6 font-medium italic">${movie.origin_name}</h3>
                         
                         <div class="flex space-x-4">
-                            <button class="bg-white text-black px-8 py-3 rounded-full font-bold flex items-center hover:bg-yellow-500 transition">
-                                <i class="fas fa-play mr-2"></i> Xem ngay
+                            <button class="bg-white text-black px-10 py-4 rounded-full font-black text-lg hover:bg-yellow-500 transition transform hover:scale-105">
+                                <i class="fas fa-play mr-2"></i> XEM PHIM
                             </button>
-                            <button class="bg-zinc-700/80 backdrop-blur text-white px-8 py-3 rounded-full font-bold hover:bg-zinc-600 transition">
-                                <i class="fas fa-plus"></i> Danh sách
+                            <button class="bg-white/10 backdrop-blur-md text-white px-10 py-4 rounded-full font-black text-lg hover:bg-white/20 transition">
+                                <i class="fas fa-info-circle mr-2"></i> CHI TIẾT
                             </button>
                         </div>
                     </div>
-                </div>
 
-                <div class="absolute bottom-24 right-10 z-20 hidden lg:flex space-x-3">
-                    ${movies.map(m => `
-                        <img src="${m.thumb_url}" class="w-24 h-14 object-cover rounded-md border border-zinc-500 cursor-pointer hover:border-yellow-500 transition shadow-2xl" title="${m.name}">
-                    `).join('')}
+                    <div class="absolute bottom-12 right-8 z-30 flex space-x-3">
+                        ${movies.map((m, idx) => `
+                            <div onclick="goToSlide(${idx})" class="group cursor-pointer">
+                                <img src="${m.thumb_url}" 
+                                     class="w-20 h-28 object-cover rounded-lg border-2 border-transparent transition-all duration-300 ${idx === currentIndex ? 'thumb-active' : 'opacity-50 group-hover:opacity-100'}">
+                            </div>
+                        `).join('')}
+                    </div>
                 </div>
             `;
+            resetProgressBar();
         }
 
-        fetchBannerMovies();
+        function startTimer() {
+            slideInterval = setInterval(() => {
+                nextSlide();
+            }, 3000);
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % movies.length;
+            renderContent();
+        }
+
+        function goToSlide(index) {
+            clearInterval(slideInterval);
+            currentIndex = index;
+            renderContent();
+            startTimer();
+        }
+
+        function resetProgressBar() {
+            const bar = document.getElementById('progress-bar');
+            bar.style.transition = 'none';
+            bar.style.width = '0%';
+            setTimeout(() => {
+                bar.style.transition = 'width 3000ms linear';
+                bar.style.width = '100%';
+            }, 50);
+        }
+
+        init();
     </script>
 </body>
 </html>
