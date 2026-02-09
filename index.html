@@ -34,8 +34,8 @@
         .brand-name { font-size: 24px; font-weight: 800; line-height: 1; }
         .tagline { font-size: 11px; color: var(--text-gray); display: block; margin-top: 2px; }
 
-        /* Thanh Tìm Kiếm chuẩn ảnh */
-        .search-container { position: relative; width: 320px; }
+        /* Thanh Tìm Kiếm */
+        .search-container { position: relative; width: 300px; }
         .search-container input {
             width: 100%; padding: 10px 15px 10px 45px;
             background: rgba(255, 255, 255, 0.08); border: none; border-radius: 8px;
@@ -43,12 +43,13 @@
         }
         .search-container i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #999; }
 
-        /* Menu */
-        .nav-center { display: flex; align-items: center; gap: 20px; }
+        /* Menu chính - Đã bỏ giới hạn ẩn mục */
+        .nav-center { display: flex; align-items: center; gap: 18px; }
         .nav-item { position: relative; padding: 15px 0; }
         .nav-link {
             text-decoration: none; color: #eee; font-size: 14px; font-weight: 500;
             transition: 0.3s; cursor: pointer; display: flex; align-items: center; gap: 5px;
+            white-space: nowrap;
         }
         .nav-link:hover, .nav-link.active { color: var(--primary-yellow); }
 
@@ -59,22 +60,23 @@
             opacity: 0; visibility: hidden; transform: translateY(10px); transition: 0.3s;
         }
         .nav-item:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
-        .mega-menu { min-width: 550px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .mega-menu { min-width: 500px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
         .country-menu { min-width: 160px; }
         .dropdown-menu a { color: #ccc; text-decoration: none; font-size: 14px; display: block; padding: 5px 0; transition: 0.2s; }
         .dropdown-menu a:hover { color: var(--primary-yellow); padding-left: 5px; }
 
-        /* --- PHẦN CHỦ ĐỀ (Ẩn mặc định) --- */
-        #topic-section {
-            display: none; /* Ẩn đi khi mới load trang */
-            padding: 40px; background-color: #121418;
-            animation: slideDown 0.4s ease forwards;
+        /* Label NEW chuẩn ảnh */
+        .badge-new {
+            background-color: var(--primary-yellow); color: #000; font-size: 9px;
+            font-weight: 800; padding: 2px 4px; border-radius: 4px; margin-right: 5px;
         }
 
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* --- PHẦN CHỦ ĐỀ --- */
+        #topic-section {
+            display: none; padding: 40px; background-color: #121418;
+            animation: slideDown 0.4s ease forwards;
         }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         .topic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
         .topic-card {
@@ -83,9 +85,7 @@
             text-decoration: none; transition: 0.3s;
         }
         .topic-card:hover { transform: translateY(-8px); }
-        .topic-card h3 { color: #fff; font-size: 18px; font-weight: 700; margin-bottom: 5px; }
-        .topic-card span { font-size: 12px; color: rgba(255,255,255,0.8); }
-
+        .topic-card h3 { color: #fff; font-size: 18px; font-weight: 700; }
         .t-1 { background: linear-gradient(to bottom right, #3f4c6b, #991b1b); }
         .t-2 { background: linear-gradient(to bottom right, #134e4a, #10b981); }
         .t-3 { background: linear-gradient(to bottom right, #4c1d95, #8b5cf6); }
@@ -94,9 +94,11 @@
         .t-6 { background: linear-gradient(to bottom right, #1e1b4b, #6366f1); }
         .t-7 { background: linear-gradient(to bottom right, #831843, #ec4899); }
 
+        /* Nút Thành viên */
         .btn-member {
             background-color: #f1f3f5; color: #1a1a1b; border: none; 
             padding: 10px 22px; border-radius: 25px; font-weight: 600; cursor: pointer;
+            display: flex; align-items: center; gap: 8px;
         }
     </style>
 </head>
@@ -115,29 +117,26 @@
         </div>
 
         <nav class="nav-center">
-            <div class="nav-item">
-                <a class="nav-link" id="btn-topic">Chủ Đề</a>
-            </div>
-            
+            <div class="nav-item"><a class="nav-link" id="btn-topic">Chủ Đề</a></div>
             <div class="nav-item">
                 <a class="nav-link">Thể loại <i class="fa-solid fa-caret-down"></i></a>
                 <div class="dropdown-menu mega-menu">
                     <a href="#">Chính kịch</a> <a href="#">Khoa học</a> <a href="#">Tình cảm</a> <a href="#">Cổ trang</a>
                     <a href="#">Tâm lý</a> <a href="#">Bí ẩn</a> <a href="#">Hành động</a> <a href="#">Hình sự</a>
-                    <a href="#">Hài hước</a> <a href="#">Phiêu lưu</a> <a href="#">Gia đình</a> <a href="#">Kinh dị</a>
                 </div>
             </div>
-
             <div class="nav-item"><a class="nav-link">Phim Lẻ</a></div>
             <div class="nav-item"><a class="nav-link">Phim Bộ</a></div>
-
+            <div class="nav-item"><a class="nav-link">Xem Chung</a></div>
             <div class="nav-item">
                 <a class="nav-link">Quốc gia <i class="fa-solid fa-caret-down"></i></a>
                 <div class="dropdown-menu country-menu">
                     <a href="#">Hàn Quốc</a> <a href="#">Thái Lan</a> <a href="#">Nhật Bản</a> <a href="#">Âu Mỹ</a>
                 </div>
             </div>
+            <div class="nav-item"><a class="nav-link">Diễn Viên</a></div>
             <div class="nav-item"><a class="nav-link">Lịch Chiếu</a></div>
+            <div class="nav-item"><a class="nav-link"><span class="badge-new">NEW</span>Reviews</a></div>
         </nav>
 
         <button class="btn-member"><i class="fa-solid fa-user"></i> Thành viên</button>
@@ -146,13 +145,13 @@
     <section id="topic-section">
         <h2 style="margin-bottom: 25px;">Các chủ đề</h2>
         <div class="topic-grid">
-            <a href="#" class="topic-card t-1"><h3>Thuyết Minh Tuổi Thơ</h3><span>Xem toàn bộ ></span></a>
-            <a href="#" class="topic-card t-2"><h3>Sitcom</h3><span>Xem toàn bộ ></span></a>
-            <a href="#" class="topic-card t-3"><h3>Lồng Tiếng Cực Mạnh</h3><span>Xem toàn bộ ></span></a>
-            <a href="#" class="topic-card t-4"><h3>Xuyên Không</h3><span>Xem toàn bộ ></span></a>
-            <a href="#" class="topic-card t-5"><h3>Cổ Trang</h3><span>Xem toàn bộ ></span></a>
-            <a href="#" class="topic-card t-6"><h3>4k</h3><span>Xem toàn bộ ></span></a>
-            <a href="#" class="topic-card t-7"><h3>Chữa lành</h3><span>Xem toàn bộ ></span></a>
+            <a href="#" class="topic-card t-1"><h3>Thuyết Minh Tuổi Thơ</h3></a>
+            <a href="#" class="topic-card t-2"><h3>Sitcom</h3></a>
+            <a href="#" class="topic-card t-3"><h3>Lồng Tiếng Cực Mạnh</h3></a>
+            <a href="#" class="topic-card t-4"><h3>Xuyên Không</h3></a>
+            <a href="#" class="topic-card t-5"><h3>Cổ Trang</h3></a>
+            <a href="#" class="topic-card t-6"><h3>4k</h3></a>
+            <a href="#" class="topic-card t-7"><h3>Chữa lành</h3></a>
         </div>
     </section>
 
@@ -161,12 +160,9 @@
     </div>
 
     <script>
-        // Xử lý click vào nút Chủ Đề
         const btnTopic = document.getElementById('btn-topic');
         const topicSection = document.getElementById('topic-section');
-
         btnTopic.addEventListener('click', function() {
-            // Kiểm tra trạng thái hiển thị
             if (topicSection.style.display === 'block') {
                 topicSection.style.display = 'none';
                 this.classList.remove('active');
