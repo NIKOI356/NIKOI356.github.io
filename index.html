@@ -3,154 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RoPhim - Giao diện chuẩn</title>
-
+    <title>Xô Phim - Phim Hay Mỗi Ngày</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* 1. NHÚNG FONT CHỮ TEKTUR TỪ GOOGLE FONTS */
-        @import url('https://fonts.googleapis.com/css2?family=Tektur:wght@400;500;600;700;800;900&display=swap');
-
-        :root {
-            --bg-body: #0a0a0a;
-            --primary: #07bc0c;
-            --text-main: #ffffff;
-            --text-sub: #cccccc;
-            /* Thiết lập font chính */
-            --font-main: 'Tektur', sans-serif;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body {
-            background-color: var(--bg-body);
-            color: var(--text-main);
-            font-family: var(--font-main);
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased; /* Làm chữ mượt hơn trên máy Mac/iPhone */
-        }
-
-        /* HEADER */
-        .header-wrap {
-            position: fixed; top: 0; width: 100%; height: 70px;
-            background: rgba(18, 18, 18, 0.85);
-            backdrop-filter: blur(15px); z-index: 1000;
-            display: flex; align-items: center; padding: 0 5%;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .nav-list { display: flex; list-style: none; gap: 30px; margin-left: 50px; }
-        .nav-list a { 
-            color: var(--text-sub); 
-            text-decoration: none; 
-            font-weight: 600; 
-            font-size: 14px;
-            letter-spacing: 1px; /* Giãn chữ giống web gốc */
-            text-transform: uppercase;
-            transition: 0.3s;
-        }
-        .nav-list a:hover { color: var(--primary); }
-
-        /* HERO SLIDER */
-        .hero-slider { position: relative; height: 85vh; width: 100%; overflow: hidden; }
-        .slide-item { 
-            position: absolute; width: 100%; height: 100%; 
-            opacity: 0; transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1); 
-            display: flex; align-items: center; padding: 0 7%;
-        }
-        .slide-item.active { opacity: 1; z-index: 1; }
-        
-        .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
-        .hero-overlay { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            background: linear-gradient(90deg, #0a0a0a 20%, transparent 80%),
-                        linear-gradient(0deg, #0a0a0a 0%, transparent 40%);
-            z-index: -1; 
-        }
-
-        /* ĐỊNH DẠNG FONT CHỮ BANNER (Cực quan trọng) */
-        .movie-title { 
-            font-size: clamp(2.5rem, 6vw, 4.5rem); 
-            font-weight: 900; 
-            text-transform: uppercase; 
-            margin: 15px 0; 
-            line-height: 1.1;
-            letter-spacing: -1px; /* Tiêu đề lớn thường hơi sít lại cho ngầu */
-        }
-        
-        .imdb-tag { 
-            background: #f1c40f; color: #000; 
-            padding: 3px 12px; border-radius: 4px; 
-            font-weight: 800; font-size: 14px;
-        }
-
-        .movie-desc {
-            color: var(--text-sub);
-            max-width: 550px;
-            font-size: 16px;
-            font-weight: 400;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            /* Làm mờ nhẹ mô tả */
-            opacity: 0.9;
-        }
-
-        .btn-play { 
-            background: var(--primary); border: none; color: white; 
-            padding: 16px 45px; border-radius: 8px; 
-            font-weight: 800; font-size: 16px;
-            cursor: pointer; font-family: var(--font-main);
-            text-transform: uppercase; letter-spacing: 1px;
-            box-shadow: 0 4px 15px rgba(7, 188, 12, 0.3);
-        }
+        body { background-color: #0f0f0f; color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .glass-nav { background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(10px); }
+        .hero-gradient { background: linear-gradient(0deg, #0f0f0f 0%, transparent 100%); }
+        .banner-slide { transition: opacity 0.5s ease-in-out; }
     </style>
 </head>
 <body>
 
-    <header class="header-wrap">
-        <div class="logo"><img src="https://rophimm.net/images/logo.svg" height="35"></div>
-        <nav class="nav-list">
-            <li><a href="#">Trang Chủ</a></li>
-            <li><a href="#">Phim Lẻ</a></li>
-            <li><a href="#">Phim Bộ</a></li>
-            <li><a href="#">Phim Hot</a></li>
-        </nav>
-    </header>
-
-    <section class="hero-slider" id="heroSlider">
-        <div class="slide-item active">
-            <div class="hero-overlay"></div>
-            <img src="https://image.rophimm.net/images/films/z27pWxc4kLdMatQuSnNXOVVXZc6.webp" class="hero-bg">
-            <div class="hero-info">
-                <span class="imdb-tag">IMDB 9.0</span>
-                <h1 class="movie-title">Sắc Đêm<br>Ngập Tràn</h1>
-                <p class="movie-desc">Hành trình tìm lại công lý trong màn đêm huyền bí của thành phố đầy rẫy những cạm bẫy và âm mưu.</p>
-                <button class="btn-play">XEM NGAY</button>
+    <nav class="fixed w-full z-50 glass-nav px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center space-x-8">
+            <h1 class="text-2xl font-bold text-yellow-500 tracking-tighter">XÔ PHIM</h1>
+            <div class="hidden md:flex space-x-6 text-sm font-medium">
+                <a href="#" class="hover:text-yellow-500">Chủ đề</a>
+                <a href="#" class="hover:text-yellow-500">Thể loại</a>
+                <a href="#" class="hover:text-yellow-500">Phim Lẻ</a>
+                <a href="#" class="hover:text-yellow-500">Phim Bộ</a>
+                <a href="#" class="hover:text-yellow-500">Quốc gia</a>
             </div>
         </div>
+        <div class="flex items-center space-x-4">
+            <div class="relative hidden sm:block">
+                <input type="text" placeholder="Tìm kiếm phim..." class="bg-zinc-800 rounded-full py-1 px-4 text-sm focus:outline-none w-64">
+                <i class="fas fa-search absolute right-3 top-2 text-zinc-400"></i>
+            </div>
+            <button class="bg-zinc-800 px-4 py-1.5 rounded-lg text-sm font-bold">Thành viên</button>
+        </div>
+    </nav>
 
-        <div class="slide-item">
-            <div class="hero-overlay"></div>
-            <img src="https://image.rophimm.net/images/films/vFpS8p9A0M6v8WpW0YpW0YpW0Yp.jpg" class="hero-bg">
-            <div class="hero-info">
-                <span class="imdb-tag">IMDB 8.8</span>
-                <h1 class="movie-title">Chung Cư<br>Có Độc</h1>
-                <p class="movie-desc">Một căn bệnh lạ bùng phát biến tòa chung cư cao cấp thành địa ngục trần gian trong tích tắc.</p>
-                <button class="btn-play">XEM NGAY</button>
+    <div id="hero-container" class="relative h-[85vh] w-full overflow-hidden">
+        <div id="banner-content" class="h-full w-full relative">
+            <div class="flex items-center justify-center h-full text-zinc-500">Đang tải phim mới...</div>
+        </div>
+        <div class="absolute bottom-0 left-0 w-full h-32 hero-gradient"></div>
+    </div>
+
+    <div class="px-6 -mt-20 relative z-10">
+        <h2 class="text-xl font-semibold mb-6">Bạn đang quan tâm gì?</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+            <div class="bg-gradient-to-br from-zinc-700 to-zinc-900 p-6 rounded-xl h-24 flex flex-col justify-end cursor-pointer hover:scale-105 transition shadow-lg">
+                <span class="text-sm font-bold">Thuyết Minh</span>
+            </div>
+            <div class="bg-gradient-to-br from-emerald-700 to-teal-900 p-6 rounded-xl h-24 flex flex-col justify-end cursor-pointer hover:scale-105 transition shadow-lg">
+                <span class="text-sm font-bold">Sitcom</span>
+            </div>
+            <div class="bg-gradient-to-br from-purple-700 to-indigo-900 p-6 rounded-xl h-24 flex flex-col justify-end cursor-pointer hover:scale-105 transition shadow-lg">
+                <span class="text-sm font-bold">Lồng Tiếng</span>
+            </div>
+            <div class="bg-gradient-to-br from-orange-700 to-red-900 p-6 rounded-xl h-24 flex flex-col justify-end cursor-pointer hover:scale-105 transition shadow-lg">
+                <span class="text-sm font-bold">Xuyên Không</span>
+            </div>
+            <div class="bg-gradient-to-br from-red-800 to-rose-950 p-6 rounded-xl h-24 flex flex-col justify-end cursor-pointer hover:scale-105 transition shadow-lg">
+                <span class="text-sm font-bold">Cổ Trang</span>
+            </div>
+            <div class="bg-gradient-to-br from-blue-700 to-blue-900 p-6 rounded-xl h-24 flex flex-col justify-end cursor-pointer hover:scale-105 transition shadow-lg">
+                <span class="text-sm font-bold">4K Phim</span>
+            </div>
+            <div class="bg-zinc-800 p-6 rounded-xl h-24 flex items-center justify-center cursor-pointer hover:bg-zinc-700 transition">
+                <span class="text-sm font-bold">+1 chủ đề</span>
             </div>
         </div>
-    </section>
+    </div>
 
     <script>
-        const slides = document.querySelectorAll('.slide-item');
-        let currentSlide = 0;
-
-        function nextSlide() {
-            slides[currentSlide].classList.remove('active');
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides[currentSlide].classList.add('active');
+        const API_URL = 'https://phimapi.com/danh-sach/phim-moi-cap-nhat-v3?page=1';
+        
+        async function fetchBannerMovies() {
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                // Lấy 6 phim đầu tiên cho banner
+                const movies = data.items.slice(0, 6);
+                renderBanner(movies);
+            } catch (error) {
+                console.error('Lỗi khi tải phim:', error);
+                document.getElementById('banner-content').innerHTML = "Không thể tải dữ liệu.";
+            }
         }
 
-        setInterval(nextSlide, 3500); // Thay đổi sau 3.5 giây để người dùng kịp đọc
-    </script>
+        function renderBanner(movies) {
+            const container = document.getElementById('banner-content');
+            // Demo lấy phim đầu tiên làm banner lớn
+            const hero = movies[0];
+            
+            container.innerHTML = `
+                <div class="absolute inset-0">
+                    <img src="${hero.poster_url}" class="w-full h-full object-cover opacity-40" alt="${hero.name}">
+                    <div class="absolute inset-0 bg-black/40"></div>
+                </div>
+                
+                <div class="relative z-10 h-full flex items-center px-10 md:px-20">
+                    <div class="max-w-2xl">
+                        <h3 class="text-yellow-500 font-bold mb-2 uppercase tracking-widest text-sm">Phim mới cập nhật</h3>
+                        <h1 class="text-5xl md:text-7xl font-extrabold mb-4">${hero.name}</h1>
+                        <p class="text-zinc-300 text-lg mb-6 line-clamp-3 italic">"${hero.origin_name} - Một siêu phẩm mới vừa được cập nhật trên hệ thống Xô Phim."</p>
+                        
+                        <div class="flex space-x-4">
+                            <button class="bg-white text-black px-8 py-3 rounded-full font-bold flex items-center hover:bg-yellow-500 transition">
+                                <i class="fas fa-play mr-2"></i> Xem ngay
+                            </button>
+                            <button class="bg-zinc-700/80 backdrop-blur text-white px-8 py-3 rounded-full font-bold hover:bg-zinc-600 transition">
+                                <i class="fas fa-plus"></i> Danh sách
+                            </button>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="absolute bottom-24 right-10 z-20 hidden lg:flex space-x-3">
+                    ${movies.map(m => `
+                        <img src="${m.thumb_url}" class="w-24 h-14 object-cover rounded-md border border-zinc-500 cursor-pointer hover:border-yellow-500 transition shadow-2xl" title="${m.name}">
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        fetchBannerMovies();
+    </script>
 </body>
 </html>
