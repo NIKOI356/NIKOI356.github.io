@@ -38,16 +38,12 @@
         }
         .search-container i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #999; }
 
-        /* Tìm kiếm trong Menu Mobile (Mặc định ẩn trên Desktop) */
-        .mobile-search { display: none; width: 100%; margin-bottom: 20px; }
-
         /* Menu chính */
         .nav-center { display: flex; align-items: center; gap: 18px; }
         .nav-item { position: relative; padding: 15px 0; }
         .nav-link { text-decoration: none; color: #eee; font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 5px; }
-        .nav-link:hover { color: var(--primary-yellow); }
 
-        /* --- Hiệu ứng Dropdown ban đầu --- */
+        /* Dropdowns */
         .dropdown-menu {
             position: absolute; top: 100%; left: 0; background-color: var(--dropdown-bg);
             padding: 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);
@@ -72,84 +68,83 @@
         .interest-section { padding: 30px 40px; }
         #topic-container { display: none; }
         .topic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; margin-top: 20px; }
-        .topic-card { height: 160px; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; justify-content: flex-end; text-decoration: none; transition: 0.3s; }
+        .topic-card { height: 160px; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; justify-content: flex-end; text-decoration: none; }
         .t-1 { background: linear-gradient(to bottom right, #3f4c6b, #991b1b); }
         .t-2 { background: linear-gradient(to bottom right, #134e4a, #10b981); }
 
         /* --- Responsive Điện thoại --- */
         @media (max-width: 1024px) {
             .navbar { padding: 10px 20px; }
-            .menu-toggle { display: block; }
+            .menu-toggle { display: block; order: 1; } /* Nút 3 gạch */
+            .logo-wrap { order: 2; margin-right: auto; margin-left: 10px; } /* Logo */
+            .search-container { order: 3; width: 40px; } /* Icon tìm kiếm thay thế chỗ Thành viên */
+            .search-container input { display: none; } /* Ẩn ô nhập, chỉ để icon */
+            .search-container i { position: static; transform: none; font-size: 20px; color: white; cursor: pointer; }
+            .btn-member { display: none; } /* Ẩn nút Thành viên gốc trên header mobile */
+
             .nav-center { 
                 position: fixed; top: 0; left: -100%; width: 300px; height: 100vh;
                 background: var(--dropdown-bg); flex-direction: column; align-items: flex-start;
-                padding: 70px 25px; transition: 0.4s ease; z-index: 2000;
-                box-shadow: 5px 0 15px rgba(0,0,0,0.5);
+                padding: 70px 30px; transition: 0.4s ease; z-index: 2000;
             }
             .nav-center.active { left: 0; }
             .close-menu { display: block; }
-            .mobile-search { display: block; } /* Hiện thanh tìm kiếm trong menu mobile */
-            .navbar .search-container { display: none; } /* Ẩn thanh tìm kiếm trên header mobile */
+            
+            /* Thêm nút Thành viên vào trong Menu Mobile */
+            .mobile-member-btn { display: flex !important; margin-bottom: 20px; width: 100%; }
             
             .nav-item { width: 100%; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
             .dropdown-menu { position: static; opacity: 1; visibility: visible; display: none; transform: none; width: 100%; background: transparent; border: none; padding-left: 15px; }
             .nav-item.open .dropdown-menu { display: block; }
             .mega-menu { grid-template-columns: repeat(2, 1fr); min-width: 100%; }
         }
+        
+        .mobile-member-btn { display: none; }
     </style>
 </head>
 <body>
 
     <header class="navbar">
-        <div class="nav-left">
+        <div class="nav-left" style="display: contents;">
             <div class="menu-toggle" id="bars-btn"><i class="fa-solid fa-bars"></i></div>
+            
             <a href="#" class="logo-wrap">
                 <div class="logo-img"></div>
                 <span class="brand-name">RoPhim</span>
             </a>
-            <div class="search-container">
+
+            <div class="search-container" id="search-trigger">
                 <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" placeholder="Tìm kiếm phim, diễn viên">
+                <input type="text" placeholder="Tìm kiếm phim...">
             </div>
         </div>
 
         <nav class="nav-center" id="mobile-menu">
             <div class="close-menu" id="close-btn"><i class="fa-solid fa-xmark"></i></div>
 
-            <div class="mobile-search">
-                <div class="search-container" style="width: 100%; margin-left: 0;">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" placeholder="Tìm phim, diễn viên...">
-                </div>
-            </div>
+            <button class="btn-member mobile-member-btn"><i class="fa-solid fa-user"></i> Thành viên</button>
 
             <div class="nav-item"><a class="nav-link" id="topic-link">Chủ Đề</a></div>
-            
             <div class="nav-item has-drop">
                 <a class="nav-link">Thể loại <i class="fa-solid fa-caret-down"></i></a>
                 <div class="dropdown-menu mega-menu">
                     <a href="#">Chính kịch</a> <a href="#">Khoa học</a> <a href="#">Tình cảm</a> <a href="#">Cổ trang</a>
                     <a href="#">Tâm lý</a> <a href="#">Hành động</a> <a href="#">Hình sự</a> <a href="#">Hài hước</a>
-                    <a href="#">Phiêu lưu</a> <a href="#">Gia đình</a> <a href="#">Kinh dị</a> <a href="#">Tài liệu</a>
                 </div>
             </div>
-
             <div class="nav-item"><a class="nav-link">Phim Lẻ</a></div>
             <div class="nav-item"><a class="nav-link">Phim Bộ</a></div>
-
             <div class="nav-item has-drop">
                 <a class="nav-link">Quốc gia <i class="fa-solid fa-caret-down"></i></a>
                 <div class="dropdown-menu country-menu">
                     <a href="#">Hàn Quốc</a> <a href="#">Thái Lan</a> <a href="#">Nhật Bản</a> <a href="#">Âu Mỹ</a>
-                    <a href="#">Hồng Kông</a> <a href="#">Trung Quốc</a> <a href="#">Anh</a> <a href="#">Ấn Độ</a>
                 </div>
             </div>
-
             <div class="nav-item"><a class="nav-link">Diễn Viên</a></div>
             <div class="nav-item"><a class="nav-link"><span style="background:var(--primary-yellow); color:#000; font-size:9px; padding:2px 4px; border-radius:4px; font-weight:800; margin-right:5px;">NEW</span>Reviews</a></div>
         </nav>
 
-        <button class="btn-member"><i class="fa-solid fa-user"></i> Thành viên</button>
+        <button class="btn-member" id="desktop-member"><i class="fa-solid fa-user"></i> Thành viên</button>
     </header>
 
     <section class="interest-section" id="topic-container">
@@ -183,6 +178,13 @@
                 }
             };
         });
+
+        // Xử lý icon tìm kiếm trên mobile (có thể thêm logic mở ô tìm kiếm tại đây)
+        document.getElementById('search-trigger').onclick = function() {
+            if (window.innerWidth <= 1024) {
+                alert('Mở thanh tìm kiếm...');
+            }
+        };
     </script>
 </body>
 </html>
