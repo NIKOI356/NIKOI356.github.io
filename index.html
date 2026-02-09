@@ -10,20 +10,14 @@
 
     <style>
         :root {
-            --bg-dark: #14161b;
+            --bg-dark: #0f1115;
             --primary-yellow: #ffc107;
             --text-gray: #b5b5b5;
-            --input-bg: #2b2f3a;
             --dropdown-bg: #15181e;
         }
 
-        * {
-            margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-dark); color: white; min-height: 100vh; scroll-behavior: smooth;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-dark); color: white; min-height: 100vh; overflow-x: hidden; }
 
         /* --- Header --- */
         .navbar {
@@ -34,103 +28,64 @@
         }
 
         .nav-left { display: flex; align-items: center; gap: 20px; }
-        
-        /* Logo chuẩn ảnh */
         .logo-wrap { display: flex; align-items: center; gap: 12px; text-decoration: none; color: white; }
         .logo-img { width: 42px; height: 42px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
         .logo-img::after { content: "\f144"; font-family: "Font Awesome 6 Free"; font-weight: 900; color: #222; font-size: 22px; }
         .brand-name { font-size: 24px; font-weight: 800; line-height: 1; }
         .tagline { font-size: 11px; color: var(--text-gray); display: block; margin-top: 2px; }
 
-        /* --- Thanh Tìm Kiếm Cập Nhật (Fix lỗi thiếu icon) --- */
-        .search-container {
-            position: relative;
-            width: 320px;
-            margin-left: 10px;
-        }
-
+        /* Thanh Tìm Kiếm chuẩn ảnh */
+        .search-container { position: relative; width: 320px; }
         .search-container input {
-            width: 100%;
-            padding: 10px 15px 10px 45px; /* Chừa chỗ cho icon kính lúp */
-            background: rgba(255, 255, 255, 0.08);
-            border: none;
-            border-radius: 8px;
-            color: white;
-            font-size: 14px;
-            outline: none;
-            transition: 0.3s;
+            width: 100%; padding: 10px 15px 10px 45px;
+            background: rgba(255, 255, 255, 0.08); border: none; border-radius: 8px;
+            color: white; font-size: 14px; outline: none;
         }
+        .search-container i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #999; }
 
-        .search-container input:focus {
-            background: rgba(255, 255, 255, 0.12);
-        }
-
-        .search-container i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #999;
-            font-size: 16px;
-        }
-
-        /* --- Menu & Dropdown --- */
+        /* Menu */
         .nav-center { display: flex; align-items: center; gap: 20px; }
         .nav-item { position: relative; padding: 15px 0; }
-        
         .nav-link {
             text-decoration: none; color: #eee; font-size: 14px; font-weight: 500;
-            transition: 0.3s; white-space: nowrap; cursor: pointer;
-            display: flex; align-items: center; gap: 5px;
+            transition: 0.3s; cursor: pointer; display: flex; align-items: center; gap: 5px;
         }
-        .nav-link:hover { color: var(--primary-yellow); }
+        .nav-link:hover, .nav-link.active { color: var(--primary-yellow); }
 
-        /* Dropdown chung */
+        /* Dropdowns */
         .dropdown-menu {
-            position: absolute; top: 100%; left: 0;
-            background-color: var(--dropdown-bg);
+            position: absolute; top: 100%; left: 0; background-color: var(--dropdown-bg);
             padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);
-            opacity: 0; visibility: hidden; transform: translateY(10px);
-            transition: all 0.3s ease; box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+            opacity: 0; visibility: hidden; transform: translateY(10px); transition: 0.3s;
         }
-
         .nav-item:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
-
-        /* Dropdown Thể loại (4 cột) */
-        .mega-menu {
-            min-width: 550px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px 15px;
-        }
-
-        /* Dropdown Quốc gia (1 cột dọc) */
-        .country-menu {
-            min-width: 160px; display: flex; flex-direction: column; gap: 5px;
-        }
-
-        .dropdown-menu a {
-            color: #ccc; text-decoration: none; font-size: 14px; padding: 6px 0; transition: 0.2s;
-        }
+        .mega-menu { min-width: 550px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .country-menu { min-width: 160px; }
+        .dropdown-menu a { color: #ccc; text-decoration: none; font-size: 14px; display: block; padding: 5px 0; transition: 0.2s; }
         .dropdown-menu a:hover { color: var(--primary-yellow); padding-left: 5px; }
 
-        .badge-new {
-            background-color: var(--primary-yellow); color: #000; font-size: 9px;
-            font-weight: 800; padding: 2px 4px; border-radius: 3px; margin-right: 5px;
+        /* --- PHẦN CHỦ ĐỀ (Ẩn mặc định) --- */
+        #topic-section {
+            display: none; /* Ẩn đi khi mới load trang */
+            padding: 40px; background-color: #121418;
+            animation: slideDown 0.4s ease forwards;
         }
 
-        /* Nút Thành viên */
-        .btn-member {
-            background-color: #f1f3f5; color: #1a1a1b; border: none; 
-            padding: 10px 22px; border-radius: 25px; font-weight: 600; 
-            cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.3s;
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .btn-member:hover { background-color: #fff; transform: scale(1.02); }
 
-        /* --- Topic Section --- */
-        .topic-section { padding: 40px; background-color: #121418; }
         .topic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
-        .topic-card { height: 180px; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; justify-content: flex-end; text-decoration: none; transition: 0.3s; overflow: hidden; }
+        .topic-card {
+            height: 180px; border-radius: 12px; padding: 20px;
+            display: flex; flex-direction: column; justify-content: flex-end;
+            text-decoration: none; transition: 0.3s;
+        }
         .topic-card:hover { transform: translateY(-8px); }
-        .topic-card h3 { color: #fff; font-size: 18px; font-weight: 700; }
-        
+        .topic-card h3 { color: #fff; font-size: 18px; font-weight: 700; margin-bottom: 5px; }
+        .topic-card span { font-size: 12px; color: rgba(255,255,255,0.8); }
+
         .t-1 { background: linear-gradient(to bottom right, #3f4c6b, #991b1b); }
         .t-2 { background: linear-gradient(to bottom right, #134e4a, #10b981); }
         .t-3 { background: linear-gradient(to bottom right, #4c1d95, #8b5cf6); }
@@ -139,6 +94,10 @@
         .t-6 { background: linear-gradient(to bottom right, #1e1b4b, #6366f1); }
         .t-7 { background: linear-gradient(to bottom right, #831843, #ec4899); }
 
+        .btn-member {
+            background-color: #f1f3f5; color: #1a1a1b; border: none; 
+            padding: 10px 22px; border-radius: 25px; font-weight: 600; cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -149,7 +108,6 @@
                 <div class="logo-img"></div>
                 <div><span class="brand-name">RoPhim</span><span class="tagline">Phim hay cả rổ</span></div>
             </a>
-            
             <div class="search-container">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input type="text" placeholder="Tìm kiếm phim, diễn viên">
@@ -157,7 +115,9 @@
         </div>
 
         <nav class="nav-center">
-            <div class="nav-item"><a href="#chu-de" class="nav-link">Chủ Đề</a></div>
+            <div class="nav-item">
+                <a class="nav-link" id="btn-topic">Chủ Đề</a>
+            </div>
             
             <div class="nav-item">
                 <a class="nav-link">Thể loại <i class="fa-solid fa-caret-down"></i></a>
@@ -165,52 +125,56 @@
                     <a href="#">Chính kịch</a> <a href="#">Khoa học</a> <a href="#">Tình cảm</a> <a href="#">Cổ trang</a>
                     <a href="#">Tâm lý</a> <a href="#">Bí ẩn</a> <a href="#">Hành động</a> <a href="#">Hình sự</a>
                     <a href="#">Hài hước</a> <a href="#">Phiêu lưu</a> <a href="#">Gia đình</a> <a href="#">Kinh dị</a>
-                    <a href="#">Tài liệu</a> <a href="#">Hoạt hình</a> <a href="#">Chiếu rạp</a> <a href="#">Học đường</a>
                 </div>
             </div>
 
-            <div class="nav-item"><a href="#" class="nav-link">Phim Lẻ</a></div>
-            <div class="nav-item"><a href="#" class="nav-link">Phim Bộ</a></div>
-            <div class="nav-item"><a href="#" class="nav-link">Xem Chung</a></div>
+            <div class="nav-item"><a class="nav-link">Phim Lẻ</a></div>
+            <div class="nav-item"><a class="nav-link">Phim Bộ</a></div>
 
             <div class="nav-item">
                 <a class="nav-link">Quốc gia <i class="fa-solid fa-caret-down"></i></a>
                 <div class="dropdown-menu country-menu">
-                    <a href="#">Hàn Quốc</a>
-                    <a href="#">Thái Lan</a>
-                    <a href="#">Nhật Bản</a>
-                    <a href="#">Âu Mỹ</a>
-                    <a href="#">Hồng Kông</a>
-                    <a href="#">Trung Quốc</a>
-                    <a href="#">Anh</a>
-                    <a href="#">Ấn Độ</a>
+                    <a href="#">Hàn Quốc</a> <a href="#">Thái Lan</a> <a href="#">Nhật Bản</a> <a href="#">Âu Mỹ</a>
                 </div>
             </div>
-
-            <div class="nav-item"><a href="#" class="nav-link">Diễn Viên</a></div>
-            <div class="nav-item"><a href="#" class="nav-link">Lịch Chiếu</a></div>
-            <div class="nav-item"><a href="#" class="nav-link"><span class="badge-new">NEW</span>Reviews</a></div>
+            <div class="nav-item"><a class="nav-link">Lịch Chiếu</a></div>
         </nav>
 
-        <div class="nav-right">
-            <button class="btn-member">
-                <i class="fa-solid fa-user"></i> Thành viên
-            </button>
-        </div>
+        <button class="btn-member"><i class="fa-solid fa-user"></i> Thành viên</button>
     </header>
 
-    <section class="topic-section" id="chu-de">
-        <h2 style="margin-bottom:25px;">Các chủ đề</h2>
+    <section id="topic-section">
+        <h2 style="margin-bottom: 25px;">Các chủ đề</h2>
         <div class="topic-grid">
-            <a href="#" class="topic-card t-1"><h3>Thuyết Minh Tuổi Thơ</h3></a>
-            <a href="#" class="topic-card t-2"><h3>Sitcom</h3></a>
-            <a href="#" class="topic-card t-3"><h3>Lồng Tiếng Cực Mạnh</h3></a>
-            <a href="#" class="topic-card t-4"><h3>Xuyên Không</h3></a>
-            <a href="#" class="topic-card t-5"><h3>Cổ Trang</h3></a>
-            <a href="#" class="topic-card t-6"><h3>4k</h3></a>
-            <a href="#" class="topic-card t-7"><h3>Chữa lành</h3></a>
+            <a href="#" class="topic-card t-1"><h3>Thuyết Minh Tuổi Thơ</h3><span>Xem toàn bộ ></span></a>
+            <a href="#" class="topic-card t-2"><h3>Sitcom</h3><span>Xem toàn bộ ></span></a>
+            <a href="#" class="topic-card t-3"><h3>Lồng Tiếng Cực Mạnh</h3><span>Xem toàn bộ ></span></a>
+            <a href="#" class="topic-card t-4"><h3>Xuyên Không</h3><span>Xem toàn bộ ></span></a>
+            <a href="#" class="topic-card t-5"><h3>Cổ Trang</h3><span>Xem toàn bộ ></span></a>
+            <a href="#" class="topic-card t-6"><h3>4k</h3><span>Xem toàn bộ ></span></a>
+            <a href="#" class="topic-card t-7"><h3>Chữa lành</h3><span>Xem toàn bộ ></span></a>
         </div>
     </section>
 
+    <div style="padding: 100px; text-align: center; color: #444;">
+        <h2>Nội dung trang web...</h2>
+    </div>
+
+    <script>
+        // Xử lý click vào nút Chủ Đề
+        const btnTopic = document.getElementById('btn-topic');
+        const topicSection = document.getElementById('topic-section');
+
+        btnTopic.addEventListener('click', function() {
+            // Kiểm tra trạng thái hiển thị
+            if (topicSection.style.display === 'block') {
+                topicSection.style.display = 'none';
+                this.classList.remove('active');
+            } else {
+                topicSection.style.display = 'block';
+                this.classList.add('active');
+            }
+        });
+    </script>
 </body>
 </html>
