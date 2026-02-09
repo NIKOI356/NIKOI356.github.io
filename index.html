@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RoPhim - ok 1 Mobile Search Final</title>
+    <title>RoPhim - ok 1 Mobile Final Fix</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
@@ -11,13 +11,13 @@
         :root {
             --bg-dark: #14161b;
             --primary-yellow: #ffc107;
-            --dropdown-bg: #15181e;
+            --dropdown-bg: #1a1d23;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background-color: var(--bg-dark); color: white; min-height: 100vh; overflow-x: hidden; }
 
-        /* --- Navbar --- */
+        /* --- Navbar (Ảnh 1) --- */
         .navbar {
             display: flex; align-items: center; justify-content: space-between;
             padding: 12px 20px; background-color: var(--bg-dark);
@@ -25,11 +25,10 @@
             height: 60px;
         }
 
-        .nav-left { display: flex; align-items: center; gap: 15px; flex: 1; }
+        .nav-left { display: flex; align-items: center; gap: 15px; }
         .menu-toggle { font-size: 20px; cursor: pointer; color: white; }
 
-        /* Logo chuẩn ảnh 1 */
-        .logo-wrap { display: flex; align-items: center; gap: 10px; text-decoration: none; color: white; transition: 0.3s; }
+        .logo-wrap { display: flex; align-items: center; gap: 10px; text-decoration: none; color: white; }
         .logo-img { width: 35px; height: 35px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
         .logo-img::after { content: "\f144"; font-family: "Font Awesome 6 Free"; font-weight: 900; color: #222; font-size: 18px; }
         .brand-name { font-size: 20px; font-weight: 800; }
@@ -55,37 +54,42 @@
         }
         .close-search { color: #ff5c5c; font-size: 22px; margin-left: 15px; cursor: pointer; }
 
-        /* Sidebar Menu Mobile */
-        .nav-center { 
-            position: fixed; top: 0; left: -100%; width: 300px; height: 100vh;
-            background: var(--dropdown-bg); flex-direction: column; align-items: flex-start;
-            padding: 70px 30px; transition: 0.4s ease; z-index: 2000;
+        /* --- Sidebar Menu Mobile --- */
+        .sidebar { 
+            position: fixed; top: 0; left: -100%; width: 280px; height: 100vh;
+            background: var(--dropdown-bg); flex-direction: column; 
+            padding: 20px; transition: 0.4s ease; z-index: 2000;
+            box-shadow: 5px 0 15px rgba(0,0,0,0.5);
+            overflow-y: auto;
         }
-        .nav-center.active { left: 0; }
-        .close-menu { position: absolute; top: 20px; right: 20px; font-size: 24px; cursor: pointer; }
-
-        /* Nút Thành viên trong Sidebar */
+        .sidebar.active { left: 0; }
+        .sidebar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        
         .mobile-member-btn { 
-            background-color: #f1f3f5; color: #1a1a1b; border: none; padding: 12px 25px; 
-            border-radius: 25px; font-weight: 600; cursor: pointer; width: 100%; margin-bottom: 30px;
+            background-color: #f1f3f5; color: #1a1a1b; border: none; padding: 12px; 
+            border-radius: 25px; font-weight: 700; cursor: pointer; width: 100%; 
+            display: flex; align-items: center; justify-content: center; gap: 10px;
         }
 
-        .nav-item { width: 100%; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .nav-link { text-decoration: none; color: white; font-size: 16px; font-weight: 500; }
-
-        /* Bạn đang quan tâm gì */
-        .interest-section { padding: 30px 20px; }
-        .topic-grid { display: flex; overflow-x: auto; gap: 12px; scrollbar-width: none; }
-        .topic-grid::-webkit-scrollbar { display: none; }
-        .topic-card { min-width: 140px; height: 100px; border-radius: 12px; padding: 15px; display: flex; flex-direction: column; justify-content: flex-end; text-decoration: none; }
-        .t-1 { background: linear-gradient(to bottom right, #3f4c6b, #991b1b); }
-        .t-2 { background: linear-gradient(to bottom right, #134e4a, #10b981); }
+        /* Menu items in Sidebar */
+        .side-item { border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .side-link { 
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 0; color: #eee; text-decoration: none; font-size: 15px; font-weight: 500;
+        }
+        
+        /* Submenu (Chủ đề, Thể loại, Quốc gia) */
+        .submenu { display: none; padding: 5px 0 15px 15px; }
+        .submenu a { display: block; padding: 8px 0; color: #aaa; text-decoration: none; font-size: 14px; }
+        .submenu a:hover { color: var(--primary-yellow); }
+        .side-item.open .submenu { display: block; }
+        .side-item.open i { transform: rotate(180deg); }
     </style>
 </head>
 <body>
 
     <header class="navbar">
-        <div class="nav-left" id="header-main-left">
+        <div class="nav-left">
             <div class="menu-toggle" id="bars-btn"><i class="fa-solid fa-bars-staggered"></i></div>
             <a href="#" class="logo-wrap">
                 <div class="logo-img"></div>
@@ -93,7 +97,7 @@
             </a>
         </div>
 
-        <div class="nav-right" id="header-main-right">
+        <div class="nav-right">
             <i class="fa-regular fa-bell" style="font-size: 20px;"></i>
             <i class="fa-solid fa-magnifying-glass search-trigger-icon" id="open-search"></i>
         </div>
@@ -106,47 +110,79 @@
         </div>
     </header>
 
-    <nav class="nav-center" id="mobile-menu">
-        <div class="close-menu" id="close-btn"><i class="fa-solid fa-xmark"></i></div>
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <span style="font-weight: 800; font-size: 18px; color: var(--primary-yellow);">MENU</span>
+            <i class="fa-solid fa-xmark" id="close-sidebar" style="font-size: 22px; cursor: pointer;"></i>
+        </div>
+
         <button class="mobile-member-btn"><i class="fa-solid fa-user"></i> Thành viên</button>
-        <div class="nav-item"><a class="nav-link">Chủ Đề</a></div>
-        <div class="nav-item"><a class="nav-link">Thể loại</a></div>
-        <div class="nav-item"><a class="nav-link">Phim Lẻ</a></div>
-        <div class="nav-item"><a class="nav-link">Phim Bộ</a></div>
-        <div class="nav-item"><a class="nav-link">Quốc gia</a></div>
+
+        <div class="side-item">
+            <div class="side-link toggle-sub">Chủ Đề <i class="fa-solid fa-chevron-down" style="font-size: 12px;"></i></div>
+            <div class="submenu">
+                <a href="#">Thuyết Minh Tuổi Thơ</a>
+                <a href="#">Sitcom Hay</a>
+                <a href="#">Lồng Tiếng Cực Mạnh</a>
+                <a href="#">Xuyên Không</a>
+                <a href="#">Cổ Trang</a>
+            </div>
+        </div>
+
+        <div class="side-item">
+            <div class="side-link toggle-sub">Thể loại <i class="fa-solid fa-chevron-down" style="font-size: 12px;"></i></div>
+            <div class="submenu">
+                <a href="#">Hành Động</a>
+                <a href="#">Tình Cảm</a>
+                <a href="#">Kinh Dị</a>
+                <a href="#">Viễn Tưởng</a>
+            </div>
+        </div>
+
+        <div class="side-item"><a href="#" class="side-link">Phim Lẻ</a></div>
+        <div class="nav-item"><a href="#" class="side-link">Phim Bộ</a></div>
+
+        <div class="side-item">
+            <div class="side-link toggle-sub">Quốc gia <i class="fa-solid fa-chevron-down" style="font-size: 12px;"></i></div>
+            <div class="submenu">
+                <a href="#">Hàn Quốc</a>
+                <a href="#">Trung Quốc</a>
+                <a href="#">Thái Lan</a>
+                <a href="#">Âu Mỹ</a>
+            </div>
+        </div>
+
+        <div class="side-item"><a href="#" class="side-link">Diễn Viên</a></div>
+        <div class="side-item"><a href="#" class="side-link">Lịch Chiếu</a></div>
+        <div class="side-item"><a href="#" class="side-link">Reviews <span style="background:var(--primary-yellow); color:black; font-size:9px; padding:2px 4px; border-radius:4px; margin-left:5px;">NEW</span></a></div>
     </nav>
 
-    <section class="interest-section">
-        <h2 style="font-size: 18px; margin-bottom: 20px;">Bạn đang quan tâm gì?</h2>
-        <div class="topic-grid">
-            <a href="#" class="topic-card t-1"><h3>Thuyết Minh Tuổi Thơ</h3></a>
-            <a href="#" class="topic-card t-2"><h3>Sitcom</h3></a>
-        </div>
-    </section>
+    <div style="padding: 50px 20px; text-align: center; color: #444;">
+        <p>Phần Banner và Bạn đang quan tâm gì đã tạm gỡ bỏ...</p>
+    </div>
 
     <script>
-        // Xử lý tìm kiếm Mobile (Chuẩn ảnh 1 & 2)
+        // Xử lý Tìm kiếm
         const openSearch = document.getElementById('open-search');
         const closeSearch = document.getElementById('close-search');
         const searchOverlay = document.getElementById('search-overlay');
-        const searchInput = document.getElementById('mobile-search-input');
+        openSearch.onclick = () => { searchOverlay.classList.add('active'); document.getElementById('mobile-search-input').focus(); };
+        closeSearch.onclick = () => searchOverlay.classList.remove('active');
 
-        openSearch.onclick = () => {
-            searchOverlay.classList.add('active');
-            searchInput.focus(); // Bật bàn phím điện thoại
-        };
-
-        closeSearch.onclick = () => {
-            searchOverlay.classList.remove('active');
-        };
-
-        // Xử lý Sidebar Menu
+        // Xử lý Sidebar
         const barsBtn = document.getElementById('bars-btn');
-        const closeBtn = document.getElementById('close-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
+        const closeSidebar = document.getElementById('close-sidebar');
+        const sidebar = document.getElementById('sidebar');
 
-        barsBtn.onclick = () => mobileMenu.classList.add('active');
-        closeBtn.onclick = () => mobileMenu.classList.remove('active');
+        barsBtn.onclick = () => sidebar.classList.add('active');
+        closeSidebar.onclick = () => sidebar.classList.remove('active');
+
+        // Xử lý đóng mở Submenu trong Sidebar
+        document.querySelectorAll('.toggle-sub').forEach(btn => {
+            btn.onclick = function() {
+                this.parentElement.classList.toggle('open');
+            }
+        });
     </script>
 </body>
 </html>
