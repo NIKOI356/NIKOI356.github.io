@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RoPhim - ok 1 Final Fix</title>
+    <title>RoPhim - ok 1 Transparent Header</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
@@ -12,54 +12,62 @@
             --bg-dark: #0f1115;
             --primary-orange: #f37022;
             --primary-yellow: #ffc107;
-            --dropdown-bg: #15181e;
+            --dropdown-bg: rgba(21, 24, 30, 0.95);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background-color: var(--bg-dark); color: white; min-height: 100vh; overflow-x: hidden; }
 
-        /* --- Header khôi phục đầy đủ (ok 1) --- */
+        /* --- Header TRONG SUỐT (Transparent) --- */
         .navbar {
             display: flex; align-items: center; justify-content: space-between;
-            padding: 12px 40px; background-color: rgba(15, 17, 21, 0.95);
+            padding: 15px 40px; 
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 100%); /* Nền trong suốt có đổ bóng nhẹ phía trên */
             position: absolute; top: 0; width: 100%; z-index: 1000;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: background 0.3s;
         }
+
+        /* Khi cuộn trang web xuống, header sẽ đổi màu để dễ nhìn (Tùy chọn) */
+        .navbar.scrolled {
+            background: rgba(15, 17, 21, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+        }
+
         .nav-left { display: flex; align-items: center; gap: 20px; }
         .logo-wrap { display: flex; align-items: center; gap: 10px; text-decoration: none; color: white; }
         .logo-img { width: 40px; height: 40px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
         .logo-img::after { content: "\f144"; font-family: "Font Awesome 6 Free"; font-weight: 900; color: #222; font-size: 20px; }
         .brand-name { font-size: 24px; font-weight: 800; }
 
+        /* Search Bar trong suốt chuẩn ảnh */
         .search-container { position: relative; width: 280px; }
         .search-container input {
             width: 100%; padding: 10px 15px 10px 45px;
-            background: rgba(255, 255, 255, 0.12); border: none; border-radius: 8px;
-            color: white; font-size: 14px; outline: none;
+            background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.1); 
+            border-radius: 8px; color: white; font-size: 14px; outline: none;
         }
-        .search-container i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #999; }
+        .search-container i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #fff; }
 
         .nav-center { display: flex; align-items: center; gap: 18px; }
-        .nav-item { position: relative; padding: 15px 0; }
-        .nav-link { text-decoration: none; color: #eee; font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+        .nav-item { position: relative; padding: 10px 0; }
+        .nav-link { text-decoration: none; color: #fff; font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 5px; }
         .nav-link:hover { color: var(--primary-yellow); }
 
-        /* --- Khôi phục Dropdowns --- */
+        /* Dropdowns khôi phục từ bản trước */
         .dropdown-menu {
             position: absolute; top: 100%; left: 0; background-color: var(--dropdown-bg);
             padding: 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);
             opacity: 0; visibility: hidden; transform: translateY(10px); transition: 0.3s;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            backdrop-filter: blur(15px);
         }
         .nav-item:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
-        
         .mega-menu { min-width: 500px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
         .country-menu { min-width: 160px; display: flex; flex-direction: column; gap: 5px; }
-        
-        .dropdown-menu a { color: #ccc; text-decoration: none; font-size: 13px; display: block; padding: 5px 0; transition: 0.2s; }
+        .dropdown-menu a { color: #ccc; text-decoration: none; font-size: 13px; display: block; padding: 5px 0; }
         .dropdown-menu a:hover { color: var(--primary-yellow); padding-left: 5px; }
 
-        /* --- Banner mở rộng --- */
+        /* --- Banner Mở Rộng --- */
         .hero-banner {
             position: relative; width: 100%; height: 100vh;
             display: flex; align-items: center; padding: 0 60px;
@@ -74,27 +82,19 @@
         .hero-content { z-index: 2; max-width: 600px; }
         .movie-title { font-size: 55px; font-weight: 900; color: #fff; margin-bottom: 10px; text-transform: uppercase; }
 
-        /* Nút Xem Ngay màu cam */
+        /* Nút Xem Ngay màu cam rực rỡ */
         .btn-xem-ngay {
             display: inline-flex; align-items: center; gap: 12px;
             background: linear-gradient(to right, #f37022, #f7941e);
             color: white; padding: 14px 35px; border-radius: 50px;
-            text-decoration: none; font-weight: 700; font-size: 18px;
-            transition: 0.3s;
+            text-decoration: none; font-weight: 700; font-size: 18px; transition: 0.3s;
         }
         .btn-xem-ngay i { background: white; color: #f37022; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; }
-
-        /* Phần Bạn đang quan tâm gì */
-        .interest-section { padding: 40px 60px; background-color: var(--bg-dark); }
-        .topic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; }
-        .topic-card { height: 160px; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; justify-content: flex-end; text-decoration: none; }
-        .t-1 { background: linear-gradient(135deg, #4b5563, #991b1b); }
-        .t-2 { background: linear-gradient(135deg, #10b981, #064e3b); }
     </style>
 </head>
 <body>
 
-    <header class="navbar">
+    <header class="navbar" id="main-nav">
         <div class="nav-left">
             <a href="#" class="logo-wrap">
                 <div class="logo-img"></div>
@@ -107,38 +107,33 @@
         </div>
         <nav class="nav-center">
             <div class="nav-item"><a class="nav-link">Chủ Đề</a></div>
-            
             <div class="nav-item">
                 <a class="nav-link">Thể loại <i class="fa-solid fa-caret-down"></i></a>
                 <div class="dropdown-menu mega-menu">
                     <a href="#">Chính kịch</a> <a href="#">Khoa học</a> <a href="#">Tình cảm</a> <a href="#">Cổ trang</a>
                     <a href="#">Tâm lý</a> <a href="#">Bí ẩn</a> <a href="#">Hành động</a> <a href="#">Hình sự</a>
-                    <a href="#">Hài hước</a> <a href="#">Phiêu lưu</a> <a href="#">Gia đình</a> <a href="#">Kinh dị</a>
                 </div>
             </div>
-
             <div class="nav-item"><a class="nav-link">Phim Lẻ</a></div>
             <div class="nav-item"><a class="nav-link">Phim Bộ</a></div>
-
             <div class="nav-item">
                 <a class="nav-link">Quốc gia <i class="fa-solid fa-caret-down"></i></a>
                 <div class="dropdown-menu country-menu">
                     <a href="#">Hàn Quốc</a> <a href="#">Thái Lan</a> <a href="#">Nhật Bản</a> <a href="#">Âu Mỹ</a>
-                    <a href="#">Hồng Kông</a> <a href="#">Trung Quốc</a> <a href="#">Anh</a> <a href="#">Ấn Độ</a>
+                    <a href="#">Trung Quốc</a> <a href="#">Anh</a> <a href="#">Ấn Độ</a> <a href="#">Hồng Kông</a>
                 </div>
             </div>
-
             <div class="nav-item"><a class="nav-link">Diễn Viên</a></div>
             <div class="nav-item"><a class="nav-link"><span style="background:var(--primary-yellow); color:#000; font-size:9px; padding:2px 4px; border-radius:4px; font-weight:800; margin-right:5px;">NEW</span>Reviews</a></div>
         </nav>
-        <button style="background: #fff; color:#000; border:none; padding: 10px 22px; border-radius: 25px; font-weight: 600;">
+        <button style="background: #fff; color:#000; border:none; padding: 10px 22px; border-radius: 25px; font-weight: 600; cursor: pointer;">
             <i class="fa-solid fa-user"></i> Thành viên
         </button>
     </header>
 
     <section class="hero-banner" id="hero-banner">
         <div class="hero-content">
-            <h1 class="movie-title" id="m-title"></h1>
+            <h1 class="movie-title" id="m-title">ĐANG TẢI...</h1>
             <p id="m-desc" style="color:#ccc; margin-bottom:30px; line-height:1.6;"></p>
             <a href="#" class="btn-xem-ngay" id="m-link">
                 <i class="fa-solid fa-play"></i> Xem Ngay
@@ -146,18 +141,10 @@
         </div>
     </section>
 
-    <section class="interest-section">
-        <h2 style="margin-bottom:25px;">Bạn đang quan tâm gì?</h2>
-        <div class="topic-grid">
-            <a href="#" class="topic-card t-1"><h3>Thuyết Minh Tuổi Thơ</h3></a>
-            <a href="#" class="topic-card t-2"><h3>Sitcom</h3></a>
-        </div>
-    </section>
-
     <script>
         const movies = [
             { title: "Mưa Đỏ", desc: "Một tác phẩm mang đầy màu sắc nghệ thuật và kịch tính. Những cơn mưa đỏ mang theo những bí mật thay đổi định mệnh.", img: "https://mir-s3-cdn-cf.behance.net/project_modules/1400_webp/0b1372232709307.68a20d789415d.jpg" },
-            { title: "Avatar: Lửa và Tro Tàn", desc: "Jake Sully và Neytiri đối mặt với Tộc Người Tro Tàn trong cuộc hành trình đầy nguy hiểm.", img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20251221-1/687373bb9894616507f27c74c0eaa598.jpg" }
+            { title: "Avatar: Lửa và Tro Tàn", desc: "Jake Sully và Neytiri đối mặt với Tộc Người Tro Tàn trong cuộc hành trình đầy nguy hiểm bảo vệ hành tinh Pandora.", img: "https://phimapi.com/image.php?url=https://phimimg.com/upload/vod/20251221-1/687373bb9894616507f27c74c0eaa598.jpg" }
         ];
 
         let currentIndex = 0;
@@ -171,6 +158,16 @@
 
         setInterval(nextMovie, 3000);
         nextMovie();
+
+        // Hiệu ứng đổi màu Header khi cuộn
+        window.onscroll = function() {
+            const nav = document.getElementById('main-nav');
+            if (window.pageYOffset > 50) {
+                nav.classList.add("scrolled");
+            } else {
+                nav.classList.remove("scrolled");
+            }
+        };
     </script>
 </body>
 </html>
