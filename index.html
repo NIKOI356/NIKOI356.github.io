@@ -3,46 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giao diện RoPhim Clone</title>
+    <title>RoPhim - Giao diện nguyên bản</title>
     <style>
-        /* DÁN TOÀN BỘ PHẦN CSS TÔI GỬI Ở TRÊN VÀO ĐÂY */
+        /* --- CSS NGUYÊN BẢN TỪ FILE GỐC --- */
         :root {
-            --bg-dark: #121212;
-            --primary-color: #07bc0c;
-            --text-white: #ffffff;
-            --header-height: 70px;
+            --toastify-color-dark: #121212;
+            --toastify-color-success: #07bc0c;
+            --bg-body: #0a0a0a;
+            --text-main: #fff;
+            --text-sub: #ccc;
         }
-        body { background-color: var(--bg-dark); margin: 0; font-family: sans-serif; }
-        .header-wrap { height: var(--header-height); background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px); position: fixed; top: 0; width: 100%; z-index: 9999; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .line-center-between { display: flex; align-items: center; justify-content: space-between; height: 100%; padding: 0 20px; }
-        .line-center { display: flex; align-items: center; }
-        .nav-list { list-style: none; margin: 0 0 0 30px; padding: 0; display: flex; gap: 20px; }
-        .nav-item a { color: var(--text-white); text-decoration: none; font-weight: 500; }
-        .search-box { position: relative; margin-right: 20px; }
-        .search-box input { background: #222; border: none; padding: 8px 35px 8px 15px; border-radius: 20px; color: white; }
-        .btn-login { background: var(--primary-color); color: white; padding: 8px 20px; border-radius: 5px; text-decoration: none; }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            margin: 0;
+            font-family: system-ui, -apple-system, sans-serif;
+            overflow-x: hidden;
+        }
+
+        .header-wrap {
+            position: fixed;
+            top: 0; width: 100%; height: 70px;
+            background: rgba(18, 18, 18, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 100%;
+            padding: 0 20px;
+        }
+
+        .nav-list { display: flex; list-style: none; gap: 25px; }
+        .nav-item a { color: var(--text-sub); text-decoration: none; font-weight: 500; }
+        .nav-item.active a { color: #fff; }
+
+        /* Hero Banner */
+        .hero-section {
+            position: relative;
+            height: 85vh;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+        }
+
+        .hero-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover; z-index: -1;
+        }
+
+        .hero-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(90deg, #0a0a0a 10%, transparent 60%),
+                        linear-gradient(0deg, #0a0a0a 0%, transparent 30%);
+            z-index: -1;
+        }
+
+        .hero-content { max-width: 600px; }
+        .movie-title { font-size: 3.5rem; margin: 10px 0; text-transform: uppercase; }
+        
+        /* Movie Grid */
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+            padding: 40px 5%;
+        }
+
+        .movie-card {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .movie-card:hover { transform: scale(1.05); }
+
+        .movie-card img { width: 100%; aspect-ratio: 2/3; object-fit: cover; }
+
+        .movie-info-overlay {
+            position: absolute; bottom: 0; width: 100%;
+            padding: 20px 10px 10px;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+        }
+
+        .card-title { font-size: 14px; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        
+        .badge {
+            position: absolute; top: 10px; left: 10px;
+            background: var(--toastify-color-success);
+            padding: 2px 6px; border-radius: 4px; font-size: 11px;
+        }
     </style>
 </head>
 <body>
 
     <header class="header-wrap">
-        <div class="line-center-between">
-            <div class="header-left line-center">
-                <img src="https://rophimm.net/images/logo.svg" alt="RoPhim" width="120">
-                <nav class="nav-list">
-                    <div class="nav-item"><a href="#">Trang Chủ</a></div>
-                    <div class="nav-item"><a href="#">Phim Lẻ</a></div>
-                    <div class="nav-item"><a href="#">Phim Bộ</a></div>
+        <div class="container">
+            <div style="display:flex; align-items:center;">
+                <img src="https://rophimm.net/images/logo.svg" width="130" alt="Logo">
+                <nav class="nav-list" style="margin-left: 40px;">
+                    <li class="nav-item"><a href="#">Phim Lẻ</a></li>
+                    <li class="nav-item"><a href="#">Phim Bộ</a></li>
+                    <li class="nav-item active"><a href="#">Phim Hot</a></li>
                 </nav>
             </div>
-            <div class="header-right line-center">
-                <div class="search-box">
-                    <input type="text" placeholder="Tìm kiếm...">
-                </div>
-                <a href="#" class="btn-login">Đăng Nhập</a>
+            <div class="user-action">
+                <button style="background:var(--toastify-color-success); border:none; color:white; padding:8px 20px; border-radius:5px; cursor:pointer;">Đăng nhập</button>
             </div>
         </div>
     </header>
 
-    </body>
+    <section class="hero-section">
+        <div class="hero-overlay"></div>
+        <img src="https://image.rophimm.net/images/films/z27pWxc4kLdMatQuSnNXOVVXZc6.webp" class="hero-bg">
+        <div class="hero-content">
+            <span style="background:#f1c40f; color:black; padding:2px 8px; font-weight:bold; border-radius:4px;">IMDb 9.0</span>
+            <h1 class="movie-title">Sắc Đêm Ngập Tràn</h1>
+            <p style="color:#ccc; line-height:1.6;">Phim bộ Trung Quốc mới nhất 2026 với những tình tiết hấp dẫn...</p>
+            <div style="display:flex; gap:15px; margin-top:20px;">
+                <button style="background:var(--toastify-color-success); border:none; color:white; padding:12px 30px; border-radius:8px; font-weight:bold; cursor:pointer;">Xem Ngay</button>
+                <button style="background:rgba(255,255,255,0.1); border:none; color:white; padding:12px 30px; border-radius:8px; backdrop-filter:blur(5px); cursor:pointer;">Yêu thích</button>
+            </div>
+        </div>
+    </section>
+
+    <h2 style="padding: 0 5%; margin-top: 40px;">Phim Mới Cập Nhật</h2>
+    <div class="movie-grid">
+        <div class="movie-card">
+            <span class="badge">Tập 12 VIETSUB</span>
+            <img src="https://image.rophimm.net/images/films/vFpS8p9A0M6v8WpW0YpW0YpW0Yp.jpg">
+            <div class="movie-info-overlay">
+                <div class="card-title">Hạnh Phúc: Chung Cư Có Độc</div>
+            </div>
+        </div>
+        </div>
+
+</body>
 </html>
