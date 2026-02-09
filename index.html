@@ -3,58 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RoPhim Header</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <title>RoPhim - Phim hay cả rổ</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <script src="https://unpkg.com/lucide@latest"></script>
-</head>
-<body>
 
-<header class="navbar">
-    <div class="logo-container">
-        <div class="logo-icon">
-            <i data-lucide="play-circle" class="play-icon"></i>
-        </div>
-        <div class="logo-text">
-            <span class="brand-name">RoPhim</span>
-            <span class="tagline">Phim hay cả rổ</span>
-        </div>
-    </div>
+    <style>
+        /* Toàn bộ CSS được gộp tại đây để dễ upload lên GitHub */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
 
-    <div class="search-box">
-        <i data-lucide="search" class="search-icon"></i>
-        <input type="text" placeholder="Tìm kiếm phim, diễn viên">
-    </div>
+        body {
+            background-color: #0b0b0b;
+            /* Ảnh nền mờ phía sau giống trong hình */
+            background-image: linear-gradient(to bottom, rgba(0,0,0,0.7), #0b0b0b), 
+                              url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=2000');
+            background-size: cover;
+            color: white;
+        }
 
-    <nav class="nav-links">
-        <a href="#">Chủ Đề</a>
-        <div class="dropdown">
-            <a href="#">Thể loại <i data-lucide="chevron-down"></i></a>
-        </div>
-        <a href="#">Phim Lẻ</a>
-        <a href="#">Phim Bộ</a>
-        <a href="#">Xem Chung</a>
-        <div class="dropdown">
-            <a href="#">Quốc gia <i data-lucide="chevron-down"></i></a>
-        </div>
-        <a href="#">Diễn Viên</a>
-        <a href="#">Lịch Chiếu</a>
-        <div class="badge-item">
-            <span class="badge">NEW</span>
-            <a href="#">Reviews</a>
-        </div>
-    </nav>
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 30px;
+            background: rgba(20, 20, 20, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
 
-    <div class="user-action">
-        <button class="btn-member">
-            <i data-lucide="user" class="user-icon"></i>
-            Thành viên
-        </button>
-    </div>
-</header>
+        /* Logo Section */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            min-width: fit-content;
+        }
 
-<script>
-    lucide.createIcons();
-</script>
-</body>
-</html>
+        .logo-icon {
+            background-color: #ffc107;
+            color: #000;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 15px rgba(255, 193, 7, 0.3);
+        }
+
+        .logo-text {
+            line-height: 1.2;
+        }
+
+        .brand-name {
+            display: block;
+            font-size: 22px;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .tagline {
+            font-size: 11px;
+            color: #bbb;
+            display: block;
+            font-weight: 400;
+        }
+
+        /* Search Box */
+        .search-box {
+            position: relative;
+            flex: 0 1 350px;
+            margin: 0 20px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px 10px 45px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            color: white;
+            outline: none;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .search-box input:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #ffc107;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            color: #999;
+        }
+
+        /* Navigation Links */
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #efefef;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap:
