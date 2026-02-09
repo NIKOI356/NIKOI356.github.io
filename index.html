@@ -1,68 +1,60 @@
-"use client";
-import { Search, User, ChevronDown, Menu } from "lucide-react"; // Cài lucide-react để lấy icon
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoPhim Header</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
 
-export default function Header() {
-  return (
-    <header className="fixed top-0 w-full z-50 bg-[#141414]/90 backdrop-blur-md px-4 py-3 flex items-center justify-between border-b border-white/10">
-      
-      {/* LEFT: Logo & Search */}
-      <div className="flex items-center space-x-6">
-        {/* Logo */}
-        <div className="flex items-center space-x-2 cursor-pointer">
-          <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-            <div className="w-0 h-0 border-t-[8px] border-t-transparent border-l-[12px] border-l-black border-b-[8px] border-b-transparent ml-1" />
-          </div>
-          <div>
-            <h1 className="text-white font-bold text-xl leading-none">RoPhim</h1>
-            <p className="text-[10px] text-gray-400">Phim hay cả rổ</p>
-          </div>
+<header class="navbar">
+    <div class="logo-container">
+        <div class="logo-icon">
+            <i data-lucide="play-circle" class="play-icon"></i>
         </div>
+        <div class="logo-text">
+            <span class="brand-name">RoPhim</span>
+            <span class="tagline">Phim hay cả rổ</span>
+        </div>
+    </div>
 
-        {/* Search Bar - Ẩn trên Mobile nhỏ, hiện trên PC/TV */}
-        <div className="hidden lg:flex items-center bg-white/10 px-4 py-2 rounded-lg w-80 border border-white/5 focus-within:border-white/20 transition">
-          <Search className="text-gray-400 w-4 h-4 mr-2" />
-          <input 
-            type="text" 
-            placeholder="Tìm kiếm phim, diễn viên" 
-            className="bg-transparent text-sm text-white outline-none w-full"
-          />
-        </div>
-      </div>
+    <div class="search-box">
+        <i data-lucide="search" class="search-icon"></i>
+        <input type="text" placeholder="Tìm kiếm phim, diễn viên">
+    </div>
 
-      {/* CENTER: Navigation (Ẩn trên Mobile, hiện trên Desktop/TV) */}
-      <nav className="hidden xl:flex items-center space-x-5 text-[15px] font-medium text-gray-200">
-        <a href="#" className="hover:text-white transition">Chủ Đề</a>
-        <div className="group flex items-center cursor-pointer hover:text-white">
-          <span>Thể loại</span>
-          <ChevronDown className="w-4 h-4 ml-1" />
+    <nav class="nav-links">
+        <a href="#">Chủ Đề</a>
+        <div class="dropdown">
+            <a href="#">Thể loại <i data-lucide="chevron-down"></i></a>
         </div>
-        <a href="#" className="hover:text-white transition">Phim Lẻ</a>
-        <a href="#" className="hover:text-white transition">Phim Bộ</a>
-        <a href="#" className="hover:text-white transition">Xem Chung</a>
-        <div className="group flex items-center cursor-pointer hover:text-white text-yellow-500">
-          <span className="bg-yellow-500 text-black text-[10px] px-1 rounded mr-1 font-bold">NEW</span>
-          <span className="text-gray-200">Reviews</span>
+        <a href="#">Phim Lẻ</a>
+        <a href="#">Phim Bộ</a>
+        <a href="#">Xem Chung</a>
+        <div class="dropdown">
+            <a href="#">Quốc gia <i data-lucide="chevron-down"></i></a>
         </div>
-      </nav>
+        <a href="#">Diễn Viên</a>
+        <a href="#">Lịch Chiếu</a>
+        <div class="badge-item">
+            <span class="badge">NEW</span>
+            <a href="#">Reviews</a>
+        </div>
+    </nav>
 
-      {/* RIGHT: Member Button & Mobile Menu */}
-      <div className="flex items-center space-x-3">
-        {/* Nút Tìm kiếm riêng cho Mobile */}
-        <button className="lg:hidden p-2 text-white">
-          <Search className="w-6 h-6" />
+    <div class="user-action">
+        <button class="btn-member">
+            <i data-lucide="user" class="user-icon"></i>
+            Thành viên
         </button>
+    </div>
+</header>
 
-        {/* Nút Thành viên */}
-        <button className="bg-[#e5e5e5] text-black px-4 py-1.5 rounded-full text-sm font-semibold flex items-center space-x-2 hover:bg-white transition focus:ring-4 focus:ring-blue-500">
-          <User className="w-4 h-4" />
-          <span className="hidden sm:inline">Thành viên</span>
-        </button>
-
-        {/* Hamburger Menu cho Mobile */}
-        <button className="xl:hidden p-2 text-white">
-          <Menu className="w-7 h-7" />
-        </button>
-      </div>
-    </header>
-  );
-}
+<script>
+    lucide.createIcons();
+</script>
+</body>
+</html>
