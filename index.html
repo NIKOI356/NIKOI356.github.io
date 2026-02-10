@@ -747,23 +747,22 @@
         }
 
         .popup-content {
-            max-width: 850px;
+            max-width: 1100px;
             margin: 20px auto;
             background: var(--bg-nav);
             border-radius: 15px;
-            display: grid;
-            grid-template-columns: 220px 1fr;
-            gap: 25px;
+            display: block; /* Đổi sang block để video full width */
             padding: 25px;
             position: relative;
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
-        .popup-poster img {
-            width: 100%;
-            height: auto;
+        .popup-poster-inline {
+            width: 200px;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            margin-right: 25px;
+            float: left;
         }
 
         .close-popup {
@@ -774,17 +773,43 @@
             cursor: pointer;
             color: #ff4d4d;
             transition: 0.2s;
+            z-index: 10;
         }
 
         .close-popup:hover {
             transform: rotate(90deg);
         }
 
+        /* --- PLAYER STYLES (Tối ưu Mobile) --- */
+        .player-wrapper {
+            width: 100%;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+            margin: 15px 0 20px 0;
+            border: 1px solid #333;
+            position: relative;
+            /* Đảm bảo vùng chạm hoạt động tốt trên mobile */
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .player-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 5;
+        }
+
         .lang-selector {
             display: flex;
             gap: 10px;
-            margin-top: 20px;
-            margin-bottom: 10px;
+            margin-top: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
         }
 
         .lang-btn {
@@ -806,48 +831,32 @@
 
         .episode-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
             gap: 8px;
             margin-top: 10px;
-            max-height: 200px;
+            max-height: 150px;
             overflow-y: auto;
             padding-right: 5px;
+            background: rgba(0,0,0,0.2);
+            padding: 10px;
+            border-radius: 8px;
         }
 
         .ep-btn {
             background: #252931;
             border: 1px solid #333;
             color: white;
-            padding: 8px;
+            padding: 6px;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 11px;
             transition: 0.2s;
         }
 
-        .ep-btn:hover {
+        .ep-btn:hover, .ep-btn.active {
             border-color: var(--accent);
             color: var(--accent);
-        }
-
-        .btn-view-now {
-            background: var(--accent);
-            color: black;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 20px;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            transition: 0.3s;
-        }
-
-        .btn-view-now:hover {
-            transform: scale(1.05);
-            filter: brightness(1.1);
+            background: rgba(241, 196, 15, 0.1);
         }
 
         @media (max-width: 768px) {
@@ -856,10 +865,11 @@
             .hero-slider { height: 300px; }
             .slide-content h2 { font-size: 24px; }
             .slide-desc { display: none; }
-            .popup-content { grid-template-columns: 1fr; margin: 0; padding: 20px; text-align: center; }
-            .popup-poster { max-width: 140px; margin: 0 auto; }
+            .popup-content { margin: 0; padding: 15px; width: 100%; border-radius: 0; }
+            .popup-poster-inline { display: none; }
             .movie-item { min-width: 130px; max-width: 130px; }
-            .lang-selector { justify-content: center; }
+            .lang-selector { justify-content: flex-start; }
+            .player-wrapper { margin: 10px 0; border-radius: 4px; }
         }
 
         footer {
@@ -1096,7 +1106,6 @@
 
     async function initSite() {
         try {
-            // Load Hero Slider
             const res = await fetch(API_NEW);
             const data = await res.json();
             const items = data.items.slice(0, 6);
@@ -1137,10 +1146,7 @@
                 goToSlide(currentSlide);
             }, 5000);
 
-            // Load Menu data (Thể loại & Quốc gia)
             loadMenuData();
-
-            // Load phim theo danh sách cũ
             loadCountryPhim('han-quoc', 'koreanList');
             loadCountryPhim('trung-quoc', 'chineseList');
             loadCountryPhim('au-my', 'usukList');
@@ -1157,7 +1163,6 @@
             const genres = await genRes.json();
             const countries = await counRes.json();
 
-            // Dropdown & Interest Section
             const genreHtml = genres.map(g => `<a href="#" onclick="loadCategoryPhim('${g.slug}', 'searchList', '${g.name}')">${g.name}</a>`).join('');
             document.getElementById('genreDropdown').innerHTML = genreHtml;
             document.getElementById('colGenre').innerHTML = genreHtml;
@@ -1170,7 +1175,6 @@
                 </a>
             `).join('') + `<a href="#" class="interest-card" style="background: #252931; align-items: center; justify-content: center;"><span>+${genres.length-6} chủ đề</span></a>`;
 
-            // Quốc gia
             const countryHtml = countries.map(c => `<a href="#" onclick="loadCountryPhim('${c.slug}', 'searchList', '${c.name}')">${c.name}</a>`).join('');
             document.getElementById('countryDropdown').innerHTML = countryHtml;
             document.getElementById('colCountry').innerHTML = countryHtml;
@@ -1183,7 +1187,6 @@
         document.getElementById('section-search').style.display = 'block';
         document.getElementById('searchTitle').innerText = `Kết quả cho: ${keyword}`;
         document.getElementById('searchList').innerHTML = '<p style="padding:20px;">Đang tìm kiếm...</p>';
-        
         try {
             const res = await fetch(`https://phimapi.com/v1/api/tim-kiem?keyword=${keyword}&limit=30`);
             const data = await res.json();
@@ -1254,6 +1257,7 @@
         } catch (e) { console.error(e); }
     }
 
+    /* --- FIX PHÁT VIDEO: MOBILE COMPATIBILITY --- */
     async function showMovieDetail(slug) {
         try {
             const res = await fetch(API_DETAIL + slug);
@@ -1265,48 +1269,89 @@
             const content = document.getElementById('popupContent');
             
             const langButtons = episodeServers.map((server, idx) => 
-                `<button class="lang-btn ${idx === 0 ? 'active' : ''}" onclick="switchLang(this, '${idx}')">${server.server_name}</button>`
+                `<button class="lang-btn ${idx === 0 ? 'active' : ''}" onclick="switchLang(this, ${idx})">${server.server_name}</button>`
             ).join('');
 
             const firstServerEpisodes = episodeServers[0].server_data;
-            const episodeList = firstServerEpisodes.map(ep => `<button class="ep-btn" onclick="window.open('${ep.link_embed}')">${ep.name}</button>`).join('');
+            const episodeList = firstServerEpisodes.map((ep, idx) => 
+                `<button class="ep-btn ${idx === 0 ? 'active' : ''}" onclick="playVideo(this, '${ep.link_embed}')">${ep.name}</button>`
+            ).join('');
 
             content.innerHTML = `
                 <span class="close-popup" onclick="closePopup()">&times;</span>
-                <div class="popup-poster"><img src="${API_IMG}${movie.poster_url}"></div>
-                <div>
-                    <h2 style="font-size:24px; margin-bottom:10px;">${movie.name}</h2>
-                    <div class="slide-meta">
-                        <span class="meta-item imdb-tag">IMDb ${movie.tmdb?.vote_average || 'N/A'}</span>
-                        <span class="meta-item">${movie.year}</span>
-                        <span class="meta-item">${movie.quality}</span>
-                    </div>
-                    <p style="color:#aaa; line-height:1.6; margin-bottom:15px; font-size:13px;">${movie.content.substring(0, 250)}...</p>
-                    <div style="font-size:12px; color:var(--accent); margin-bottom:10px;">Diễn viên: ${movie.actor.join(', ')}</div>
-                    <div class="lang-selector">${langButtons}</div>
-                    <div id="epContainer" class="episode-grid">${episodeList}</div>
-                    <button class="btn-view-now" onclick="window.open('${firstServerEpisodes[0].link_embed}')">
-                        <i class="fas fa-play"></i> Xem Ngay
-                    </button>
+                <h2 style="font-size:24px; margin-bottom:15px; border-left: 5px solid var(--accent); padding-left: 15px;">${movie.name}</h2>
+                
+                <div class="player-wrapper" id="playerWrapper">
+                    <iframe id="videoIframe" src="" allowfullscreen allow="autoplay; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="no-referrer"></iframe>
                 </div>
+
+                <div style="overflow: auto; margin-top: 20px;">
+                    <img src="${API_IMG}${movie.poster_url}" class="popup-poster-inline">
+                    <div style="overflow: hidden;">
+                        <div class="slide-meta">
+                            <span class="meta-item imdb-tag">IMDb ${movie.tmdb?.vote_average || 'N/A'}</span>
+                            <span class="meta-item">${movie.year}</span>
+                            <span class="meta-item">${movie.quality}</span>
+                        </div>
+                        
+                        <div style="font-size:12px; color:var(--accent); margin-bottom:10px;">Diễn viên: ${movie.actor.join(', ')}</div>
+                        
+                        <div style="font-weight:bold; margin-top:15px; font-size:14px;">Chọn Server:</div>
+                        <div class="lang-selector">${langButtons}</div>
+                        
+                        <div style="font-weight:bold; margin-top:5px; font-size:14px;">Chọn Tập:</div>
+                        <div id="epContainer" class="episode-grid">${episodeList}</div>
+
+                        <p style="color:#aaa; line-height:1.6; margin-top:20px; font-size:13px;">${movie.content}</p>
+                    </div>
+                </div>
+                <div style="clear: both;"></div>
             `;
             
             window.currentMovieEpisodes = episodeServers;
             popup.style.display = 'block';
             document.body.style.overflow = 'hidden';
+
+            // Cho trình duyệt 100ms để ổn định DOM trước khi gán link (đặc biệt quan trọng trên mobile)
+            setTimeout(() => {
+                const iframe = document.getElementById('videoIframe');
+                if(iframe) iframe.src = firstServerEpisodes[0].link_embed;
+            }, 100);
+
         } catch (e) { console.error(e); }
     }
+
+    window.playVideo = function(btn, link) {
+        document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const iframe = document.getElementById('videoIframe');
+        if(iframe) {
+            // Xóa src cũ trước khi gán mới giúp một số trình duyệt mobile nhận diện sự kiện thay đổi tốt hơn
+            iframe.src = "about:blank";
+            setTimeout(() => {
+                iframe.src = link;
+            }, 50);
+        }
+        document.getElementById('moviePopup').scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
     window.switchLang = function(btn, serverIdx) {
         document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         const serverData = window.currentMovieEpisodes[serverIdx].server_data;
-        const newEpisodes = serverData.map(ep => `<button class="ep-btn" onclick="window.open('${ep.link_embed}')">${ep.name}</button>`).join('');
+        const newEpisodes = serverData.map((ep, idx) => 
+            `<button class="ep-btn ${idx === 0 ? 'active' : ''}" onclick="playVideo(this, '${ep.link_embed}')">${ep.name}</button>`
+        ).join('');
         document.getElementById('epContainer').innerHTML = newEpisodes;
+        
+        // Tự động phát tập đầu của server mới với độ trễ nhỏ
+        const firstEpBtn = document.querySelector('.ep-btn');
+        if(firstEpBtn) playVideo(firstEpBtn, serverData[0].link_embed);
     };
 
     function closePopup() {
         document.getElementById('moviePopup').style.display = 'none';
+        document.getElementById('popupContent').innerHTML = ''; 
         document.body.style.overflow = 'auto';
     }
 
