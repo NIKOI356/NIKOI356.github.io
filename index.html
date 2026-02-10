@@ -620,7 +620,7 @@
             max-width: 1600px;
             margin: 50px auto;
             padding: 0 20px;
-            position: relative; /* THÊM: Để định vị nút mủi tên */
+            position: relative; 
         }
 
         .list-header {
@@ -642,7 +642,7 @@
             gap: 15px;
             padding-bottom: 15px;
             scroll-snap-type: x mandatory;
-            scroll-behavior: smooth; /* THÊM: Để trượt mượt mà */
+            scroll-behavior: smooth; 
         }
 
         .movie-scroll::-webkit-scrollbar {
@@ -703,7 +703,6 @@
             text-overflow: ellipsis;
         }
 
-        /* --- THÊM: NÚT MỦI TÊN TRƯỢT PHIM --- */
         .slide-btn {
             position: absolute;
             top: 50%;
@@ -862,6 +861,54 @@
             .movie-item { min-width: 130px; max-width: 130px; }
             .lang-selector { justify-content: center; }
         }
+
+        footer {
+            background-color: var(--bg-nav);
+            padding: 40px 20px;
+            margin-top: 50px;
+            border-top: 1px solid #2d323a;
+            text-align: center;
+        }
+        .footer-content h2 {
+            color: var(--accent);
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .footer-content p {
+            color: var(--text-dim);
+            font-size: 14px;
+            max-width: 600px;
+            margin: 0 auto 20px;
+            line-height: 1.6;
+        }
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--accent);
+            color: black;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            background: #fff;
+        }
     </style>
 </head>
 <body>
@@ -872,7 +919,7 @@
             <i class="fas fa-bars"></i>
         </div>
 
-        <a href="#" class="logo-wrapper">
+        <a href="#" class="logo-wrapper" onclick="window.location.reload()">
             <div class="logo-icon"><i class="fas fa-play-circle"></i></div>
             <div class="logo-text">
                 <h1>XoPhim</h1>
@@ -882,38 +929,25 @@
 
         <div class="search-container">
             <i class="fas fa-search"></i>
-            <input type="text" placeholder="Tìm kiếm phim, diễn viên">
+            <input type="text" id="desktopSearch" placeholder="Tìm kiếm phim, diễn viên..." onkeyup="if(event.key === 'Enter') handleSearch(this.value)">
         </div>
 
         <nav class="nav-main">
             <a href="#" class="nav-link">Chủ Đề</a>
             <div class="dropdown">
                 <a class="nav-link" onclick="handleDropdownClick(event)">Thể loại <i class="fas fa-caret-down"></i></a>
-                <div class="dropdown-content">
-                    <a href="#">Chính kịch</a><a href="#">Khoa Học</a><a href="#">Tình Cảm</a><a href="#">Cổ Trang</a>
-                    <a href="#">Tâm Lý</a><a href="#">Bí Ẩn</a><a href="#">Hành Động</a><a href="#">Hình Sự</a>
-                    <a href="#">Hài Hước</a><a href="#">Phiêu Lưu</a><a href="#">Gia Đình</a><a href="#">Kinh Dị</a>
-                </div>
+                <div class="dropdown-content" id="genreDropdown">
+                    </div>
             </div>
-            <a href="#" class="nav-link">Phim Lẻ</a>
-            <a href="#" class="nav-link">Phim Bộ</a>
+            <a href="#" class="nav-link" onclick="loadListPhim('phim-le')">Phim Lẻ</a>
+            <a href="#" class="nav-link" onclick="loadListPhim('phim-bo')">Phim Bộ</a>
             <a href="#" class="nav-link">Xem Chung</a>
             <div class="dropdown">
                 <a class="nav-link" onclick="handleDropdownClick(event)">Quốc gia <i class="fas fa-caret-down"></i></a>
-                <div class="dropdown-content" style="min-width: 200px; grid-template-columns: 1fr;">
-                    <a class="dropdown-item" href="#">Trung Quốc</a>
-                    <a class="dropdown-item" href="#">Âu Mỹ</a>
-                    <a class="dropdown-item" href="#">Hàn Quốc</a>
-                    <a class="dropdown-item" href="#">Thổ Nhĩ Kỳ</a>
-                    <a class="dropdown-item" href="#">Anh</a>
-                    <a class="dropdown-item" href="#">Canada</a>
-                    <a class="dropdown-item" href="#">Pháp</a>
-                    <a class="dropdown-item" href="#">Bỉ</a>
-                    <a class="dropdown-item" href="#">Nhật Bản</a>
-                    <a class="dropdown-item" href="#">Thái Lan</a>
-                </div>
+                <div class="dropdown-content" id="countryDropdown" style="min-width: 200px; grid-template-columns: 1fr;">
+                    </div>
             </div>
-            <a href="#" class="nav-link">Diễn Viên</a>
+            <a href="#" class="nav-link" id="actorLink">Diễn Viên</a>
             <a href="#" class="nav-link">Lịch Chiếu</a>
             <a href="#" class="nav-link"><span class="badge-new">NEW</span> Reviews</a>
         </nav>
@@ -935,15 +969,13 @@
 
 <section class="interest-section">
     <h3>Bạn đang quan tâm gì?</h3>
-    <div class="interest-grid">
-        <a href="#" class="interest-card" style="background: #3b5bdb;"><span>Chính kịch</span><div class="sub-text">Xem chủ đề <i class="fas fa-chevron-right"></i></div></a>
-        <a href="#" class="interest-card" style="background: #20c997;"><span>Hài Hước</span><div class="sub-text">Xem chủ đề <i class="fas fa-chevron-right"></i></div></a>
-        <a href="#" class="interest-card" style="background: #748ffc;"><span>Hành Động</span><div class="sub-text">Xem chủ đề <i class="fas fa-chevron-right"></i></div></a>
-        <a href="#" class="interest-card" style="background: #9775fa;"><span>Hình Sự</span><div class="sub-text">Xem chủ đề <i class="fas fa-chevron-right"></i></div></a>
-        <a href="#" class="interest-card" style="background: #ff922b;"><span>Tình Cảm</span><div class="sub-text">Xem chủ đề <i class="fas fa-chevron-right"></i></div></a>
-        <a href="#" class="interest-card" style="background: #fa5252;"><span>Bí ẩn</span><div class="sub-text">Xem chủ đề <i class="fas fa-chevron-right"></i></div></a>
-        <a href="#" class="interest-card" style="background: #252931; align-items: center; justify-content: center;"><span>+15 chủ đề</span></a>
-    </div>
+    <div class="interest-grid" id="interestGrid">
+        </div>
+</section>
+
+<section class="movie-list-section" id="section-search" style="display:none;">
+    <div class="list-header"><h3 id="searchTitle">Kết quả tìm kiếm</h3></div>
+    <div class="movie-scroll" id="searchList"></div>
 </section>
 
 <section class="movie-list-section">
@@ -988,6 +1020,20 @@
     <div class="movie-scroll" id="horrorList"></div>
 </section>
 
+<footer>
+    <div class="footer-content">
+        <h2>XoPhim</h2>
+        <p>Trải nghiệm xem phim online chất lượng cao, cập nhật liên tục các bộ phim mới nhất. XoPhim - Phim hay cả rổ, xem là mê!</p>
+        <div style="color: var(--text-dim); font-size: 12px;">
+            &copy; 2026 XoPhim. All rights reserved.
+        </div>
+    </div>
+</footer>
+
+<button class="back-to-top" id="backToTop" onclick="scrollToTop()">
+    <i class="fas fa-chevron-up"></i>
+</button>
+
 <div class="popup-overlay" id="moviePopup">
     <div class="popup-content" id="popupContent"></div>
 </div>
@@ -995,7 +1041,7 @@
 <div class="mobile-search-overlay" id="mobileSearch">
     <div class="search-mobile-header">
         <div class="search-mobile-bar">
-            <input type="text" id="mobileSearchInput" placeholder="Tìm kiếm phim, diễn viên">
+            <input type="text" id="mobileSearchInput" placeholder="Tìm kiếm phim, diễn viên..." onkeyup="if(event.key === 'Enter') { handleSearch(this.value); toggleMenu('mobileSearch'); }">
         </div>
         <div class="close-search-mobile" onclick="toggleMenu('mobileSearch')">
             <i class="fas fa-times"></i>
@@ -1006,41 +1052,22 @@
 <div class="mobile-nav-overlay" id="mobileMenu">
     <div class="mobile-menu-card">
         <div class="close-mobile" onclick="toggleMenu('mobileMenu')">&times;</div>
-        
         <button class="mobile-user-btn"><i class="fas fa-user"></i> Thành viên</button>
-        
         <div class="mobile-grid">
             <a href="#">Chủ Đề</a>
             <button class="mobile-collapse-btn" onclick="toggleCollapse('colGenre')">
                 Thể loại <i class="fas fa-caret-down"></i>
             </button>
-            <div id="colGenre" class="mobile-collapse-content">
-                <a href="#">Chính kịch</a><a href="#">Khoa Học</a>
-                <a href="#">Tình Cảm</a><a href="#">Cổ Trang</a>
-                <a href="#">Tâm Lý</a><a href="#">Hành Động</a>
-                <a href="#">Hình Sự</a><a href="#">Hài Hước</a>
-                <a href="#">Phiêu Lưu</a><a href="#">Gia Đình</a><a href="#">Kinh Dị</a>
-            </div>
+            <div id="colGenre" class="mobile-collapse-content"></div>
 
-            <a href="#">Phim Lẻ</a>
-            <a href="#">Phim Bộ</a>
+            <a href="#" onclick="loadListPhim('phim-le'); toggleMenu('mobileMenu')">Phim Lẻ</a>
+            <a href="#" onclick="loadListPhim('phim-bo'); toggleMenu('mobileMenu')">Phim Bộ</a>
             <a href="#">Xem Chung</a>
 
             <button class="mobile-collapse-btn" onclick="toggleCollapse('colCountry')">
                 Quốc gia <i class="fas fa-caret-down"></i>
             </button>
-            <div id="colCountry" class="mobile-collapse-content">
-                <a href="#">Trung Quốc</a>
-                <a href="#">Âu Mỹ</a>
-                <a href="#">Hàn Quốc</a>
-                <a href="#">Thổ Nhĩ Kỳ</a>
-                <a href="#">Anh</a>
-                <a href="#">Canada</a>
-                <a href="#">Pháp</a>
-                <a href="#">Bỉ</a>
-                <a href="#">Nhật Bản</a>
-                <a href="#">Thái Lan</a>
-            </div>
+            <div id="colCountry" class="mobile-collapse-content"></div>
 
             <a href="#">Diễn Viên</a>
             <a href="#">Lịch Chiếu</a>
@@ -1052,23 +1079,24 @@
 </div>
 
 <script>
-    const API_NEW = 'https://phimapi.com/danh-sach/phim-moi-cap-nhat?page=1';
+    const API_NEW = 'https://phimapi.com/danh-sach/phim-moi-cap-nhat-v3?page=1';
     const API_DETAIL = 'https://phimapi.com/phim/';
+    const API_GENRES = 'https://phimapi.com/the-loai';
+    const API_COUNTRIES = 'https://phimapi.com/quoc-gia';
+    const API_IMG = 'https://phimapi.com/image.php?url=';
+    
     let currentSlide = 0;
     let slideCount = 0;
 
-    // THÊM: Hàm trượt danh sách phim
     function slideMovies(id, direction) {
         const container = document.getElementById(id);
-        const scrollAmount = container.offsetWidth * 0.8; // Trượt 80% chiều rộng khung nhìn
-        container.scrollBy({
-            left: direction * scrollAmount,
-            behavior: 'smooth'
-        });
+        const scrollAmount = container.offsetWidth * 0.8;
+        container.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
     }
 
     async function initSite() {
         try {
+            // Load Hero Slider
             const res = await fetch(API_NEW);
             const data = await res.json();
             const items = data.items.slice(0, 6);
@@ -1079,7 +1107,7 @@
 
             slider.innerHTML = items.map((m, i) => `
                 <div class="slide-item">
-                    <img src="${m.thumb_url}" alt="${m.name}">
+                    <img src="${API_IMG}${m.thumb_url}" alt="${m.name}">
                     <div class="slide-overlay">
                         <div class="slide-content">
                             <div class="slide-meta">
@@ -1100,75 +1128,129 @@
 
             thumbs.innerHTML = items.map((m, i) => `
                 <div class="thumb-item ${i===0?'active':''}" onclick="goToSlide(${i})">
-                    <img src="${m.poster_url}" alt="thumb">
+                    <img src="${API_IMG}${m.poster_url}" alt="thumb">
                 </div>
             `).join('');
 
             setInterval(() => {
                 currentSlide = (currentSlide + 1) % slideCount;
                 goToSlide(currentSlide);
-            }, 4000);
+            }, 5000);
 
+            // Load Menu data (Thể loại & Quốc gia)
+            loadMenuData();
+
+            // Load phim theo danh sách cũ
             loadCountryPhim('han-quoc', 'koreanList');
             loadCountryPhim('trung-quoc', 'chineseList');
             loadCountryPhim('au-my', 'usukList');
             loadCinemaPhim();
-            
-            // Đưa việc load 2 mục mới xuống sau các mục cũ
             loadCountryPhim('hong-kong', 'hkList');
             loadCategoryPhim('kinh-di', 'horrorList');
 
-        } catch (e) { console.error("Lỗi API", e); }
+        } catch (e) { console.error("Lỗi khởi tạo", e); }
+    }
+
+    async function loadMenuData() {
+        try {
+            const [genRes, counRes] = await Promise.all([fetch(API_GENRES), fetch(API_COUNTRIES)]);
+            const genres = await genRes.json();
+            const countries = await counRes.json();
+
+            // Dropdown & Interest Section
+            const genreHtml = genres.map(g => `<a href="#" onclick="loadCategoryPhim('${g.slug}', 'searchList', '${g.name}')">${g.name}</a>`).join('');
+            document.getElementById('genreDropdown').innerHTML = genreHtml;
+            document.getElementById('colGenre').innerHTML = genreHtml;
+
+            const colors = ['#3b5bdb', '#20c997', '#748ffc', '#9775fa', '#ff922b', '#fa5252'];
+            document.getElementById('interestGrid').innerHTML = genres.slice(0, 6).map((g, i) => `
+                <a href="#" class="interest-card" style="background: ${colors[i]}" onclick="loadCategoryPhim('${g.slug}', 'searchList', '${g.name}')">
+                    <span>${g.name}</span>
+                    <div class="sub-text">Xem ngay <i class="fas fa-chevron-right"></i></div>
+                </a>
+            `).join('') + `<a href="#" class="interest-card" style="background: #252931; align-items: center; justify-content: center;"><span>+${genres.length-6} chủ đề</span></a>`;
+
+            // Quốc gia
+            const countryHtml = countries.map(c => `<a href="#" onclick="loadCountryPhim('${c.slug}', 'searchList', '${c.name}')">${c.name}</a>`).join('');
+            document.getElementById('countryDropdown').innerHTML = countryHtml;
+            document.getElementById('colCountry').innerHTML = countryHtml;
+
+        } catch (e) { console.error("Lỗi load menu", e); }
+    }
+
+    async function handleSearch(keyword) {
+        if (!keyword) return;
+        document.getElementById('section-search').style.display = 'block';
+        document.getElementById('searchTitle').innerText = `Kết quả cho: ${keyword}`;
+        document.getElementById('searchList').innerHTML = '<p style="padding:20px;">Đang tìm kiếm...</p>';
+        
+        try {
+            const res = await fetch(`https://phimapi.com/v1/api/tim-kiem?keyword=${keyword}&limit=30`);
+            const data = await res.json();
+            renderMovieList(data.data.items, 'searchList');
+            window.scrollTo({ top: document.getElementById('section-search').offsetTop - 100, behavior: 'smooth' });
+        } catch (e) { console.error(e); }
+    }
+
+    async function loadListPhim(type) {
+        document.getElementById('section-search').style.display = 'block';
+        document.getElementById('searchTitle').innerText = type === 'phim-le' ? 'Phim Lẻ Mới' : 'Phim Bộ Mới';
+        try {
+            const res = await fetch(`https://phimapi.com/v1/api/danh-sach/${type}?limit=30`);
+            const data = await res.json();
+            renderMovieList(data.data.items, 'searchList');
+            window.scrollTo({ top: document.getElementById('section-search').offsetTop - 100, behavior: 'smooth' });
+        } catch (e) { console.error(e); }
+    }
+
+    function renderMovieList(items, elementId) {
+        const container = document.getElementById(elementId);
+        if (!items || items.length === 0) {
+            container.innerHTML = '<p style="padding:20px;">Không tìm thấy phim nào.</p>';
+            return;
+        }
+        container.innerHTML = items.map(m => `
+            <div class="movie-item" onclick="showMovieDetail('${m.slug}')">
+                <div class="movie-thumb">
+                    <img src="${API_IMG}https://phimimg.com/${m.poster_url}" alt="${m.name}">
+                    <span class="movie-badge">${m.year || 'Hot'}</span>
+                </div>
+                <div class="movie-title">${m.name}</div>
+            </div>
+        `).join('');
     }
 
     async function loadCinemaPhim() {
         try {
-            const res = await fetch(`https://phimapi.com/v1/api/danh-sach/phim-le?limit=60`);
+            const res = await fetch(`https://phimapi.com/v1/api/danh-sach/phim-le?limit=20`);
             const data = await res.json();
-            const items = data.data.items;
-            document.getElementById('cinemaList').innerHTML = items.map(m => `
-                <div class="movie-item" onclick="showMovieDetail('${m.slug}')">
-                    <div class="movie-thumb">
-                        <img src="https://phimimg.com/${m.poster_url}" alt="">
-                        <span class="movie-badge">${m.quality || 'FullHD'}</span>
-                    </div>
-                    <div class="movie-title">${m.name}</div>
-                </div>
-            `).join('');
+            renderMovieList(data.data.items, 'cinemaList');
         } catch (e) { console.error(e); }
     }
 
-    async function loadCountryPhim(slug, elementId) {
+    async function loadCountryPhim(slug, elementId, name = null) {
+        if(name) {
+            document.getElementById('section-search').style.display = 'block';
+            document.getElementById('searchTitle').innerText = `Phim ${name}`;
+        }
         try {
-            const res = await fetch(`https://phimapi.com/v1/api/quoc-gia/${slug}?limit=60`);
+            const res = await fetch(`https://phimapi.com/v1/api/quoc-gia/${slug}?limit=20`);
             const data = await res.json();
-            const items = data.data.items;
-            document.getElementById(elementId).innerHTML = items.map(m => `
-                <div class="movie-item" onclick="showMovieDetail('${m.slug}')">
-                    <div class="movie-thumb">
-                        <img src="https://phimimg.com/${m.poster_url}" alt="">
-                        <span class="movie-badge">P.Đề / T.Minh</span>
-                    </div>
-                    <div class="movie-title">${m.name}</div>
-                </div>
-            `).join('');
+            renderMovieList(data.data.items, elementId);
+            if(name) window.scrollTo({ top: document.getElementById('section-search').offsetTop - 100, behavior: 'smooth' });
         } catch (e) { console.error(e); }
     }
 
-    async function loadCategoryPhim(slug, elementId) {
+    async function loadCategoryPhim(slug, elementId, name = null) {
+        if(name) {
+            document.getElementById('section-search').style.display = 'block';
+            document.getElementById('searchTitle').innerText = `Thể loại: ${name}`;
+        }
         try {
-            const res = await fetch(`https://phimapi.com/v1/api/the-loai/${slug}?limit=60`);
+            const res = await fetch(`https://phimapi.com/v1/api/the-loai/${slug}?limit=20`);
             const data = await res.json();
-            const items = data.data.items;
-            document.getElementById(elementId).innerHTML = items.map(m => `
-                <div class="movie-item" onclick="showMovieDetail('${m.slug}')">
-                    <div class="movie-thumb">
-                        <img src="https://phimimg.com/${m.poster_url}" alt="">
-                        <span class="movie-badge">${m.year || 'Hot'}</span>
-                    </div>
-                    <div class="movie-title">${m.name}</div>
-                </div>
-            `).join('');
+            renderMovieList(data.data.items, elementId);
+            if(name) window.scrollTo({ top: document.getElementById('section-search').offsetTop - 100, behavior: 'smooth' });
         } catch (e) { console.error(e); }
     }
 
@@ -1191,20 +1273,18 @@
 
             content.innerHTML = `
                 <span class="close-popup" onclick="closePopup()">&times;</span>
-                <div class="popup-poster"><img src="${movie.poster_url}"></div>
+                <div class="popup-poster"><img src="${API_IMG}${movie.poster_url}"></div>
                 <div>
                     <h2 style="font-size:24px; margin-bottom:10px;">${movie.name}</h2>
                     <div class="slide-meta">
-                        <span class="meta-item imdb-tag">IMDb ${movie.tmdb.vote_average || '0.0'}</span>
+                        <span class="meta-item imdb-tag">IMDb ${movie.tmdb?.vote_average || 'N/A'}</span>
                         <span class="meta-item">${movie.year}</span>
                         <span class="meta-item">${movie.quality}</span>
                     </div>
                     <p style="color:#aaa; line-height:1.6; margin-bottom:15px; font-size:13px;">${movie.content.substring(0, 250)}...</p>
-                    
+                    <div style="font-size:12px; color:var(--accent); margin-bottom:10px;">Diễn viên: ${movie.actor.join(', ')}</div>
                     <div class="lang-selector">${langButtons}</div>
-                    
                     <div id="epContainer" class="episode-grid">${episodeList}</div>
-                    
                     <button class="btn-view-now" onclick="window.open('${firstServerEpisodes[0].link_embed}')">
                         <i class="fas fa-play"></i> Xem Ngay
                     </button>
@@ -1212,7 +1292,6 @@
             `;
             
             window.currentMovieEpisodes = episodeServers;
-
             popup.style.display = 'block';
             document.body.style.overflow = 'hidden';
         } catch (e) { console.error(e); }
@@ -1221,7 +1300,6 @@
     window.switchLang = function(btn, serverIdx) {
         document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        
         const serverData = window.currentMovieEpisodes[serverIdx].server_data;
         const newEpisodes = serverData.map(ep => `<button class="ep-btn" onclick="window.open('${ep.link_embed}')">${ep.name}</button>`).join('');
         document.getElementById('epContainer').innerHTML = newEpisodes;
@@ -1245,9 +1323,16 @@
 
     window.addEventListener('scroll', () => {
         const header = document.getElementById('mainHeader');
+        const backToTopBtn = document.getElementById('backToTop');
         if (window.scrollY > 50) { header.classList.add('scrolled'); } 
         else { header.classList.remove('scrolled'); }
+        if (window.scrollY > 400) { backToTopBtn.classList.add('show'); } 
+        else { backToTopBtn.classList.remove('show'); }
     });
+
+    function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
     function handleDropdownClick(event) {
         event.preventDefault();
@@ -1272,8 +1357,6 @@
         if(content.classList.contains('active')) {
             icon.style.transform = "rotate(180deg)";
             icon.style.color = "var(--accent)";
-            const links = content.querySelectorAll('a');
-            links.forEach((link, index) => { link.style.transitionDelay = (index * 0.05) + "s"; });
         } else {
             icon.style.transform = "rotate(0deg)";
             icon.style.color = "white";
@@ -1281,12 +1364,9 @@
     }
 
     window.onclick = function(event) {
-        const menuOverlay = document.getElementById('mobileMenu');
-        const searchOverlay = document.getElementById('mobileSearch');
-        const popup = document.getElementById('moviePopup');
-        if (event.target == menuOverlay) menuOverlay.classList.remove('active');
-        if (event.target == searchOverlay) searchOverlay.classList.remove('active');
-        if (event.target == popup) closePopup();
+        if (event.target.classList.contains('mobile-nav-overlay')) event.target.classList.remove('active');
+        if (event.target.classList.contains('mobile-search-overlay')) event.target.classList.remove('active');
+        if (event.target.classList.contains('popup-overlay')) closePopup();
         if (!event.target.closest('.dropdown')) {
             document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
         }
