@@ -1544,6 +1544,7 @@
     let slideCount = 0;
     let nominationMovies = [];
     let currentUser = JSON.parse(localStorage.getItem('xoPhim_User')) || null;
+    let currentRoomID = null;
 
     function slideMovies(id, direction) {
         const container = document.getElementById(id);
@@ -1580,7 +1581,7 @@
                                     <i class="fas fa-play"></i> XEM NGAY
                                 </a>
                                 <a href="#" class="btn-hero btn-trailer-hero" onclick="showMovieDetail('${m.slug}')">
-                                    TRAILER
+                                    <i class="fas fa-trailer"></i> TRAILER
                                 </a>
                             </div>
                         </div>
@@ -1648,7 +1649,7 @@
         });
     }
 
-    // XEM CHUNG LOBBY (SỬA LỖI KHÔNG QUÉT ĐƯỢC PHÒNG)
+    // XEM CHUNG LOBBY
     function showLobby() {
         const main = document.getElementById('mainContent');
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1656,34 +1657,34 @@
         main.innerHTML = `
             <section class="movie-list-section" style="margin-top:100px;">
                 <div class="list-header">
-                    <h3><i class="fas fa-broadcast-tower"></i> Sảnh Xem Chung - Các phòng đang Live</h3>
+                    <h3><i class="fas fa-broadcast-tower"></i> Sảnh Xem Chung - Các phòng đang Live (Giới hạn 3 người)</h3>
                     <button onclick="window.location.reload()" style="background:none; border:1px solid #444; color:white; padding:5px 15px; border-radius:20px; cursor:pointer;">Quay lại Trang chủ</button>
                 </div>
                 <div id="lobbyList" class="lobby-grid">Đang quét các phòng từ hệ thống...</div>
             </section>
         `;
 
-        // KÍCH HOẠT LẮNG NGHE FIREBASE NGAY LẬP TỨC KHI MỞ SẢNH
         database.ref('active_rooms').on('value', (snapshot) => {
             const rooms = snapshot.val();
             const container = document.getElementById('lobbyList');
-            
-            // Nếu user đã chuyển trang khác thì không render nữa
             if (!container) return;
-
             if (!rooms) { 
-                container.innerHTML = "<p style='padding:20px; color:#888;'>Hiện chưa có phòng nào đang Live. Hãy mở một bộ phim và là người đầu tiên tạo phòng!</p>"; 
+                container.innerHTML = "<p style='padding:20px; color:#888;'>Hiện chưa có phòng nào đang Live. Hãy mở một bộ phim và tạo phòng đầu tiên!</p>"; 
                 return; 
             }
             
             container.innerHTML = Object.keys(rooms).map(key => {
                 const r = rooms[key];
+                const memberCount = r.members ? Object.keys(r.members).length : 0;
+                const isFull = memberCount >= 3;
                 return `
-                    <div class="lobby-card" onclick="showMovieDetail('${r.slug}')">
-                        <div class="lobby-status">LIVE</div>
+                    <div class="lobby-card" onclick="${isFull ? 'alert(\'Phòng đã đủ 3 người!\')' : `showMovieDetail('${r.slug}')`}">
+                        <div class="lobby-status" style="background:${isFull ? '#666' : '#ff4d4d'}">${isFull ? 'FULL' : 'LIVE'}</div>
                         <h4>${r.movieName}</h4>
                         <p><i class="fas fa-user"></i> Chủ phòng: ${r.host}</p>
-                        <p style="margin-top:10px; color:var(--accent); font-weight:bold;">Tham gia xem ngay <i class="fas fa-chevron-right"></i></p>
+                        <p style="margin-top:10px; color:${isFull ? '#666' : 'var(--accent)'}; font-weight:bold;">
+                            ${isFull ? 'Phòng đầy (3/3)' : `Tham gia (${memberCount}/3) <i class="fas fa-chevron-right"></i>`}
+                        </p>
                     </div>
                 `;
             }).join('');
@@ -1947,45 +1948,77 @@
         } catch (e) { alert("Lỗi tải thông tin phim!"); }
     }
 
-    // REAL-TIME CHAT LOGIC (KÍCH HOẠT ĐĂNG KÝ PHÒNG LÊN SẢNH LOBBY)
+    // ĐỒNG BỘ VIDEO & GIỚI HẠN NGƯỜI
     function initWatchParty(movieName, slug) {
+        if (!currentUser) return;
+        currentRoomID = slug;
         const area = document.getElementById('watchPartyArea');
-        document.getElementById('roomActionArea').style.display = 'none';
-        const roomID = slug; 
+        const roomRef = database.ref('active_rooms/' + slug);
 
-        // ĐĂNG KÝ PHÒNG LÊN SẢNH LOBBY (FIREBASE)
-        database.ref('active_rooms/' + roomID).set({
-            movieName: movieName,
-            slug: slug,
-            host: currentUser.name,
-            timestamp: Date.now()
-        });
+        // Kiểm tra số lượng người trước khi vào
+        roomRef.get().then((snapshot) => {
+            const roomData = snapshot.val();
+            const members = roomData?.members || {};
+            if (Object.keys(members).length >= 3 && !members[currentUser.id]) {
+                alert("Phòng này đã đủ 3 người!");
+                return;
+            }
 
-        area.innerHTML = `
-            <div class="watch-party-layout">
-                <div class="room-header">
-                    <div>
-                        <h3 style="font-size: 16px;">Phòng chat phim: ${movieName}</h3>
-                        <p style="font-size: 12px; color: #aaa;">Chủ phòng: ${currentUser.name}</p>
+            // Đăng ký mình vào phòng
+            roomRef.update({
+                movieName: movieName,
+                slug: slug,
+                host: roomData?.host || currentUser.name,
+                timestamp: Date.now()
+            });
+            roomRef.child('members').child(currentUser.id).set(currentUser.name);
+            roomRef.child('members').child(currentUser.id).onDisconnect().remove();
+
+            document.getElementById('roomActionArea').style.display = 'none';
+            area.innerHTML = `
+                <div class="watch-party-layout">
+                    <div class="room-header">
+                        <div>
+                            <h3 style="font-size: 16px;">Phòng chat phim: ${movieName}</h3>
+                            <p style="font-size: 12px; color: #aaa;" id="memberListDisplay">Đang cập nhật thành viên...</p>
+                        </div>
+                        <div class="live-indicator"><div class="live-dot"></div><span>ĐANG XEM</span></div>
                     </div>
-                    <div class="live-indicator"><div class="live-dot"></div><span>Trực Tuyến</span></div>
-                </div>
-                <div class="party-content">
-                    <div class="chat-section">
-                        <div class="chat-messages" id="chatStream"></div>
-                        <div class="chat-input-wrapper">
-                            <input type="text" id="msgInput" placeholder="Nói gì đó đi..." onkeypress="if(event.key === 'Enter') sendMessage('${roomID}')">
-                            <button class="btn-send" onclick="sendMessage('${roomID}')"><i class="fas fa-paper-plane"></i></button>
+                    <div class="party-content">
+                        <div class="chat-section">
+                            <div class="chat-messages" id="chatStream"></div>
+                            <div class="chat-input-wrapper">
+                                <input type="text" id="msgInput" placeholder="Nói gì đó..." onkeypress="if(event.key === 'Enter') sendMessage('${slug}')">
+                                <button class="btn-send" onclick="sendMessage('${slug}')"><i class="fas fa-paper-plane"></i></button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        `;
+            `;
 
-        const chatRef = database.ref('chats/' + roomID);
-        chatRef.off();
-        chatRef.limitToLast(20).on('child_added', (snapshot) => {
-            renderMessage(snapshot.val());
+            // Lắng nghe thay đổi thành viên
+            roomRef.child('members').on('value', (s) => {
+                const m = s.val() || {};
+                document.getElementById('memberListDisplay').innerText = "Thành viên: " + Object.values(m).join(', ');
+            });
+
+            // Lắng nghe đồng bộ video (Tập phim)
+            roomRef.child('currentSync').on('value', (s) => {
+                const sync = s.val();
+                if (sync && sync.user !== currentUser.name) {
+                    const iframe = document.getElementById('videoIframe');
+                    if (iframe.src !== sync.link) {
+                        iframe.src = sync.link;
+                        alert(sync.user + " vừa chuyển tập phim!");
+                    }
+                }
+            });
+
+            const chatRef = database.ref('chats/' + slug);
+            chatRef.off();
+            chatRef.limitToLast(20).on('child_added', (snapshot) => {
+                renderMessage(snapshot.val());
+            });
         });
     }
 
@@ -2020,6 +2053,15 @@
         iframe.src = "about:blank"; 
         setTimeout(() => { iframe.src = link; }, 100);
         document.getElementById('moviePopup').scrollTo({ top: 0, behavior: 'smooth' });
+
+        // Đồng bộ với phòng nếu đang ở trong phòng
+        if (currentRoomID) {
+            database.ref('active_rooms/' + currentRoomID + '/currentSync').set({
+                link: link,
+                user: currentUser.name,
+                timestamp: Date.now()
+            });
+        }
     };
 
     window.switchLang = function(btn, serverIdx) {
@@ -2036,6 +2078,12 @@
         if(iframe) iframe.src = ""; 
         document.getElementById('moviePopup').style.display = 'none';
         document.body.style.overflow = 'auto';
+        
+        // Rời phòng nếu có
+        if (currentRoomID && currentUser) {
+            database.ref('active_rooms/' + currentRoomID + '/members/' + currentUser.id).remove();
+            currentRoomID = null;
+        }
     }
 
     function goToSlide(i) {
@@ -2052,10 +2100,10 @@
     window.addEventListener('scroll', () => {
         const header = document.getElementById('mainHeader');
         const backToTopBtn = document.getElementById('backToTop');
-        if (window.scrollY > 50) { header.classList.add('scrolled'); } 
-        else { header.classList.remove('scrolled'); }
-        if (window.scrollY > 400) { backToTopBtn.classList.add('show'); } 
-        else { backToTopBtn.classList.remove('show'); }
+        if (header && window.scrollY > 50) { header.classList.add('scrolled'); } 
+        else if (header) { header.classList.remove('scrolled'); }
+        if (backToTopBtn && window.scrollY > 400) { backToTopBtn.classList.add('show'); } 
+        else if (backToTopBtn) { backToTopBtn.classList.remove('show'); }
     });
 
     function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
