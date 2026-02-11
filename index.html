@@ -1120,6 +1120,54 @@
             margin-bottom: 10px;
         }
 
+        /* Lobby UI Styling */
+        .lobby-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .lobby-card {
+            background: #1a1d23;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #333;
+            transition: 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .lobby-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+        }
+
+        .lobby-card h4 {
+            color: var(--accent);
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .lobby-card p {
+            font-size: 13px;
+            color: #aaa;
+        }
+
+        .lobby-status {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff4d4d;
+            color: white;
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
         @media (max-width: 768px) {
             .nav-main, .search-container, .user-action, .slider-thumbnails, .slide-btn { display: none; }
             .btn-mobile { display: block; }
@@ -1283,7 +1331,7 @@
             </div>
             <a href="#" class="nav-link" onclick="loadListPhim('phim-le')">Phim Lẻ</a>
             <a href="#" class="nav-link" onclick="loadListPhim('phim-bo')">Phim Bộ</a>
-            <a href="#" class="nav-link">Xem Chung</a>
+            <a href="#" class="nav-link" onclick="showLobby()" style="color: var(--accent); font-weight: bold;">Xem Chung</a>
             <div class="dropdown">
                 <a class="nav-link" onclick="handleDropdownClick(event)">Quốc gia <i class="fas fa-caret-down"></i></a>
                 <div class="dropdown-content" id="countryDropdown" style="min-width: 200px; grid-template-columns: 1fr;">
@@ -1304,110 +1352,112 @@
     </div>
 </header>
 
-<section class="hero-slider">
-    <div class="slider-container" id="heroSlider"></div>
-    <div class="slider-thumbnails" id="heroThumbs"></div>
-</section>
+<div id="mainContent">
+    <section class="hero-slider">
+        <div class="slider-container" id="heroSlider"></div>
+        <div class="slider-thumbnails" id="heroThumbs"></div>
+    </section>
 
-<section class="interest-section">
-    <h3>Bạn đang quan tâm gì?</h3>
-    <div class="interest-grid" id="interestGrid">
-        </div>
-</section>
-
-<section class="movie-list-section" id="section-search" style="display:none;">
-    <div class="list-header"><h3 id="searchTitle">Kết quả tìm kiếm</h3></div>
-    <div class="movie-scroll" id="searchList"></div>
-</section>
-
-<section class="movie-list-section">
-    <div class="list-header"><h3>Phim Hàn Quốc mới cho mấy người mê hàn xẻng nè</h3></div>
-    <div class="slide-btn btn-left" onclick="slideMovies('koreanList', -1)"><i class="fas fa-chevron-left"></i></div>
-    <div class="slide-btn btn-right" onclick="slideMovies('koreanList', 1)"><i class="fas fa-chevron-right"></i></div>
-    <div class="movie-scroll" id="koreanList"></div>
-</section>
-
-<section class="movie-list-section">
-    <div class="list-header"><h3>Phim Trung Quốc mới nè má ơi</h3></div>
-    <div class="slide-btn btn-left" onclick="slideMovies('chineseList', -1)"><i class="fas fa-chevron-left"></i></div>
-    <div class="slide-btn btn-right" onclick="slideMovies('chineseList', 1)"><i class="fas fa-chevron-right"></i></div>
-    <div class="movie-scroll" id="chineseList"></div>
-</section>
-
-<section class="movie-list-section">
-    <div class="list-header">
-        <h3>Phim Thái Lan Mới</h3>
-        <a href="#" onclick="loadCountryPhim('thai-lan', 'searchList', 'Thái Lan')" style="margin-left: 15px; font-size: 14px; text-decoration: none; color: #ccc;">
-            Xem toàn bộ <i class="fas fa-chevron-right"></i>
-        </a>
-    </div>
-    
-    <div class="slide-btn btn-left" onclick="slideMovies('thaiMoviesList', -1)">
-        <i class="fas fa-chevron-left"></i>
-    </div>
-    
-    <div class="slide-btn btn-right" onclick="slideMovies('thaiMoviesList', 1)">
-        <i class="fas fa-chevron-right"></i>
-    </div>
-    
-    <div class="movie-scroll" id="thaiMoviesList"></div>
-</section>
-
-<section class="movie-list-section">
-    <div class="list-header"><h3>Phim US-UK, của mấy thằng tây lông nè </h3></div>
-    <div class="slide-btn btn-left" onclick="slideMovies('usukList', -1)"><i class="fas fa-chevron-left"></i></div>
-    <div class="slide-btn btn-right" onclick="slideMovies('usukList', 1)"><i class="fas fa-chevron-right"></i></div>
-    <div class="movie-scroll" id="usukList"></div>
-</section>
-
-<section class="movie-list-section">
-    <div class="list-header"><h3>Phim Điện Ảnh Mới Coóng, Cóng người nha </h3></div>
-    <div class="slide-btn btn-left" onclick="slideMovies('cinemaList', -1)"><i class="fas fa-chevron-left"></i></div>
-    <div class="slide-btn btn-right" onclick="slideMovies('cinemaList', 1)"><i class="fas fa-chevron-right"></i></div>
-    <div class="movie-scroll" id="cinemaList"></div>
-</section>
-
-<section class="movie-list-section">
-    <div class="list-header"><h3>Điện Ảnh Hồng Kông ở Chỗ Này Này</h3></div>
-    <div class="slide-btn btn-left" onclick="slideMovies('hkList', -1)"><i class="fas fa-chevron-left"></i></div>
-    <div class="slide-btn btn-right" onclick="slideMovies('hkList', 1)"><i class="fas fa-chevron-right"></i></div>
-    <div class="movie-scroll" id="hkList"></div>
-</section>
-
-<section class="movie-list-section">
-    <div class="list-header"><h3>Tôi Sợ Con Người Em Rồi Đó, nhưng Không Bằng Sợ Ma</h3></div>
-    <div class="slide-btn btn-left" onclick="slideMovies('horrorList', -1)"><i class="fas fa-chevron-left"></i></div>
-    <div class="slide-btn btn-right" onclick="slideMovies('horrorList', 1)"><i class="fas fa-chevron-right"></i></div>
-    <div class="movie-scroll" id="horrorList"></div>
-</section>
-
-<section class="movie-list-section">
-    <div class="list-header"><h3>Top 10 Phim Bộ Hôm Nap</h3></div>
-    <div class="slide-btn btn-left" onclick="slideMovies('top10List', -1)"><i class="fas fa-chevron-left"></i></div>
-    <div class="slide-btn btn-right" onclick="slideMovies('top10List', 1)"><i class="fas fa-chevron-right"></i></div>
-    <div class="movie-scroll-top10" id="top10List"></div>
-</section>
-
-<section class="featured-banner">
-    <h2>Top Phim Đề Cử</h2>
-    <div class="banner-card" id="nominationBanner">
-        <img src="" class="banner-img-bg" id="nomImg">
-        <div class="banner-overlay"></div>
-        <div class="banner-info">
-            <h1 id="nomTitle">Đang tải...</h1>
-            <span class="sub-title" id="nomSub">Loading...</span>
-            <div class="banner-meta" id="nomMeta1">
+    <section class="interest-section">
+        <h3>Bạn đang quan tâm gì?</h3>
+        <div class="interest-grid" id="interestGrid">
             </div>
-            <div class="banner-meta" id="nomMeta2">
+    </section>
+
+    <section class="movie-list-section" id="section-search" style="display:none;">
+        <div class="list-header"><h3 id="searchTitle">Kết quả tìm kiếm</h3></div>
+        <div class="movie-scroll" id="searchList"></div>
+    </section>
+
+    <section class="movie-list-section">
+        <div class="list-header"><h3>Phim Hàn Quốc mới cho mấy người mê hàn xẻng nè</h3></div>
+        <div class="slide-btn btn-left" onclick="slideMovies('koreanList', -1)"><i class="fas fa-chevron-left"></i></div>
+        <div class="slide-btn btn-right" onclick="slideMovies('koreanList', 1)"><i class="fas fa-chevron-right"></i></div>
+        <div class="movie-scroll" id="koreanList"></div>
+    </section>
+
+    <section class="movie-list-section">
+        <div class="list-header"><h3>Phim Trung Quốc mới nè má ơi</h3></div>
+        <div class="slide-btn btn-left" onclick="slideMovies('chineseList', -1)"><i class="fas fa-chevron-left"></i></div>
+        <div class="slide-btn btn-right" onclick="slideMovies('chineseList', 1)"><i class="fas fa-chevron-right"></i></div>
+        <div class="movie-scroll" id="chineseList"></div>
+    </section>
+
+    <section class="movie-list-section">
+        <div class="list-header">
+            <h3>Phim Thái Lan Mới</h3>
+            <a href="#" onclick="loadCountryPhim('thai-lan', 'searchList', 'Thái Lan')" style="margin-left: 15px; font-size: 14px; text-decoration: none; color: #ccc;">
+                Xem toàn bộ <i class="fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+        <div class="slide-btn btn-left" onclick="slideMovies('thaiMoviesList', -1)">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        
+        <div class="slide-btn btn-right" onclick="slideMovies('thaiMoviesList', 1)">
+            <i class="fas fa-chevron-right"></i>
+        </div>
+        
+        <div class="movie-scroll" id="thaiMoviesList"></div>
+    </section>
+
+    <section class="movie-list-section">
+        <div class="list-header"><h3>Phim US-UK, của mấy thằng tây lông nè </h3></div>
+        <div class="slide-btn btn-left" onclick="slideMovies('usukList', -1)"><i class="fas fa-chevron-left"></i></div>
+        <div class="slide-btn btn-right" onclick="slideMovies('usukList', 1)"><i class="fas fa-chevron-right"></i></div>
+        <div class="movie-scroll" id="usukList"></div>
+    </section>
+
+    <section class="movie-list-section">
+        <div class="list-header"><h3>Phim Điện Ảnh Mới Coóng, Cóng người nha </h3></div>
+        <div class="slide-btn btn-left" onclick="slideMovies('cinemaList', -1)"><i class="fas fa-chevron-left"></i></div>
+        <div class="slide-btn btn-right" onclick="slideMovies('cinemaList', 1)"><i class="fas fa-chevron-right"></i></div>
+        <div class="movie-scroll" id="cinemaList"></div>
+    </section>
+
+    <section class="movie-list-section">
+        <div class="list-header"><h3>Điện Ảnh Hồng Kông ở Chỗ Này Này</h3></div>
+        <div class="slide-btn btn-left" onclick="slideMovies('hkList', -1)"><i class="fas fa-chevron-left"></i></div>
+        <div class="slide-btn btn-right" onclick="slideMovies('hkList', 1)"><i class="fas fa-chevron-right"></i></div>
+        <div class="movie-scroll" id="hkList"></div>
+    </section>
+
+    <section class="movie-list-section">
+        <div class="list-header"><h3>Tôi Sợ Con Người Em Rồi Đó, nhưng Không Bằng Sợ Ma</h3></div>
+        <div class="slide-btn btn-left" onclick="slideMovies('horrorList', -1)"><i class="fas fa-chevron-left"></i></div>
+        <div class="slide-btn btn-right" onclick="slideMovies('horrorList', 1)"><i class="fas fa-chevron-right"></i></div>
+        <div class="movie-scroll" id="horrorList"></div>
+    </section>
+
+    <section class="movie-list-section">
+        <div class="list-header"><h3>Top 10 Phim Bộ Hôm Nap</h3></div>
+        <div class="slide-btn btn-left" onclick="slideMovies('top10List', -1)"><i class="fas fa-chevron-left"></i></div>
+        <div class="slide-btn btn-right" onclick="slideMovies('top10List', 1)"><i class="fas fa-chevron-right"></i></div>
+        <div class="movie-scroll-top10" id="top10List"></div>
+    </section>
+
+    <section class="featured-banner">
+        <h2>Top Phim Đề Cử</h2>
+        <div class="banner-card" id="nominationBanner">
+            <img src="" class="banner-img-bg" id="nomImg">
+            <div class="banner-overlay"></div>
+            <div class="banner-info">
+                <h1 id="nomTitle">Đang tải...</h1>
+                <span class="sub-title" id="nomSub">Loading...</span>
+                <div class="banner-meta" id="nomMeta1">
+                </div>
+                <div class="banner-meta" id="nomMeta2">
+                </div>
+                <p class="banner-desc" id="nomDesc"></p>
+                <div class="banner-btns" id="nomBtns">
+                </div>
             </div>
-            <p class="banner-desc" id="nomDesc"></p>
-            <div class="banner-btns" id="nomBtns">
+            <div class="banner-thumbnails" id="nomThumbs">
             </div>
         </div>
-        <div class="banner-thumbnails" id="nomThumbs">
-        </div>
-    </div>
-</section>
+    </section>
+</div>
 
 <footer>
     <div class="footer-content">
@@ -1451,7 +1501,7 @@
 
             <a href="#" onclick="loadListPhim('phim-le'); toggleMenu('mobileMenu')">Phim Lẻ</a>
             <a href="#" onclick="loadListPhim('phim-bo'); toggleMenu('mobileMenu')">Phim Bộ</a>
-            <a href="#">Xem Chung</a>
+            <a href="#" onclick="showLobby(); toggleMenu('mobileMenu')">Xem Chung</a>
 
             <button class="mobile-collapse-btn" onclick="toggleCollapse('colCountry')">
                 Quốc gia <i class="fas fa-caret-down"></i>
@@ -1573,12 +1623,14 @@
                 localStorage.setItem('xoPhim_User', JSON.stringify(currentUser));
                 updateHeaderAuth();
                 alert("Đăng nhập thành công!");
+                location.reload();
             }
         } else {
             if(confirm("Đăng xuất tài khoản " + currentUser.name + "?")) {
                 localStorage.removeItem('xoPhim_User');
                 currentUser = null;
                 updateHeaderAuth();
+                location.reload();
             }
         }
     }
@@ -1593,6 +1645,43 @@
                 btn.innerHTML = `<i class="fas fa-user"></i> Thành viên`;
                 btn.style.color = "";
             }
+        });
+    }
+
+    // XEM CHUNG LOBBY (DANH SÁCH CÁC PHÒNG LIVE)
+    function showLobby() {
+        const main = document.getElementById('mainContent');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        main.innerHTML = `
+            <section class="movie-list-section" style="margin-top:100px;">
+                <div class="list-header">
+                    <h3><i class="fas fa-broadcast-tower"></i> Sảnh Xem Chung - Các phòng đang Live</h3>
+                    <button onclick="window.location.reload()" style="background:none; border:1px solid #444; color:white; padding:5px 15px; border-radius:20px; cursor:pointer;">Quay lại Trang chủ</button>
+                </div>
+                <div id="lobbyList" class="lobby-grid">Đang quét các phòng...</div>
+            </section>
+        `;
+        
+        database.ref('active_rooms').on('value', (snapshot) => {
+            const rooms = snapshot.val();
+            const container = document.getElementById('lobbyList');
+            if (!rooms) { 
+                container.innerHTML = "<p style='padding:20px; color:#888;'>Hiện chưa có phòng nào đang Live. Hãy mở một bộ phim và là người đầu tiên tạo phòng!</p>"; 
+                return; 
+            }
+            
+            container.innerHTML = Object.keys(rooms).map(key => {
+                const r = rooms[key];
+                return `
+                    <div class="lobby-card" onclick="showMovieDetail('${r.slug}')">
+                        <div class="lobby-status">LIVE</div>
+                        <h4>${r.movieName}</h4>
+                        <p><i class="fas fa-user"></i> Chủ phòng: ${r.host}</p>
+                        <p style="margin-top:10px; color:var(--accent); font-weight:bold;">Tham gia xem ngay <i class="fas fa-chevron-right"></i></p>
+                    </div>
+                `;
+            }).join('');
         });
     }
 
@@ -1825,7 +1914,7 @@
                         <div id="roomActionArea">
                             ${currentUser ? 
                                 `<button class="btn-create-party" onclick="initWatchParty('${movie.name}', '${slug}')">
-                                    <i class="fas fa-users"></i> TẠO PHÒNG XEM CHUNG & CHAT
+                                    <i class="fas fa-users"></i> BẮT ĐẦU XEM CHUNG & CHAT
                                 </button>` : 
                                 `<button class="btn-create-party" style="opacity: 0.6; cursor: pointer;" onclick="handleAuth()">
                                     <i class="fas fa-lock"></i> ĐĂNG NHẬP ĐỂ XEM CHUNG
@@ -1853,18 +1942,26 @@
         } catch (e) { alert("Lỗi tải thông tin phim!"); }
     }
 
-    // REAL-TIME CHAT LOGIC
+    // REAL-TIME CHAT LOGIC (NÂNG CẤP ĐỂ TỰ ĐĂNG KÝ PHÒNG LÊN SẢNH LOBBY)
     function initWatchParty(movieName, slug) {
         const area = document.getElementById('watchPartyArea');
         document.getElementById('roomActionArea').style.display = 'none';
         const roomID = slug; 
+
+        // ĐĂNG KÝ PHÒNG LÊN SẢNH LOBBY (FIREBASE)
+        database.ref('active_rooms/' + roomID).set({
+            movieName: movieName,
+            slug: slug,
+            host: currentUser.name,
+            timestamp: Date.now()
+        });
 
         area.innerHTML = `
             <div class="watch-party-layout">
                 <div class="room-header">
                     <div>
                         <h3 style="font-size: 16px;">Phòng chat phim: ${movieName}</h3>
-                        <p style="font-size: 12px; color: #aaa;">Kênh chat Real-time của Đức Anh</p>
+                        <p style="font-size: 12px; color: #aaa;">Chủ phòng: ${currentUser.name}</p>
                     </div>
                     <div class="live-indicator"><div class="live-dot"></div><span>Trực Tuyến</span></div>
                 </div>
@@ -1903,7 +2000,7 @@
         if(!stream) return;
         const isMe = currentUser && data.user === currentUser.name;
         stream.insertAdjacentHTML('beforeend', `
-            <div class="message-item" style="${isMe ? 'align-self: flex-end; border-right: 3px solid var(--accent);' : ''}">
+            <div class="message-item" style="${isMe ? 'align-self: flex-end; background:rgba(241,196,15,0.2); border-right: 3px solid var(--accent);' : ''}">
                 <span class="user-name">${data.user}</span>
                 <span class="text">${data.text}</span>
             </div>
