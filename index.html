@@ -1173,14 +1173,6 @@
             .btn-mobile { display: block; }
             .hero-slider { height: 400px; }
             .slide-content h2 { font-size: 24px; }
-            .slide-desc { display: none; }
-            .popup-content { margin: 0; padding: 15px; width: 100%; border-radius: 0; }
-            .popup-poster-inline { display: none; }
-            .movie-item { min-width: 130px; max-width: 130px; }
-            .lang-selector { justify-content: flex-start; }
-            .player-wrapper { margin: 10px 0; border-radius: 4px; }
-            .movie-item-top10 { min-width: 130px; }
-            .top10-label { font-size: 10px; padding: 2px 6px; }
             .party-content { grid-template-columns: 1fr; }
         }
 
@@ -1663,12 +1655,12 @@
             </section>
         `;
 
-        // KÍCH HOẠT LẮNG NGHE FIREBASE NGAY LẬP TỨC
+        // KÍCH HOẠT LẮNG NGHE FIREBASE NGAY LẬP TỨC KHI MỞ SẢNH
         database.ref('active_rooms').on('value', (snapshot) => {
             const rooms = snapshot.val();
             const container = document.getElementById('lobbyList');
             
-            // Nếu user đã chuyển trang khác thì không render nữa
+            // Nếu user đã chuyển trang khác (không còn lobbyList) thì dừng
             if (!container) return;
 
             if (!rooms) { 
