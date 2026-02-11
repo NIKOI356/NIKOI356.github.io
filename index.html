@@ -1522,7 +1522,7 @@
     const firebaseConfig = {
       apiKey: "AIzaSyBJ4fNO5gyq8IMR3hauWHEvpO15V5NRHsY",
       authDomain: "xophim.firebaseapp.com",
-      databaseURL: "https://xophim-default-rtdb.firebaseio.com",
+      databaseURL: "https://xophim-default-rtdb.firebaseio.com/",
       projectId: "xophim",
       storageBucket: "xophim.appspot.com",
       messagingSenderId: "616606303341",
@@ -1648,7 +1648,7 @@
         });
     }
 
-    // XEM CHUNG LOBBY (DANH SÁCH CÁC PHÒNG LIVE)
+    // XEM CHUNG LOBBY (SỬA LỖI KHÔNG QUÉT ĐƯỢC PHÒNG)
     function showLobby() {
         const main = document.getElementById('mainContent');
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1663,11 +1663,12 @@
             </section>
         `;
 
-        // LẮNG NGHE FIREBASE NGAY LẬP TỨC
+        // KÍCH HOẠT LẮNG NGHE FIREBASE NGAY LẬP TỨC KHI MỞ SẢNH
         database.ref('active_rooms').on('value', (snapshot) => {
             const rooms = snapshot.val();
             const container = document.getElementById('lobbyList');
             
+            // Nếu user đã chuyển trang khác thì không render nữa
             if (!container) return;
 
             if (!rooms) { 
