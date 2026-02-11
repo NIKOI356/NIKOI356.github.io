@@ -1173,6 +1173,14 @@
             .btn-mobile { display: block; }
             .hero-slider { height: 400px; }
             .slide-content h2 { font-size: 24px; }
+            .slide-desc { display: none; }
+            .popup-content { margin: 0; padding: 15px; width: 100%; border-radius: 0; }
+            .popup-poster-inline { display: none; }
+            .movie-item { min-width: 130px; max-width: 130px; }
+            .lang-selector { justify-content: flex-start; }
+            .player-wrapper { margin: 10px 0; border-radius: 4px; }
+            .movie-item-top10 { min-width: 130px; }
+            .top10-label { font-size: 10px; padding: 2px 6px; }
             .party-content { grid-template-columns: 1fr; }
         }
 
@@ -1640,7 +1648,7 @@
         });
     }
 
-    // XEM CHUNG LOBBY (SỬA LỖI KHÔNG QUÉT ĐƯỢC PHÒNG)
+    // XEM CHUNG LOBBY (DANH SÁCH CÁC PHÒNG LIVE)
     function showLobby() {
         const main = document.getElementById('mainContent');
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1655,12 +1663,11 @@
             </section>
         `;
 
-        // KÍCH HOẠT LẮNG NGHE FIREBASE NGAY LẬP TỨC KHI MỞ SẢNH
+        // LẮNG NGHE FIREBASE NGAY LẬP TỨC
         database.ref('active_rooms').on('value', (snapshot) => {
             const rooms = snapshot.val();
             const container = document.getElementById('lobbyList');
             
-            // Nếu user đã chuyển trang khác (không còn lobbyList) thì dừng
             if (!container) return;
 
             if (!rooms) { 
