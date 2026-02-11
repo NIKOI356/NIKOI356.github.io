@@ -1648,7 +1648,7 @@
         });
     }
 
-    // XEM CHUNG LOBBY (DANH SÁCH CÁC PHÒNG LIVE)
+    // XEM CHUNG LOBBY (SỬA LỖI KHÔNG QUÉT ĐƯỢC PHÒNG)
     function showLobby() {
         const main = document.getElementById('mainContent');
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1659,13 +1659,18 @@
                     <h3><i class="fas fa-broadcast-tower"></i> Sảnh Xem Chung - Các phòng đang Live</h3>
                     <button onclick="window.location.reload()" style="background:none; border:1px solid #444; color:white; padding:5px 15px; border-radius:20px; cursor:pointer;">Quay lại Trang chủ</button>
                 </div>
-                <div id="lobbyList" class="lobby-grid">Đang quét các phòng...</div>
+                <div id="lobbyList" class="lobby-grid">Đang quét các phòng từ hệ thống...</div>
             </section>
         `;
-        
+
+        // KÍCH HOẠT LẮNG NGHE FIREBASE NGAY LẬP TỨC
         database.ref('active_rooms').on('value', (snapshot) => {
             const rooms = snapshot.val();
             const container = document.getElementById('lobbyList');
+            
+            // Nếu user đã chuyển trang khác thì không render nữa
+            if (!container) return;
+
             if (!rooms) { 
                 container.innerHTML = "<p style='padding:20px; color:#888;'>Hiện chưa có phòng nào đang Live. Hãy mở một bộ phim và là người đầu tiên tạo phòng!</p>"; 
                 return; 
@@ -1913,7 +1918,7 @@
                         
                         <div id="roomActionArea">
                             ${currentUser ? 
-                                `<button class="btn-create-party" onclick="initWatchParty('${movie.name}', '${slug}')">
+                                `<button class="btn-create-party" onclick="initWatchParty('${movie.name.replace(/'/g, "\\'")}', '${slug}')">
                                     <i class="fas fa-users"></i> BẮT ĐẦU XEM CHUNG & CHAT
                                 </button>` : 
                                 `<button class="btn-create-party" style="opacity: 0.6; cursor: pointer;" onclick="handleAuth()">
@@ -1942,7 +1947,7 @@
         } catch (e) { alert("Lỗi tải thông tin phim!"); }
     }
 
-    // REAL-TIME CHAT LOGIC (NÂNG CẤP ĐỂ TỰ ĐĂNG KÝ PHÒNG LÊN SẢNH LOBBY)
+    // REAL-TIME CHAT LOGIC (KÍCH HOẠT ĐĂNG KÝ PHÒNG LÊN SẢNH LOBBY)
     function initWatchParty(movieName, slug) {
         const area = document.getElementById('watchPartyArea');
         document.getElementById('roomActionArea').style.display = 'none';
