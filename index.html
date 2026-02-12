@@ -13,9 +13,9 @@
             --bg-nav: #1a1d23;
             --text-main: #ffffff;
             --text-dim: #a0a0a0;
-            --accent: #f1c40f; /* Màu vàng icon */
+            --accent: #f1c40f;
             --search-bg: #252931;
-            --mobile-card-bg: #3b4b7a; /* Màu xanh đặc trưng trên mobile */
+            --mobile-card-bg: #3b4b7a;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -30,14 +30,45 @@
             background-color: var(--bg-body);
             color: var(--text-main);
             overflow-x: hidden;
-            /* Chống bôi đen văn bản để bảo vệ nội dung */
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
         }
 
-        /* --- HEADER DESKTOP --- */
+        /* --- NÚT QUAY LẠI MỚI THÊM --- */
+        .back-button {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: white;
+            cursor: pointer;
+            padding: 8px 14px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.08);
+            transition: var(--transition);
+            margin-right: 15px;
+            font-size: 14px;
+            border: 1px solid transparent;
+        }
+        .back-button:hover {
+            background: var(--accent);
+            color: black;
+            border-color: var(--accent);
+        }
+        .back-button i {
+            font-size: 14px;
+        }
+        @media (max-width: 768px) {
+            .back-button span {
+                display: none;
+            }
+            .back-button {
+                padding: 8px 10px;
+                margin-right: 5px;
+            }
+        }
+
         header {
             background-color: transparent; 
             height: 70px;
@@ -253,7 +284,6 @@
             transform: scale(0.8);
         }
 
-        /* THU GỌN MOBILE SEARCH */
         .mobile-search-overlay {
             position: fixed;
             top: 70px;
@@ -1575,6 +1605,11 @@
             </div>
         </a>
 
+        <!-- NÚT QUAY LẠI - ĐÃ THÊM -->
+        <div class="back-button" id="backButton" onclick="goBack()" style="display: none;">
+            <i class="fas fa-arrow-left"></i> <span>Quay lại</span>
+        </div>
+
         <div class="search-container">
             <i class="fas fa-search"></i>
             <input type="text" id="desktopSearch" placeholder="Tìm kiếm phim, diễn viên..." onkeyup="if(event.key === 'Enter') handleSearch(this.value)">
@@ -1798,6 +1833,64 @@
     let nominationMovies = [];
     let currentUser = JSON.parse(localStorage.getItem('xoPhim_User')) || null;
     let currentRoomID = null;
+
+    // --- LỊCH SỬ ĐIỀU HƯỚNG (THÊM MỚI) ---
+    let pageHistory = [{ type: 'home', params: {} }];
+    let currentPageType = 'home';
+    let currentPageParams = {};
+
+    function pushHistory(type, params) {
+        if (currentPageType === type && JSON.stringify(currentPageParams) === JSON.stringify(params)) {
+            return;
+        }
+        pageHistory.push({ type, params });
+        currentPageType = type;
+        currentPageParams = params;
+        updateBackButton();
+    }
+
+    function updateBackButton() {
+        const backBtn = document.getElementById('backButton');
+        if (backBtn) {
+            backBtn.style.display = pageHistory.length > 1 ? 'flex' : 'none';
+        }
+    }
+
+    function goBack() {
+        const popup = document.getElementById('moviePopup');
+        if (popup && popup.style.display === 'block') {
+            closePopup();
+        }
+
+        if (pageHistory.length <= 1) {
+            resetToHome();
+            return;
+        }
+
+        pageHistory.pop(); // bỏ trang hiện tại
+        const prev = pageHistory[pageHistory.length - 1];
+
+        switch (prev.type) {
+            case 'category':
+                renderCategoryPage(prev.params.endpoint, prev.params.title, prev.params.page, true);
+                break;
+            case 'search':
+                handleSearch(prev.params.keyword, true);
+                break;
+            case 'lobby':
+                showLobby(true);
+                break;
+            case 'home':
+            default:
+                resetToHome();
+                break;
+        }
+        updateBackButton();
+    }
+
+    function resetToHome() {
+        location.reload();
+    }
 
     // TRACKING TRANG ĐỂ LOAD VÔ TẬN
     let pageTracking = {
@@ -2033,8 +2126,9 @@
         });
     }
 
-    // XEM CHUNG LOBBY
-    function showLobby() {
+    // XEM CHUNG LOBBY (ĐÃ SỬA: thêm tham số noPush)
+    function showLobby(noPush = false) {
+        if (!noPush) pushHistory('lobby', {});
         const main = document.getElementById('mainContent');
         window.scrollTo({ top: 0, behavior: 'smooth' });
         
@@ -2155,9 +2249,10 @@
         document.getElementById('mobileSearch').classList.remove('active');
     }
 
-    // --- YÊU CẦU 1: TÌM KIẾM THÔNG MINH (TRẢ VỀ KẾT QUẢ + GỢI Ý CÙNG THỂ LOẠI) ---
-    async function handleSearch(keyword) {
+    // --- TÌM KIẾM THÔNG MINH (ĐÃ SỬA: thêm tham số noPush) ---
+    async function handleSearch(keyword, noPush = false) {
         if (!keyword) return;
+        if (!noPush) pushHistory('search', { keyword });
         closeAllMenus();
         
         const main = document.getElementById('mainContent');
@@ -2192,7 +2287,6 @@
                     </div>
                 `).join('');
 
-                // Tự động lấy thể loại của phim đầu tiên để gợi ý
                 loadRelatedMovies(items[0].slug);
             } else {
                 grid.innerHTML = '<p style="padding:20px;">Không tìm thấy bộ phim nào phù hợp.</p>';
@@ -2227,8 +2321,9 @@
         } catch(e) {}
     }
 
-    // --- YÊU CẦU 2: TRANG DANH MỤC GRID TÁCH BIỆT (THEO ẢNH DEMO) ---
-    async function renderCategoryPage(endpoint, title, page = 1) {
+    // --- TRANG DANH MỤC GRID (ĐÃ SỬA: thêm tham số noPush) ---
+    async function renderCategoryPage(endpoint, title, page = 1, noPush = false) {
+        if (!noPush) pushHistory('category', { endpoint, title, page });
         closeAllMenus();
         const main = document.getElementById('mainContent');
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2263,8 +2358,7 @@
                 </div>
             `).join('');
 
-            // Xử lý phân trang
-            const totalPages = Math.min(data.data.params.pagination.totalPages, 19); // Giới hạn 19 như ảnh
+            const totalPages = Math.min(data.data.params.pagination.totalPages, 19);
             renderPagination(endpoint, title, page, totalPages);
 
         } catch (e) { grid.innerHTML = 'Lỗi tải dữ liệu!'; }
@@ -2487,7 +2581,6 @@
         const area = document.getElementById('watchPartyArea');
         const roomRef = database.ref('active_rooms/' + slug);
 
-        // Kiểm tra số lượng người trước khi vào
         roomRef.get().then((snapshot) => {
             const roomData = snapshot.val();
             const members = roomData?.members || {};
@@ -2496,7 +2589,6 @@
                 return;
             }
 
-            // Đăng ký mình vào phòng
             roomRef.update({
                 movieName: movieName,
                 slug: slug,
@@ -2528,14 +2620,12 @@
                 </div>
             `;
 
-            // Lắng nghe thay đổi thành viên
             roomRef.child('members').on('value', (s) => {
                 const m = s.val() || {};
                 const display = document.getElementById('memberListDisplay');
                 if(display) display.innerText = "Thành viên: " + Object.values(m).join(', ');
             });
 
-            // Lắng nghe đồng bộ video (Tập phim)
             roomRef.child('currentSync').on('value', (s) => {
                 const sync = s.val();
                 if (sync && sync.user !== currentUser.name) {
@@ -2590,7 +2680,6 @@
         const popup = document.getElementById('moviePopup');
         if(popup) popup.scrollTo({ top: 0, behavior: 'smooth' });
 
-        // Đồng bộ với phòng nếu đang ở trong phòng
         if (currentRoomID) {
             database.ref('active_rooms/' + currentRoomID + '/currentSync').set({
                 link: link,
@@ -2618,7 +2707,6 @@
         document.getElementById('moviePopup').style.display = 'none';
         document.body.style.overflow = 'auto';
         
-        // Rời phòng nếu có
         if (currentRoomID && currentUser) {
             database.ref('active_rooms/' + currentRoomID + '/members/' + currentUser.id).remove();
             currentRoomID = null;
@@ -2686,7 +2774,6 @@
         }
     }
 
-    // --- HỆ THỐNG BẢO MẬT CHỐNG COPPY & SOI CODE ---
     document.addEventListener('contextmenu', function(e) { e.preventDefault(); }, false);
     document.addEventListener('keydown', function(e) {
         if (e.keyCode === 123) { e.preventDefault(); return false; }
