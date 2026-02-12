@@ -30,6 +30,11 @@
             background-color: var(--bg-body);
             color: var(--text-main);
             overflow-x: hidden;
+            /* Chống bôi đen văn bản để bảo vệ nội dung */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
 
         /* --- HEADER DESKTOP --- */
@@ -631,6 +636,10 @@
             display: none;
         }
 
+        .interest-grid {
+            scrollbar-width: none;
+        }
+
         .interest-card {
             min-width: 160px;
             height: 100px;
@@ -793,6 +802,10 @@
 
         .movie-scroll-top10::-webkit-scrollbar {
             display: none;
+        }
+
+        .movie-scroll-top10 {
+            scrollbar-width: none;
         }
 
         .movie-item-top10 {
@@ -1999,7 +2012,8 @@
             // Lắng nghe thay đổi thành viên
             roomRef.child('members').on('value', (s) => {
                 const m = s.val() || {};
-                document.getElementById('memberListDisplay').innerText = "Thành viên: " + Object.values(m).join(', ');
+                const display = document.getElementById('memberListDisplay');
+                if(display) display.innerText = "Thành viên: " + Object.values(m).join(', ');
             });
 
             // Lắng nghe đồng bộ video (Tập phim)
@@ -2007,7 +2021,7 @@
                 const sync = s.val();
                 if (sync && sync.user !== currentUser.name) {
                     const iframe = document.getElementById('videoIframe');
-                    if (iframe.src !== sync.link) {
+                    if (iframe && iframe.src !== sync.link) {
                         iframe.src = sync.link;
                         alert(sync.user + " vừa chuyển tập phim!");
                     }
@@ -2024,7 +2038,7 @@
 
     function sendMessage(roomID) {
         const input = document.getElementById('msgInput');
-        if (!input.value.trim() || !currentUser) return;
+        if (!input || !input.value.trim() || !currentUser) return;
         database.ref('chats/' + roomID).push({
             user: currentUser.name,
             text: input.value,
@@ -2050,9 +2064,12 @@
         document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         const iframe = document.getElementById('videoIframe');
-        iframe.src = "about:blank"; 
-        setTimeout(() => { iframe.src = link; }, 100);
-        document.getElementById('moviePopup').scrollTo({ top: 0, behavior: 'smooth' });
+        if(iframe) {
+            iframe.src = "about:blank"; 
+            setTimeout(() => { iframe.src = link; }, 100);
+        }
+        const popup = document.getElementById('moviePopup');
+        if(popup) popup.scrollTo({ top: 0, behavior: 'smooth' });
 
         // Đồng bộ với phòng nếu đang ở trong phòng
         if (currentRoomID) {
@@ -2069,8 +2086,11 @@
         btn.classList.add('active');
         const serverData = window.currentMovieEpisodes[serverIdx].server_data;
         const newEpisodes = serverData.map((ep, idx) => `<button class="ep-btn ${idx === 0 ? 'active' : ''}" onclick="playVideo(this, '${ep.link_embed}')">${ep.name}</button>`).join('');
-        document.getElementById('epContainer').innerHTML = newEpisodes;
-        playVideo(document.querySelector('.ep-btn'), serverData[0].link_embed);
+        const epContainer = document.getElementById('epContainer');
+        if(epContainer) {
+            epContainer.innerHTML = newEpisodes;
+            playVideo(epContainer.querySelector('.ep-btn'), serverData[0].link_embed);
+        }
     };
 
     function closePopup() {
@@ -2146,6 +2166,36 @@
             document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
         }
     }
+
+    // --- HỆ THỐNG BẢO MẬT CHỐNG COPPY & SOI CODE ---
+    // 1. Chặn chuột phải
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+    }, false);
+
+    // 2. Chặn các phím tắt DevTools
+    document.addEventListener('keydown', function(e) {
+        // Chặn F12
+        if (e.keyCode === 123) {
+            e.preventDefault();
+            return false;
+        }
+        // Chặn Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C (Inspect)
+        if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) {
+            e.preventDefault();
+            return false;
+        }
+        // Chặn Ctrl+U (View Source)
+        if (e.ctrlKey && e.keyCode === 85) {
+            e.preventDefault();
+            return false;
+        }
+        // Chặn Ctrl+S (Save page)
+        if (e.ctrlKey && e.keyCode === 83) {
+            e.preventDefault();
+            return false;
+        }
+    }, false);
 </script>
 </body>
 </html>
