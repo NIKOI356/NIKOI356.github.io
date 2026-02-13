@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XoPhim - Phim hay cả xổ</title>
+    <title>XoPhim - Phim hay cả Xổ</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
@@ -1127,8 +1127,45 @@
         .btn-exit-cinema:hover { background: var(--accent); color: #000; }
 
         .video-frame-container { width: 100%; aspect-ratio: 16/9; background: #000; }
+        /* Vùng chứa Video */
+        .video-frame-container { 
+            width: 100%; 
+            aspect-ratio: 16/9; 
+            background: #000; 
+            position: relative; 
+        }
+        
+        /* Lớp phủ hứng sự kiện chạm/click để hiện header */
+        .video-touch-layer {
+            position: absolute;
+            inset: 0;
+            z-index: 205; /* Nằm dưới header nhưng nằm trên iframe video */
+            cursor: pointer;
+        }
+
         .video-frame-container iframe { width: 100%; height: 100%; border: none; }
 
+        /* Header video có hiệu ứng ẩn hiện mượt */
+        .video-player-header {
+            position: absolute;
+            top: 0; left: 0; width: 100%;
+            padding: 15px 20px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, transparent 100%);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 210;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Class ẩn header */
+        .video-player-header.hidden {
+            opacity: 0;
+            transform: translateY(-100%);
+            pointer-events: none;
+        }
         /* Vùng cuộn thông tin ở dưới */
         .detail-scrollable-body {
             flex: 1;
@@ -2869,7 +2906,7 @@
                 <a href="#">Đối tác</a>
             </div>
             <p class="footer-description">XoPhim - Trang xem phim online miễn phí chất lượng cao full HD. Kho phim mới khổng lồ, đa dạng thể loại từ nhiều quốc gia. Khám phá nền tảng phim trực tuyến hay nhất 2025!</p>
-            <p class="footer-copyright">© 2025 XoPhim</p>
+            <p class="footer-copyright">© 2025 XoPhim - Xô Của Đức Anh </p>
             <div class="scroll-to-top-box" onclick="scrollToTop()">
                 <i class="fas fa-arrow-up"></i>
                 <span>ĐẦU TRANG</span>
@@ -2997,37 +3034,41 @@
 
             const popup = document.getElementById('moviePopup');
             const firstEp = episodeServers[0].server_data[0].link_embed;
-            const imdb = movie.tmdb?.vote_average || '8.0';
 
             let html = `
             <div class="popup-content">
                 <div class="cinema-top-fixed" id="videoArea">
                     <div class="video-player-header" id="videoHeader">
-                        <h2 style="color:white; text-shadow: 2px 2px 4px #000;">${movie.name}</h2>
+                        <h2 style="color:white; font-size:16px;">${movie.name}</h2>
                         <button class="btn-exit-cinema" onclick="closePopup()">
                             <i class="fas fa-times"></i> Đóng
                         </button>
                     </div>
                     <div class="video-frame-container">
-                        <iframe id="videoIframe" src="${firstEp}" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+                        <div class="video-touch-layer" id="touchLayer"></div>
+                        <iframe id="videoIframe" src="${firstEp}" allowfullscreen allow="autoplay"></iframe>
                     </div>
                 </div>
 
                 <div class="detail-scrollable-body" id="popupScrollBody">
-                    <div style="display:flex; gap:25px; margin-bottom:25px;">
-                        <div style="flex:0 0 150px;" class="detail-poster-fixed">
-                            <img src="${API_IMG}${movie.poster_url}" style="width:100%; border-radius:10px;">
+                    <div style="display:flex; gap:20px; margin-bottom:20px;">
+                        <div style="flex:0 0 120px;" class="detail-poster-fixed">
+                            <img src="${API_IMG}${movie.poster_url}" style="width:100%; border-radius:8px;">
                         </div>
                         <div style="flex:1;">
-                            <h1 style="font-size:24px; color:white;">${movie.name}</h1>
-                            <p style="color:var(--accent);">${movie.origin_name} (${movie.year})</p>
+                            <h1 style="font-size:22px; color:white;">${movie.name}</h1>
+                            <p style="color:var(--accent); font-size:13px;">${movie.origin_name} (${movie.year})</p>
+                            <div style="margin-top:10px;">
+                                <button class="btn-detail btn-play" style="padding: 6px 15px; font-size:12px;"><i class="fas fa-heart"></i> Yêu thích</button>
+                            </div>
                         </div>
                     </div>
-                    <p style="color:#aaa; font-size:14px; margin-bottom:30px;">${movie.content.replace(/<[^>]*>/g, '')}</p>
 
-                    <div class="detail-tabs" style="display:flex; gap:20px; border-bottom:1px solid #333; margin-bottom:20px;">
-                        <div class="tab-item active" style="padding-bottom:10px; cursor:pointer;" onclick="switchTab(this, 'episodes')">Chọn tập</div>
-                        <div class="tab-item" style="padding-bottom:10px; cursor:pointer;" onclick="switchTab(this, 'cast')">Diễn viên</div>
+                    <p style="color:#aaa; font-size:13px; line-height:1.5; margin-bottom:25px;">${movie.content.replace(/<[^>]*>/g, '')}</p>
+
+                    <div class="detail-tabs" style="display:flex; gap:20px; border-bottom:1px solid #333; margin-bottom:15px;">
+                        <div class="tab-item active" style="padding-bottom:10px; cursor:pointer; font-size:14px;" onclick="switchTab(this, 'episodes')">Tập phim</div>
+                        <div class="tab-item" style="padding-bottom:10px; cursor:pointer; font-size:14px;" onclick="switchTab(this, 'cast')">Diễn viên</div>
                     </div>
 
                     <div id="tab-episodes" class="tab-content active">
@@ -3039,11 +3080,13 @@
                     </div>
 
                     <div id="tab-cast" class="tab-content">
-                        <div class="cast-list">${movie.actor.map(a => `<div class="cast-item"><span class="cast-name" style="font-size:12px;">${a}</span></div>`).join('')}</div>
+                        <div class="cast-list" style="display:flex; flex-wrap:wrap; gap:10px;">
+                            ${movie.actor.map(a => `<span style="background:#252931; padding:5px 12px; border-radius:15px; font-size:12px; color:#ccc;">${a}</span>`).join('')}
+                        </div>
                     </div>
 
                     <div class="related-bomtan-section">
-                        <h4><i class="fas fa-fire"></i> Có thể bạn muốn xem</h4>
+                        <h4 style="font-size:16px;"><i class="fas fa-fire"></i> Bom tấn gợi ý</h4>
                         <div class="popup-related-scroll">
                             ${bomTanItems.map(m => `
                                 <div class="related-item-mini" onclick="showMovieDetail('${m.slug}')">
@@ -3061,26 +3104,25 @@
             document.body.style.overflow = 'hidden';
             window.currentMovieEpisodes = episodeServers;
 
-            // --- LOGIC TỰ ẨN HEADER KHI XEM ---
-            const videoArea = document.getElementById('videoArea');
+            // --- LOGIC CHẠM ĐỂ HIỆN / KHÔNG CHẠM TỰ ẨN ---
+            const touchLayer = document.getElementById('touchLayer');
             const videoHeader = document.getElementById('videoHeader');
             let hideTimeout;
 
-            const startHideTimer = () => {
+            const resetTimer = () => {
                 clearTimeout(hideTimeout);
+                videoHeader.classList.remove('hidden'); // Hiện header
                 hideTimeout = setTimeout(() => {
-                    videoHeader.classList.add('hidden');
-                }, 3000); // 3 giây tự ẩn
+                    videoHeader.classList.add('hidden'); // Ẩn header sau 3 giây
+                }, 3000);
             };
 
-            // Khi chạm vào vùng video thì hiện lại
-            videoArea.addEventListener('click', () => {
-                videoHeader.classList.remove('hidden');
-                startHideTimer();
-            });
+            // Sự kiện chạm (Mobile) hoặc Click (PC) vào lớp phủ video
+            touchLayer.addEventListener('click', resetTimer);
+            touchLayer.addEventListener('touchstart', resetTimer);
 
-            // Khởi chạy timer ngay khi mở popup
-            startHideTimer();
+            // Tự ẩn lần đầu sau 3 giây
+            resetTimer();
 
         } catch (e) { alert("Lỗi tải phim!"); }
     };
