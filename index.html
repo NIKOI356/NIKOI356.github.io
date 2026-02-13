@@ -1098,15 +1098,26 @@
             background: #000;
         }
 
+        /* Header video có hiệu ứng ẩn hiện */
         .video-player-header {
             position: absolute;
             top: 0; left: 0; width: 100%;
-            padding: 15px 25px;
+            padding: 15px 20px;
             background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, transparent 100%);
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 210;
+            transition: opacity 0.5s ease, transform 0.5s ease; /* Hiệu ứng mượt */
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Class để ẩn header */
+        .video-player-header.hidden {
+            opacity: 0;
+            transform: translateY(-20px);
+            pointer-events: none; /* Không cho bấm nhầm khi đang ẩn */
         }
 
         .btn-exit-cinema {
@@ -2975,13 +2986,11 @@
     // --- CHI TIẾT PHIM - GIAO DIỆN MỚI (NHƯ ẢNH) ---
     async function showMovieDetail(slug) {
         try {
-            // Tải thông tin phim hiện tại
             const res = await fetch(API_DETAIL + slug);
             const data = await res.json();
             const movie = data.movie;
             const episodeServers = data.episodes;
             
-            // Tải thêm danh sách bom tấn gợi ý (Lấy phim lẻ mới nhất)
             const resBomTan = await fetch(`https://phimapi.com/v1/api/danh-sach/phim-le?limit=10`);
             const dataBomTan = await resBomTan.json();
             const bomTanItems = dataBomTan.data.items;
@@ -2992,8 +3001,8 @@
 
             let html = `
             <div class="popup-content">
-                <div class="cinema-top-fixed">
-                    <div class="video-player-header">
+                <div class="cinema-top-fixed" id="videoArea">
+                    <div class="video-player-header" id="videoHeader">
                         <h2 style="color:white; text-shadow: 2px 2px 4px #000;">${movie.name}</h2>
                         <button class="btn-exit-cinema" onclick="closePopup()">
                             <i class="fas fa-times"></i> Đóng
@@ -3011,16 +3020,10 @@
                         </div>
                         <div style="flex:1;">
                             <h1 style="font-size:24px; color:white;">${movie.name}</h1>
-                            <p style="color:var(--accent); margin-bottom:10px;">${movie.origin_name} (${movie.year})</p>
-                            <div style="display:flex; gap:10px; font-size:12px;">
-                                <span style="background:var(--accent); color:black; padding:2px 8px; border-radius:4px; font-weight:bold;">IMDb ${imdb}</span>
-                                <span style="border:1px solid #666; padding:2px 8px; border-radius:4px;">${movie.quality}</span>
-                                <span style="border:1px solid #666; padding:2px 8px; border-radius:4px;">${movie.time}</span>
-                            </div>
+                            <p style="color:var(--accent);">${movie.origin_name} (${movie.year})</p>
                         </div>
                     </div>
-
-                    <p style="color:#aaa; line-height:1.6; font-size:14px; margin-bottom:30px;">${movie.content.replace(/<[^>]*>/g, '')}</p>
+                    <p style="color:#aaa; font-size:14px; margin-bottom:30px;">${movie.content.replace(/<[^>]*>/g, '')}</p>
 
                     <div class="detail-tabs" style="display:flex; gap:20px; border-bottom:1px solid #333; margin-bottom:20px;">
                         <div class="tab-item active" style="padding-bottom:10px; cursor:pointer;" onclick="switchTab(this, 'episodes')">Chọn tập</div>
@@ -3036,7 +3039,7 @@
                     </div>
 
                     <div id="tab-cast" class="tab-content">
-                        <div class="cast-list">${movie.actor.map(a => `<div class="cast-item"><div class="cast-avatar"><i class="fas fa-user"></i></div><span class="cast-name" style="font-size:12px;">${a}</span></div>`).join('')}</div>
+                        <div class="cast-list">${movie.actor.map(a => `<div class="cast-item"><span class="cast-name" style="font-size:12px;">${a}</span></div>`).join('')}</div>
                     </div>
 
                     <div class="related-bomtan-section">
@@ -3050,8 +3053,6 @@
                             `).join('')}
                         </div>
                     </div>
-
-                    <div id="watchPartyArea" style="margin-top:30px;"></div>
                 </div>
             </div>`;
 
@@ -3060,16 +3061,28 @@
             document.body.style.overflow = 'hidden';
             window.currentMovieEpisodes = episodeServers;
 
-        } catch (e) { alert("Lỗi tải phim!"); }
-    }
+            // --- LOGIC TỰ ẨN HEADER KHI XEM ---
+            const videoArea = document.getElementById('videoArea');
+            const videoHeader = document.getElementById('videoHeader');
+            let hideTimeout;
 
-    // Sửa lại hàm playVideo này luôn
-    window.playVideo = function(btn, link) {
-        document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById('videoIframe').src = link;
-        // Cuộn vùng thông tin lên đầu khi đổi tập cho mượt
-        document.getElementById('popupScrollBody').scrollTo({ top: 0, behavior: 'smooth' });
+            const startHideTimer = () => {
+                clearTimeout(hideTimeout);
+                hideTimeout = setTimeout(() => {
+                    videoHeader.classList.add('hidden');
+                }, 3000); // 3 giây tự ẩn
+            };
+
+            // Khi chạm vào vùng video thì hiện lại
+            videoArea.addEventListener('click', () => {
+                videoHeader.classList.remove('hidden');
+                startHideTimer();
+            });
+
+            // Khởi chạy timer ngay khi mở popup
+            startHideTimer();
+
+        } catch (e) { alert("Lỗi tải phim!"); }
     };
 
     // Nhớ cập nhật hàm playVideo này luôn cho đồng bộ
