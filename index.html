@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XoPhim - Phim hay cả xổ</title>
+    <title>XoPhim - Phim hay cả rổ</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
@@ -1064,45 +1064,113 @@
             color: #888;
         }
 
+       /* ===== GIAO DIỆN PHÁT VIDEO MỚI ===== */
+        /* ===== GIAO DIỆN VIDEO CỐ ĐỊNH - NỘI DUNG CUỘN ===== */
         .popup-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.95);
+            background: rgba(0,0,0,0.98);
             z-index: 5000;
             display: none;
-            overflow-y: auto;
-            padding: 20px;
-            backdrop-filter: blur(5px);
+            overflow: hidden; /* Quan trọng: Ngăn overlay cuộn, để popup-content tự quản lý */
+            backdrop-filter: blur(15px);
         }
 
         .popup-content {
             max-width: 1100px;
-            margin: 20px auto;
+            margin: 0 auto;
             background: var(--bg-nav);
-            border-radius: 15px;
-            display: block; 
-            padding: 25px;
+            height: 100vh; /* Full chiều cao màn hình */
+            display: flex;
+            flex-direction: column; /* Chia làm 2 phần: Header+Video và Thông tin */
             position: relative;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
         }
 
-        .popup-poster-inline {
-            width: 200px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            margin-right: 25px;
-            float: left;
+        /* Phần trên: Header + Video (Cố định) */
+        .cinema-top-fixed {
+            width: 100%;
+            flex-shrink: 0; /* Không cho phần này bị co lại */
+            position: sticky;
+            top: 0;
+            z-index: 200;
+            background: #000;
         }
 
-        .close-popup {
+        .video-player-header {
             position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 24px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 25px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, transparent 100%);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 210;
+            pointer-events: none;
+        }
+
+        .video-player-header h2, .btn-exit-cinema { pointer-events: auto; }
+
+        .video-player-header h2 {
+            color: #fff;
+            font-size: 18px;
+            border-left: 4px solid var(--accent);
+            padding-left: 15px;
+            text-shadow: 2px 2px 4px #000;
+        }
+
+        .btn-exit-cinema {
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 8px 18px;
+            border-radius: 30px;
             cursor: pointer;
-            color: #ff4d4d;
-            transition: 0.2s;
-            z-index: 10;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+        }
+
+        .btn-exit-cinema:hover { background: var(--accent); color: #000; }
+
+        .video-frame-container {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #000;
+        }
+
+        .video-frame-container iframe { width: 100%; height: 100%; border: none; }
+
+        /* Phần dưới: Thông tin phim (Cho phép cuộn) */
+        .detail-scrollable-body {
+            flex: 1;
+            overflow-y: auto; /* Kích hoạt cuộn nội dung bên dưới */
+            padding: 30px;
+            background: var(--bg-nav);
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent) #252931;
+        }
+
+        .detail-scrollable-body::-webkit-scrollbar { width: 6px; }
+        .detail-scrollable-body::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+
+        .detail-info-grid {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .detail-poster-fixed { flex: 0 0 180px; }
+        .detail-poster-fixed img { width: 100%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+
+        @media (max-width: 768px) {
+            .detail-info-grid { flex-direction: column; }
+            .detail-poster-fixed { display: none; }
+            .video-player-header h2 { font-size: 14px; max-width: 60%; }
         }
 
         .close-popup:hover {
@@ -1650,6 +1718,330 @@
         .scroll-to-top-box:hover {
             background: var(--accent);
             transform: translateY(-5px);
+        }
+
+        /* ===== POPUP CHI TIẾT PHIM - THIẾT KẾ CHUYÊN NGHIỆP ===== */
+        .movie-detail-popup {
+            background: linear-gradient(145deg, #1a1d23 0%, #0f1115 100%);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+        }
+        .detail-header {
+            position: sticky;
+            top: 0;
+            background: rgba(10,12,16,0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            z-index: 10;
+        }
+        .detail-header h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+            margin: 0;
+            border-left: 4px solid var(--accent);
+            padding-left: 15px;
+        }
+        .close-detail {
+            font-size: 28px;
+            color: #ff6b6b;
+            cursor: pointer;
+            transition: 0.2s;
+            line-height: 1;
+        }
+        .close-detail:hover {
+            transform: rotate(90deg);
+        }
+        .detail-layout {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 25px;
+            gap: 30px;
+        }
+        .detail-poster {
+            flex: 0 0 280px;
+            max-width: 280px;
+            transition: 0.3s;
+        }
+        .detail-poster img {
+            width: 100%;
+            border-radius: 16px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.6);
+            transition: 0.3s;
+        }
+        .detail-poster img:hover {
+            transform: scale(1.02);
+        }
+        .player-container {
+            flex: 0 0 280px;
+            max-width: 280px;
+            display: none;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #333;
+        }
+        .player-wrapper {
+            width: 100%;
+            aspect-ratio: 2/3;
+            background: #000;
+        }
+        .player-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .detail-info {
+            flex: 1;
+            min-width: 300px;
+        }
+        .detail-title {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 5px;
+            color: #fff;
+            line-height: 1.2;
+        }
+        .detail-original-title {
+            font-size: 16px;
+            color: #aaa;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+        .detail-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .imdb-badge-detail {
+            background: var(--accent);
+            color: #000;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .age-rating-detail {
+            background: rgba(255,193,7,0.15);
+            color: #ffc107;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            border: 1px solid rgba(255,193,7,0.3);
+        }
+        .detail-meta span {
+            color: #ddd;
+            font-size: 14px;
+        }
+        .detail-meta i {
+            margin-right: 4px;
+            color: var(--accent);
+        }
+        .detail-genres {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .genre-tag {
+            background: rgba(255,255,255,0.1);
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-size: 12px;
+            color: #ccc;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .detail-description {
+            color: #bbb;
+            line-height: 1.7;
+            margin-bottom: 25px;
+            font-size: 14px;
+            max-height: 120px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        .detail-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .btn-detail {
+            padding: 12px 25px;
+            border-radius: 40px;
+            border: none;
+            font-weight: 600;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-play {
+            background: var(--accent);
+            color: #000;
+            box-shadow: 0 5px 15px rgba(241,196,15,0.3);
+        }
+        .btn-play:hover {
+            transform: translateY(-3px);
+            filter: brightness(1.1);
+        }
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .btn-secondary:hover {
+            background: var(--accent);
+            color: black;
+            border-color: var(--accent);
+        }
+        .detail-tabs {
+            display: flex;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+            gap: 30px;
+        }
+        .tab-item {
+            padding: 12px 0;
+            font-size: 15px;
+            font-weight: 600;
+            color: #aaa;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: 0.2s;
+        }
+        .tab-item.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .server-selector {
+            margin-bottom: 20px;
+        }
+        .server-selector h4 {
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .server-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .server-btn {
+            background: #252931;
+            border: 1px solid #444;
+            color: white;
+            padding: 6px 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: 0.2s;
+        }
+        .server-btn.active {
+            background: var(--accent);
+            color: black;
+            border-color: var(--accent);
+            font-weight: bold;
+        }
+        .episode-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+            gap: 10px;
+            max-height: 250px;
+            overflow-y: auto;
+            padding: 5px;
+        }
+        .ep-btn {
+            background: #252931;
+            border: 1px solid #333;
+            color: white;
+            padding: 8px 5px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: 0.2s;
+            text-align: center;
+        }
+        .ep-btn:hover, .ep-btn.active {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(241,196,15,0.1);
+        }
+        .cast-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .cast-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100px;
+        }
+        .cast-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #2a2e35;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+            overflow: hidden;
+        }
+        .cast-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .cast-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #fff;
+            text-align: center;
+        }
+        .cast-role {
+            font-size: 11px;
+            color: #aaa;
+        }
+        .no-cast {
+            color: #888;
+            padding: 15px;
+            font-style: italic;
+        }
+        @media (max-width: 768px) {
+            .detail-layout {
+                flex-direction: column;
+            }
+            .detail-poster, .player-container {
+                flex: 0 0 auto;
+                max-width: 200px;
+                margin: 0 auto;
+            }
+            .detail-title {
+                font-size: 22px;
+            }
+            .episode-grid {
+                grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            }
         }
     </style>
 </head>
@@ -2611,62 +3003,176 @@
         } catch (e) { console.error(e); }
     }
 
-    // DETAIL & WATCH PARTY LOGIC
+    // --- CHI TIẾT PHIM - GIAO DIỆN MỚI (NHƯ ẢNH) ---
     async function showMovieDetail(slug) {
         try {
             const res = await fetch(API_DETAIL + slug);
             const data = await res.json();
             const movie = data.movie;
-            const episodeServers = data.episodes; 
+            const episodeServers = data.episodes;
             const popup = document.getElementById('moviePopup');
-            const defaultLink = episodeServers[0].server_data[0].link_embed;
+            
+            const firstEp = episodeServers[0].server_data[0].link_embed;
+            const imdb = movie.tmdb?.vote_average || '8.0';
+            const description = movie.content ? movie.content.replace(/<[^>]*>/g, '') : 'Nội dung đang cập nhật.';
 
-            document.getElementById('popupContent').innerHTML = `
-                <span class="close-popup" onclick="closePopup()">&times;</span>
-                <h2 style="font-size:24px; margin-bottom:15px; border-left: 5px solid var(--accent); padding-left: 15px;">${movie.name}</h2>
-                <div class="player-wrapper">
-                    <iframe id="videoIframe" src="${defaultLink}" allowfullscreen allow="autoplay; encrypted-media"></iframe>
-                </div>
-                <div style="overflow: auto; margin-top: 20px;">
-                    <img src="${API_IMG}${movie.poster_url}" class="popup-poster-inline">
-                    <div style="overflow: hidden;">
-                        <div class="slide-meta">
-                            <span class="meta-item imdb-tag">IMDb ${movie.tmdb?.vote_average || 'N/A'}</span>
-                            <span class="meta-item">${movie.year}</span>
-                            <span class="meta-item">${movie.quality}</span>
-                        </div>
-                        <div style="font-size:12px; color:var(--accent); margin-bottom:10px;">Diễn viên: ${movie.actor.join(', ')}</div>
-                        
-                        <div id="roomActionArea">
-                            ${currentUser ? 
-                                `<button class="btn-create-party" onclick="initWatchParty('${movie.name.replace(/'/g, "\\'")}', '${slug}')">
-                                    <i class="fas fa-users"></i> BẮT ĐẦU XEM CHUNG & CHAT
-                                </button>` : 
-                                `<button class="btn-create-party" style="opacity: 0.6; cursor: pointer;" onclick="handleAuth()">
-                                    <i class="fas fa-lock"></i> ĐĂNG NHẬP ĐỂ XEM CHUNG
-                                </button>`
-                            }
-                        </div>
-
-                        <div style="font-weight:bold; margin-top:15px; font-size:14px;">Chọn Server:</div>
-                        <div class="lang-selector">
-                            ${episodeServers.map((server, idx) => `<button class="lang-btn ${idx === 0 ? 'active' : ''}" onclick="switchLang(this, ${idx})">${server.server_name}</button>`).join('')}
-                        </div>
-                        <div style="font-weight:bold; margin-top:5px; font-size:14px;">Chọn Tập:</div>
-                        <div id="epContainer" class="episode-grid">
-                            ${episodeServers[0].server_data.map((ep, idx) => `<button class="ep-btn ${idx === 0 ? 'active' : ''}" onclick="playVideo(this, '${ep.link_embed}')">${ep.name}</button>`).join('')}
-                        </div>
-                        <p style="color:#aaa; line-height:1.6; margin-top:20px; font-size:13px; border-top:1px solid #333; padding-top:15px;">${movie.content}</p>
-                        
-                        <div id="watchPartyArea"></div>
+            let html = `
+            <div class="popup-content">
+                <div class="cinema-top-fixed">
+                    <div class="video-player-header">
+                        <h2>${movie.name}</h2>
+                        <button class="btn-exit-cinema" onclick="closePopup()">
+                            <i class="fas fa-arrow-left"></i> Trở về
+                        </button>
+                    </div>
+                    <div class="video-frame-container">
+                        <iframe id="videoIframe" src="${firstEp}" allowfullscreen allow="autoplay; encrypted-media"></iframe>
                     </div>
                 </div>
+
+                <div class="detail-scrollable-body">
+                    <div class="detail-info-grid">
+                        <div class="detail-poster-fixed">
+                            <img src="${API_IMG}${movie.poster_url}" alt="${movie.name}">
+                        </div>
+                        <div class="detail-text-area">
+                            <div class="detail-title-big" style="font-size: 28px; font-weight:800; color:white;">${movie.name}</div>
+                            <div style="color: #aaa; font-style: italic; margin-bottom: 15px;">${movie.origin_name}</div>
+                            <div class="detail-meta">
+                                <span class="imdb-badge-detail">IMDb ${imdb}</span>
+                                <span class="age-rating-detail">${movie.quality}</span>
+                                <span><i class="far fa-calendar-alt"></i> ${movie.year}</span>
+                                <span><i class="far fa-clock"></i> ${movie.time || '120 phút'}</span>
+                            </div>
+                            
+                            <div class="detail-actions" style="margin-top:20px;">
+                                <button class="btn-detail btn-play"><i class="fas fa-plus"></i> Danh sách</button>
+                                <button class="btn-detail btn-secondary" onclick="initWatchParty('${movie.name}', '${movie.slug}')">
+                                    <i class="fas fa-users"></i> Xem chung
+                                </button>
+                                <button class="btn-detail btn-secondary"><i class="fas fa-share-alt"></i> Chia sẻ</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p style="color:#bbb; line-height:1.7; margin-bottom:30px;">${description}</p>
+
+                    <div class="detail-tabs">
+                        <div class="tab-item active" onclick="switchTab(this, 'episodes')">Tập phim</div>
+                        <div class="tab-item" onclick="switchTab(this, 'cast')">Diễn viên</div>
+                    </div>
+
+                    <div id="tab-episodes" class="tab-content active">
+                        <div class="server-selector">
+                            <div class="server-buttons">
+                                ${episodeServers.map((s, idx) => `<button class="server-btn ${idx===0?'active':''}" onclick="switchServer(${idx}, this)">${s.server_name}</button>`).join('')}
+                            </div>
+                        </div>
+                        <div class="episode-grid" id="episodeContainer">
+                            ${episodeServers[0].server_data.map((ep, idx) => `<button class="ep-btn ${idx===0?'active':''}" onclick="playVideo(this, '${ep.link_embed}')">${ep.name}</button>`).join('')}
+                        </div>
+                    </div>
+
+                    <div id="tab-cast" class="tab-content">
+                        <div class="cast-list">
+                            ${movie.actor.map(a => `<div class="cast-item"><div class="cast-avatar"><i class="fas fa-user"></i></div><span class="cast-name">${a}</span></div>`).join('')}
+                        </div>
+                    </div>
+
+                    <div id="watchPartyArea"></div>
+                </div>
+            </div>
             `;
-            window.currentMovieEpisodes = episodeServers;
+
+            popup.innerHTML = html;
             popup.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        } catch (e) { alert("Lỗi tải thông tin phim!"); }
+            document.body.style.overflow = 'hidden'; // Khóa cuộn trang chủ
+            window.currentMovieEpisodes = episodeServers;
+
+        } catch (e) { alert("Lỗi tải phim!"); }
     }
+
+    // Chỉnh lại hàm playVideo để không cuộn trang (vì video đã cố định rồi)
+    window.playVideo = function(btn, link) {
+        document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('videoIframe').src = link;
+    };
+
+    // Nhớ cập nhật hàm playVideo này luôn cho đồng bộ
+    window.playVideo = function(btn, link) {
+        document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('videoIframe').src = link;
+        document.getElementById('moviePopup').scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    // --- Chuyển tab trong popup chi tiết ---
+    window.switchTab = function(tabElement, tabId) {
+        document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+        tabElement.classList.add('active');
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.getElementById('tab-' + tabId).classList.add('active');
+    };
+
+    // --- Chuyển server (bản chiếu) ---
+    window.switchServer = function(serverIndex, btn) {
+        document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        const serverData = window.currentMovieEpisodes[serverIndex].server_data;
+        window.currentServerIndex = serverIndex;
+        
+        const epContainer = document.getElementById('episodeContainer');
+        epContainer.innerHTML = serverData.map((ep, idx) => 
+            `<button class="ep-btn ${idx === 0 ? 'active' : ''}" onclick="playVideo(this, '${ep.link_embed}')">${ep.name}</button>`
+        ).join('');
+        
+        const playerContainer = document.getElementById('playerContainer');
+        if (playerContainer.style.display === 'block') {
+            playVideo(epContainer.querySelector('.ep-btn'), serverData[0].link_embed);
+        }
+    };
+
+    // --- Xử lý nút "Xem ngay" ---
+    window.handlePlayNow = function() {
+        const poster = document.getElementById('detailPoster');
+        const playerContainer = document.getElementById('playerContainer');
+        const firstEpBtn = document.querySelector('#episodeContainer .ep-btn');
+        
+        if (firstEpBtn) {
+            poster.style.display = 'none';
+            playerContainer.style.display = 'block';
+            playVideo(firstEpBtn, firstEpBtn.getAttribute('onclick').match(/'([^']+)'/)[1]);
+        }
+    };
+
+    // --- Ghi đè hàm playVideo để tương thích với giao diện mới ---
+    window.playVideo = function(btn, link) {
+        document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        const iframe = document.getElementById('videoIframe');
+        if (iframe) {
+            iframe.src = "about:blank";
+            setTimeout(() => { iframe.src = link; }, 100);
+        }
+        
+        const poster = document.getElementById('detailPoster');
+        const playerContainer = document.getElementById('playerContainer');
+        if (poster && poster.style.display !== 'none') {
+            poster.style.display = 'none';
+            playerContainer.style.display = 'block';
+        }
+        
+        if (currentRoomID && currentUser) {
+            database.ref('active_rooms/' + currentRoomID + '/currentSync').set({
+                link: link,
+                user: currentUser.name,
+                timestamp: Date.now()
+            });
+        }
+    };
 
     // ĐỒNG BỘ VIDEO & GIỚI HẠN NGƯỜI
     function initWatchParty(movieName, slug) {
@@ -2763,25 +3269,7 @@
         stream.scrollTop = stream.scrollHeight;
     }
 
-    window.playVideo = function(btn, link) {
-        document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const iframe = document.getElementById('videoIframe');
-        if(iframe) {
-            iframe.src = "about:blank"; 
-            setTimeout(() => { iframe.src = link; }, 100);
-        }
-        const popup = document.getElementById('moviePopup');
-        if(popup) popup.scrollTo({ top: 0, behavior: 'smooth' });
-
-        if (currentRoomID) {
-            database.ref('active_rooms/' + currentRoomID + '/currentSync').set({
-                link: link,
-                user: currentUser.name,
-                timestamp: Date.now()
-            });
-        }
-    };
+    // Đã thay thế playVideo ở trên
 
     window.switchLang = function(btn, serverIdx) {
         document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
@@ -2797,9 +3285,15 @@
 
     function closePopup() {
         const iframe = document.getElementById('videoIframe');
-        if(iframe) iframe.src = ""; 
+        if (iframe) iframe.src = "";
         document.getElementById('moviePopup').style.display = 'none';
         document.body.style.overflow = 'auto';
+        
+        // Reset lại trạng thái poster/player cho lần mở sau
+        const poster = document.getElementById('detailPoster');
+        const playerContainer = document.getElementById('playerContainer');
+        if (poster) poster.style.display = 'block';
+        if (playerContainer) playerContainer.style.display = 'none';
         
         if (currentRoomID && currentUser) {
             database.ref('active_rooms/' + currentRoomID + '/members/' + currentUser.id).remove();
