@@ -2674,29 +2674,43 @@
         });
     }
 
-    async function loadMenuData() {
+    async function handleSearch(keyword, noPush = false) {
+        if (!keyword) return;
+        if (!noPush) pushHistory('search', { keyword });
+        
+        closeAllMenus(); // Tự động ẩn menu và thanh search mobile
+
+        const main = document.getElementById('mainContent');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        main.innerHTML = `
+            <div class="movie-list-section" style="margin-top:100px;">
+                <div class="list-header"><h3><i class="fas fa-search"></i> Kết quả tìm kiếm: "${keyword}"</h3></div>
+                <div id="searchGrid" class="category-grid">Đang tìm kiếm...</div>
+            </div>
+        `;
+
         try {
-            const [genRes, counRes] = await Promise.all([fetch(API_GENRES), fetch(API_COUNTRIES)]);
-            const genres = await genRes.json();
-            const countries = await counRes.json();
+            const res = await fetch(`https://phimapi.com/v1/api/tim-kiem?keyword=${keyword}&limit=20`);
+            const data = await res.json();
+            const items = data.data.items;
+            const grid = document.getElementById('searchGrid');
 
-            const genreHtml = genres.map(g => `<a href="#" onclick="renderCategoryPage('the-loai/${g.slug}', 'Thể loại: ${g.name}')">${g.name}</a>`).join('');
-            document.getElementById('genreDropdown').innerHTML = genreHtml;
-            document.getElementById('colGenre').innerHTML = genreHtml;
-
-            const colors = ['#3b5bdb', '#20c997', '#748ffc', '#9775fa', '#ff922b', '#fa5252'];
-            document.getElementById('interestGrid').innerHTML = genres.slice(0, 6).map((g, i) => `
-                <a href="#" class="interest-card" style="background: ${colors[i]}" onclick="renderCategoryPage('the-loai/${g.slug}', 'Thể loại: ${g.name}')">
-                    <span>${g.name}</span>
-                    <div class="sub-text">Xem ngay <i class="fas fa-chevron-right"></i></div>
-                </a>
-            `).join('') + `<a href="#" class="interest-card" style="background: #252931; align-items: center; justify-content: center;"><span>+${genres.length-6} chủ đề</span></a>`;
-
-            const countryHtml = countries.map(c => `<a href="#" onclick="renderCategoryPage('quoc-gia/${c.slug}', 'Phim ${c.name}')">${c.name}</a>`).join('');
-            document.getElementById('countryDropdown').innerHTML = countryHtml;
-            document.getElementById('colCountry').innerHTML = countryHtml;
-
-        } catch (e) { console.error("Lỗi load menu", e); }
+            if (items && items.length > 0) {
+                grid.innerHTML = items.map(m => `
+                    <div class="movie-item" style="max-width:none;" onclick="showMovieDetail('${m.slug}')">
+                        <div class="movie-thumb">
+                            <img src="${API_IMG}https://phimimg.com/${m.poster_url}" alt="${m.name}">
+                            <span class="movie-badge">${m.year}</span>
+                        </div>
+                        <div class="movie-title">${m.name}</div>
+                    </div>
+                `).join('');
+            } else {
+                grid.innerHTML = '<p style="padding:20px;">Không tìm thấy bộ phim nào phù hợp.</p>';
+            }
+        } catch (e) { console.error(e); }
+    }
     }
 
     function closeAllMenus() {
@@ -2780,18 +2794,16 @@
     // --- TRANG DANH MỤC GRID (ĐÃ SỬA: thêm tham số noPush) ---
     async function renderCategoryPage(endpoint, title, page = 1, noPush = false) {
         if (!noPush) pushHistory('category', { endpoint, title, page });
-        closeAllMenus();
+        
+        closeAllMenus(); // Đóng menu mobile ngay lập tức
+
         const main = document.getElementById('mainContent');
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
         main.innerHTML = `
             <div class="movie-list-section" style="margin-top:100px;">
-                <div class="list-header">
-                    <h3>${title}</h3>
-                    <div style="font-size:13px; color:#888;"><i class="fas fa-filter"></i> Bộ lọc</div>
-                </div>
+                <div class="list-header"><h3>${title}</h3></div>
                 <div id="catGrid" class="category-grid">Đang tải dữ liệu...</div>
-                
                 <div class="pagination-container" id="catPagination"></div>
             </div>
         `;
@@ -2810,7 +2822,6 @@
                         <span class="movie-badge">${m.year || 'HD'}</span>
                     </div>
                     <div class="movie-title">${m.name}</div>
-                    <div style="font-size:11px; color:#666; margin-top:3px;">${m.origin_name}</div>
                 </div>
             `).join('');
 
