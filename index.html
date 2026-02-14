@@ -1098,74 +1098,38 @@
             background: #000;
         }
 
-        /* Header video có hiệu ứng ẩn hiện */
         .video-player-header {
             position: absolute;
             top: 0; left: 0; width: 100%;
-            padding: 15px 20px;
+            padding: 12px 20px;
             background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, transparent 100%);
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 210;
-            transition: opacity 0.5s ease, transform 0.5s ease; /* Hiệu ứng mượt */
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Class để ẩn header */
-        .video-player-header.hidden {
-            opacity: 0;
-            transform: translateY(-20px);
-            pointer-events: none; /* Không cho bấm nhầm khi đang ẩn */
         }
 
         .btn-exit-cinema {
-            background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.2);
-            padding: 8px 18px; border-radius: 30px; cursor: pointer; font-weight: bold; transition: 0.3s;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            transition: 0.2s;
         }
-        .btn-exit-cinema:hover { background: var(--accent); color: #000; }
+        .btn-exit-cinema:hover {
+            background: rgba(255,255,255,0.1);
+        }
 
         .video-frame-container { width: 100%; aspect-ratio: 16/9; background: #000; }
-        /* Vùng chứa Video */
-        .video-frame-container { 
-            width: 100%; 
-            aspect-ratio: 16/9; 
-            background: #000; 
-            position: relative; 
-        }
-        
-        /* Lớp phủ hứng sự kiện chạm/click để hiện header */
-        .video-touch-layer {
-            position: absolute;
-            inset: 0;
-            z-index: 205; /* Nằm dưới header nhưng nằm trên iframe video */
-            cursor: pointer;
-        }
-
         .video-frame-container iframe { width: 100%; height: 100%; border: none; }
 
-        /* Header video có hiệu ứng ẩn hiện mượt */
-        .video-player-header {
-            position: absolute;
-            top: 0; left: 0; width: 100%;
-            padding: 15px 20px;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, transparent 100%);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 210;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Class ẩn header */
-        .video-player-header.hidden {
-            opacity: 0;
-            transform: translateY(-100%);
-            pointer-events: none;
-        }
         /* Vùng cuộn thông tin ở dưới */
         .detail-scrollable-body {
             flex: 1;
@@ -2307,6 +2271,7 @@
     let nominationMovies = [];
     let currentUser = JSON.parse(localStorage.getItem('xoPhim_User')) || null;
     let currentRoomID = null;
+    let currentMovieSlug = ''; // Thêm để đồng bộ phòng
 
     // --- LỊCH SỬ ĐIỀU HƯỚNG (THÊM MỚI) ---
     let pageHistory = [{ type: 'home', params: {} }];
@@ -2728,33 +2693,28 @@
             const genres = await genRes.json();
             const countries = await counRes.json();
 
-            // Cập nhật Thể loại: Thêm closeAllMenus() vào onclick
-            const genreHtml = genres.map(g => `<a href="#" onclick="renderCategoryPage('the-loai/${g.slug}', 'Thể loại: ${g.name}'); closeAllMenus();">${g.name}</a>`).join('');
+            const genreHtml = genres.map(g => `<a href="#" onclick="renderCategoryPage('the-loai/${g.slug}', 'Thể loại: ${g.name}')">${g.name}</a>`).join('');
             document.getElementById('genreDropdown').innerHTML = genreHtml;
             document.getElementById('colGenre').innerHTML = genreHtml;
 
-            // Cập nhật Quốc gia: Thêm closeAllMenus() vào onclick
-            const countryHtml = countries.map(c => `<a href="#" onclick="renderCategoryPage('quoc-gia/${c.slug}', 'Phim ${c.name}'); closeAllMenus();">${c.name}</a>`).join('');
-            document.getElementById('countryDropdown').innerHTML = countryHtml;
-            document.getElementById('colCountry').innerHTML = countryHtml;
-
             const colors = ['#3b5bdb', '#20c997', '#748ffc', '#9775fa', '#ff922b', '#fa5252'];
             document.getElementById('interestGrid').innerHTML = genres.slice(0, 6).map((g, i) => `
-                <a href="#" class="interest-card" style="background: ${colors[i]}" onclick="renderCategoryPage('the-loai/${g.slug}', 'Thể loại: ${g.name}'); closeAllMenus();">
+                <a href="#" class="interest-card" style="background: ${colors[i]}" onclick="renderCategoryPage('the-loai/${g.slug}', 'Thể loại: ${g.name}')">
                     <span>${g.name}</span>
                     <div class="sub-text">Xem ngay <i class="fas fa-chevron-right"></i></div>
                 </a>
-            `).join('');
+            `).join('') + `<a href="#" class="interest-card" style="background: #252931; align-items: center; justify-content: center;"><span>+${genres.length-6} chủ đề</span></a>`;
+
+            const countryHtml = countries.map(c => `<a href="#" onclick="renderCategoryPage('quoc-gia/${c.slug}', 'Phim ${c.name}')">${c.name}</a>`).join('');
+            document.getElementById('countryDropdown').innerHTML = countryHtml;
+            document.getElementById('colCountry').innerHTML = countryHtml;
 
         } catch (e) { console.error("Lỗi load menu", e); }
     }
 
     function closeAllMenus() {
-        // Đóng dropdown trên desktop
         document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
-        // Đóng menu Bars trên mobile
         document.getElementById('mobileMenu').classList.remove('active');
-        // Đóng thanh Search trên mobile
         document.getElementById('mobileSearch').classList.remove('active');
     }
 
@@ -2762,9 +2722,8 @@
     async function handleSearch(keyword, noPush = false) {
         if (!keyword) return;
         if (!noPush) pushHistory('search', { keyword });
+        closeAllMenus();
         
-        closeAllMenus(); // Tự động đóng menu/search mobile khi bắt đầu tìm
-
         const main = document.getElementById('mainContent');
         window.scrollTo({ top: 0, behavior: 'smooth' });
         
@@ -2772,6 +2731,11 @@
             <div class="movie-list-section" style="margin-top:100px;">
                 <div class="list-header"><h3><i class="fas fa-search"></i> Kết quả tìm kiếm: "${keyword}"</h3></div>
                 <div id="searchGrid" class="category-grid">Đang tìm kiếm...</div>
+                
+                <div id="relatedSection" style="margin-top: 60px; display:none;">
+                    <div class="list-header"><h3><i class="fas fa-magic"></i> Có thể bạn cũng thích (Cùng thể loại)</h3></div>
+                    <div id="relatedGrid" class="category-grid"></div>
+                </div>
             </div>
         `;
 
@@ -2791,6 +2755,8 @@
                         <div class="movie-title">${m.name}</div>
                     </div>
                 `).join('');
+
+                loadRelatedMovies(items[0].slug);
             } else {
                 grid.innerHTML = '<p style="padding:20px;">Không tìm thấy bộ phim nào phù hợp.</p>';
             }
@@ -2906,7 +2872,7 @@
                 <a href="#">Đối tác</a>
             </div>
             <p class="footer-description">XoPhim - Trang xem phim online miễn phí chất lượng cao full HD. Kho phim mới khổng lồ, đa dạng thể loại từ nhiều quốc gia. Khám phá nền tảng phim trực tuyến hay nhất 2025!</p>
-            <p class="footer-copyright">© 2025 XoPhim - Xô Của Đức Anh </p>
+            <p class="footer-copyright">© 2025 XoPhim</p>
             <div class="scroll-to-top-box" onclick="scrollToTop()">
                 <i class="fas fa-arrow-up"></i>
                 <span>ĐẦU TRANG</span>
@@ -3020,73 +2986,115 @@
         } catch (e) { console.error(e); }
     }
 
-    // --- CHI TIẾT PHIM - GIAO DIỆN MỚI (NHƯ ẢNH) ---
+    // --- CHI TIẾT PHIM - GIAO DIỆN MỚI (YOUTUBE STYLE + SERVER SELECTOR) ---
     async function showMovieDetail(slug) {
+        currentMovieSlug = slug; // Lưu slug để đồng bộ phòng
         try {
+            // Tải thông tin phim hiện tại
             const res = await fetch(API_DETAIL + slug);
             const data = await res.json();
             const movie = data.movie;
             const episodeServers = data.episodes;
             
+            // Tải thêm danh sách bom tấn gợi ý
             const resBomTan = await fetch(`https://phimapi.com/v1/api/danh-sach/phim-le?limit=10`);
             const dataBomTan = await resBomTan.json();
             const bomTanItems = dataBomTan.data.items;
 
             const popup = document.getElementById('moviePopup');
-            const firstEp = episodeServers[0].server_data[0].link_embed;
+            const firstEp = episodeServers[0]?.server_data[0]?.link_embed || '';
+            const imdb = movie.tmdb?.vote_average || '8.0';
 
+            // --- Giao diện header YouTube style ---
             let html = `
             <div class="popup-content">
-                <div class="cinema-top-fixed" id="videoArea">
-                    <div class="video-player-header" id="videoHeader">
-                        <h2 style="color:white; font-size:16px;">${movie.name}</h2>
+                <div class="cinema-top-fixed">
+                    <div class="video-player-header">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <span style="font-weight: 700; font-size: 18px; color: white;">${movie.name}</span>
+                            <span style="font-size: 14px; color: #aaa;">${movie.origin_name} (${movie.year})</span>
+                        </div>
                         <button class="btn-exit-cinema" onclick="closePopup()">
-                            <i class="fas fa-times"></i> Đóng
+                            <i class="fas fa-times-circle"></i>
                         </button>
                     </div>
                     <div class="video-frame-container">
-                        <div class="video-touch-layer" id="touchLayer"></div>
-                        <iframe id="videoIframe" src="${firstEp}" allowfullscreen allow="autoplay"></iframe>
+                        <iframe id="videoIframe" src="${firstEp}" allowfullscreen allow="autoplay; encrypted-media"></iframe>
                     </div>
                 </div>
 
                 <div class="detail-scrollable-body" id="popupScrollBody">
-                    <div style="display:flex; gap:20px; margin-bottom:20px;">
-                        <div style="flex:0 0 120px;" class="detail-poster-fixed">
-                            <img src="${API_IMG}${movie.poster_url}" style="width:100%; border-radius:8px;">
+                    <div style="display:flex; gap:25px; margin-bottom:25px;">
+                        <div style="flex:0 0 150px;" class="detail-poster-fixed">
+                            <img src="${API_IMG}${movie.poster_url}" style="width:100%; border-radius:10px;">
                         </div>
                         <div style="flex:1;">
-                            <h1 style="font-size:22px; color:white;">${movie.name}</h1>
-                            <p style="color:var(--accent); font-size:13px;">${movie.origin_name} (${movie.year})</p>
-                            <div style="margin-top:10px;">
-                                <button class="btn-detail btn-play" style="padding: 6px 15px; font-size:12px;"><i class="fas fa-heart"></i> Yêu thích</button>
+                            <h1 style="font-size:24px; color:white;">${movie.name}</h1>
+                            <p style="color:var(--accent); margin-bottom:10px;">${movie.origin_name} (${movie.year})</p>
+                            <div style="display:flex; gap:10px; font-size:12px;">
+                                <span style="background:var(--accent); color:black; padding:2px 8px; border-radius:4px; font-weight:bold;">IMDb ${imdb}</span>
+                                <span style="border:1px solid #666; padding:2px 8px; border-radius:4px;">${movie.quality}</span>
+                                <span style="border:1px solid #666; padding:2px 8px; border-radius:4px;">${movie.time}</span>
                             </div>
                         </div>
                     </div>
 
-                    <p style="color:#aaa; font-size:13px; line-height:1.5; margin-bottom:25px;">${movie.content.replace(/<[^>]*>/g, '')}</p>
+                    <p style="color:#aaa; line-height:1.6; font-size:14px; margin-bottom:30px;">${movie.content.replace(/<[^>]*>/g, '')}</p>
 
-                    <div class="detail-tabs" style="display:flex; gap:20px; border-bottom:1px solid #333; margin-bottom:15px;">
-                        <div class="tab-item active" style="padding-bottom:10px; cursor:pointer; font-size:14px;" onclick="switchTab(this, 'episodes')">Tập phim</div>
-                        <div class="tab-item" style="padding-bottom:10px; cursor:pointer; font-size:14px;" onclick="switchTab(this, 'cast')">Diễn viên</div>
+                    <!-- Tabs: Chọn tập / Diễn viên -->
+                    <div class="detail-tabs" style="display:flex; gap:20px; border-bottom:1px solid #333; margin-bottom:20px;">
+                        <div class="tab-item active" onclick="switchTab(this, 'episodes')">Chọn tập</div>
+                        <div class="tab-item" onclick="switchTab(this, 'cast')">Diễn viên</div>
                     </div>
 
+                    <!-- Tab tập phim -->
                     <div id="tab-episodes" class="tab-content active">
-                        <div class="episode-grid">
-                            ${episodeServers[0].server_data.map((ep, idx) => `
-                                <button class="ep-btn ${idx===0?'active':''}" onclick="playVideo(this, '${ep.link_embed}')">${ep.name}</button>
-                            `).join('')}
+                        <!-- Server Selector (Vietsub / Thuyết minh) -->
+                        <div class="server-selector" style="margin-bottom: 20px;">
+                            <h4 style="color: var(--accent); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-language"></i> Chọn ngôn ngữ
+                            </h4>
+                            <div class="server-buttons" id="serverButtonContainer">
+                                ${episodeServers.map((server, index) => `
+                                    <button class="server-btn ${index === 0 ? 'active' : ''}" 
+                                            onclick="switchServer(${index}, this, '${slug}')">
+                                        ${server.server_name}
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <!-- Danh sách tập (động) -->
+                        <div class="episode-section">
+                            <h4 style="color: var(--accent); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                                <i class="fas fa-list"></i> Danh sách tập
+                            </h4>
+                            <div id="episodeContainer" class="episode-grid">
+                                ${episodeServers[0]?.server_data.map((ep, idx) => `
+                                    <button class="ep-btn ${idx === 0 ? 'active' : ''}" 
+                                            onclick="playVideo(this, '${ep.link_embed}', '${slug}')">
+                                        ${ep.name}
+                                    </button>
+                                `).join('')}
+                            </div>
                         </div>
                     </div>
 
+                    <!-- Tab diễn viên -->
                     <div id="tab-cast" class="tab-content">
-                        <div class="cast-list" style="display:flex; flex-wrap:wrap; gap:10px;">
-                            ${movie.actor.map(a => `<span style="background:#252931; padding:5px 12px; border-radius:15px; font-size:12px; color:#ccc;">${a}</span>`).join('')}
+                        <div class="cast-list">
+                            ${movie.actor && movie.actor.length ? movie.actor.map(a => `
+                                <div class="cast-item">
+                                    <div class="cast-avatar"><i class="fas fa-user"></i></div>
+                                    <span class="cast-name">${a}</span>
+                                </div>
+                            `).join('') : '<p class="no-cast">Chưa có thông tin diễn viên</p>'}
                         </div>
                     </div>
 
+                    <!-- Gợi ý phim -->
                     <div class="related-bomtan-section">
-                        <h4 style="font-size:16px;"><i class="fas fa-fire"></i> Bom tấn gợi ý</h4>
+                        <h4><i class="fas fa-fire"></i> Có thể bạn muốn xem</h4>
                         <div class="popup-related-scroll">
                             ${bomTanItems.map(m => `
                                 <div class="related-item-mini" onclick="showMovieDetail('${m.slug}')">
@@ -3096,6 +3104,8 @@
                             `).join('')}
                         </div>
                     </div>
+
+                    <div id="watchPartyArea" style="margin-top:30px;"></div>
                 </div>
             </div>`;
 
@@ -3104,36 +3114,11 @@
             document.body.style.overflow = 'hidden';
             window.currentMovieEpisodes = episodeServers;
 
-            // --- LOGIC CHẠM ĐỂ HIỆN / KHÔNG CHẠM TỰ ẨN ---
-            const touchLayer = document.getElementById('touchLayer');
-            const videoHeader = document.getElementById('videoHeader');
-            let hideTimeout;
-
-            const resetTimer = () => {
-                clearTimeout(hideTimeout);
-                videoHeader.classList.remove('hidden'); // Hiện header
-                hideTimeout = setTimeout(() => {
-                    videoHeader.classList.add('hidden'); // Ẩn header sau 3 giây
-                }, 3000);
-            };
-
-            // Sự kiện chạm (Mobile) hoặc Click (PC) vào lớp phủ video
-            touchLayer.addEventListener('click', resetTimer);
-            touchLayer.addEventListener('touchstart', resetTimer);
-
-            // Tự ẩn lần đầu sau 3 giây
-            resetTimer();
-
-        } catch (e) { alert("Lỗi tải phim!"); }
-    };
-
-    // Nhớ cập nhật hàm playVideo này luôn cho đồng bộ
-    window.playVideo = function(btn, link) {
-        document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById('videoIframe').src = link;
-        document.getElementById('moviePopup').scrollTo({ top: 0, behavior: 'smooth' });
-    };
+        } catch (e) { 
+            console.error(e);
+            alert("Lỗi tải phim!"); 
+        }
+    }
 
     // --- Chuyển tab trong popup chi tiết ---
     window.switchTab = function(tabElement, tabId) {
@@ -3143,40 +3128,31 @@
         document.getElementById('tab-' + tabId).classList.add('active');
     };
 
-    // --- Chuyển server (bản chiếu) ---
-    window.switchServer = function(serverIndex, btn) {
+    // --- Chuyển server (Vietsub / Thuyết minh) ---
+    window.switchServer = function(serverIndex, btn, slug) {
         document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         
         const serverData = window.currentMovieEpisodes[serverIndex].server_data;
-        window.currentServerIndex = serverIndex;
+        const episodeContainer = document.getElementById('episodeContainer');
         
-        const epContainer = document.getElementById('episodeContainer');
-        epContainer.innerHTML = serverData.map((ep, idx) => 
-            `<button class="ep-btn ${idx === 0 ? 'active' : ''}" onclick="playVideo(this, '${ep.link_embed}')">${ep.name}</button>`
+        // Render lại danh sách tập
+        episodeContainer.innerHTML = serverData.map((ep, idx) => 
+            `<button class="ep-btn ${idx === 0 ? 'active' : ''}" 
+                    onclick="playVideo(this, '${ep.link_embed}', '${slug}')">
+                ${ep.name}
+            </button>`
         ).join('');
         
-        const playerContainer = document.getElementById('playerContainer');
-        if (playerContainer.style.display === 'block') {
-            playVideo(epContainer.querySelector('.ep-btn'), serverData[0].link_embed);
-        }
-    };
-
-    // --- Xử lý nút "Xem ngay" ---
-    window.handlePlayNow = function() {
-        const poster = document.getElementById('detailPoster');
-        const playerContainer = document.getElementById('playerContainer');
-        const firstEpBtn = document.querySelector('#episodeContainer .ep-btn');
-        
+        // Tự động phát tập đầu tiên của server mới
+        const firstEpBtn = episodeContainer.querySelector('.ep-btn');
         if (firstEpBtn) {
-            poster.style.display = 'none';
-            playerContainer.style.display = 'block';
-            playVideo(firstEpBtn, firstEpBtn.getAttribute('onclick').match(/'([^']+)'/)[1]);
+            playVideo(firstEpBtn, serverData[0].link_embed, slug);
         }
     };
 
-    // --- Ghi đè hàm playVideo để tương thích với giao diện mới ---
-    window.playVideo = function(btn, link) {
+    // --- Phát video (chỉ giữ 1 phiên bản duy nhất) ---
+    window.playVideo = function(btn, link, slug) {
         document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         
@@ -3186,19 +3162,22 @@
             setTimeout(() => { iframe.src = link; }, 100);
         }
         
-        const poster = document.getElementById('detailPoster');
-        const playerContainer = document.getElementById('playerContainer');
-        if (poster && poster.style.display !== 'none') {
-            poster.style.display = 'none';
-            playerContainer.style.display = 'block';
-        }
-        
+        // Đồng bộ phòng xem chung nếu đang tham gia
         if (currentRoomID && currentUser) {
             database.ref('active_rooms/' + currentRoomID + '/currentSync').set({
                 link: link,
                 user: currentUser.name,
                 timestamp: Date.now()
             });
+        }
+    };
+
+    // --- Xử lý nút "Xem ngay" (không dùng nữa nhưng giữ lại) ---
+    window.handlePlayNow = function() {
+        const firstEpBtn = document.querySelector('#episodeContainer .ep-btn');
+        if (firstEpBtn) {
+            const link = firstEpBtn.getAttribute('onclick').match(/'([^']+)'/)?.[1] || '';
+            playVideo(firstEpBtn, link, currentMovieSlug);
         }
     };
 
@@ -3297,27 +3276,14 @@
         stream.scrollTop = stream.scrollHeight;
     }
 
-    // Đã thay thế playVideo ở trên
-
-    window.switchLang = function(btn, serverIdx) {
-        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const serverData = window.currentMovieEpisodes[serverIdx].server_data;
-        const newEpisodes = serverData.map((ep, idx) => `<button class="ep-btn ${idx === 0 ? 'active' : ''}" onclick="playVideo(this, '${ep.link_embed}')">${ep.name}</button>`).join('');
-        const epContainer = document.getElementById('epContainer');
-        if(epContainer) {
-            epContainer.innerHTML = newEpisodes;
-            playVideo(epContainer.querySelector('.ep-btn'), serverData[0].link_embed);
-        }
-    };
-
+    // Đóng popup
     function closePopup() {
         const iframe = document.getElementById('videoIframe');
         if (iframe) iframe.src = "";
         document.getElementById('moviePopup').style.display = 'none';
         document.body.style.overflow = 'auto';
         
-        // Reset lại trạng thái poster/player cho lần mở sau
+        // Reset trạng thái nếu có poster/player (không dùng nhưng giữ lại)
         const poster = document.getElementById('detailPoster');
         const playerContainer = document.getElementById('playerContainer');
         if (poster) poster.style.display = 'block';
