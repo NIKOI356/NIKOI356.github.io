@@ -3056,7 +3056,7 @@
     };
 
     // --- Chuyển server (bản chiếu) ---
-   window.switchServer = function(idx, btn) {
+    window.switchServer = function(idx, btn) {
     // Đổi màu nút server đang chọn
     document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
@@ -3074,6 +3074,24 @@
     const firstEpBtn = container.querySelector('.ep-btn');
     if (firstEpBtn) firstEpBtn.click();
 };
+    
+    window.switchServer = function(serverIndex, btn) {
+        document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        const serverData = window.currentMovieEpisodes[serverIndex].server_data;
+        window.currentServerIndex = serverIndex;
+        
+        const epContainer = document.getElementById('episodeContainer');
+        epContainer.innerHTML = serverData.map((ep, idx) => 
+            `<button class="ep-btn ${idx === 0 ? 'active' : ''}" onclick="playVideo(this, '${ep.link_embed}')">${ep.name}</button>`
+        ).join('');
+        
+        const playerContainer = document.getElementById('playerContainer');
+        if (playerContainer.style.display === 'block') {
+            playVideo(epContainer.querySelector('.ep-btn'), serverData[0].link_embed);
+        }
+    };
 
     // --- Xử lý nút "Xem ngay" ---
     window.handlePlayNow = function() {
