@@ -2013,6 +2013,12 @@
                 grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
             }
         }
+        /* --- CSS CHO BỘ CHỌN VIETSUB/THUYẾT MINH --- */
+.server-selector { margin-bottom: 20px; background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 12px; }
+.server-selector h4 { font-size: 14px; color: var(--accent); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.server-buttons { display: flex; flex-wrap: wrap; gap: 10px; }
+.server-btn { background: #252931; border: 1px solid #444; color: white; padding: 8px 18px; border-radius: 30px; cursor: pointer; font-size: 13px; transition: 0.3s; }
+.server-btn.active { background: var(--accent); color: black; border-color: var(--accent); font-weight: bold; }
     </style>
 </head>
 <body>
@@ -2974,95 +2980,55 @@
     }
 
     // --- CHI TIẾT PHIM - GIAO DIỆN MỚI (NHƯ ẢNH) ---
-    async function showMovieDetail(slug) {
-        try {
-            // Tải thông tin phim hiện tại
-            const res = await fetch(API_DETAIL + slug);
-            const data = await res.json();
-            const movie = data.movie;
-            const episodeServers = data.episodes;
-            
-            // Tải thêm danh sách bom tấn gợi ý (Lấy phim lẻ mới nhất)
-            const resBomTan = await fetch(`https://phimapi.com/v1/api/danh-sach/phim-le?limit=10`);
-            const dataBomTan = await resBomTan.json();
-            const bomTanItems = dataBomTan.data.items;
+   async function showMovieDetail(slug) {
+    try {
+        const res = await fetch(API_DETAIL + slug);
+        const data = await res.json();
+        const movie = data.movie;
+        const episodeServers = data.episodes;
+        window.currentMovieEpisodes = episodeServers; // Lưu để chuyển server
 
-            const popup = document.getElementById('moviePopup');
-            const firstEp = episodeServers[0].server_data[0].link_embed;
-            const imdb = movie.tmdb?.vote_average || '8.0';
+        // 1. Tạo danh sách nút Server (Vietsub, Thuyết minh...)
+        const serversHtml = episodeServers.map((s, idx) => 
+            `<button class="server-btn ${idx === 0 ? 'active' : ''}" onclick="switchServer(${idx}, this)">${s.server_name}</button>`
+        ).join('');
 
-            let html = `
-            <div class="popup-content">
-                <div class="cinema-top-fixed">
-                    <div class="video-player-header">
-                        <h2 style="color:white; text-shadow: 2px 2px 4px #000;">${movie.name}</h2>
-                        <button class="btn-exit-cinema" onclick="closePopup()">
-                            <i class="fas fa-times"></i> Đóng
-                        </button>
-                    </div>
-                    <div class="video-frame-container">
-                        <iframe id="videoIframe" src="${firstEp}" allowfullscreen allow="autoplay; encrypted-media"></iframe>
-                    </div>
+        const popup = document.getElementById('moviePopup');
+        const firstEp = episodeServers[0].server_data[0].link_embed;
+
+        // 2. Render giao diện Popup
+        popup.innerHTML = `
+        <div class="popup-content">
+            <div class="cinema-top-fixed">
+                <div class="video-player-header">
+                    <h2 style="color:white; font-size:18px;">${movie.name}</h2>
+                    <button class="btn-exit-cinema" onclick="closePopup()">Đóng</button>
+                </div>
+                <div class="video-frame-container">
+                    <iframe id="videoIframe" src="${firstEp}" allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="detail-scrollable-body" id="popupScrollBody">
+                <h1>${movie.name}</h1>
+                <p style="color:var(--accent); margin-bottom:15px;">${movie.origin_name} (${movie.year})</p>
+                
+                <div class="server-selector">
+                    <h4><i class="fas fa-closed-captioning"></i> Chọn bản dịch:</h4>
+                    <div class="server-buttons">${serversHtml}</div>
                 </div>
 
-                <div class="detail-scrollable-body" id="popupScrollBody">
-                    <div style="display:flex; gap:25px; margin-bottom:25px;">
-                        <div style="flex:0 0 150px;" class="detail-poster-fixed">
-                            <img src="${API_IMG}${movie.poster_url}" style="width:100%; border-radius:10px;">
-                        </div>
-                        <div style="flex:1;">
-                            <h1 style="font-size:24px; color:white;">${movie.name}</h1>
-                            <p style="color:var(--accent); margin-bottom:10px;">${movie.origin_name} (${movie.year})</p>
-                            <div style="display:flex; gap:10px; font-size:12px;">
-                                <span style="background:var(--accent); color:black; padding:2px 8px; border-radius:4px; font-weight:bold;">IMDb ${imdb}</span>
-                                <span style="border:1px solid #666; padding:2px 8px; border-radius:4px;">${movie.quality}</span>
-                                <span style="border:1px solid #666; padding:2px 8px; border-radius:4px;">${movie.time}</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <p style="color:#aaa; line-height:1.6; font-size:14px; margin-bottom:30px;">${movie.content.replace(/<[^>]*>/g, '')}</p>
-
-                    <div class="detail-tabs" style="display:flex; gap:20px; border-bottom:1px solid #333; margin-bottom:20px;">
-                        <div class="tab-item active" style="padding-bottom:10px; cursor:pointer;" onclick="switchTab(this, 'episodes')">Chọn tập</div>
-                        <div class="tab-item" style="padding-bottom:10px; cursor:pointer;" onclick="switchTab(this, 'cast')">Diễn viên</div>
-                    </div>
-
-                    <div id="tab-episodes" class="tab-content active">
-                        <div class="episode-grid">
-                            ${episodeServers[0].server_data.map((ep, idx) => `
-                                <button class="ep-btn ${idx===0?'active':''}" onclick="playVideo(this, '${ep.link_embed}')">${ep.name}</button>
-                            `).join('')}
-                        </div>
-                    </div>
-
-                    <div id="tab-cast" class="tab-content">
-                        <div class="cast-list">${movie.actor.map(a => `<div class="cast-item"><div class="cast-avatar"><i class="fas fa-user"></i></div><span class="cast-name" style="font-size:12px;">${a}</span></div>`).join('')}</div>
-                    </div>
-
-                    <div class="related-bomtan-section">
-                        <h4><i class="fas fa-fire"></i> Có thể bạn muốn xem</h4>
-                        <div class="popup-related-scroll">
-                            ${bomTanItems.map(m => `
-                                <div class="related-item-mini" onclick="showMovieDetail('${m.slug}')">
-                                    <img src="${API_IMG}https://phimimg.com/${m.poster_url}">
-                                    <span>${m.name}</span>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-
-                    <div id="watchPartyArea" style="margin-top:30px;"></div>
+                <div class="episode-grid" id="episodeContainer">
+                    ${episodeServers[0].server_data.map((ep, idx) => `
+                        <button class="ep-btn ${idx === 0 ? 'active' : ''}" onclick="playVideo(this, '${ep.link_embed}')">${ep.name}</button>
+                    `).join('')}
                 </div>
-            </div>`;
-
-            popup.innerHTML = html;
-            popup.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-            window.currentMovieEpisodes = episodeServers;
-
-        } catch (e) { alert("Lỗi tải phim!"); }
-    }
+                <p style="margin-top:20px; color:#aaa; font-size:14px; line-height:1.6;">${movie.content.replace(/<[^>]*>/g, '')}</p>
+            </div>
+        </div>`;
+        popup.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    } catch (e) { alert("Lỗi tải phim!"); }
+}
 
     // Sửa lại hàm playVideo này luôn
     window.playVideo = function(btn, link) {
@@ -3090,23 +3056,24 @@
     };
 
     // --- Chuyển server (bản chiếu) ---
-    window.switchServer = function(serverIndex, btn) {
-        document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        
-        const serverData = window.currentMovieEpisodes[serverIndex].server_data;
-        window.currentServerIndex = serverIndex;
-        
-        const epContainer = document.getElementById('episodeContainer');
-        epContainer.innerHTML = serverData.map((ep, idx) => 
-            `<button class="ep-btn ${idx === 0 ? 'active' : ''}" onclick="playVideo(this, '${ep.link_embed}')">${ep.name}</button>`
-        ).join('');
-        
-        const playerContainer = document.getElementById('playerContainer');
-        if (playerContainer.style.display === 'block') {
-            playVideo(epContainer.querySelector('.ep-btn'), serverData[0].link_embed);
-        }
-    };
+   window.switchServer = function(idx, btn) {
+    // Đổi màu nút server đang chọn
+    document.querySelectorAll('.server-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    // Lấy dữ liệu của server đó
+    const server = window.currentMovieEpisodes[idx];
+    const container = document.getElementById('episodeContainer');
+
+    // Vẽ lại danh sách tập phim của server đó
+    container.innerHTML = server.server_data.map((ep, i) => `
+        <button class="ep-btn ${i === 0 ? 'active' : ''}" onclick="playVideo(this, '${ep.link_embed}')">${ep.name}</button>
+    `).join('');
+
+    // Tự động phát tập 1 của server mới chọn
+    const firstEpBtn = container.querySelector('.ep-btn');
+    if (firstEpBtn) firstEpBtn.click();
+};
 
     // --- Xử lý nút "Xem ngay" ---
     window.handlePlayNow = function() {
