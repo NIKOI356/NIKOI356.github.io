@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Danh Sách Phim - Xô Phim</title>
+  <title>Danh Sách Phim - Dépflix</title>
   <style>
     /* =========================================================
        1. RESET & FONT CƠ BẢN
@@ -52,37 +52,43 @@
     .member-btn:hover { background: #B20710; transform: translateY(-1px); }
 
     /* =========================================================
-       3. KHU VỰC DANH SÁCH PHIM (LƯỚI 6 CỘT KHÓA TỈ LỆ)
+       3. KHU VỰC DANH SÁCH PHIM
        ========================================================= */
     .list-wrapper { padding: 130px 6% 80px; min-height: 80vh; background: #000; }
     .page-title { font-size: 2rem; font-weight: bold; color: #fff; border-left: 5px solid #E50914; padding-left: 15px; margin-bottom: 30px; text-transform: uppercase; }
     
-    /* Lưới 6 cột */
-    .ds-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 30px 15px; }
+    /* LƯỚI 6 CỘT CHUẨN */
+    .ds-grid { 
+      display: grid; 
+      grid-template-columns: repeat(6, 1fr); 
+      gap: 30px 15px; 
+    }
 
-    /* THẺ PHIM - ĐƯỢC KHÓA SIZE TUYỆT ĐỐI */
+    /* THẺ PHIM - DÙNG ASPECT-RATIO 2/3 CỰC KỲ ỔN ĐỊNH */
     .design-card { display: flex; flex-direction: column; gap: 8px; cursor: pointer; position: relative; width: 100%; }
     
     .design-poster-wrap { 
       position: relative; 
       width: 100%; 
-      padding-top: 150%; /* Khóa cứng tỉ lệ 2:3 (Chiều cao = 150% Chiều rộng) */
+      aspect-ratio: 2 / 3; /* Khóa cứng tỉ lệ dọc poster chuẩn */
       border-radius: 8px; 
       overflow: hidden; 
       background: #1a1c20; 
       transition: all 0.3s ease; 
     }
     
-    /* Ảnh bị ép vào khung 100% */
     .design-poster { 
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-      object-fit: cover; /* Ép khít khung, không méo */
-      transition: transform 0.4s ease; z-index: 0;
+      width: 100%; 
+      height: 100%; 
+      object-fit: cover; /* Ép ảnh vừa khít khung mà không bị méo */
+      display: block;
+      transition: transform 0.4s ease; 
     }
     
     .design-poster-wrap::after { 
       content: ''; position: absolute; inset: 0; 
-      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 45%); z-index: 1;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 45%); 
+      z-index: 1;
     }
     
     .tags-on-card { position: absolute; bottom: 8px; left: 8px; display: flex; gap: 4px; z-index: 2; }
@@ -92,9 +98,8 @@
     .design-card:hover .design-poster-wrap { box-shadow: 0 0 0 2px #E50914, 0 0 20px rgba(229,9,20,0.7); }
     .design-card:hover .design-poster { transform: scale(1.05); }
     
-    /* Cắt chữ nếu quá dài để không đẩy Card cao lên */
-    .design-title { font-size: 0.95rem; font-weight: bold; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 4px; display: block; }
-    .design-sub { font-size: 0.8rem; color: #888; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;}
+    .design-title { font-size: 0.95rem; font-weight: bold; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 4px; }
+    .design-sub { font-size: 0.8rem; color: #888; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
     /* Phân trang */
     .pagination { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 50px; }
@@ -147,9 +152,17 @@
     .hdc-meta-imdb { border: 1px solid #f5c518; color: #f5c518; padding: 2px 6px; border-radius: 4px; }
     .hdc-meta-text { color: #ccc; }
 
+    /* =========================================================
+       6. ĐẢM BẢO RESPONSIVE KHÔNG BAO GIỜ VỠ KHUNG
+       ========================================================= */
     @media (max-width: 1400px) { .ds-grid { grid-template-columns: repeat(5, 1fr); } }
     @media (max-width: 1024px) { .ds-grid { grid-template-columns: repeat(4, 1fr); } }
-    @media (max-width: 768px) { .ds-grid { grid-template-columns: repeat(2, 1fr); } .hover-detail-card { display: none !important; } }
+    @media (max-width: 768px) { 
+        .ds-grid { grid-template-columns: repeat(3, 1fr); gap: 15px 10px; } 
+        .hover-detail-card { display: none !important; } 
+        .list-wrapper { padding-top: 100px; padding-left: 15px; padding-right: 15px; }
+    }
+    @media (max-width: 480px) { .ds-grid { grid-template-columns: repeat(2, 1fr); } }
   </style>
 </head>
 <body>
@@ -287,13 +300,13 @@
       let fetchPromises = [];
 
       if(apiType === 'tim-kiem') {
-          // API Tìm kiếm (ophim1) thường chỉ trả 10 phim/trang -> Cào liền 3 trang API
+          // Cào liền 3 trang API
           let apiPage1 = (page - 1) * 3 + 1;
           fetchPromises.push(fetch(`https://ophim1.com/v1/api/tim-kiem?keyword=${apiSlug}&page=${apiPage1}`).then(r => r.json()));
           fetchPromises.push(fetch(`https://ophim1.com/v1/api/tim-kiem?keyword=${apiSlug}&page=${apiPage1 + 1}`).then(r => r.json()));
           fetchPromises.push(fetch(`https://ophim1.com/v1/api/tim-kiem?keyword=${apiSlug}&page=${apiPage1 + 2}`).then(r => r.json()));
       } else {
-          // API phimapi.com thường trả 24 phim/trang -> Cào liền 2 trang API để có 48 phim (sẽ lấy 36 phim)
+          // Cào liền 2 trang API để có 48 phim (sẽ lấy 36 phim)
           let apiPage1 = (page - 1) * 2 + 1;
           let apiPage2 = (page - 1) * 2 + 2;
           let baseUrl = '';
@@ -317,7 +330,7 @@
         results.forEach(data => {
             if (data && data.data && data.data.items) {
                 rawItems = rawItems.concat(data.data.items);
-                let divisor = apiType === 'tim-kiem' ? 3 : 2; // Điều chỉnh tổng số trang cho khớp logic
+                let divisor = apiType === 'tim-kiem' ? 3 : 2; 
                 totalPages = Math.ceil((data.data.params?.pagination?.totalPages || 1) / divisor);
                 domain = data.data.APP_DOMAIN_CDN_IMAGE || domain;
                 fallbackTitle = data.data.titlePage || fallbackTitle;
