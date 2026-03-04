@@ -132,11 +132,12 @@
     .lang-title { font-size: 1.2rem; color: #fff; margin-bottom: 20px; font-weight: bold; }
     .lang-btns-wrap { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
     .btn-lang {
-      background: #1f2937; color: #fff; border: 2px solid transparent;
+      background: #E50914; color: #fff; border: none;
       padding: 15px 40px; border-radius: 30px; font-size: 1.1rem; font-weight: bold;
-      cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(229,9,20,0.4);
     }
-    .btn-lang:hover { background: #374151; transform: translateY(-3px); }
+    .btn-lang:hover { background: #f40612; transform: translateY(-3px); }
+    
     .btn-change-server { background: transparent; border: 1px solid #4b5563; color: #9ca3af; padding: 6px 15px; border-radius: 20px; font-size: 0.8rem; cursor: pointer; transition: 0.2s; margin-left: 15px; }
     .btn-change-server:hover { background: #374151; color: #fff; }
 
@@ -151,9 +152,11 @@
     
     .ep-btn { background: #161921; color: #9ca3af; border: 1px solid #2a2e39; padding: 12px 10px; border-radius: 8px; text-align: center; font-weight: bold; cursor: pointer; transition: 0.2s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 0.9rem;}
     .ep-btn:hover { background: rgba(229,9,20,0.1); border-color: #E50914; color: #E50914; }
+    
+    /* MÀU ĐỎ CHỦ ĐẠO CHO TẬP ĐANG XEM */
     .ep-btn.active { background: #E50914; border-color: #E50914; color: #fff; box-shadow: 0 4px 10px rgba(229,9,20,0.4); }
 
-    /* BÌNH LUẬN */
+    /* Bình luận */
     .comment-area { background: #161921; border-radius: 16px; padding: 25px; margin-top: 20px; }
     .cmt-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
     .cmt-title { font-size: 1.2rem; font-weight: bold; display: flex; align-items: center; gap: 10px; }
@@ -229,9 +232,7 @@
 <body>
 
   <nav class="navbar">
-    <div class="logo-section">
-      <img src="logo.png" alt="Xô Phim" class="logo-img" onclick="window.location.href='index.html'">
-    </div>
+    <div class="logo-section"><img src="logo.png" alt="Xô Phim" class="logo-img" onclick="window.location.href='index.html'"></div>
     <div class="search-bar">
       <span class="search-icon">🔍</span>
       <input type="text" id="searchInput" class="search-input" placeholder="Tìm kiếm phim, diễn viên..." />
@@ -239,23 +240,13 @@
     </div>
     <div class="nav-menu">
       <span class="nav-item" onclick="window.location.href='index.html'">Trang chủ</span>
-      <div class="dropdown">
-        <span class="dropdown-toggle nav-item">Thể loại</span>
-        <div class="dropdown-menu"><div class="dropdown-grid" id="the-loai-grid"></div></div>
-      </div>
-      <div class="dropdown">
-        <span class="dropdown-toggle nav-item">Quốc gia</span>
-        <div class="dropdown-menu"><div class="dropdown-grid" id="quoc-gia-grid"></div></div>
-      </div>
+      <div class="dropdown"><span class="dropdown-toggle nav-item">Thể loại</span><div class="dropdown-menu"><div class="dropdown-grid" id="the-loai-grid"></div></div></div>
+      <div class="dropdown"><span class="dropdown-toggle nav-item">Quốc gia</span><div class="dropdown-menu"><div class="dropdown-grid" id="quoc-gia-grid"></div></div></div>
       <span class="nav-item" onclick="window.location.href='1danh-sach.html?type=danh-sach&slug=phim-moi-cap-nhat&name=Phim+Mới&page=1'">Phim mới</span>
       <span class="nav-item" onclick="window.location.href='1danh-sach.html?type=danh-sach&slug=phim-bo&name=Phim+Bộ&page=1'">Phim bộ</span>
       <span class="nav-item" onclick="window.location.href='1danh-sach.html?type=danh-sach&slug=phim-le&name=Phim+Lẻ&page=1'">Phim lẻ</span>
       <span class="nav-item" onclick="window.location.href='1danh-sach.html?type=danh-sach&slug=tv-shows&name=Phim+Chiếu+Rạp&page=1'">Phim chiếu rạp</span>
-      <span class="nav-item">Xem chung</span>
-      <div class="dropdown">
-        <span class="dropdown-toggle nav-item">Diễn viên</span>
-        <div class="dropdown-menu" style="min-width: 300px;"><div class="dropdown-grid" id="dien-vien-grid" style="grid-template-columns: repeat(2, 1fr);"></div></div>
-      </div>
+      <div class="dropdown"><span class="dropdown-toggle nav-item">Diễn viên</span><div class="dropdown-menu" style="min-width: 300px;"><div class="dropdown-grid" id="dien-vien-grid" style="grid-template-columns: repeat(2, 1fr);"></div></div></div>
       <span class="nav-item">TCoins <span style="background:#E50914; color:#fff; font-size:10px; padding:2px 6px; border-radius:10px; margin-left:4px;">New</span></span>
     </div>
     <a href="#" class="member-btn">Thành viên</a>
@@ -426,6 +417,7 @@
     });
     document.addEventListener('click', e => { if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) searchResults.style.display = 'none'; });
 
+    // Hỗ trợ Menu cho Mobile
     if (window.innerWidth <= 768) {
       document.querySelectorAll('.dropdown').forEach(dd => {
         dd.querySelector('.dropdown-toggle').addEventListener('click', e => {
@@ -443,7 +435,9 @@
     // ========================================================
     // LOGIC PHÁT PHIM & VIETSUB/THUYẾT MINH THÔNG MINH
     // ========================================================
-    const urlParams = newSearchParams(window.location.search);
+    
+    // ĐÃ FIX LỖI "URLSearchParams" TẠI ĐÂY 👇
+    const urlParams = new URLSearchParams(window.location.search);
     const slug = urlParams.get('slug');
     const initServer = urlParams.get('server'); 
     let currentEpIndex = parseInt(urlParams.get('ep')) || 0;
@@ -536,8 +530,8 @@
             
             const btnWrap = document.getElementById('lang-btns-container');
             btnWrap.innerHTML = `
-               <button class="btn-lang" style="background:#E50914;" onclick="userSelectServer('vietsub')">▶ Xem Vietsub</button>
-               <button class="btn-lang" style="background:#E50914;" onclick="userSelectServer('thuyetminh')">▶ Xem Thuyết Minh</button>
+               <button class="btn-lang" onclick="userSelectServer('vietsub')">▶ Xem Vietsub</button>
+               <button class="btn-lang" onclick="userSelectServer('thuyetminh')">▶ Xem Thuyết Minh</button>
             `;
         }
     }
