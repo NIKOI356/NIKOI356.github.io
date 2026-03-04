@@ -11,7 +11,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #0d0f14; /* Màu nền xanh đen siêu tối giống ảnh */
+      background: #0d0f14;
       color: #fff; min-height: 100vh; overflow-x: hidden;
     }
 
@@ -32,9 +32,15 @@
     .nav-menu { display: flex; align-items: center; gap: 24px; font-size: 15px; font-weight: 500; }
     .nav-item { color: #e5e5e5; transition: color 0.2s ease; cursor: pointer; text-decoration: none; white-space: nowrap; }
     .nav-item:hover { color: #E50914; }
+    
     .dropdown { position: relative; }
     .dropdown-toggle::after { content: '▼'; font-size: 8px; margin-left: 4px; opacity: 0.6; }
-    .dropdown-menu { position: absolute; top: 100%; left: -20px; margin-top: 10px; background: rgba(13, 15, 20, 0.95); border: 1px solid #1f232d; border-radius: 8px; padding: 20px; min-width: 420px; box-shadow: 0 10px 40px rgba(0,0,0,0.9); z-index: 999; max-height: 400px; overflow-y: auto; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s; }
+    .dropdown-menu {
+      position: absolute; top: 100%; left: -20px; margin-top: 10px;
+      background: rgba(13, 15, 20, 0.95); border: 1px solid #333; border-radius: 8px;
+      padding: 20px; min-width: 420px; box-shadow: 0 10px 40px rgba(0,0,0,0.9); z-index: 999; 
+      max-height: 400px; overflow-y: auto; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s;
+    }
     .dropdown-menu::before { content: ''; position: absolute; top: -20px; left: 0; right: 0; height: 20px; background: transparent; }
     .dropdown:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
     .dropdown-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
@@ -44,126 +50,96 @@
     .member-btn:hover { background: #B20710; transform: translateY(-1px); }
 
     /* =========================================================
-       3. GIAO DIỆN THÔNG TIN PHIM (CHUẨN ẢNH MẪU)
+       3. GIAO DIỆN THÔNG TIN PHIM (ĐÃ THU NHỎ 30%)
        ========================================================= */
-    /* Banner siêu to phía sau */
-    .movie-banner-bg {
-      width: 100%; height: 60vh; min-height: 500px;
-      position: absolute; top: 0; left: 0; z-index: 1;
-      background-size: cover; background-position: center 20%;
+    .movie-hero {
+      width: 100%; height: 40vh; min-height: 350px; 
+      position: relative; background-size: cover; background-position: center;
+      margin-top: 90px;
     }
-    .movie-banner-bg::after {
+    .movie-hero::after {
       content: ''; position: absolute; inset: 0;
-      /* Hiệu ứng mờ dần hòa vào nền trang */
-      background: linear-gradient(to top, #0d0f14 0%, rgba(13, 15, 20, 0.8) 40%, rgba(13, 15, 20, 0.3) 100%);
+      background: linear-gradient(to top, #0d0f14 0%, rgba(13, 15, 20, 0.6) 30%, rgba(0,0,0,0.1) 100%);
     }
 
-    /* Khung chứa nội dung đè lên banner */
-    .movie-container {
-      position: relative; z-index: 10;
-      max-width: 1300px; margin: 250px auto 50px;
-      display: flex; gap: 30px; padding: 0 4%;
+    .movie-info-container {
+      max-width: 1000px; margin: -80px auto 40px; 
+      position: relative; z-index: 10; padding: 0 5%;
+      display: flex; gap: 30px; align-items: flex-start; 
     }
 
-    /* --- CỘT TRÁI: POSTER & THÔNG TIN --- */
-    .mc-left {
-      flex: 0 0 280px;
-      background: rgba(22, 25, 33, 0.6); backdrop-filter: blur(15px);
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 20px; padding: 25px;
-      display: flex; flex-direction: column; gap: 15px;
-    }
-    .mc-poster {
-      width: 100%; border-radius: 12px;
-      box-shadow: 0 15px 30px rgba(0,0,0,0.5);
-      object-fit: cover; aspect-ratio: 2 / 3;
-      margin-top: -80px; /* Làm poster trồi lên khỏi viền như ảnh */
-      border: 2px solid rgba(255,255,255,0.1);
-    }
-    .mc-title { font-size: 1.5rem; font-weight: 900; line-height: 1.2; margin-top: 10px; }
-    .mc-origin { font-size: 0.9rem; color: #8a8d93; }
+    /* Cột trái */
+    .mi-left { flex: 0 0 200px; display: flex; flex-direction: column; gap: 10px; }
+    .mi-poster { width: 100%; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.8); object-fit: cover; aspect-ratio: 2 / 3; }
+    .mi-title { font-size: 1.4rem; font-weight: 900; line-height: 1.3; margin-top: 5px; text-shadow: 2px 2px 5px #000; }
+    .mi-origin { font-size: 0.85rem; color: #aaa; margin-bottom: 5px; }
     
-    .mc-meta-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-    .m-imdb { background: #fbc02d; color: #000; font-size: 11px; font-weight: 900; padding: 2px 6px; border-radius: 4px; }
-    .m-box { border: 1px solid #444; color: #ccc; font-size: 11px; font-weight: bold; padding: 2px 6px; border-radius: 4px; }
-    
-    .mc-genres { display: flex; gap: 8px; flex-wrap: wrap; font-size: 0.8rem; color: #8a8d93; font-weight: bold;}
-    .m-genre { background: #1f232d; padding: 4px 10px; border-radius: 4px; }
+    .mi-meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-bottom: 8px; }
+    .meta-imdb { background: #f5c518; color: #000; font-weight: 900; font-size: 10px; padding: 2px 5px; border-radius: 3px; }
+    .meta-box { border: 1px solid #666; color: #ccc; font-size: 10px; font-weight: bold; padding: 2px 5px; border-radius: 3px; }
+    .mi-genres { display: flex; gap: 6px; font-size: 0.75rem; color: #ddd; flex-wrap: wrap; }
+    .genre-item { background: rgba(255,255,255,0.1); padding: 3px 8px; border-radius: 3px; }
 
-    /* Thanh trạng thái xanh lá */
-    .status-green { background: rgba(40, 167, 69, 0.1); border: 1px solid #28a745; color: #2ecc71; padding: 8px 15px; border-radius: 8px; font-size: 0.85rem; font-weight: bold; display: flex; align-items: center; gap: 8px; margin-top: 10px;}
+    .status-green { background: rgba(40, 167, 69, 0.1); border: 1px solid #28a745; color: #2ecc71; padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: bold; display: flex; align-items: center; gap: 6px; margin-top: 5px;}
     .status-green::before { content: '✔'; }
 
-    /* List thông tin chi tiết */
-    .info-list { display: flex; flex-direction: column; gap: 15px; margin-top: 15px; font-size: 0.85rem; }
-    .info-item { display: flex; flex-direction: column; gap: 5px; }
+    .info-list { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; font-size: 0.8rem; }
+    .info-item { display: flex; flex-direction: column; gap: 3px; }
     .info-label { color: #8a8d93; }
     .info-val { color: #ddd; line-height: 1.5; }
     .desc-text { display: -webkit-box; -webkit-line-clamp: 6; -webkit-box-orient: vertical; overflow: hidden; }
 
-    /* --- CỘT PHẢI: ACTION BAR & TẬP PHIM --- */
-    .mc-right { flex: 1; display: flex; flex-direction: column; gap: 30px; }
-
-    /* Thanh Action Bar */
+    /* Cột phải */
+    .mi-right { flex: 1; margin-top: 30px; display: flex; flex-direction: column; gap: 20px;}
+    
     .action-bar {
-      background: #161921; border-radius: 20px; padding: 20px 30px;
-      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      background: rgba(26, 28, 32, 0.9); backdrop-filter: blur(10px);
+      border-radius: 12px; padding: 15px; 
+      display: flex; align-items: center; gap: 15px; flex-wrap: wrap;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05);
     }
     
-    /* 2 Nút Xem Ngay ĐỎ */
-    .play-group { display: flex; gap: 15px; }
+    .play-group { display: flex; gap: 10px; flex: 1; min-width: 250px;}
     .btn-play-red {
-      background: #E50914; color: #fff; border: none; padding: 14px 28px;
-      border-radius: 30px; font-size: 1rem; font-weight: bold; cursor: pointer;
-      display: flex; align-items: center; gap: 8px; transition: 0.3s;
-      box-shadow: 0 4px 15px rgba(229,9,20,0.4);
+      background: #E50914; color: #fff; border: none; padding: 10px 18px; 
+      border-radius: 30px; font-size: 0.9rem; font-weight: bold; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      transition: 0.3s; flex: 1; box-shadow: 0 4px 10px rgba(229,9,20,0.4);
     }
-    .btn-play-red:hover { background: #f40612; transform: scale(1.05); box-shadow: 0 6px 20px rgba(229,9,20,0.6); }
+    .btn-play-red:hover { background: #f40612; transform: scale(1.05); box-shadow: 0 6px 15px rgba(229,9,20,0.6); }
 
-    /* Cụm Icon */
-    .action-icons { display: flex; gap: 25px; }
-    .icon-box { display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; color: #8a8d93; transition: 0.2s; }
+    .action-icons { display: flex; gap: 15px; }
+    .icon-box { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; color: #8a8d93; transition: 0.2s; }
     .icon-box:hover { color: #fff; }
-    .i-circle { font-size: 18px; }
-    .i-text { font-size: 0.75rem; font-weight: bold; }
+    .i-circle { width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-size: 14px; border: 1px solid transparent;}
+    .icon-box:hover .i-circle { background: rgba(255,255,255,0.1); border-color: #666; }
+    .i-text { font-size: 0.65rem; font-weight: 500; }
 
-    .rating-btn { background: rgba(0, 123, 255, 0.1); border: 1px solid #007bff; color: #00f2fe; padding: 10px 20px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; display: flex; align-items: center; gap: 5px; cursor: pointer;}
+    .rating-btn { background: rgba(0, 123, 255, 0.1); border: 1px solid #007bff; color: #00f2fe; padding: 8px 15px; border-radius: 20px; font-weight: bold; font-size: 0.8rem; display: flex; align-items: center; gap: 5px; cursor: pointer; margin-left: auto;}
+    .rating-btn:hover { background: #007bff; color: #fff; }
     
-    /* Khu vực dưới Action Bar (Tabs + Episodes + Comments) */
-    .content-box { background: #161921; border-radius: 20px; padding: 30px; }
+    .content-box { background: #161921; border-radius: 16px; padding: 20px; }
 
-    /* Tabs */
-    .tabs { display: flex; gap: 30px; border-bottom: 1px solid #2a2e39; margin-bottom: 20px; }
-    .tab { font-size: 0.95rem; font-weight: bold; color: #8a8d93; padding-bottom: 15px; cursor: pointer; position: relative; transition: 0.3s; }
-    .tab.active { color: #fbc02d; /* Màu vàng chuẩn như ảnh */ }
+    .tabs { display: flex; gap: 20px; border-bottom: 1px solid #2a2e39; margin-bottom: 15px; overflow-x: auto; scrollbar-width: none;}
+    .tabs::-webkit-scrollbar { display: none;}
+    .tab { font-size: 0.95rem; font-weight: bold; color: #8a8d93; padding-bottom: 10px; cursor: pointer; position: relative; transition: 0.3s; white-space: nowrap;}
+    .tab.active { color: #fbc02d; }
     .tab.active::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 3px; background: #fbc02d; border-radius: 3px 3px 0 0; }
     .tab:hover:not(.active) { color: #fff; }
 
-    .toggle-compact { display: flex; justify-content: flex-end; align-items: center; gap: 10px; font-size: 0.85rem; color: #8a8d93; margin-bottom: 15px;}
-    .toggle-switch { width: 34px; height: 18px; background: #fbc02d; border-radius: 20px; position: relative; cursor: pointer; }
-    .toggle-switch::after { content: ''; position: absolute; top: 2px; right: 2px; width: 14px; height: 14px; background: #000; border-radius: 50%; }
+    .toggle-compact { display: flex; justify-content: flex-end; align-items: center; gap: 10px; font-size: 0.8rem; color: #8a8d93; margin-bottom: 15px;}
+    .toggle-switch { width: 30px; height: 16px; background: #fbc02d; border-radius: 20px; position: relative; cursor: pointer; }
+    .toggle-switch::after { content: ''; position: absolute; top: 2px; right: 2px; width: 12px; height: 12px; background: #000; border-radius: 50%; }
 
-    /* Grid Tập phim - ĐỔI MÀU ĐỎ KHI ACTIVE/HOVER NHƯ YÊU CẦU */
-    .ep-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 12px; max-height: 300px; overflow-y: auto; padding-right: 5px; }
-    .ep-grid::-webkit-scrollbar { width: 6px; }
-    .ep-grid::-webkit-scrollbar-thumb { background: #2a2e39; border-radius: 10px; }
-    .ep-btn { background: #1f232d; color: #8a8d93; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 0.9rem; }
-    .ep-btn:hover { background: rgba(229,9,20,0.1); color: #E50914; }
-    .ep-btn.active { background: #E50914; color: #fff; box-shadow: 0 4px 10px rgba(229,9,20,0.4); }
+    .ep-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 10px; max-height: 350px; overflow-y: auto; padding-right: 5px;}
+    .ep-grid::-webkit-scrollbar { width: 5px; }
+    .ep-grid::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
+    .ep-btn { background: #20232a; color: #ccc; border: 1px solid #333; padding: 8px; border-radius: 6px; text-align: center; font-weight: bold; cursor: pointer; transition: 0.2s; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 0.8rem;}
+    .ep-btn:hover { background: rgba(229,9,20,0.1); color: #E50914; border-color: #E50914; }
+    .ep-btn.active { background: #E50914; color: #fff; border-color: #E50914; box-shadow: 0 4px 10px rgba(229,9,20,0.4); }
 
-    /* Khu vực Bình Luận (Làm y hệt ảnh) */
-    .comment-section { margin-top: 40px; border-top: 1px solid #2a2e39; padding-top: 30px; }
-    .cmt-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
-    .cmt-title { font-size: 1.2rem; font-weight: bold; display: flex; align-items: center; gap: 10px;}
-    .cmt-tabs { display: flex; background: #0d0f14; border-radius: 6px; overflow: hidden; border: 1px solid #2a2e39; }
-    .cmt-tab { padding: 6px 15px; font-size: 0.85rem; font-weight: bold; cursor: pointer; color: #8a8d93; }
-    .cmt-tab.active { background: #fff; color: #000; }
-    
-    .login-prompt { font-size: 0.9rem; color: #8a8d93; margin-bottom: 20px; }
-    .login-prompt a { color: #fbc02d; text-decoration: none; font-weight: bold; }
-    
-    .empty-cmt-box { background: #0d0f14; border-radius: 12px; height: 150px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #444; gap: 10px; font-weight: bold; }
+    .overview-content { display: none; font-size: 0.9rem; color: #ccc; line-height: 1.5; }
+    .overview-content.active { display: block; }
 
     /* =========================================================
        4. FOOTER (GIỮ NGUYÊN 100%)
@@ -186,20 +162,26 @@
 
     /* Responsive */
     @media (max-width: 1024px) {
-      .movie-container { flex-direction: column; align-items: center; margin-top: 150px;}
-      .mc-left { width: 100%; max-width: 400px; align-items: center; text-align: center; }
-      .mc-poster { width: 200px; margin-top: -100px; }
-      .mc-meta-row, .mc-genres { justify-content: center; }
+      .movie-info-container { flex-direction: column; align-items: center; margin-top: -50px;}
+      .mi-left { width: 100%; max-width: 300px; align-items: center; text-align: center; }
+      .mi-poster { width: 180px; margin-top: -80px; }
+      .mi-meta, .mi-genres { justify-content: center; }
       .action-bar { justify-content: center; flex-direction: column; }
       .play-group { width: 100%; flex-direction: column; }
+      .rating-btn { margin-left: 0; }
     }
   </style>
 </head>
 <body>
 
   <nav class="navbar">
-    <div class="logo-section"><img src="logo.png" alt="Xô Phim" class="logo-img" onclick="window.location.href='index.html'"></div>
-    <div class="search-bar"><span class="search-icon">🔍</span><input type="text" id="searchInput" class="search-input" placeholder="Tìm kiếm phim, diễn viên..." /></div>
+    <div class="logo-section">
+      <img src="logo.png" alt="Xô Phim" class="logo-img" onclick="window.location.href='index.html'">
+    </div>
+    <div class="search-bar">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" class="search-input" placeholder="Tìm kiếm phim, diễn viên..." />
+    </div>
     <div class="nav-menu">
       <span class="nav-item" onclick="window.location.href='index.html'">Trang chủ</span>
       <div class="dropdown"><span class="dropdown-toggle nav-item">Thể loại</span><div class="dropdown-menu"><div class="dropdown-grid" id="the-loai-grid"></div></div></div>
@@ -214,33 +196,35 @@
     <a href="#" class="member-btn">Thành viên</a>
   </nav>
 
-  <div class="movie-banner-bg" id="m-banner"></div>
+  <div class="movie-hero" id="m-banner" style="background-image: url('https://placehold.co/1920x600/111/333?text=Đang+tải+banner...');"></div>
 
-  <div class="movie-container">
+  <div class="movie-info-container">
     
-    <div class="mc-left">
-      <img src="https://placehold.co/300x450/1a1c20/777777?text=Loading" class="mc-poster" id="m-poster">
-      <h1 class="mc-title" id="m-title">Đang tải dữ liệu...</h1>
-      <p class="mc-origin" id="m-origin">...</p>
-      
-      <div class="mc-meta-row">
-        <span class="m-imdb" id="m-imdb">IMDb N/A</span>
-        <span class="m-box" id="m-year">2026</span>
-        <span class="m-box" id="m-quality">HD</span>
-      </div>
-      
-      <div class="mc-genres" id="m-genres"></div>
-      
-      <div class="status-green" id="m-status">Đang cập nhật...</div>
+    <div class="mi-left">
+      <img src="https://placehold.co/200x300/1a1c20/777777?text=Loading" class="mi-poster" id="m-poster" alt="Poster">
+      <div>
+        <h1 class="mi-title" id="m-title">Đang tải phim...</h1>
+        <p class="mi-origin" id="m-origin">...</p>
+        
+        <div class="mi-meta">
+          <span class="meta-imdb" id="m-imdb">IMDb N/A</span>
+          <span class="meta-box" id="m-year">N/A</span>
+          <span class="meta-box" id="m-quality">HD</span>
+          <span class="meta-box" id="m-ep">Full</span>
+        </div>
+        
+        <div class="mi-genres" id="m-genres"></div>
+        <div class="status-green" id="m-status">Đang cập nhật...</div>
 
-      <div class="info-list">
-        <div class="info-item"><span class="info-label">Giới thiệu:</span><span class="info-val desc-text" id="m-desc">Đang tải tóm tắt phim...</span></div>
-        <div class="info-item"><span class="info-label">Thời lượng:</span><span class="info-val" id="m-time">N/A</span></div>
-        <div class="info-item"><span class="info-label">Quốc gia:</span><span class="info-val" id="m-country">N/A</span></div>
+        <div class="info-list">
+          <div class="info-item"><span class="info-label">Giới thiệu:</span><span class="info-val desc-text" id="m-desc">Đang tải tóm tắt phim...</span></div>
+          <div class="info-item"><span class="info-label">Thời lượng:</span><span class="info-val" id="m-time">N/A</span></div>
+          <div class="info-item"><span class="info-label">Quốc gia:</span><span class="info-val" id="m-country">N/A</span></div>
+        </div>
       </div>
     </div>
 
-    <div class="mc-right">
+    <div class="mi-right">
       
       <div class="action-bar">
         <div class="play-group">
@@ -249,10 +233,10 @@
         </div>
 
         <div class="action-icons">
-          <div class="icon-box"><div class="i-circle">❤</div><div class="i-text">Yêu thích</div></div>
-          <div class="icon-box"><div class="i-circle">➕</div><div class="i-text">Thêm vào</div></div>
-          <div class="icon-box"><div class="i-circle">🔗</div><div class="i-text">Chia sẻ</div></div>
-          <div class="icon-box"><div class="i-circle">💬</div><div class="i-text">Bình luận</div></div>
+          <div class="icon-box"><div class="i-circle">❤</div><span class="i-text">Yêu thích</span></div>
+          <div class="icon-box"><div class="i-circle">➕</div><span class="i-text">Thêm vào</span></div>
+          <div class="icon-box"><div class="i-circle">🔗</div><span class="i-text">Chia sẻ</span></div>
+          <div class="icon-box"><div class="i-circle">💬</div><span class="i-text">Bình luận</span></div>
         </div>
 
         <div class="rating-btn">⭐ <span id="m-rate">8.0</span> Đánh giá</div>
@@ -260,8 +244,8 @@
 
       <div class="content-box">
         <div class="tabs">
-          <div class="tab active">Tập phim</div>
-          <div class="tab">Tổng quan</div>
+          <div class="tab active" onclick="switchTab('episodes', this)">Tập phim</div>
+          <div class="tab" onclick="switchTab('overview', this)">Tổng quan</div>
           <div class="tab">Trailer</div>
           <div class="tab">Diễn viên</div>
           <div class="tab">Đề xuất</div>
@@ -271,24 +255,9 @@
           Rút gọn <div class="toggle-switch"></div>
         </div>
 
-        <div class="ep-grid" id="ep-list">
-          <div style="color:#E50914;">Đang tải danh sách tập...</div>
-        </div>
+        <div class="ep-grid" id="tab-episodes"></div>
 
-        <div class="comment-section">
-          <div class="cmt-header">
-            <div class="cmt-title">💬 Bình luận (0)</div>
-            <div class="cmt-tabs">
-              <div class="cmt-tab active">Bình luận</div>
-              <div class="cmt-tab">Đánh giá</div>
-            </div>
-          </div>
-          <p class="login-prompt">Vui lòng <a href="#">đăng nhập</a> để tham gia bình luận.</p>
-          <div class="empty-cmt-box">
-            <span style="font-size:24px;">💬</span>
-            Chưa có bình luận nào
-          </div>
-        </div>
+        <div class="overview-content" id="tab-overview">Đang cập nhật nội dung...</div>
       </div>
 
     </div>
@@ -312,20 +281,46 @@
   </footer>
 
   <script>
-    // TẢI MENU
+    // 1. TẢI MENU ĐỒNG BỘ TRANG CHỦ
     const famousActors = ['Châu Tinh Trì', 'Thành Long', 'Ngô Kinh', 'Chân Tử Đan', 'Lý Liên Kiệt', 'Cổ Thiên Lạc'];
-    famousActors.forEach(a => { document.getElementById('dien-vien-grid').innerHTML += `<div class="dropdown-item" onclick="window.location.href='1danh-sach.html?type=tim-kiem&slug=${encodeURIComponent(a)}&name=${encodeURIComponent(a)}'">${a}</div>`; });
-    fetch('https://phimapi.com/the-loai').then(r=>r.json()).then(data=>data.forEach(i => document.getElementById('the-loai-grid').innerHTML += `<div class="dropdown-item" onclick="window.location.href='1danh-sach.html?type=the-loai&slug=${i.slug}&name=${encodeURIComponent(i.name)}'">${i.name}</div>`));
-    fetch('https://phimapi.com/quoc-gia').then(r=>r.json()).then(data=>data.forEach(i => document.getElementById('quoc-gia-grid').innerHTML += `<div class="dropdown-item" onclick="window.location.href='1danh-sach.html?type=quoc-gia&slug=${i.slug}&name=${encodeURIComponent(i.name)}'">${i.name}</div>`));
+    famousActors.forEach(a => {
+      document.getElementById('dien-vien-grid').innerHTML += `<div class="dropdown-item" onclick="window.location.href='1danh-sach.html?type=tim-kiem&slug=${encodeURIComponent(a)}&name=${encodeURIComponent(a)}&page=1'">${a}</div>`;
+    });
 
-    // SEARCH
+    fetch('https://phimapi.com/the-loai').then(res => res.json()).then(data => {
+      data.forEach(item => {
+        document.getElementById('the-loai-grid').innerHTML += `<div class="dropdown-item" onclick="window.location.href='1danh-sach.html?type=the-loai&slug=${item.slug}&name=${encodeURIComponent(item.name)}&page=1'">${item.name}</div>`;
+      });
+    });
+
+    fetch('https://phimapi.com/quoc-gia').then(res => res.json()).then(data => {
+      data.forEach(item => {
+        document.getElementById('quoc-gia-grid').innerHTML += `<div class="dropdown-item" onclick="window.location.href='1danh-sach.html?type=quoc-gia&slug=${item.slug}&name=${encodeURIComponent(item.name)}&page=1'">${item.name}</div>`;
+      });
+    });
+
     document.getElementById('searchInput').onkeypress = (e) => {
       if (e.key === 'Enter' && e.target.value.trim()) {
          window.location.href = `1danh-sach.html?type=tim-kiem&slug=${encodeURIComponent(e.target.value.trim())}&name=${encodeURIComponent('Tìm kiếm: ' + e.target.value.trim())}&page=1`;
       }
     };
 
-    // LOGIC GỌI API BẰNG SLUG
+    // 2. HÀM CHUYỂN TAB
+    function switchTab(tabId, el) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      el.classList.add('active');
+      
+      document.getElementById('tab-episodes').style.display = 'none';
+      document.getElementById('tab-overview').classList.remove('active');
+
+      if(tabId === 'episodes') {
+        document.getElementById('tab-episodes').style.display = 'grid';
+      } else if (tabId === 'overview') {
+        document.getElementById('tab-overview').classList.add('active');
+      }
+    }
+
+    // 3. API GET MOVIE TỪ SLUG TRÊN LINK
     const urlParams = new URLSearchParams(window.location.search);
     const currentSlug = urlParams.get('slug');
 
@@ -338,12 +333,10 @@
           if (data.status) {
             const m = data.movie;
             
-            // Xử lý link ảnh
             let domain = data.pathImage || 'https://phimimg.com';
             let posterUrl = (m.poster_url || m.thumb_url).startsWith('http') ? (m.poster_url || m.thumb_url) : domain.replace(/\/$/, '') + '/' + (m.poster_url || m.thumb_url).replace(/^\//, '');
             let bannerUrl = (m.thumb_url || m.poster_url).startsWith('http') ? (m.thumb_url || m.poster_url) : domain.replace(/\/$/, '') + '/' + (m.thumb_url || m.poster_url).replace(/^\//, '');
 
-            // Đổ dữ liệu vào UI
             document.title = m.name + " - Xô Phim";
             document.getElementById('m-banner').style.backgroundImage = `url('${bannerUrl}')`;
             document.getElementById('m-poster').src = posterUrl;
@@ -357,37 +350,39 @@
             document.getElementById('m-year').textContent = m.year || '2026';
             document.getElementById('m-quality').textContent = m.quality || 'FHD';
             
-            // Status màu xanh
             document.getElementById('m-status').textContent = `Đã hoàn thành: ${m.episode_current || 'Full'}`;
-            
+            document.getElementById('m-ep').textContent = m.episode_current || 'Full';
+
             if(m.category) {
-                document.getElementById('m-genres').innerHTML = m.category.map(c => `<span class="m-genre">${c.name}</span>`).join('');
+                document.getElementById('m-genres').innerHTML = m.category.map(c => `<span class="genre-item">${c.name}</span>`).join('');
+            }
+            if(m.content) {
+                document.getElementById('tab-overview').innerHTML = m.content;
             }
             
-            document.getElementById('m-desc').innerHTML = m.content ? m.content.replace(/<[^>]+>/g, '') : 'Đang cập nhật...';
             document.getElementById('m-time').textContent = m.time || 'N/A';
             if(m.country && m.country.length > 0) document.getElementById('m-country').textContent = m.country[0].name;
 
-            // Đổ danh sách tập phim
-            const epGrid = document.getElementById('ep-list');
+            // XUẤT DANH SÁCH TẬP KÈM LỆNH ONCLICK ĐỂ SANG TRANG XEM PHIM
+            const epGrid = document.getElementById('tab-episodes');
             epGrid.innerHTML = '';
             if (data.episodes && data.episodes.length > 0 && data.episodes[0].server_data.length > 0) {
                 const eps = data.episodes[0].server_data;
                 eps.forEach((ep, index) => {
-                    const btn = document.createElement('button');
+                    const btn = document.createElement('div');
                     btn.className = 'ep-btn';
                     btn.textContent = ep.name;
                     btn.onclick = () => window.location.href = `xem-phim.html?slug=${currentSlug}&ep=${index}`;
                     epGrid.appendChild(btn);
                 });
             } else {
-                epGrid.innerHTML = '<span style="color:#E50914;">Đang cập nhật tập phim...</span>';
+                epGrid.innerHTML = '<div style="color:#E50914; font-size: 0.9rem;">Phim đang cập nhật tập...</div>';
             }
           }
         }).catch(err => console.error(err));
     }
 
-    // HÀM BẤM NÚT ĐỎ SANG TRANG XEM
+    // 4. HÀM CHUYỂN SANG TRANG XEM-PHIM.HTML BẰNG NÚT ĐỎ
     function playMovie(type) {
         if (!currentSlug) return;
         window.location.href = `xem-phim.html?slug=${currentSlug}&ep=0&type=${type}`;
