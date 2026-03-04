@@ -3,164 +3,150 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title id="pageTitle">Danh sách phim - Depflix</title>
+  <title>Danh sách phim - Depflix</title>
   <style>
-    /* Giữ nguyên toàn bộ CSS từ index.html */
-    /* Copy toàn bộ phần <style> từ file index.html của bạn và dán vào đây */
-    /* Để ngắn gọn, mình không paste lại toàn bộ CSS ở đây, nhưng bạn cần copy nguyên xi phần <style>...</style> từ index.html vào vị trí này */
+    /* RESET CƠ BẢN & NAVBAR (Giữ nguyên từ gốc) */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #000; color: #fff; min-height: 100vh; overflow-x: hidden; }
     
-    /* Chỉ bổ sung thêm CSS riêng cho trang danh sách (nếu cần) */
-    .list-page-header {
-      padding: 140px 8% 60px;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, #000 100%);
-      text-align: center;
+    .navbar { background: rgba(0,0,0,0.8); height: 90px; padding: 0 40px; display: flex; align-items: center; justify-content: space-between; position: fixed; top: 0; left: 0; right: 0; z-index: 1000; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid #222; }
+    .logo-section { display: flex; align-items: center; }
+    .logo-img { width: 120px; height: 40px; object-fit: contain; cursor: pointer; }
+    .search-bar { flex: 1; max-width: 480px; margin: 0 40px; position: relative; }
+    .search-input { width: 100%; padding: 12px 20px 12px 48px; border: none; border-radius: 30px; background: rgba(51, 51, 51, 0.7); color: #fff; font-size: 15px; }
+    .search-input:focus { outline: none; box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.6); }
+    .search-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: #aaa; font-size: 18px; }
+    .nav-menu { display: flex; align-items: center; gap: 24px; font-size: 15px; font-weight: 500; }
+    .nav-item { color: #e5e5e5; transition: color 0.2s ease; cursor: pointer; text-decoration: none; white-space: nowrap; }
+    .nav-item:hover { color: #E50914; }
+    .member-btn { background: #E50914; color: #fff; padding: 8px 18px; border-radius: 20px; font-weight: bold; font-size: 14px; text-decoration: none; transition: all 0.3s; }
+    .member-btn:hover { background: #B20710; transform: translateY(-1px); }
+
+    /* CSS RIÊNG CHO TRANG DANH SÁCH */
+    .list-page-wrapper { padding: 120px 8% 60px; min-height: 80vh; background: #0a0a0a; }
+    .list-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 15px; border-bottom: 1px solid #333; padding-bottom: 15px;}
+    .list-title { font-size: 2rem; font-weight: bold; color: #fff; display: flex; align-items: center; gap: 10px;}
+    .list-title span { font-size: 1rem; font-weight: normal; color: #888; background: #222; padding: 4px 10px; border-radius: 20px;}
+    
+    .filter-group { display: flex; gap: 15px; }
+    .filter-select { background: #1a1c20; color: #fff; border: 1px solid #333; padding: 10px 15px; border-radius: 6px; outline: none; cursor: pointer; font-size: 0.95rem; }
+    .filter-select:hover { border-color: #E50914; }
+
+    /* GRID PHIM */
+    .movie-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 25px 20px; }
+    .design-card { display: flex; flex-direction: column; gap: 10px; cursor: pointer; position: relative; }
+    .design-poster-wrap { position: relative; width: 100%; aspect-ratio: 2 / 3; border-radius: 10px; overflow: hidden; background: #1a1c20; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: all 0.3s ease; }
+    .design-poster { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease; }
+    .design-card:hover { z-index: 2; }
+    .design-card:hover .design-poster-wrap { box-shadow: 0 0 0 2px #E50914, 0 0 20px rgba(229,9,20,0.8); }
+    .design-card:hover .design-poster { transform: scale(1.05); }
+
+    .design-tags-overlay { position: absolute; bottom: 8px; left: 8px; display: flex; gap: 5px; }
+    .d-tag { background: rgba(0,0,0,0.8); font-size: 11px; font-weight: bold; padding: 3px 6px; border-radius: 4px; border: 1px solid #555; }
+    .d-tag.blue { border-color: #4facfe; color: #4facfe; }
+    .d-tag.green { border-color: #43e97b; color: #43e97b; }
+    .d-tag.red { border-color: #E50914; color: #E50914; }
+    
+    .design-info-wrap { display: flex; flex-direction: column; gap: 4px; overflow: hidden; width: 100%; }
+    .design-title { font-size: 1.05rem; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #fff; }
+    .design-sub { font-size: 0.85rem; color: #888; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* PHÂN TRANG */
+    .pagination { display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 50px; }
+    .page-btn { background: #1a1c20; color: #fff; border: 1px solid #333; width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; font-weight: bold; }
+    .page-btn:hover:not(:disabled) { background: #E50914; border-color: #E50914; }
+    .page-btn.active { background: #E50914; border-color: #E50914; }
+    .page-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* FOOTER (Giữ nguyên) */
+    .site-footer { background: #0a0a0a; padding: 60px 8% 40px; border-top: 1px solid #222; text-align: center; }
+    .footer-desc { color: #888; font-size: 13.5px; max-width: 800px; margin: 0 auto 20px; line-height: 1.6;}
+    .footer-copy { color: #666; font-size: 13px; }
+
+    /* POP-UP HOVER (Giữ nguyên) */
+    .hover-detail-card {
+      position: absolute; width: 340px; background: #181818; border-radius: 10px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.95); z-index: 9999; overflow: hidden; pointer-events: none;
+      opacity: 0; visibility: hidden; transform-origin: center center; transform: scale(0.5); 
+      transition: opacity 0.2s ease, transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
     }
-    .list-page-title {
-      font-size: 3.2rem;
-      font-weight: 900;
-      margin-bottom: 16px;
-      text-shadow: 0 4px 20px rgba(229,9,20,0.5);
-    }
-    .list-page-subtitle {
-      font-size: 1.3rem;
-      color: #ccc;
-      max-width: 800px;
-      margin: 0 auto 40px;
-    }
-    .pagination {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin: 50px 0 80px;
-      flex-wrap: wrap;
-    }
-    .page-btn {
-      padding: 12px 20px;
-      background: #222;
-      color: #fff;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: all 0.3s;
-      min-width: 50px;
-      text-align: center;
-    }
-    .page-btn:hover,
-    .page-btn.active {
-      background: #E50914;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(229,9,20,0.5);
-    }
-    .page-btn:disabled {
-      background: #111;
-      color: #555;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
-    }
-    .loading-text {
-      text-align: center;
-      font-size: 1.4rem;
-      padding: 100px 0;
-      color: #888;
+    .hover-detail-card.show { opacity: 1; visibility: visible; transform: scale(1); pointer-events: auto; }
+    .hdc-img-wrap { width: 100%; height: 190px; position: relative; }
+    .hdc-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+    .hdc-img-wrap::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 60px; background: linear-gradient(to top, #181818 0%, transparent 100%); }
+    .hdc-content { padding: 15px; display: flex; flex-direction: column; gap: 12px; }
+    .hdc-title { font-size: 1.3rem; font-weight: bold; color: #fff; margin-bottom: 2px; }
+    .hdc-sub { font-size: 0.85rem; color: #aaa; margin-bottom: 5px; }
+    .hdc-actions { display: flex; gap: 10px; align-items: center; }
+    .hdc-btn-play { background: #E50914; color: #fff; border: none; padding: 8px 16px; border-radius: 4px; font-weight: bold; font-size: 0.95rem; cursor: pointer; flex: 1; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+    .hdc-btn-play:hover { background: #fff; color: #E50914; }
+    .hdc-meta { display: flex; gap: 8px; align-items: center; font-size: 0.8rem; font-weight: bold; }
+    .hdc-meta-imdb { border: 1px solid #f5c518; color: #f5c518; padding: 2px 6px; border-radius: 4px; }
+    .hdc-meta-age { border: 1px solid #fff; color: #fff; padding: 2px 6px; border-radius: 4px; }
+    .hdc-meta-text { color: #ccc; }
+
+    /* Responsive cho di động */
+    @media (max-width: 768px) {
+      .navbar { padding: 0 20px; }
+      .search-bar, .nav-menu { display: none; } /* Giấu tạm menu/search để gọn trên mobile, bạn có thể thêm menu hamburger sau */
+      .list-page-wrapper { padding: 100px 20px 40px; }
+      .movie-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
+      .hover-detail-card { display: none !important; } 
     }
   </style>
 </head>
 <body>
-
-  <!-- Navbar - copy nguyên từ index.html -->
   <nav class="navbar">
     <div class="logo-section">
-      <img src="logo.png" alt="Depflix" class="logo-img" onclick="window.location.href='index.html'">
+      <a href="index.html"><img src="logo.png" alt="Depflix" class="logo-img" onerror="this.src='https://placehold.co/120x40/000/E50914?text=DEPFLIX'"></a>
     </div>
     <div class="search-bar">
       <span class="search-icon">🔍</span>
-      <input type="text" id="searchInput" class="search-input" placeholder="Tìm kiếm phim, diễn viên..." />
-      <div id="search-results"></div>
+      <input type="text" class="search-input" placeholder="Tìm kiếm phim, diễn viên..." />
     </div>
     <div class="nav-menu">
       <a href="index.html" class="nav-item">Trang chủ</a>
-      <div class="dropdown">
-        <span class="dropdown-toggle nav-item">Thể loại</span>
-        <div class="dropdown-menu">
-          <div class="dropdown-grid" id="the-loai-grid"></div>
-        </div>
-      </div>
-      <div class="dropdown">
-        <span class="dropdown-toggle nav-item">Quốc gia</span>
-        <div class="dropdown-menu">
-          <div class="dropdown-grid" id="quoc-gia-grid"></div>
-        </div>
-      </div>
-      <a href="danh-sach.html?type=danh-sach&slug=phim-moi-cap-nhat-v3&title=Phim Mới Cập Nhật" class="nav-item">Phim mới</a>
-      <a href="danh-sach.html?type=danh-sach&slug=phim-bo&title=Phim Bộ" class="nav-item">Phim bộ</a>
-      <a href="danh-sach.html?type=danh-sach&slug=phim-le&title=Phim Lẻ" class="nav-item">Phim lẻ</a>
-      <span class="nav-item">Phim chiếu rạp</span>
-      <span class="nav-item">Xem chung</span>
-      <div class="dropdown">
-        <span class="dropdown-toggle nav-item">Diễn viên</span>
-        <div class="dropdown-menu" style="min-width: 300px;">
-          <div class="dropdown-grid" id="dien-vien-grid" style="grid-template-columns: repeat(2, 1fr);"></div>
-        </div>
-      </div>
-      <span class="nav-item">TCoins <span style="background:#E50914; color:#fff; font-size:10px; padding:2px 6px; border-radius:10px; margin-left:4px;">New</span></span>
+      <span class="nav-item">Thể loại</span>
+      <span class="nav-item">Quốc gia</span>
+      <span class="nav-item">Phim mới</span>
     </div>
     <a href="#" class="member-btn">Thành viên</a>
   </nav>
 
-  <!-- Phần header danh sách -->
-  <section class="list-page-header">
-    <h1 class="list-page-title" id="listPageTitle">Danh sách phim</h1>
-    <p class="list-page-subtitle" id="listPageSubtitle">Đang tải danh sách phim...</p>
-  </section>
-
-  <!-- Grid phim chính -->
-  <section class="new-section-layout" style="padding-top: 0;">
-    <div class="new-grid-container" id="movieListGrid"></div>
-    
-    <!-- Loading -->
-    <div class="loading-text" id="loadingText">Đang tải dữ liệu phim...</div>
-
-    <!-- Phân trang -->
-    <div class="pagination" id="pagination"></div>
-  </section>
-
-  <!-- Footer - copy nguyên từ index.html -->
-  <footer class="site-footer">
-    <!-- Giữ nguyên toàn bộ footer của bạn -->
-    <div class="footer-badge">⭐ Hoàng Sa & Trường Sa là của Việt Nam!</div>
-    <div class="footer-brand-row">
-      <img src="logo.png" alt="Depflix" class="footer-logo" onclick="window.scrollTo(0,0)">
-      <div class="footer-divider"></div>
-      <div class="footer-socials">
-        <span class="social-icon">✈</span>
-        <span class="social-icon">👾</span>
-        <span class="social-icon">X</span>
-        <span class="social-icon">f</span>
-        <span class="social-icon">♪</span>
-        <span class="social-icon">▶</span>
-        <span class="social-icon">@</span>
-        <span class="social-icon">📷</span>
+  <section class="list-page-wrapper">
+    <div class="list-header">
+      <h1 class="list-title" id="page-title">Phim Đề Cử <span id="total-items">Đang tải...</span></h1>
+      <div class="filter-group">
+        <select class="filter-select">
+          <option>Mới cập nhật</option>
+          <option>Xem nhiều nhất</option>
+          <option>Đánh giá cao</option>
+        </select>
+        <select class="filter-select">
+          <option>Tất cả năm</option>
+          <option>2026</option>
+          <option>2025</option>
+        </select>
       </div>
     </div>
-    <div class="footer-links">
-      <a href="#" class="footer-link">Hỏi-Đáp</a>
-      <a href="#" class="footer-link">Chính sách bảo mật</a>
-      <a href="#" class="footer-link">Điều khoản sử dụng</a>
-      <a href="#" class="footer-link">Giới thiệu</a>
-      <a href="#" class="footer-link">Liên hệ</a>
+
+    <div class="movie-grid" id="main-grid">
+      </div>
+
+    <div class="pagination" id="pagination-container">
+      <button class="page-btn">‹</button>
+      <button class="page-btn active">1</button>
+      <button class="page-btn">2</button>
+      <button class="page-btn">3</button>
+      <button class="page-btn">›</button>
     </div>
-    <p class="footer-desc">
-      Dépflix - Trang xem phim online chất lượng cao miễn phí Vietsub, thuyết minh, lồng tiếng full HD. Kho phim mới khổng lồ, phim chiếu rạp, phim bộ, phim lẻ từ nhiều quốc gia như Việt Nam, Hàn Quốc, Trung Quốc, Thái Lan, Nhật Bản, Âu Mỹ... đa dạng thể loại. Khám phá nền tảng phim trực tuyến hay nhất 2026 chất lượng 4K!
-    </p>
+  </section>
+
+  <footer class="site-footer">
+    <p class="footer-desc">Dépflix - Trang xem phim online chất lượng cao miễn phí Vietsub, thuyết minh, lồng tiếng full HD.</p>
     <p class="footer-copy">© 2026 Dépflix</p>
-    <button class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-      <span class="back-to-top-icon">↑</span>
-      ĐẦU TRANG
-    </button>
   </footer>
 
-  <!-- Hover card - copy từ index -->
   <div id="hover-detail-card" class="hover-detail-card">
     <div class="hdc-img-wrap">
       <img id="hdc-img" src="" alt="">
@@ -170,8 +156,6 @@
       <p id="hdc-sub" class="hdc-sub">Tên Gốc</p>
       <div class="hdc-actions">
         <button class="hdc-btn-play">▶ Xem ngay</button>
-        <button class="hdc-btn-icon">❤</button>
-        <button class="hdc-btn-icon detail-btn">ℹ Chi tiết</button>
       </div>
       <div class="hdc-meta">
         <span class="hdc-meta-imdb" id="hdc-imdb">IMDb 0.0</span>
@@ -179,33 +163,11 @@
         <span class="hdc-meta-text" id="hdc-year">2026</span>
         <span class="hdc-meta-text" id="hdc-ep">Tập 1</span>
       </div>
-      <div class="hdc-genres" id="hdc-genres"></div>
     </div>
   </div>
 
   <script>
-    // =============================================
-    //           JAVASCRIPT CHUNG - DANH SÁCH
-    // =============================================
-
-    // Hàm lấy tham số từ URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const type = urlParams.get('type') || 'danh-sach';
-    const slug = urlParams.get('slug') || 'phim-moi-cap-nhat-v3';
-    const customTitle = urlParams.get('title') || 'Danh sách phim';
-
-    // Cập nhật tiêu đề trang
-    document.getElementById('pageTitle').textContent = customTitle + " - Depflix";
-    document.getElementById('listPageTitle').textContent = customTitle;
-    document.getElementById('listPageSubtitle').textContent = `Khám phá tất cả phim ${customTitle.toLowerCase()} mới nhất, chất lượng cao tại Depflix`;
-
-    const movieGrid = document.getElementById('movieListGrid');
-    const loadingText = document.getElementById('loadingText');
-    const paginationDiv = document.getElementById('pagination');
-
-    let currentPage = 1;
-    let totalPages = 1;
-
+    // Hàm xử lý ảnh an toàn (kế thừa từ gốc)
     function getSafeUrl(path, domain) {
       if (!path) return 'https://placehold.co/240x360/1a1c20/777777?text=Depflix';
       if (String(path).startsWith('http')) return path;
@@ -213,166 +175,90 @@
       return imgDomain.replace(/\/$/, '') + '/' + String(path).replace(/^\//, '');
     }
 
-    function extractDomain(data, apiUrl) {
-      if (apiUrl && apiUrl.includes('ophim1.com')) return 'https://ophim1.com';
-      if (data && data.data && data.data.APP_DOMAIN_CDN_IMAGE) return data.data.APP_DOMAIN_CDN_IMAGE;
-      if (data && data.APP_DOMAIN_CDN_IMAGE) return data.APP_DOMAIN_CDN_IMAGE;
-      return 'https://phimimg.com';
-    }
-
-    function renderMovies(items, domain) {
-      movieGrid.innerHTML = '';
-      items.forEach(m => {
-        const imgSrc = getSafeUrl(m.poster_url || m.thumb_url, domain);
-        const fallback = "this.onerror=null;this.src='https://placehold.co/240x360/1a1c20/777777?text=Depflix'";
-        
-        const safeName = m.name ? m.name.replace(/'/g, "\\'") : '';
-        const safeSub  = m.origin_name ? m.origin_name.replace(/'/g, "\\'") : '';
-
-        const card = `
-          <div class="design-card hover-trigger"
-               data-name="${safeName}" data-sub="${safeSub}"
-               data-img="${imgSrc}" data-year="${m.year||'N/A'}"
-               data-ep="${m.episode_current||'Full'}" data-imdb="8.0">
-            <div class="design-poster-wrap">
-              <img src="${imgSrc}" class="design-poster" loading="lazy" onerror="${fallback}">
-              <div class="design-tags-overlay">
-                <span class="d-tag blue">${m.quality || 'HD'}</span>
-                <span class="d-tag green">${m.lang || 'Vietsub'}</span>
-                <span class="d-tag red">${m.episode_current || 'Full'}</span>
-              </div>
-            </div>
-            <div class="design-info-wrap">
-              <div class="design-title">${m.name}</div>
-              <div class="design-sub">${m.origin_name || ''}</div>
-            </div>
-          </div>
-        `;
-        movieGrid.insertAdjacentHTML('beforeend', card);
-      });
-    }
-
-    function renderPagination() {
-      paginationDiv.innerHTML = '';
-
-      // Nút Previous
-      if (currentPage > 1) {
-        const prev = document.createElement('a');
-        prev.href = '#';
-        prev.className = 'page-btn';
-        prev.textContent = '« Trước';
-        prev.onclick = (e) => { e.preventDefault(); currentPage--; loadPage(); };
-        paginationDiv.appendChild(prev);
-      }
-
-      // Các số trang (hiển thị khoảng 7 trang gần nhất)
-      const startPage = Math.max(1, currentPage - 3);
-      const endPage = Math.min(totalPages, currentPage + 3);
-
-      for (let i = startPage; i <= endPage; i++) {
-        const btn = document.createElement('a');
-        btn.href = '#';
-        btn.className = 'page-btn' + (i === currentPage ? ' active' : '');
-        btn.textContent = i;
-        btn.onclick = (e) => { e.preventDefault(); currentPage = i; loadPage(); };
-        paginationDiv.appendChild(btn);
-      }
-
-      // Nút Next
-      if (currentPage < totalPages) {
-        const next = document.createElement('a');
-        next.href = '#';
-        next.className = 'page-btn';
-        next.textContent = 'Tiếp »';
-        next.onclick = (e) => { e.preventDefault(); currentPage++; loadPage(); };
-        paginationDiv.appendChild(next);
-      }
-    }
-
-    function loadPage() {
-      loadingText.style.display = 'block';
-      movieGrid.innerHTML = '';
-      paginationDiv.innerHTML = '';
-
-      let apiUrl = '';
-      if (type === 'quoc-gia') {
-        apiUrl = `https://phimapi.com/v1/api/quoc-gia/${slug}?page=${currentPage}`;
-      } else if (type === 'the-loai') {
-        apiUrl = `https://phimapi.com/v1/api/the-loai/${slug}?page=${currentPage}`;
-      } else {
-        apiUrl = `https://phimapi.com/v1/api/danh-sach/${slug}?page=${currentPage}`;
-      }
-
-      fetch(apiUrl)
+    // Tải dữ liệu phim cho trang danh sách (Lấy tạm danh sách phim lẻ)
+    function loadListPage() {
+      fetch('https://phimapi.com/v1/api/danh-sach/phim-le?page=1')
         .then(res => res.json())
         .then(data => {
-          loadingText.style.display = 'none';
+          const grid = document.getElementById('main-grid');
+          document.getElementById('total-items').textContent = `${data.data.params.pagination.totalItems} phim`;
+          
+          let html = '';
+          const domain = data.data.APP_DOMAIN_CDN_IMAGE || 'https://phimimg.com';
+          
+          data.data.items.forEach((m) => {
+            const imgSrc = getSafeUrl(m.poster_url || m.thumb_url, domain);
+            const safeName = m.name ? m.name.replace(/'/g, "\\'") : '';
+            const safeSub = m.origin_name ? m.origin_name.replace(/'/g, "\\'") : '';
+            const dataAttr = `data-name="${safeName}" data-sub="${safeSub}" data-img="${imgSrc}" data-year="${m.year||'N/A'}" data-ep="${m.episode_current||'Full'}" data-imdb="8.0"`;
 
-          if (data && (data.data?.items || data.items)) {
-            const items = data.data?.items || data.items;
-            const domain = extractDomain(data, apiUrl);
-            totalPages = data.data?.params?.pagination?.totalPages || 1;
-
-            renderMovies(items, domain);
-            renderPagination();
-          } else {
-            movieGrid.innerHTML = '<p style="text-align:center; color:#888; padding:100px 0;">Không tìm thấy phim nào.</p>';
-          }
-        })
-        .catch(err => {
-          loadingText.style.display = 'none';
-          movieGrid.innerHTML = '<p style="text-align:center; color:#f55; padding:100px 0;">Có lỗi xảy ra khi tải dữ liệu.</p>';
-          console.error(err);
-        });
-    }
-
-    // Khởi chạy
-    loadPage();
-
-    // Giữ nguyên logic search, dropdown, hover card từ index.html
-    // Copy các phần script liên quan đến search, dropdown thể loại/quốc gia/diễn viên, hover card từ file index.html của bạn và dán vào dưới đây
-
-    // Ví dụ ngắn gọn logic search (copy đầy đủ từ index nếu muốn)
-    const searchInput = document.getElementById('searchInput');
-    const searchResults = document.getElementById('search-results');
-    searchInput.addEventListener('input', function(e) {
-      const keyword = e.target.value.trim();
-      if (keyword.length < 2) {
-        searchResults.style.display = 'none';
-        return;
-      }
-      fetch(`https://ophim1.com/v1/api/tim-kiem?keyword=${encodeURIComponent(keyword)}`)
-        .then(res => res.json())
-        .then(data => {
-          searchResults.innerHTML = '';
-          if (data.status && data.data?.items?.length > 0) {
-            data.data.items.slice(0,6).forEach(m => {
-              const item = document.createElement('div');
-              item.className = 'search-item';
-              item.innerHTML = `
-                <img src="${m.thumb_url || m.poster_url ? 'https://ophim1.com' + (m.thumb_url || m.poster_url) : 'https://via.placeholder.com/50x70'}" alt="${m.name}">
-                <div>
-                  <div>${m.name}${m.origin_name ? ` (${m.origin_name})` : ''}</div>
-                  <div style="font-size:0.85rem; opacity:0.8;">${m.year || 'N/A'} - ${m.episode_current || 'Full'}</div>
+            html += `
+              <div class="design-card hover-trigger" ${dataAttr}>
+                <div class="design-poster-wrap">
+                  <img src="${imgSrc}" class="design-poster" loading="lazy">
+                  <div class="design-tags-overlay">
+                    <span class="d-tag blue">${m.quality || 'HD'}</span>
+                    <span class="d-tag green">${m.lang || 'Vietsub'}</span>
+                    <span class="d-tag red">${m.episode_current || 'Full'}</span>
+                  </div>
                 </div>
-              `;
-              item.onclick = () => { searchResults.style.display = 'none'; searchInput.value = ''; };
-              searchResults.appendChild(item);
-            });
-            searchResults.style.display = 'block';
-          }
+                <div class="design-info-wrap">
+                  <div class="design-title">${m.name}</div>
+                  <div class="design-sub">${m.origin_name || ''}</div>
+                </div>
+              </div>
+            `;
+          });
+          grid.innerHTML = html;
         });
-    });
+    }
 
-    document.addEventListener('click', e => {
-      if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
-        searchResults.style.display = 'none';
+    loadListPage();
+
+    // HỆ THỐNG POP-UP HOVER
+    const hoverCard = document.getElementById('hover-detail-card');
+    const hdcImg = document.getElementById('hdc-img');
+    const hdcTitle = document.getElementById('hdc-title');
+    const hdcSub = document.getElementById('hdc-sub');
+    const hdcImdb = document.getElementById('hdc-imdb');
+    const hdcYear = document.getElementById('hdc-year');
+    const hdcEp = document.getElementById('hdc-ep');
+    let hoverTimer;
+
+    document.addEventListener('mouseover', (e) => {
+      const targetCard = e.target.closest('.hover-trigger');
+      if(e.target.closest('#hover-detail-card')) return;
+
+      if (targetCard) {
+        hoverTimer = setTimeout(() => {
+          hdcTitle.textContent = targetCard.getAttribute('data-name');
+          hdcSub.textContent = targetCard.getAttribute('data-sub') || 'Đang cập nhật';
+          hdcImg.src = targetCard.getAttribute('data-img');
+          hdcYear.textContent = targetCard.getAttribute('data-year');
+          hdcEp.textContent = targetCard.getAttribute('data-ep');
+          hdcImdb.textContent = `IMDb ${targetCard.getAttribute('data-imdb')}`;
+          
+          const rect = targetCard.getBoundingClientRect();
+          let leftPos = rect.left + window.scrollX - ((340 - rect.width) / 2);
+          let topPos = rect.top + window.scrollY - 40; 
+          
+          if (leftPos < 20) leftPos = 20;
+          if (leftPos + 340 > window.innerWidth - 20) leftPos = window.innerWidth - 360;
+
+          hoverCard.style.top = topPos + 'px';
+          hoverCard.style.left = leftPos + 'px';
+          hoverCard.classList.add('show');
+        }, 800); 
       }
     });
 
-    // Copy tiếp các phần còn lại: dropdown thể loại, quốc gia, diễn viên, hover card logic...
-    // (giống hệt index.html)
+    document.addEventListener('mouseout', (e) => {
+      if (e.target.closest('.hover-trigger')) clearTimeout(hoverTimer); 
+    });
 
+    hoverCard.addEventListener('mouseleave', () => {
+      hoverCard.classList.remove('show');
+    });
   </script>
 </body>
 </html>
