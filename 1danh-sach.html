@@ -52,7 +52,7 @@
     .member-btn:hover { background: #B20710; transform: translateY(-1px); }
 
     /* =========================================================
-       3. KHU VỰC DANH SÁCH PHIM (KHÓA CỨNG TỈ LỆ)
+       3. KHU VỰC DANH SÁCH PHIM (LƯỚI 6 CỘT KHÓA TỈ LỆ)
        ========================================================= */
     .list-wrapper { padding: 130px 6% 80px; min-height: 80vh; background: #000; }
     .page-title { font-size: 2rem; font-weight: bold; color: #fff; border-left: 5px solid #E50914; padding-left: 15px; margin-bottom: 30px; text-transform: uppercase; }
@@ -75,20 +75,14 @@
     
     /* Ảnh bị ép vào khung 100% */
     .design-poster { 
-      position: absolute; 
-      top: 0; 
-      left: 0; 
-      width: 100%; 
-      height: 100%; 
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
       object-fit: cover; /* Ép khít khung, không méo */
-      transition: transform 0.4s ease; 
-      z-index: 0;
+      transition: transform 0.4s ease; z-index: 0;
     }
     
     .design-poster-wrap::after { 
       content: ''; position: absolute; inset: 0; 
-      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 45%); 
-      z-index: 1;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 45%); z-index: 1;
     }
     
     .tags-on-card { position: absolute; bottom: 8px; left: 8px; display: flex; gap: 4px; z-index: 2; }
@@ -178,10 +172,10 @@
         <span class="dropdown-toggle nav-item">Quốc gia</span>
         <div class="dropdown-menu"><div class="dropdown-grid" id="quoc-gia-grid"></div></div>
       </div>
-      <span class="nav-item" onclick="window.location.href='1danh-sach.html?type=danh-sach&slug=phim-moi-cap-nhat&name=Phim+Mới'">Phim mới</span>
-      <span class="nav-item" onclick="window.location.href='1danh-sach.html?type=danh-sach&slug=phim-bo&name=Phim+Bộ'">Phim bộ</span>
-      <span class="nav-item" onclick="window.location.href='1danh-sach.html?type=danh-sach&slug=phim-le&name=Phim+Lẻ'">Phim lẻ</span>
-      <span class="nav-item" onclick="window.location.href='1danh-sach.html?type=danh-sach&slug=tv-shows&name=Phim+Chiếu+Rạp'">Phim chiếu rạp</span>
+      <span class="nav-item" onclick="window.location.href='1danh-sach.html?type=danh-sach&slug=phim-moi-cap-nhat&name=Phim+Mới&page=1'">Phim mới</span>
+      <span class="nav-item" onclick="window.location.href='1danh-sach.html?type=danh-sach&slug=phim-bo&name=Phim+Bộ&page=1'">Phim bộ</span>
+      <span class="nav-item" onclick="window.location.href='1danh-sach.html?type=danh-sach&slug=phim-le&name=Phim+Lẻ&page=1'">Phim lẻ</span>
+      <span class="nav-item" onclick="window.location.href='1danh-sach.html?type=danh-sach&slug=tv-shows&name=Phim+Chiếu+Rạp&page=1'">Phim chiếu rạp</span>
       <div class="dropdown">
         <span class="dropdown-toggle nav-item">Diễn viên</span>
         <div class="dropdown-menu" style="min-width: 300px;"><div class="dropdown-grid" id="dien-vien-grid" style="grid-template-columns: repeat(2, 1fr);"></div></div>
@@ -231,7 +225,7 @@
         <button class="hdc-btn-icon">ℹ</button>
       </div>
       <div class="hdc-meta">
-        <span class="hdc-meta-imdb" id="hdc-imdb">IMDb 7.5</span>
+        <span class="hdc-meta-imdb" id="hdc-imdb">IMDb 0.0</span>
         <span class="hdc-meta-text" id="hdc-year">2026</span>
         <span class="hdc-meta-text" id="hdc-ep">Full</span>
       </div>
@@ -239,9 +233,7 @@
   </div>
 
   <script>
-    // ========================================================
-    // 1. ĐỌC THAM SỐ URL
-    // ========================================================
+    // Đọc tham số URL
     const urlParams = new URLSearchParams(window.location.search);
     const apiType = urlParams.get('type') || 'danh-sach';
     const apiSlug = urlParams.get('slug') || 'phim-moi-cap-nhat';
@@ -259,26 +251,25 @@
       return (domain || 'https://phimimg.com').replace(/\/$/, '') + '/' + String(path).replace(/^\//, '');
     }
 
-    // ========================================================
-    // 2. KHỞI TẠO MENU
-    // ========================================================
+    // Khởi tạo Menu
     const famousActors = ['Châu Tinh Trì', 'Thành Long', 'Ngô Kinh', 'Chân Tử Đan', 'Lý Liên Kiệt', 'Cổ Thiên Lạc'];
     famousActors.forEach(actor => {
-      document.getElementById('dien-vien-grid').innerHTML += `<div class="dropdown-item" onclick="window.location.href='1danh-sach.html?type=tim-kiem&slug=${encodeURIComponent(actor)}&name=${encodeURIComponent(actor)}'">${actor}</div>`;
+      document.getElementById('dien-vien-grid').innerHTML += `<div class="dropdown-item" onclick="window.location.href='1danh-sach.html?type=tim-kiem&slug=${encodeURIComponent(actor)}&name=${encodeURIComponent(actor)}&page=1'">${actor}</div>`;
     });
 
     fetch('https://phimapi.com/the-loai').then(res => res.json()).then(data => {
       data.forEach(item => {
-        document.getElementById('the-loai-grid').innerHTML += `<div class="dropdown-item" onclick="window.location.href='1danh-sach.html?type=the-loai&slug=${item.slug}&name=${encodeURIComponent(item.name)}'">${item.name}</div>`;
+        document.getElementById('the-loai-grid').innerHTML += `<div class="dropdown-item" onclick="window.location.href='1danh-sach.html?type=the-loai&slug=${item.slug}&name=${encodeURIComponent(item.name)}&page=1'">${item.name}</div>`;
       });
     });
 
     fetch('https://phimapi.com/quoc-gia').then(res => res.json()).then(data => {
       data.forEach(item => {
-        document.getElementById('quoc-gia-grid').innerHTML += `<div class="dropdown-item" onclick="window.location.href='1danh-sach.html?type=quoc-gia&slug=${item.slug}&name=${encodeURIComponent(item.name)}'">${item.name}</div>`;
+        document.getElementById('quoc-gia-grid').innerHTML += `<div class="dropdown-item" onclick="window.location.href='1danh-sach.html?type=quoc-gia&slug=${item.slug}&name=${encodeURIComponent(item.name)}&page=1'">${item.name}</div>`;
       });
     });
 
+    // Tìm kiếm
     document.getElementById('searchInput').onkeypress = (e) => {
       if (e.key === 'Enter' && e.target.value.trim()) {
          const val = e.target.value.trim();
@@ -287,24 +278,60 @@
     };
 
     // ========================================================
-    // 3. NẠP VÀ HIỂN THỊ PHIM TỪ API
+    // TÍNH NĂNG "CÀO GỘP" ĐỂ LUÔN HIỆN 36 PHIM MỖI TRANG WEB
     // ========================================================
     function fetchAndRenderMovies(page) {
       const grid = document.getElementById('movies-grid');
-      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:50px;font-size:1.2rem;">Đang cào phim... 🍿</div>';
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:50px;font-size:1.2rem;">Đang tải danh sách phim... 🍿</div>';
       
-      let apiUrl = '';
-      if(apiType === 'tim-kiem') apiUrl = `https://ophim1.com/v1/api/tim-kiem?keyword=${apiSlug}`;
-      else if(apiType === 'the-loai') apiUrl = `https://phimapi.com/v1/api/the-loai/${apiSlug}?page=${page}`;
-      else if(apiType === 'quoc-gia') apiUrl = `https://phimapi.com/v1/api/quoc-gia/${apiSlug}?page=${page}`;
-      else apiUrl = `https://phimapi.com/v1/api/danh-sach/${apiSlug}?page=${page}`;
+      let fetchPromises = [];
 
-      fetch(apiUrl).then(res => res.json()).then(data => {
+      if(apiType === 'tim-kiem') {
+          // API Tìm kiếm (ophim1) thường chỉ trả 10 phim/trang -> Cào liền 3 trang API
+          let apiPage1 = (page - 1) * 3 + 1;
+          fetchPromises.push(fetch(`https://ophim1.com/v1/api/tim-kiem?keyword=${apiSlug}&page=${apiPage1}`).then(r => r.json()));
+          fetchPromises.push(fetch(`https://ophim1.com/v1/api/tim-kiem?keyword=${apiSlug}&page=${apiPage1 + 1}`).then(r => r.json()));
+          fetchPromises.push(fetch(`https://ophim1.com/v1/api/tim-kiem?keyword=${apiSlug}&page=${apiPage1 + 2}`).then(r => r.json()));
+      } else {
+          // API phimapi.com thường trả 24 phim/trang -> Cào liền 2 trang API để có 48 phim (sẽ lấy 36 phim)
+          let apiPage1 = (page - 1) * 2 + 1;
+          let apiPage2 = (page - 1) * 2 + 2;
+          let baseUrl = '';
+          
+          if(apiType === 'the-loai') baseUrl = `https://phimapi.com/v1/api/the-loai/${apiSlug}`;
+          else if(apiType === 'quoc-gia') baseUrl = `https://phimapi.com/v1/api/quoc-gia/${apiSlug}`;
+          else baseUrl = `https://phimapi.com/v1/api/danh-sach/${apiSlug}`;
+
+          fetchPromises.push(fetch(`${baseUrl}?page=${apiPage1}&limit=24`).then(r => r.json()));
+          fetchPromises.push(fetch(`${baseUrl}?page=${apiPage2}&limit=24`).then(r => r.json()));
+      }
+
+      Promise.all(fetchPromises).then(results => {
         grid.innerHTML = '';
-        let rawItems = (data.data?.items || data.items || []);
-        
+        let rawItems = [];
+        let totalPages = 1;
+        let domain = 'https://phimimg.com';
+        let fallbackTitle = "KẾT QUẢ PHIM";
+
+        // Gộp kết quả từ nhiều trang API
+        results.forEach(data => {
+            if (data && data.data && data.data.items) {
+                rawItems = rawItems.concat(data.data.items);
+                let divisor = apiType === 'tim-kiem' ? 3 : 2; // Điều chỉnh tổng số trang cho khớp logic
+                totalPages = Math.ceil((data.data.params?.pagination?.totalPages || 1) / divisor);
+                domain = data.data.APP_DOMAIN_CDN_IMAGE || domain;
+                fallbackTitle = data.data.titlePage || fallbackTitle;
+            } else if (data && data.items) {
+                rawItems = rawItems.concat(data.items);
+                let divisor = apiType === 'tim-kiem' ? 3 : 2;
+                totalPages = Math.ceil((data.pagination?.totalPages || 1) / divisor);
+                domain = data.pathImage || domain;
+                fallbackTitle = data.titlePage || fallbackTitle;
+            }
+        });
+
         if (!pageName) {
-           pageTitleEl.textContent = (data.data?.titlePage || "KẾT QUẢ PHIM").toUpperCase();
+           pageTitleEl.textContent = fallbackTitle.toUpperCase();
         }
 
         if (rawItems.length === 0) {
@@ -312,16 +339,12 @@
             return;
         }
 
-        let domain = 'https://phimimg.com';
-        if(apiUrl.includes('ophim1.com')) domain = 'https://ophim1.com';
-        else if(data.data?.APP_DOMAIN_CDN_IMAGE) domain = data.data.APP_DOMAIN_CDN_IMAGE;
-        else if(data.pathImage) domain = data.pathImage;
-
-        const itemsToRender = rawItems.slice(0, 32); 
+        // Hiển thị tối đa 36 phim (6 cột x 6 hàng)
+        const itemsToRender = rawItems.slice(0, 36); 
 
         let html = '';
         itemsToRender.forEach(m => {
-            // Lưu ý: Ưu tiên poster_url để ảnh là hình dọc chuẩn 2:3
+            // Ưu tiên poster_url
             const imgSrc = getSafeUrl(m.poster_url || m.thumb_url, domain);
             const safeName = m.name ? m.name.replace(/'/g, "\\'") : '';
             const safeSub = m.origin_name ? m.origin_name.replace(/'/g, "\\'") : '';
@@ -346,18 +369,17 @@
         });
         grid.innerHTML = html;
 
-        const totalPages = data.data?.params?.pagination?.totalPages || data.pagination?.totalPages || 1;
         document.getElementById('page-info').textContent = `Trang ${page} / ${totalPages}`;
         document.getElementById('prev-btn').disabled = page <= 1;
         document.getElementById('next-btn').disabled = page >= totalPages;
         
         window.scrollTo({top: 0, behavior: 'smooth'});
+      }).catch(err => {
+        grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:50px;">Có lỗi xảy ra khi tải phim. Vui lòng tải lại trang.</div>';
       });
     }
 
-    // ========================================================
-    // 4. HIỆU ỨNG HOVER POP-UP
-    // ========================================================
+    // Hover Pop-up
     const hoverCard = document.getElementById('hover-detail-card');
     let hoverTimer;
 
