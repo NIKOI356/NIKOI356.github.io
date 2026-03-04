@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Danh Sách Phim - Xô Phim</title>
+  <style>
+    /* RESET CƠ BẢN */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0a; color: #fff; min-height: 100vh; display: flex; flex-direction: column; }
+
+    /* NAVBAR */
+    .navbar { background: rgba(10, 10, 10, 0.95); height: 90px; padding: 0 40px; display: flex; align-items: center; justify-content: space-between; position: fixed; top: 0; left: 0; right: 0; z-index: 1000; backdrop-filter: blur(10px); border-bottom: 1px solid #222;}
+    .logo-img { height: 40px; object-fit: contain; cursor: pointer; }
+    .search-bar { flex: 1; max-width: 480px; margin: 0 40px; position: relative; }
+    .search-input { width: 100%; padding: 12px 20px 12px 48px; border: none; border-radius: 30px; background: rgba(51, 51, 51, 0.7); color: #fff; font-size: 15px; backdrop-filter: blur(10px); }
+    .search-input:focus { outline: none; box-shadow: 0 0 0 2px #E50914; }
+    .search-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: #aaa; font-size: 18px; }
+    .nav-menu { display: flex; align-items: center; gap: 24px; font-size: 15px; font-weight: 500; }
+    .nav-item { color: #e5e5e5; transition: color 0.2s ease; cursor: pointer; text-decoration: none; white-space: nowrap; }
+    .nav-item:hover { color: #E50914; }
+    
+    /* GIAO DIỆN LƯỚI PHIM CHÍNH */
+    .main-wrapper { padding: 130px 8% 60px; flex: 1; }
+    .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px; border-bottom: 1px solid #222; padding-bottom: 15px;}
+    .page-title { font-size: 2rem; font-weight: bold; color: #fff; border-left: 5px solid #E50914; padding-left: 15px; text-transform: uppercase; }
+    
+    .ds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 30px 20px; }
+    .loader { grid-column: 1 / -1; text-align: center; font-size: 1.2rem; color: #aaa; padding: 80px 0; }
+
+    /* CARD PHIM */
+    .design-card { display: flex; flex-direction: column; gap: 10px; cursor: pointer; position: relative; }
+    .design-poster-wrap { position: relative; width: 100%; aspect-ratio: 2 / 3; border-radius: 8px; overflow: hidden; background: #1a1c20; box-shadow: 0 4px 12px rgba(0,0,0,0.5); transition: all 0.3s ease; }
+    .design-poster { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease; }
+    .design-card:hover { z-index: 2; }
+    .design-card:hover .design-poster-wrap { box-shadow: 0 0 0 2px #E50914, 0 0 20px rgba(229,9,20,0.8); }
+    .design-card:hover .design-poster { transform: scale(1.05); }
+
+    .design-tags-overlay { position: absolute; bottom: 8px; left: 8px; display: flex; gap: 5px; }
+    .d-tag { background: rgba(0,0,0,0.8); font-size: 11px; font-weight: bold; padding: 3px 6px; border-radius: 4px; border: 1px solid #555; }
+    .d-tag.blue { border-color: #4facfe; color: #4facfe; }
+    .d-tag.green { border-color: #43e97b; color: #43e97b; }
+    
+    .design-info-wrap { display: flex; flex-direction: column; gap: 4px; overflow: hidden; width: 100%; }
+    .design-title { font-size: 1.05rem; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #fff; }
+    .design-sub { font-size: 0.85rem; color: #888; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* PHÂN TRANG */
+    .pagination { display: flex; justify-content: center; align-items: center; gap: 15px; margin-top: 50px; }
+    .page-btn { background: #222; color: #fff; border: 1px solid #444; padding: 10px 24px; border-radius: 6px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: all 0.3s; }
+    .page-btn:hover:not(:disabled) { background: #E50914; border-color: #E50914; box-shadow: 0 4px 15px rgba(229,9,20,0.5); }
+    .page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .page-info { font-size: 1.1rem; color: #ccc; font-weight: bold; }
+
+    /* CHÂN TRANG */
+    .site-footer { background: #0a0a0a; padding: 40px 8%; border-top: 1px solid #222; text-align: center; color: #666; font-size: 13px; margin-top: auto;}
+
+    @media (max-width: 768px) {
+      .main-wrapper { padding: 100px 20px 40px; }
+      .ds-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+      .search-bar { display: none; } /* Ẩn tìm kiếm trên mobile cho gọn */
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo-section">
+      <img src="logo.png" alt="Xô Phim" class="logo-img" onclick="window.location.href='index.html'">
+    </div>
+    <div class="search-bar">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" class="search-input" placeholder="Nhập tên phim và bấm Enter..." />
+    </div>
+    <div class="nav-menu">
+      <span class="nav-item" onclick="window.location.href='index.html'">⬅ Về Trang Chủ</span>
+    </div>
+  </nav>
+
+  <div class="main-wrapper">
+    <div class="page-header">
+      <h1 class="page-title" id="page-title">Đang tải danh sách...</h1>
+    </div>
+    
+    <div class="ds-grid" id="movies-grid">
+      <div class="loader">Đang quét kho phim... xin chờ giây lát! 🍿</div>
+    </div>
+
+    <div class="pagination" id="pagination-box">
+      <button class="page-btn" id="prev-btn" disabled>« Trang trước</button>
+      <span class="page-info" id="page-info">Trang 1 / 1</span>
+      <button class="page-btn" id="next-btn" disabled>Trang tiếp »</button>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    © 2026 Xô Phim - Khám phá nền tảng phim trực tuyến hay nhất.
+  </footer>
+
+  <script>
+    // 1. Đọc tham số trên thanh địa chỉ
+    const urlParams = new URLSearchParams(window.location.search);
+    const type = urlParams.get('type') || 'danh-sach'; 
+    const slug = urlParams.get('slug') || 'phim-le';
+    let currentPage = parseInt(urlParams.get('page')) || 1;
+
+    function getSafeUrl(path, domain) {
+      if (!path) return 'https://placehold.co/240x360/1a1c20/777777?text=XoPhim';
+      if (String(path).startsWith('http')) return path;
+      const imgDomain = domain || 'https://phimimg.com';
+      return imgDomain.replace(/\/$/, '') + '/' + String(path).replace(/^\//, '');
+    }
+
+    // 2. Tìm kiếm nhanh bằng nút Enter
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        const keyword = e.target.value.trim();
+        if (keyword.length > 0) {
+          window.location.href = `danh-sach.html?type=tim-kiem&slug=${encodeURIComponent(keyword)}&page=1`;
+        }
+      }
+    });
+
+    // 3. Gọi API và in ra kết quả
+    function fetchMoviesData(page) {
+      const grid = document.getElementById('movies-grid');
+      const titleEl = document.getElementById('page-title');
+      grid.innerHTML = '<div class="loader">Đang lấy dữ liệu... 🍿</div>';
+
+      let apiUrl = '';
+      // Phân luồng API tùy theo loại người dùng bấm
+      if (type === 'tim-kiem') {
+        apiUrl = `https://ophim1.com/v1/api/tim-kiem?keyword=${slug}`;
+        titleEl.textContent = `Kết quả tìm kiếm: "${decodeURIComponent(slug)}"`;
+      } else if (type === 'the-loai') {
+        apiUrl = `https://phimapi.com/v1/api/the-loai/${slug}?page=${page}`;
+      } else if (type === 'quoc-gia') {
+        apiUrl = `https://phimapi.com/v1/api/quoc-gia/${slug}?page=${page}`;
+      } else {
+        if(slug === 'phim-moi-cap-nhat') apiUrl = `https://phimapi.com/danh-sach/phim-moi-cap-nhat-v3?page=${page}`;
+        else apiUrl = `https://phimapi.com/v1/api/danh-sach/${slug}?page=${page}`;
+      }
+
+      fetch(apiUrl)
+        .then(res => res.json())
+        .then(data => {
+          grid.innerHTML = '';
+          let rawItems = [];
+          if (data && data.data && data.data.items) rawItems = data.data.items;
+          else if (data && data.items) rawItems = data.items;
+
+          // Set tiêu đề nếu không phải là trang tìm kiếm
+          if (type !== 'tim-kiem') {
+            if (data.data && data.data.titlePage) titleEl.textContent = data.data.titlePage;
+            else if (data.titlePage) titleEl.textContent = data.titlePage;
+            else titleEl.textContent = "Danh sách phim";
+          }
+
+          if (rawItems.length > 0) {
+            let domain = 'https://phimimg.com';
+            if (apiUrl.includes('ophim1.com')) domain = 'https://ophim1.com';
+            else if (data.data && data.data.APP_DOMAIN_CDN_IMAGE) domain = data.data.APP_DOMAIN_CDN_IMAGE;
+            else if (data.pathImage) domain = data.pathImage;
+
+            let html = '';
+            rawItems.forEach(m => {
+              const imgSrc = getSafeUrl(m.poster_url || m.thumb_url, domain);
+              const safeName = m.name ? m.name.replace(/'/g, "\\'") : '';
+              
+              html += `
+                <div class="design-card" onclick="console.log('Xem phim:', '${safeName}')">
+                  <div class="design-poster-wrap">
+                    <img src="${imgSrc}" class="design-poster" loading="lazy" onerror="this.src='https://placehold.co/240x360/1a1c20/777777?text=XoPhim'">
+                    <div class="design-tags-overlay">
+                      <span class="d-tag blue">${m.quality || 'HD'}</span>
+                      <span class="d-tag green">${m.lang || 'Vietsub'}</span>
+                    </div>
+                  </div>
+                  <div class="design-info-wrap">
+                    <div class="design-title">${m.name}</div>
+                    <div class="design-sub">${m.origin_name || ''}</div>
+                  </div>
+                </div>
+              `;
+            });
+            grid.innerHTML = html;
+
+            // Thiết lập nút phân trang
+            let totalPages = 1;
+            if (data.data && data.data.params && data.data.params.pagination) totalPages = data.data.params.pagination.totalPages;
+            else if (data.pagination) totalPages = data.pagination.totalPages;
+
+            // Nếu là trang tìm kiếm OPhim thì ẩn phân trang (vì API này search không hỗ trợ page tốt)
+            if(type === 'tim-kiem') {
+                document.getElementById('pagination-box').style.display = 'none';
+            } else {
+                document.getElementById('page-info').textContent = `Trang ${page} / ${totalPages}`;
+                document.getElementById('prev-btn').disabled = (page <= 1);
+                document.getElementById('next-btn').disabled = (page >= totalPages);
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          } else {
+            grid.innerHTML = '<div class="loader" style="color:#ff4d4d">Rất tiếc, không tìm thấy bộ phim nào.</div>';
+            document.getElementById('pagination-box').style.display = 'none';
+          }
+        })
+        .catch(err => {
+          console.error(err);
+          grid.innerHTML = '<div class="loader" style="color:#ff4d4d">Lỗi mạng! Vui lòng thử lại sau.</div>';
+        });
+    }
+
+    // Click chuyển trang
+    document.getElementById('prev-btn').onclick = () => {
+      currentPage--;
+      window.history.pushState({}, '', `danh-sach.html?type=${type}&slug=${slug}&page=${currentPage}`);
+      fetchMoviesData(currentPage);
+    };
+    document.getElementById('next-btn').onclick = () => {
+      currentPage++;
+      window.history.pushState({}, '', `danh-sach.html?type=${type}&slug=${slug}&page=${currentPage}`);
+      fetchMoviesData(currentPage);
+    };
+
+    // Khởi chạy khi web load xong
+    fetchMoviesData(currentPage);
+  </script>
+</body>
+</html>
