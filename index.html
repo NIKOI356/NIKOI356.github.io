@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Xô Phim - Xem là Dính!</title>
+  <title>Depflix - Xem là Dính!</title>
   <style>
     /* RESET CƠ BẢN */
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -190,7 +190,7 @@
 
     /* PHIM KHOA HỌC VIỄN TƯỞNG & PHIM VIỆT NAM (BANNER LỚN) */
     .anime-section-wrapper { padding: 40px 8% 120px; background: #0a0a0a; position: relative; }
-    .anime-header-top { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; cursor: pointer; color: #fff; font-size: 1.5rem; font-weight: 700; text-decoration: none; }
+    .anime-header-top { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; cursor: pointer; color: #fff; font-size: 1.5rem; font-weight: 700; }
     .anime-header-icon { border: 1px solid #fff; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
     .anime-box-container { position: relative; width: 100%; aspect-ratio: 21 / 9; min-height: 400px; background: #141414; border-radius: 20px; display: flex; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
     .anime-bg-image { position: absolute; top: 0; right: 0; bottom: 0; width: 75%; border-radius: 0 20px 20px 0; background-size: cover; background-position: top center; mask-image: linear-gradient(to left, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%); -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 100%); transition: background-image 0.5s ease-in-out; }
@@ -395,7 +395,7 @@
 <body>
   <nav class="navbar">
     <div class="logo-section">
-      <img src="logo.png" alt="Xô Phim" class="logo-img" onclick="window.scrollTo(0,0)">
+      <img src="logo.png" alt="Depflix" class="logo-img" onclick="window.scrollTo(0,0)">
     </div>
     <div class="search-bar">
       <span class="search-icon">🔍</span>
@@ -503,16 +503,22 @@
   </section>
 
   <section class="anime-section-wrapper">
-    <a href="1danh-sach.html?type=the-loai&slug=vien-tuong&page=1" class="anime-header-top">
-      <h2>PHIM KHOA HỌC VIỄN TƯỞNG</h2>
-      <div class="anime-header-icon">›</div>
+    <a href="1danh-sach.html?type=the-loai&slug=vien-tuong&page=1" style="text-decoration:none;">
+      <div class="anime-header-top">
+        <h2>PHIM KHOA HỌC VIỄN TƯỞNG</h2>
+        <div class="anime-header-icon">›</div>
+      </div>
     </a>
     <div class="anime-box-container">
       <div class="anime-bg-image" id="an-bg"></div>
       <div class="anime-content-overlay">
         <h1 class="anime-main-title" id="an-title">Đang tải...</h1>
         <p class="anime-origin-title" id="an-origin">...</p>
-        <div class="anime-meta-tags" id="an-meta"></div>
+        <div class="anime-meta-tags" id="an-meta">
+          <span class="meta-tag-imdb">IMDb N/A</span>
+          <span class="meta-tag-outline">N/A</span>
+          <span class="meta-tag-outline">Full</span>
+        </div>
         <div class="anime-genres-tags" id="an-genres"></div>
         <p class="anime-description" id="an-desc">Đang tải dữ liệu phim, vui lòng chờ trong giây lát...</p>
         <div class="anime-action-buttons">
@@ -638,18 +644,24 @@
   </section>
 
   <section class="anime-section-wrapper" id="vietnam-section-wrapper">
-    <a href="1danh-sach.html?type=quoc-gia&slug=viet-nam&page=1" class="anime-header-top">
-      <h2>PHIM VIỆT NAM</h2>
-      <div class="anime-header-icon">›</div>
+    <a href="1danh-sach.html?type=quoc-gia&slug=viet-nam&page=1" style="text-decoration:none;">
+      <div class="anime-header-top">
+        <h2>PHIM VIỆT NAM</h2>
+        <div class="anime-header-icon">›</div>
+      </div>
     </a>
     <div class="anime-box-container">
       <div class="anime-bg-image" id="vn-bg"></div>
       <div class="anime-content-overlay">
         <h1 class="anime-main-title" id="vn-title">Đang tải...</h1>
         <p class="anime-origin-title" id="vn-origin">...</p>
-        <div class="anime-meta-tags" id="vn-meta"></div>
+        <div class="anime-meta-tags" id="vn-meta">
+          <span class="meta-tag-imdb">IMDb N/A</span>
+          <span class="meta-tag-outline">N/A</span>
+          <span class="meta-tag-outline">Full</span>
+        </div>
         <div class="anime-genres-tags" id="vn-genres"></div>
-        <p class="anime-description" id="vn-desc">Đang tải dữ liệu phim...</p>
+        <p class="anime-description" id="vn-desc">Đang tải dữ liệu phim, vui lòng chờ trong giây lát...</p>
         <div class="anime-action-buttons">
           <div class="play-btn-circle"><span>▶</span> XEM NGAY</div>
           <div class="sub-btn-circle">❤</div>
@@ -667,113 +679,325 @@
         <div class="cb-top-scroll" id="cb-top-scroll">
           <div class="cb-comment-card">
             <div class="cb-user-row">
-              <img src="https://ui-avatars.com/api/?name=Fake+Văn&background=random" class="cb-avatar">
-              <div class="cb-user-info"><div class="cb-user-name">Fake Văn <span class="cb-badge-vip">∞</span></div><div class="cb-user-time">2 phút trước</div></div>
+              <img src="https://ui-avatars.com/api/?name=Fake+Văn&background=random" class="cb-avatar" alt="Ava">
+              <div class="cb-user-info">
+                <div class="cb-user-name">Fake Văn <span class="cb-badge-vip">∞</span></div>
+                <div class="cb-user-time">2 phút trước</div>
+              </div>
             </div>
-            <p class="cb-comment-text">Phim cuốn quá chừng, anh nam chính ngầu đét.</p>
+            <p class="cb-comment-text">Phim cuốn quá chừng, anh nam chính ngầu đét. Đợi ra full cày luôn 1 thể cho sướng.</p>
             <div class="cb-actions"><span>❤ 24</span> <span>💬 5</span></div>
           </div>
           <div class="cb-comment-card">
             <div class="cb-user-row">
-              <img src="https://ui-avatars.com/api/?name=Admin&background=ff4d4d&color=fff" class="cb-avatar">
-              <div class="cb-user-info"><div class="cb-user-name">Quản Trị Viên <span class="cb-badge-admin">ADMIN</span></div><div class="cb-user-time">10 phút trước</div></div>
+              <img src="https://ui-avatars.com/api/?name=Admin&background=ff4d4d&color=fff" class="cb-avatar" alt="Ava">
+              <div class="cb-user-info">
+                <div class="cb-user-name">Quản Trị Viên <span class="cb-badge-admin">ADMIN</span></div>
+                <div class="cb-user-time">10 phút trước</div>
+              </div>
             </div>
-            <p class="cb-comment-text">Sever VIP mới tốc độ cao đã cập nhật.</p>
+            <p class="cb-comment-text">Web vừa cập nhật thêm sever VIP mới tốc độ cao, các bạn F5 lại để xem mượt hơn nhé!</p>
             <div class="cb-actions"><span>❤ 120</span> <span>💬 12</span></div>
+          </div>
+          <div class="cb-comment-card">
+            <div class="cb-user-row">
+              <img src="https://ui-avatars.com/api/?name=NMD&background=random" class="cb-avatar" alt="Ava">
+              <div class="cb-user-info">
+                <div class="cb-user-name">NMD <span class="cb-badge-vip">∞</span></div>
+                <div class="cb-user-time">1 giờ trước</div>
+              </div>
+            </div>
+            <p class="cb-comment-text">Cặp phụ 2 đứa cháu cringe quá không ngấm nổi, xem chỉ tua nhanh khúc 2 đứa này.</p>
+            <div class="cb-actions"><span>❤ 8</span> <span>💬 2</span></div>
+          </div>
+          <div class="cb-comment-card">
+            <div class="cb-user-row">
+              <img src="https://ui-avatars.com/api/?name=Cường+Mạnh&background=random" class="cb-avatar" alt="Ava">
+              <div class="cb-user-info">
+                <div class="cb-user-name">Cường Mạnh <span class="cb-badge-vip">∞</span></div>
+                <div class="cb-user-time">2 giờ trước</div>
+              </div>
+            </div>
+            <p class="cb-comment-text">Tuyệt cà là vời, mong web duy trì phong độ cập nhật vietsub siêu tốc như này nha admin.</p>
+            <div class="cb-actions"><span>❤ 45</span> <span>💬 0</span></div>
+          </div>
+          <div class="cb-comment-card">
+            <div class="cb-user-row">
+              <img src="https://ui-avatars.com/api/?name=Lan+Anh&background=random" class="cb-avatar" alt="Ava">
+              <div class="cb-user-info">
+                <div class="cb-user-name">Lan Anh</div>
+                <div class="cb-user-time">5 giờ trước</div>
+              </div>
+            </div>
+            <p class="cb-comment-text">Kết thúc phim mở quá, chắc chắn có phần 2 rồi. Hóng Depflix ra phần 2 quá đi thôi.</p>
+            <div class="cb-actions"><span>❤ 12</span> <span>💬 3</span></div>
           </div>
         </div>
       </div>
 
       <div class="cb-grid-4">
-        <div><div class="cb-col-header"><span>🎬</span> SÔI NỔI</div><div class="cb-list"><div class="cb-item"><span class="cb-num">1.</span><span class="cb-item-title">Tiếng yêu này...</span></div></div></div>
-        <div><div class="cb-col-header"><span>💖</span> YÊU THÍCH</div><div class="cb-list"><div class="cb-item"><span class="cb-num">1.</span><span class="cb-item-title">Kẻ Độc Tài</span></div></div></div>
-        <div><div class="cb-col-header"><span>⭐</span> THỂ LOẠI</div><div class="cb-list"><div class="cb-item"><span class="cb-num">1.</span>📈<div class="cb-pill blue">Tâm Lý</div></div></div></div>
-        <div><div class="cb-col-header"><span>⚡</span> MỚI</div><div class="cb-new-cmt-wrap"><div class="cb-new-cmt-list" id="cb-new-comments"><div class="cb-new-cmt-item"><div class="cb-nci-content"><span class="cb-nci-name">AnhHuy ♂️</span><span class="cb-nci-text">Cập nhật nhanh quá.</span></div></div></div></div></div>
+        <div>
+          <div class="cb-col-header"><span>🎬</span> SÔI NỔI NHẤT</div>
+          <div class="cb-list">
+            <div class="cb-item">
+              <span class="cb-num">1.</span>
+              <img src="https://placehold.co/35x50/1a1c20/777777?text=1" class="cb-item-img">
+              <span class="cb-item-title">Tiếng yêu này anh dịch được không?</span>
+            </div>
+            <div class="cb-item">
+              <span class="cb-num">2.</span>
+              <img src="https://placehold.co/35x50/1a1c20/777777?text=2" class="cb-item-img">
+              <span class="cb-item-title">Địa Ngục Độc Thân (Phần 5)</span>
+            </div>
+            <div class="cb-item">
+              <span class="cb-num">3.</span>
+              <img src="https://placehold.co/35x50/1a1c20/777777?text=3" class="cb-item-img">
+              <span class="cb-item-title">Đại Đường Địch Công Án</span>
+            </div>
+            <div class="cb-item">
+              <span class="cb-num">4.</span>
+              <img src="https://placehold.co/35x50/1a1c20/777777?text=4" class="cb-item-img">
+              <span class="cb-item-title">Cô Gái Lấp Lánh</span>
+            </div>
+            <div class="cb-item">
+              <span class="cb-num">5.</span>
+              <img src="https://placehold.co/35x50/1a1c20/777777?text=5" class="cb-item-img">
+              <span class="cb-item-title">Trao Em Cả Vũ Trụ</span>
+            </div>
+          </div>
+          <a href="#" class="cb-view-more">Xem thêm</a>
+        </div>
+
+        <div>
+          <div class="cb-col-header"><span>💖</span> YÊU THÍCH NHẤT</div>
+          <div class="cb-list">
+            <div class="cb-item">
+              <span class="cb-num">1.</span>
+              <img src="https://placehold.co/35x50/1a1c20/777777?text=A" class="cb-item-img">
+              <span class="cb-item-title">Kẻ Độc Tài</span>
+            </div>
+            <div class="cb-item">
+              <span class="cb-num">2.</span>
+              <img src="https://placehold.co/35x50/1a1c20/777777?text=B" class="cb-item-img">
+              <span class="cb-item-title">Hoa Hồng Đêm</span>
+            </div>
+             <div class="cb-item">
+              <span class="cb-num">3.</span>
+              <img src="https://placehold.co/35x50/1a1c20/777777?text=C" class="cb-item-img">
+              <span class="cb-item-title">Chuyện Nhà Cha</span>
+            </div>
+          </div>
+          <a href="#" class="cb-view-more">Xem thêm</a>
+        </div>
+
+        <div>
+          <div class="cb-col-header"><span>⭐</span> THỂ LOẠI HOT</div>
+          <div class="cb-list">
+            <div class="cb-item">
+              <span class="cb-num">1.</span>
+              <span class="cb-trend-icon">📈</span>
+              <div class="cb-pill red">Hành Động</div>
+            </div>
+            <div class="cb-item">
+              <span class="cb-num">2.</span>
+              <span class="cb-trend-icon">📈</span>
+              <div class="cb-pill blue">Tâm Lý</div>
+            </div>
+            <div class="cb-item">
+              <span class="cb-num">3.</span>
+              <span class="cb-trend-icon cb-trend-down">📉</span>
+              <div class="cb-pill purple">Tình Cảm</div>
+            </div>
+            <div class="cb-item">
+              <span class="cb-num">4.</span>
+              <span class="cb-trend-icon">📈</span>
+              <div class="cb-pill green">Hài Hước</div>
+            </div>
+            <div class="cb-item">
+              <span class="cb-num">5.</span>
+              <span class="cb-trend-icon cb-trend-down">📉</span>
+              <div class="cb-pill orange">Kinh Dị</div>
+            </div>
+          </div>
+          <a href="#" class="cb-view-more">Xem thêm</a>
+        </div>
+
+        <div>
+          <div class="cb-col-header"><span>⚡</span> BÌNH LUẬN MỚI</div>
+          <div class="cb-new-cmt-wrap">
+            <div class="cb-new-cmt-list" id="cb-new-comments">
+              <div class="cb-new-cmt-item">
+                <img src="https://ui-avatars.com/api/?name=AnhHuy&background=random" class="cb-nci-ava">
+                <div class="cb-nci-content">
+                  <span class="cb-nci-name">AnhHuy ♂️</span>
+                  <span class="cb-nci-text">Cập nhật Vietsub nhanh quá ad ơi.</span>
+                  <span class="cb-nci-movie">▶ Còn Ra Thể Thống Gì Nữa</span>
+                </div>
+              </div>
+              <div class="cb-new-cmt-item">
+                <img src="https://ui-avatars.com/api/?name=Bảo+Trâm&background=random" class="cb-nci-ava">
+                <div class="cb-nci-content">
+                  <span class="cb-nci-name">Bảo Trâm Nguyễn <span class="cb-badge-vip">∞</span></span>
+                  <span class="cb-nci-text">Tập cũ bị lỗi tiếng kìa ad fix dùm với.</span>
+                  <span class="cb-nci-movie">▶ Thử Thách Thần Tượng</span>
+                </div>
+              </div>
+              <div class="cb-new-cmt-item">
+                <img src="https://ui-avatars.com/api/?name=I+LOVE&background=random" class="cb-nci-ava">
+                <div class="cb-nci-content">
+                  <span class="cb-nci-name">I LOVE CORTIS <span class="cb-badge-vip">∞</span></span>
+                  <span class="cb-nci-text">Bao giờ mới có tập 9 vậy ạ hóng quá</span>
+                  <span class="cb-nci-movie">▶ Trao Em Cả Vũ Trụ</span>
+                </div>
+              </div>
+              <div class="cb-new-cmt-item">
+                <img src="https://ui-avatars.com/api/?name=Pink+Blue&background=random" class="cb-nci-ava">
+                <div class="cb-nci-content">
+                  <span class="cb-nci-name">Pink Blue <span class="cb-badge-vip">∞</span></span>
+                  <span class="cb-nci-text">Cảm ơn ad nha web quá xịn luôn</span>
+                  <span class="cb-nci-movie">▶ Thiếu Chủ Cưới Vợ Tôn</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
 
   <footer class="site-footer">
     <div class="footer-badge">⭐ Hoàng Sa & Trường Sa là của Việt Nam!</div>
+    
     <div class="footer-brand-row">
-      <img src="logo.png" alt="Xô Phim" class="footer-logo" onclick="window.scrollTo(0,0)">
+      <img src="logo.png" alt="Depflix" class="footer-logo" onclick="window.scrollTo(0,0)">
       <div class="footer-divider"></div>
-      <div class="footer-socials"><span class="social-icon">✈</span><span class="social-icon">👾</span><span class="social-icon">X</span><span class="social-icon">f</span><span class="social-icon">▶</span></div>
+      <div class="footer-socials">
+        <span class="social-icon">✈</span>
+        <span class="social-icon">👾</span>
+        <span class="social-icon">X</span>
+        <span class="social-icon">f</span>
+        <span class="social-icon">♪</span>
+        <span class="social-icon">▶</span>
+        <span class="social-icon">@</span>
+        <span class="social-icon">📷</span>
+      </div>
     </div>
-    <div class="footer-links"><a href="#" class="footer-link">Hỏi-Đáp</a><a href="#" class="footer-link">Bảo mật</a><a href="#" class="footer-link">Điều khoản</a><a href="#" class="footer-link">Liên hệ</a></div>
-    <p class="footer-desc">Xô Phim - Trang xem phim online chất lượng cao miễn phí Vietsub. Khám phá ngay!</p>
-    <p class="footer-copy">© 2026 Xô Phim</p>
-    <button class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})"><span class="back-to-top-icon">↑</span> ĐẦU TRANG</button>
+
+    <div class="footer-links">
+      <a href="#" class="footer-link">Hỏi-Đáp</a>
+      <a href="#" class="footer-link">Chính sách bảo mật</a>
+      <a href="#" class="footer-link">Điều khoản sử dụng</a>
+      <a href="#" class="footer-link">Giới thiệu</a>
+      <a href="#" class="footer-link">Liên hệ</a>
+    </div>
+
+    <p class="footer-desc">
+      Dépflix - Trang xem phim online chất lượng cao miễn phí Vietsub, thuyết minh, lồng tiếng full HD. Kho phim mới khổng lồ, phim chiếu rạp, phim bộ, phim lẻ từ nhiều quốc gia như Việt Nam, Hàn Quốc, Trung Quốc, Thái Lan, Nhật Bản, Âu Mỹ... đa dạng thể loại. Khám phá nền tảng phim trực tuyến hay nhất 2026 chất lượng 4K!
+    </p>
+    
+    <p class="footer-copy">© 2026 Dépflix</p>
+
+    <button class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+      <span class="back-to-top-icon">↑</span>
+      ĐẦU TRANG
+    </button>
   </footer>
 
   <div id="hover-detail-card" class="hover-detail-card">
-    <div class="hdc-img-wrap"><img id="hdc-img" src="" alt=""></div>
+    <div class="hdc-img-wrap">
+      <img id="hdc-img" src="" alt="">
+    </div>
     <div class="hdc-content">
-      <h3 id="hdc-title" class="hdc-title">Tên Phim</h3><p id="hdc-sub" class="hdc-sub">Tên Gốc</p>
-      <div class="hdc-actions"><button class="hdc-btn-play">▶ Xem ngay</button><button class="hdc-btn-icon">❤</button><button class="hdc-btn-icon detail-btn">ℹ Chi tiết</button></div>
-      <div class="hdc-meta"><span class="hdc-meta-imdb" id="hdc-imdb">IMDb 0.0</span><span class="hdc-meta-age">T16</span><span class="hdc-meta-text" id="hdc-year">2026</span><span class="hdc-meta-text" id="hdc-ep">Tập 1</span></div>
+      <h3 id="hdc-title" class="hdc-title">Tên Phim</h3>
+      <p id="hdc-sub" class="hdc-sub">Tên Gốc</p>
+      <div class="hdc-actions">
+        <button class="hdc-btn-play">▶ Xem ngay</button>
+        <button class="hdc-btn-icon">❤</button>
+        <button class="hdc-btn-icon detail-btn">ℹ Chi tiết</button>
+      </div>
+      <div class="hdc-meta">
+        <span class="hdc-meta-imdb" id="hdc-imdb">IMDb 0.0</span>
+        <span class="hdc-meta-age">T16</span>
+        <span class="hdc-meta-text" id="hdc-year">2026</span>
+        <span class="hdc-meta-text" id="hdc-ep">Tập 1</span>
+      </div>
       <div class="hdc-genres" id="hdc-genres"></div>
     </div>
   </div>
 
   <script>
     function getSafeUrl(path, domain) {
-      if (!path) return 'https://placehold.co/240x360/1a1c20/777777?text=XoPhim';
+      if (!path) return 'https://placehold.co/240x360/1a1c20/777777?text=Depflix';
       if (String(path).startsWith('http')) return path;
       const imgDomain = domain || 'https://phimimg.com';
       return imgDomain.replace(/\/$/, '') + '/' + String(path).replace(/^\//, '');
     }
+
     function extractDomain(data, apiUrl) {
         if (apiUrl && apiUrl.includes('ophim1.com')) return 'https://ophim1.com';
         if (data && data.data && data.data.APP_DOMAIN_CDN_IMAGE) return data.data.APP_DOMAIN_CDN_IMAGE;
+        if (data && data.APP_DOMAIN_CDN_IMAGE) return data.APP_DOMAIN_CDN_IMAGE;
         if (data && data.pathImage) return data.pathImage;
         return 'https://phimimg.com';
     }
 
     if (window.innerWidth <= 768) {
       document.querySelectorAll('.dropdown').forEach(dd => {
-        dd.querySelector('.dropdown-toggle').addEventListener('click', e => { e.stopPropagation(); const active = dd.classList.contains('active'); document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('active')); if (!active) dd.classList.add('active'); });
+        dd.querySelector('.dropdown-toggle').addEventListener('click', e => {
+          e.stopPropagation();
+          const active = dd.classList.contains('active');
+          document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('active'));
+          if (!active) dd.classList.add('active');
+        });
       });
-      document.addEventListener('click', e => { if (!e.target.closest('.dropdown')) { document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('active')); } });
+      document.addEventListener('click', e => {
+        if (!e.target.closest('.dropdown')) {
+          document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('active'));
+        }
+      });
     }
 
-    // LOAD DIỄN VIÊN (TRỎ VỀ 1danh-sach.html)
-    const famousActors = ['Châu Tinh Trì', 'Thành Long', 'Ngô Kinh', 'Chân Tử Đan', 'Lý Liên Kiệt', 'Cổ Thiên Lạc', 'Lưu Đức Hoa', 'Châu Nhuận Phát'];
+    const famousActors = ['Châu Tinh Trì', 'Thành Long', 'Ngô Kinh', 'Chân Tử Đan', 'Lý Liên Kiệt', 'Cổ Thiên Lạc', 'Lưu Đức Hoa', 'Châu Nhuận Phát', 'Lâm Chánh Anh', 'Lương Triều Vỹ'];
     const actorGrid = document.getElementById('dien-vien-grid');
     famousActors.forEach(actor => {
-      const div = document.createElement('div'); div.className = 'dropdown-item'; div.textContent = actor;
+      const div = document.createElement('div');
+      div.className = 'dropdown-item';
+      div.textContent = actor;
+      // SỬA ĐƯỜNG DẪN 1DANH-SACH.HTML
       div.onclick = () => window.location.href = `1danh-sach.html?type=tim-kiem&slug=${encodeURIComponent(actor)}&page=1`;
       actorGrid.appendChild(div);
     });
 
-    // LOAD THỂ LOẠI (TRỎ VỀ 1danh-sach.html)
-    fetch('https://phimapi.com/the-loai').then(res => res.json()).then(data => {
-      const grid = document.getElementById('the-loai-grid');
-      data.forEach(item => {
-        const div = document.createElement('div'); div.className = 'dropdown-item'; div.textContent = item.name;
-        div.onclick = () => window.location.href = `1danh-sach.html?type=the-loai&slug=${item.slug}&page=1`;
-        grid.appendChild(div);
+    fetch('https://phimapi.com/the-loai')
+      .then(res => res.json())
+      .then(data => {
+        const grid = document.getElementById('the-loai-grid');
+        grid.innerHTML = '';
+        data.forEach(item => {
+          const div = document.createElement('div');
+          div.className = 'dropdown-item';
+          div.textContent = item.name;
+          // SỬA ĐƯỜNG DẪN 1DANH-SACH.HTML
+          div.onclick = () => window.location.href = `1danh-sach.html?type=the-loai&slug=${item.slug}&page=1`;
+          grid.appendChild(div);
+        });
       });
-    });
 
-    // LOAD QUỐC GIA (TRỎ VỀ 1danh-sach.html)
-    fetch('https://phimapi.com/quoc-gia').then(res => res.json()).then(data => {
-      const grid = document.getElementById('quoc-gia-grid');
-      data.forEach(item => {
-        const div = document.createElement('div'); div.className = 'dropdown-item'; div.textContent = item.name;
-        div.onclick = () => window.location.href = `1danh-sach.html?type=quoc-gia&slug=${item.slug}&page=1`;
-        grid.appendChild(div);
+    fetch('https://phimapi.com/quoc-gia')
+      .then(res => res.json())
+      .then(data => {
+        const grid = document.getElementById('quoc-gia-grid');
+        grid.innerHTML = '';
+        data.forEach(item => {
+          const div = document.createElement('div');
+          div.className = 'dropdown-item';
+          div.textContent = item.name;
+          // SỬA ĐƯỜNG DẪN 1DANH-SACH.HTML
+          div.onclick = () => window.location.href = `1danh-sach.html?type=quoc-gia&slug=${item.slug}&page=1`;
+          grid.appendChild(div);
+        });
       });
-    });
-
-    // TÌM KIẾM BẰNG ENTER (TRỎ VỀ 1danh-sach.html)
-    const searchInput = document.getElementById('searchInput');
-    searchInput.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        const keyword = e.target.value.trim();
-        if (keyword.length > 0) { window.location.href = `1danh-sach.html?type=tim-kiem&slug=${encodeURIComponent(keyword)}&page=1`; }
-      }
-    });
 
     const bannerBg = document.getElementById('bannerBg');
     const titleEl = document.getElementById('bannerTitle');
@@ -781,50 +1005,101 @@
     const tagsEl = document.getElementById('bannerTags');
     const descEl = document.getElementById('bannerDesc');
     const miniThumbs = document.getElementById('miniThumbs');
-    let movies = []; let currentIndex = 0;
+    let movies = [];
+    let currentIndex = 0;
 
-    fetch('https://phimapi.com/danh-sach/phim-moi-cap-nhat-v3?page=1').then(res => res.json()).then(data => {
+    fetch('https://phimapi.com/danh-sach/phim-moi-cap-nhat-v3?page=1')
+      .then(res => res.json())
+      .then(data => {
         if(data && data.items){
-            movies = data.items.slice(0, 8); miniThumbs.innerHTML = '';
+            movies = data.items.slice(0, 8);
+            miniThumbs.innerHTML = '';
             movies.forEach((m, i) => {
-              const img = document.createElement('img'); img.src = getSafeUrl(m.thumb_url || m.poster_url, data.pathImage);
-              img.onerror = function() { this.onerror=null; this.src='https://placehold.co/60x85/1a1c20/777777?text=XoPhim'; };
-              img.className = 'mini-thumb'; img.alt = m.name;
+              const img = document.createElement('img');
+              img.src = getSafeUrl(m.thumb_url || m.poster_url, data.pathImage);
+              img.onerror = function() { this.onerror=null; this.src='https://placehold.co/60x85/1a1c20/777777?text=No+Img'; };
+              img.className = 'mini-thumb';
+              img.alt = m.name;
               img.onclick = () => { currentIndex = i; updateBanner(data.pathImage); };
               miniThumbs.appendChild(img);
             });
-            updateBanner(data.pathImage); setInterval(() => { currentIndex = (currentIndex + 1) % movies.length; updateBanner(data.pathImage); }, 5000);
+            updateBanner(data.pathImage);
+            setInterval(() => {
+              currentIndex = (currentIndex + 1) % movies.length;
+              updateBanner(data.pathImage);
+            }, 5000);
         }
-      });
+      })
+      .catch(err => console.error('Lỗi banner:', err));
 
     function updateBanner(domain) {
-      if (!movies[currentIndex]) return; const m = movies[currentIndex];
-      bannerBg.style.backgroundImage = `url(${getSafeUrl(m.thumb_url || m.poster_url, domain)})`;
-      titleEl.textContent = m.name || m.origin_name; subtitleEl.textContent = m.origin_name ? `(${m.origin_name})` : '';
-      tagsEl.innerHTML = `<span class="tag highlight">IMDb ${m.imdb?.id || 'N/A'}</span><span class="tag">${m.year || 'N/A'}</span><span class="tag">${m.time || 'N/A'}</span>`;
+      if (!movies[currentIndex]) return;
+      const m = movies[currentIndex];
+      const bgImg = getSafeUrl(m.thumb_url || m.poster_url, domain);
+      bannerBg.style.backgroundImage = `url(${bgImg})`;
+      titleEl.textContent = m.name || m.origin_name || 'Đang tải...';
+      subtitleEl.textContent = m.origin_name ? `(${m.origin_name})` : '';
+      tagsEl.innerHTML = `
+        <span class="tag highlight">IMDb ${m.imdb?.id || 'N/A'}</span>
+        <span class="tag">${m.year || 'N/A'}</span>
+        <span class="tag">${m.time || 'N/A'}</span>
+        <span class="tag">${m.episode_current || 'N/A'}</span>
+      `;
       descEl.textContent = m.content ? m.content.replace(/<[^>]+>/g, '').substring(0, 250) + '...' : 'Đang cập nhật...';
-      document.querySelectorAll('.mini-thumb').forEach((t, i) => { t.classList.toggle('active', i === currentIndex); });
+      document.querySelectorAll('.mini-thumb').forEach((t, i) => {
+        t.classList.toggle('active', i === currentIndex);
+      });
     }
     
     function scrollHzGrid(gridId, direction) {
-      const grid = document.getElementById(gridId); const child = grid.children[0];
-      grid.scrollBy({ left: direction * (child ? child.offsetWidth + 15 : 275), behavior: 'smooth' });
+      const grid = document.getElementById(gridId);
+      const child = grid.children[0];
+      const cardWidth = child ? child.offsetWidth + 15 : 275; 
+      grid.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
     }
+
     function scrollCustomGrid(gridId, direction) {
-      const grid = document.getElementById(gridId); const child = grid.children[0];
-      grid.scrollBy({ left: direction * (child ? child.offsetWidth + 20 : 230), behavior: 'smooth' });
+      const grid = document.getElementById(gridId);
+      const child = grid.children[0];
+      const cardWidth = child ? child.offsetWidth + 20 : 230; 
+      grid.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
     }
 
     function loadCountryMoviesHz(gridId, slug) {
-      fetch(`https://phimapi.com/v1/api/quoc-gia/${slug}?page=1`).then(res => res.json()).then(data => {
-          const grid = document.getElementById(gridId); grid.innerHTML = '';
-          if (data && data.data && data.data.items) {
+      fetch(`https://phimapi.com/v1/api/quoc-gia/${slug}?page=1`)
+        .then(res => res.json())
+        .then(data => {
+          const grid = document.getElementById(gridId);
+          grid.innerHTML = '';
+          if (data && data.data && data.data.items && data.data.items.length > 0) {
             const domain = extractDomain(data, '');
+            let html = '';
             data.data.items.forEach(m => {
               const imgSrc = getSafeUrl(m.thumb_url || m.poster_url, domain);
+              const fallbackImg = "this.onerror=null;this.src='https://placehold.co/260x146/1a1c20/777777?text=Depflix'";
               const safeName = m.name ? m.name.replace(/'/g, "\\'") : '';
-              grid.innerHTML += `<div class="hz-card hover-trigger" data-name="${safeName}" data-img="${imgSrc}" data-year="${m.year}" data-ep="${m.episode_current}" data-imdb="7.5"><div class="hz-poster-wrap"><img src="${imgSrc}" class="hz-poster" loading="lazy" onerror="this.src='https://placehold.co/260x146/1a1c20/777777?text=XoPhim'"><div class="hz-tags"><span class="hz-tag blue">HD</span></div></div><div class="hz-info"><div class="hz-name">${m.name}</div><div class="hz-sub">${m.episode_current}</div></div></div>`;
+              const safeSub = m.origin_name ? m.origin_name.replace(/'/g, "\\'") : '';
+              
+              html += `
+                <div class="hz-card hover-trigger" 
+                     data-name="${safeName}" data-sub="${safeSub}" 
+                     data-img="${imgSrc}" data-year="${m.year||'N/A'}" 
+                     data-ep="${m.episode_current||'Full'}" data-imdb="7.5">
+                  <div class="hz-poster-wrap">
+                    <img src="${imgSrc}" class="hz-poster" loading="lazy" onerror="${fallbackImg}">
+                    <div class="hz-tags">
+                      <span class="hz-tag blue">${m.quality || 'HD'}</span>
+                      <span class="hz-tag green">${m.lang || 'Vietsub'}</span>
+                    </div>
+                  </div>
+                  <div class="hz-info">
+                    <div class="hz-name">${m.name}</div>
+                    <div class="hz-sub">${m.episode_current || 'Full'}</div>
+                  </div>
+                </div>
+              `;
             });
+            grid.innerHTML = html;
           }
         });
     }
@@ -832,83 +1107,309 @@
     loadCountryMoviesHz('chinese-hz-grid', 'trung-quoc');
     loadCountryMoviesHz('usuk-hz-grid', 'au-my');
 
+
     function loadDesignedSection(apiUrl, gridId, type = 'normal') {
-      fetch(apiUrl).then(res => res.json()).then(data => {
-          const grid = document.getElementById(gridId); grid.innerHTML = '';
-          let rawItems = data.data?.items || data.items || [];
+      fetch(apiUrl)
+        .then(res => res.json())
+        .then(data => {
+          const grid = document.getElementById(gridId);
+          grid.innerHTML = '';
+          
+          let rawItems = [];
+          if (data && data.data && data.data.items) rawItems = data.data.items;
+          else if (data && data.items) rawItems = data.items;
+
           if (rawItems.length > 0) {
             const domain = extractDomain(data, apiUrl);
-            rawItems.forEach((m, idx) => {
+            const itemsToRender = (type === 'ranked' || type === 'slanted') ? rawItems.slice(0, 10) : rawItems;
+
+            let html = '';
+            itemsToRender.forEach((m, idx) => {
               const imgSrc = getSafeUrl(m.poster_url || m.thumb_url, domain);
+              const fallbackImg = "this.onerror=null;this.src='https://placehold.co/240x360/1a1c20/777777?text=Depflix'";
               const safeName = m.name ? m.name.replace(/'/g, "\\'") : '';
-              const dataAttr = `data-name="${safeName}" data-img="${imgSrc}" data-year="${m.year||'N/A'}" data-ep="${m.episode_current||'Full'}" data-imdb="8.0"`;
+              const safeSub = m.origin_name ? m.origin_name.replace(/'/g, "\\'") : '';
+              
+              const dataAttr = `data-name="${safeName}" data-sub="${safeSub}" data-img="${imgSrc}" data-year="${m.year||'N/A'}" data-ep="${m.episode_current||'Full'}" data-imdb="8.0"`;
+
               if (type === 'ranked' || type === 'slanted') {
-                grid.innerHTML += `<div class="ranked-card hover-trigger" ${dataAttr}><div class="design-poster-wrap slanted-poster-wrap"><img src="${imgSrc}" class="design-poster" loading="lazy" onerror="this.src='https://placehold.co/240x360/1a1c20/777777?text=XoPhim'"></div><div class="rank-info-flex"><div class="rank-number-big">${idx + 1}</div><div class="design-info-wrap"><div class="design-title">${m.name}</div><div class="design-sub">${m.episode_current}</div></div></div></div>`;
+                const posterClass = type === 'slanted' ? 'design-poster-wrap slanted-poster-wrap' : 'design-poster-wrap';
+                html += `
+                  <div class="ranked-card hover-trigger" ${dataAttr}>
+                    <div class="${posterClass}">
+                      <img src="${imgSrc}" class="design-poster" loading="lazy" onerror="${fallbackImg}">
+                      <div class="design-tags-overlay">
+                        <span class="d-tag blue">${m.quality || 'HD'}</span>
+                        <span class="d-tag green">${m.lang || 'Vietsub'}</span>
+                      </div>
+                    </div>
+                    <div class="rank-info-flex">
+                      <div class="rank-number-big">${idx + 1}</div>
+                      <div class="design-info-wrap">
+                        <div class="design-title">${m.name}</div>
+                        <div class="design-sub">${m.origin_name || ''}</div>
+                        <div class="design-sub">${m.episode_current || 'Full'}</div>
+                      </div>
+                    </div>
+                  </div>
+                `;
               } else {
-                grid.innerHTML += `<div class="design-card hover-trigger" ${dataAttr}><div class="design-poster-wrap"><img src="${imgSrc}" class="design-poster" loading="lazy" onerror="this.src='https://placehold.co/240x360/1a1c20/777777?text=XoPhim'"></div><div class="design-info-wrap"><div class="design-title">${m.name}</div><div class="design-sub">${m.origin_name || ''}</div></div></div>`;
+                html += `
+                  <div class="design-card hover-trigger" ${dataAttr}>
+                    <div class="design-poster-wrap">
+                      <img src="${imgSrc}" class="design-poster" loading="lazy" onerror="${fallbackImg}">
+                      <div class="design-tags-overlay">
+                        <span class="d-tag blue">${m.quality || 'HD'}</span>
+                        <span class="d-tag green">${m.lang || 'Vietsub'}</span>
+                        <span class="d-tag red">${m.episode_current || 'Full'}</span>
+                      </div>
+                    </div>
+                    <div class="design-info-wrap">
+                      <div class="design-title">${m.name}</div>
+                      <div class="design-sub">${m.origin_name || ''}</div>
+                    </div>
+                  </div>
+                `;
               }
             });
+            grid.innerHTML = html;
           }
         });
     }
 
-    loadDesignedSection('https://phimapi.com/v1/api/danh-sach/phim-le?page=2', 'chieurap-grid');  
-    loadDesignedSection('https://phimapi.com/v1/api/danh-sach/phim-bo?page=1', 'phimbo-grid');    
+    loadDesignedSection('https://phimapi.com/v1/api/danh-sach/phim-le?page=2', 'chieurap-grid', 'normal');  
+    loadDesignedSection('https://phimapi.com/v1/api/danh-sach/phim-bo?page=1', 'phimbo-grid', 'normal');    
     loadDesignedSection('https://phimapi.com/v1/api/danh-sach/phim-le?page=1', 'top30-grid', 'ranked');     
-    loadDesignedSection('https://phimapi.com/v1/api/the-loai/kinh-di?page=1', 'kinhdi-grid');
-    loadDesignedSection('https://phimapi.com/v1/api/quoc-gia/hong-kong?page=1', 'hongkong-grid');
-    loadDesignedSection('https://phimapi.com/v1/api/quoc-gia/thai-lan?page=1', 'thailan-grid');
+    loadDesignedSection('https://phimapi.com/v1/api/the-loai/kinh-di?page=1', 'kinhdi-grid', 'normal');
+    loadDesignedSection('https://phimapi.com/v1/api/quoc-gia/hong-kong?page=1', 'hongkong-grid', 'normal');
+    loadDesignedSection('https://phimapi.com/v1/api/quoc-gia/thai-lan?page=1', 'thailan-grid', 'normal');
     loadDesignedSection('https://phimapi.com/v1/api/danh-sach/phim-le?page=3', 'bomtan-grid', 'slanted');
     loadDesignedSection('https://phimapi.com/danh-sach/phim-moi-cap-nhat-v3?page=2', 'decu-grid', 'slanted'); 
 
-    // AUTO BANNER LOGIC (DÙNG CHUNG)
-    function handleSpecialBanner(url, bgId, titleId, metaId, thumbId, timerVar) {
-        fetch(url).then(res => res.json()).then(data => {
-            if (data.data?.items) {
-                const items = data.data.items.slice(0,8);
-                const thumbDiv = document.getElementById(thumbId); thumbDiv.innerHTML = '';
-                const domain = extractDomain(data, '');
-                items.forEach((m, i) => {
-                    const img = document.createElement('img'); img.src = getSafeUrl(m.thumb_url, domain);
-                    img.className = 'anime-thumb-img hover-trigger'; img.setAttribute('data-name', m.name);
-                    img.setAttribute('data-img', img.src); img.onclick = () => updateBannerUI(m, i);
-                    thumbDiv.appendChild(img);
-                });
-                function updateBannerUI(m, i) {
-                    document.getElementById(bgId).style.backgroundImage = `url(${getSafeUrl(m.poster_url, domain)})`;
-                    document.getElementById(titleId).textContent = m.name;
-                    document.getElementById(metaId).innerHTML = `<span>${m.year}</span> <span>${m.episode_current}</span>`;
-                }
-                updateBannerUI(items[0], 0);
-            }
+    const searchInput = document.getElementById('searchInput');
+    const searchResults = document.getElementById('search-results');
+
+    // SỬA ĐOẠN ENTER TÌM KIẾM SANG 1DANH-SACH.HTML
+    searchInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        const keyword = e.target.value.trim();
+        if (keyword.length > 0) {
+          window.location.href = `1danh-sach.html?type=tim-kiem&slug=${encodeURIComponent(keyword)}&page=1`;
+        }
+      }
+    });
+
+    searchInput.addEventListener('input', function(e) {
+      const keyword = e.target.value.trim();
+      if (keyword.length < 2) {
+        searchResults.style.display = 'none';
+        return;
+      }
+      fetch(`https://ophim1.com/v1/api/tim-kiem?keyword=${encodeURIComponent(keyword)}`)
+        .then(res => res.json())
+        .then(data => {
+          searchResults.innerHTML = '';
+          if (data.status && data.data && data.data.items && data.data.items.length > 0) {
+            data.data.items.slice(0, 6).forEach(m => {
+              const item = document.createElement('div');
+              item.className = 'search-item';
+              item.innerHTML = `
+                <img src="${m.thumb_url || m.poster_url ? 'https://ophim1.com' + (m.thumb_url || m.poster_url) : 'https://via.placeholder.com/50x70'}" alt="${m.name}">
+                <div>
+                  <div>${m.name}${m.origin_name ? ` (${m.origin_name})` : ''}</div>
+                  <div style="font-size:0.85rem; opacity:0.8;">${m.year || 'N/A'} - ${m.episode_current || 'Full'}</div>
+                </div>
+              `;
+              item.onclick = () => { searchResults.style.display = 'none'; searchInput.value = ''; };
+              searchResults.appendChild(item);
+            });
+            searchResults.style.display = 'block';
+          }
+        });
+    });
+
+    document.addEventListener('click', e => {
+      if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+        searchResults.style.display = 'none';
+      }
+    });
+
+
+    let sciFiArray = []; let sfIdx = 0; let sciFiTimer; let sciFiDomain = 'https://phimimg.com';
+    function initSciFiSection() {
+      fetch('https://phimapi.com/v1/api/the-loai/vien-tuong?page=1').then(res => res.json()).then(data => {
+          if (data && data.data && data.data.items) {
+            sciFiDomain = extractDomain(data, ''); sciFiArray = data.data.items.slice(0, 8); 
+            const thumbDiv = document.getElementById('an-thumbs'); thumbDiv.innerHTML = '';
+            sciFiArray.forEach((item, index) => {
+              const img = document.createElement('img');
+              img.onerror = function() { this.onerror=null; this.src='https://placehold.co/65x95/1a1c20/777777?text=Depflix'; };
+              img.src = getSafeUrl(item.thumb_url || item.poster_url, sciFiDomain);
+              img.className = 'anime-thumb-img hover-trigger'; 
+              
+              const safeName = item.name ? item.name.replace(/'/g, "\\'") : '';
+              const safeSub = item.origin_name ? item.origin_name.replace(/'/g, "\\'") : '';
+              img.setAttribute('data-name', safeName); img.setAttribute('data-sub', safeSub);
+              img.setAttribute('data-img', getSafeUrl(item.poster_url || item.thumb_url, sciFiDomain));
+              img.setAttribute('data-year', item.year || 'N/A'); img.setAttribute('data-ep', item.episode_current || 'Full');
+              img.setAttribute('data-imdb', '8.5');
+
+              img.onclick = () => { sfIdx = index; renderSciFiUI(); clearInterval(sciFiTimer); startSciFiTimer(); };
+              thumbDiv.appendChild(img);
+            });
+            renderSciFiUI(); startSciFiTimer();
+          }
         });
     }
-    handleSpecialBanner('https://phimapi.com/v1/api/the-loai/vien-tuong?page=1', 'an-bg', 'an-title', 'an-meta', 'an-thumbs');
-    handleSpecialBanner('https://phimapi.com/v1/api/quoc-gia/viet-nam?page=1', 'vn-bg', 'vn-title', 'vn-meta', 'vn-thumbs');
+    function renderSciFiUI() {
+      const item = sciFiArray[sfIdx]; if(!item) return;
+      document.getElementById('an-thumbs').querySelectorAll('.anime-thumb-img').forEach((t, i) => t.classList.toggle('active', i === sfIdx));
+      fetch(`https://phimapi.com/phim/${item.slug}`).then(res => res.json()).then(res => {
+          if (res && res.movie) {
+            const m = res.movie;
+            document.getElementById('an-bg').style.backgroundImage = `url(${getSafeUrl(m.poster_url || m.thumb_url, sciFiDomain)})`;
+            document.getElementById('an-title').textContent = m.name || 'Đang cập nhật';
+            document.getElementById('an-origin').textContent = m.origin_name || '';
+            document.getElementById('an-meta').innerHTML = `<span class="meta-tag-imdb">IMDb ${m.imdb?.id || 'N/A'}</span><span class="meta-tag-outline">${m.year || 'N/A'}</span><span class="meta-tag-outline">${m.episode_current || 'Full'}</span>`;
+            if (m.category) document.getElementById('an-genres').innerHTML = m.category.slice(0,3).map(c => `<span class="genre-tag-item">${c.name}</span>`).join('');
+            document.getElementById('an-desc').textContent = m.content ? String(m.content).replace(/<[^>]+>/g, '') : 'Không có mô tả';
+          }
+        });
+    }
+    function startSciFiTimer() { sciFiTimer = setInterval(() => { sfIdx = (sfIdx + 1) % sciFiArray.length; renderSciFiUI(); }, 4000); }
+    initSciFiSection();
 
-    // POP-UP HOVER LOGIC (0.8S)
+    let vnArray = []; let vnIdx = 0; let vnTimer; let vnDomain = 'https://phimimg.com';
+    function initVnSection() {
+      fetch('https://phimapi.com/v1/api/quoc-gia/viet-nam?page=1').then(res => res.json()).then(data => {
+          if (data && data.data && data.data.items) {
+            vnDomain = extractDomain(data, ''); vnArray = data.data.items.slice(0, 8); 
+            const thumbDiv = document.getElementById('vn-thumbs'); thumbDiv.innerHTML = '';
+            vnArray.forEach((item, index) => {
+              const img = document.createElement('img');
+              img.onerror = function() { this.onerror=null; this.src='https://placehold.co/65x95/1a1c20/777777?text=Depflix'; };
+              img.src = getSafeUrl(item.thumb_url || item.poster_url, vnDomain);
+              img.className = 'anime-thumb-img hover-trigger'; 
+              
+              const safeName = item.name ? item.name.replace(/'/g, "\\'") : '';
+              const safeSub = item.origin_name ? item.origin_name.replace(/'/g, "\\'") : '';
+              img.setAttribute('data-name', safeName); img.setAttribute('data-sub', safeSub);
+              img.setAttribute('data-img', getSafeUrl(item.poster_url || item.thumb_url, vnDomain));
+              img.setAttribute('data-year', item.year || 'N/A'); img.setAttribute('data-ep', item.episode_current || 'Full');
+              img.setAttribute('data-imdb', '7.2');
+
+              img.onclick = () => { vnIdx = index; renderVnUI(); clearInterval(vnTimer); startVnTimer(); };
+              thumbDiv.appendChild(img);
+            });
+            renderVnUI(); startVnTimer();
+          }
+        });
+    }
+    function renderVnUI() {
+      const item = vnArray[vnIdx]; if(!item) return;
+      document.getElementById('vn-thumbs').querySelectorAll('.anime-thumb-img').forEach((t, i) => t.classList.toggle('active', i === vnIdx));
+      fetch(`https://phimapi.com/phim/${item.slug}`).then(res => res.json()).then(res => {
+          if (res && res.movie) {
+            const m = res.movie;
+            document.getElementById('vn-bg').style.backgroundImage = `url(${getSafeUrl(m.poster_url || m.thumb_url, vnDomain)})`;
+            document.getElementById('vn-title').textContent = m.name || 'Đang cập nhật';
+            document.getElementById('vn-origin').textContent = m.origin_name || '';
+            document.getElementById('vn-meta').innerHTML = `<span class="meta-tag-imdb">IMDb ${m.imdb?.id || 'N/A'}</span><span class="meta-tag-outline">${m.year || 'N/A'}</span><span class="meta-tag-outline">${m.episode_current || 'Full'}</span>`;
+            if (m.category) document.getElementById('vn-genres').innerHTML = m.category.slice(0,3).map(c => `<span class="genre-tag-item">${c.name}</span>`).join('');
+            document.getElementById('vn-desc').textContent = m.content ? String(m.content).replace(/<[^>]+>/g, '') : 'Không có mô tả';
+          }
+        });
+    }
+    function startVnTimer() { vnTimer = setInterval(() => { vnIdx = (vnIdx + 1) % vnArray.length; renderVnUI(); }, 4000); }
+    initVnSection();
+
+
     const hoverCard = document.getElementById('hover-detail-card');
-    const hdcImg = document.getElementById('hdc-img'); const hdcTitle = document.getElementById('hdc-title'); 
-    const hdcYear = document.getElementById('hdc-year'); const hdcEp = document.getElementById('hdc-ep'); 
+    const hdcImg = document.getElementById('hdc-img');
+    const hdcTitle = document.getElementById('hdc-title');
+    const hdcSub = document.getElementById('hdc-sub');
+    const hdcImdb = document.getElementById('hdc-imdb');
+    const hdcYear = document.getElementById('hdc-year');
+    const hdcEp = document.getElementById('hdc-ep');
+    const hdcGenres = document.getElementById('hdc-genres');
+
     let hoverTimer;
 
     document.addEventListener('mouseover', (e) => {
       const targetCard = e.target.closest('.hover-trigger');
       if(e.target.closest('#hover-detail-card')) return;
+
       if (targetCard) {
         hoverTimer = setTimeout(() => {
-          hdcTitle.textContent = targetCard.getAttribute('data-name');
-          hdcImg.src = targetCard.getAttribute('data-img'); hdcYear.textContent = targetCard.getAttribute('data-year');
-          hdcEp.textContent = targetCard.getAttribute('data-ep');
+          const name = targetCard.getAttribute('data-name');
+          const sub = targetCard.getAttribute('data-sub');
+          const img = targetCard.getAttribute('data-img');
+          const year = targetCard.getAttribute('data-year');
+          const ep = targetCard.getAttribute('data-ep');
+          const imdb = targetCard.getAttribute('data-imdb');
+
+          hdcTitle.textContent = name;
+          hdcSub.textContent = sub || 'Đang cập nhật';
+          hdcImg.src = img;
+          hdcYear.textContent = year;
+          hdcEp.textContent = ep;
+          hdcImdb.textContent = `IMDb ${imdb}`;
+          
+          const fakeGenres = ['Hành Động', 'Tâm Lý', 'Gia Đình', 'Hài Hước'];
+          const g1 = fakeGenres[Math.floor(Math.random() * fakeGenres.length)];
+          const g2 = fakeGenres[Math.floor(Math.random() * fakeGenres.length)];
+          hdcGenres.innerHTML = `<span>${g1}</span> <span class="hdc-dot">•</span> <span>${g2}</span>`;
+
           const rect = targetCard.getBoundingClientRect();
-          hoverCard.style.top = (rect.top + window.scrollY - 40) + 'px';
-          hoverCard.style.left = (rect.left + window.scrollX - 20) + 'px';
+          let leftPos = rect.left + window.scrollX - ((340 - rect.width) / 2);
+          let topPos = rect.top + window.scrollY - 40; 
+          
+          if (leftPos < 20) leftPos = 20;
+          if (leftPos + 340 > window.innerWidth - 20) leftPos = window.innerWidth - 360;
+
+          hoverCard.style.top = topPos + 'px';
+          hoverCard.style.left = leftPos + 'px';
           hoverCard.classList.add('show');
         }, 800); 
       }
     });
-    document.addEventListener('mouseout', (e) => { if (e.target.closest('.hover-trigger')) clearTimeout(hoverTimer); });
-    hoverCard.addEventListener('mouseleave', () => { hoverCard.classList.remove('show'); });
+
+    document.addEventListener('mouseout', (e) => {
+      const targetCard = e.target.closest('.hover-trigger');
+      if (targetCard) {
+        clearTimeout(hoverTimer); 
+      }
+    });
+
+    hoverCard.addEventListener('mouseleave', () => {
+      hoverCard.classList.remove('show');
+    });
+
+    const commentScroll = document.getElementById('cb-top-scroll');
+    let scrollDir = 1;
+    setInterval(() => {
+      if(!commentScroll) return;
+      const maxScroll = commentScroll.scrollWidth - commentScroll.clientWidth;
+      if(commentScroll.scrollLeft >= maxScroll - 10) scrollDir = -1;
+      if(commentScroll.scrollLeft <= 10) scrollDir = 1;
+      commentScroll.scrollBy({ left: scrollDir * 320, behavior: 'smooth' });
+    }, 3000);
+
+    const newCommentsList = document.getElementById('cb-new-comments');
+    setInterval(() => {
+      if(!newCommentsList) return;
+      const lastChild = newCommentsList.lastElementChild;
+      if(lastChild) {
+        lastChild.style.opacity = '0';
+        setTimeout(() => {
+          newCommentsList.insertBefore(lastChild, newCommentsList.firstElementChild);
+          requestAnimationFrame(() => {
+            lastChild.style.opacity = '1';
+          });
+        }, 300);
+      }
+    }, 4000);
+
   </script>
 </body>
 </html>
