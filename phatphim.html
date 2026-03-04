@@ -11,7 +11,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #0b0d13; /* Màu nền xanh đen tối chuẩn như ảnh */
+      background: #0b0d13; 
       color: #fff; min-height: 100vh; overflow-x: hidden;
     }
 
@@ -50,7 +50,7 @@
        ========================================================= */
     .player-section { margin-top: 90px; background: #000; padding: 20px 5% 0; }
     
-    /* Thanh Tiêu đề trên video (Breadcrumb) */
+    /* Thanh Tiêu đề trên video */
     .player-breadcrumb {
       max-width: 1400px; margin: 0 auto 15px; color: #d1d5db; font-size: 1.1rem; font-weight: bold;
       display: flex; align-items: center; gap: 10px; cursor: pointer; transition: 0.2s;
@@ -68,7 +68,7 @@
     .player-wrapper iframe { width: 100%; height: 100%; border: none; }
     .placeholder-text { position: absolute; color: #8a8d93; font-size: 1.2rem; text-align: center; line-height: 1.6; }
 
-    /* Thanh Công cụ dưới Video (Y hệt ảnh) */
+    /* Thanh Công cụ dưới Video */
     .player-toolbar {
       max-width: 1400px; margin: 0 auto; background: #161921;
       border-radius: 0 0 12px 12px; padding: 15px 25px;
@@ -79,7 +79,6 @@
     .tool-btn { display: flex; align-items: center; gap: 8px; color: #9ca3af; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: 0.2s; }
     .tool-btn:hover { color: #fff; }
     
-    /* Nút Toggle Switch */
     .toggle-wrapper { display: flex; align-items: center; gap: 8px; color: #9ca3af; font-size: 0.85rem; }
     .toggle-pill { width: 36px; height: 20px; background: #374151; border-radius: 20px; position: relative; cursor: pointer; transition: 0.3s; }
     .toggle-pill::after { content: ''; position: absolute; top: 3px; left: 3px; width: 14px; height: 14px; background: #9ca3af; border-radius: 50%; transition: 0.3s; }
@@ -96,8 +95,7 @@
     .main-col { flex: 1; display: flex; flex-direction: column; gap: 30px; }
     .side-col { flex: 0 0 320px; display: flex; flex-direction: column; gap: 30px; }
 
-    /* --- CỘT CHÍNH (TRÁI) --- */
-    /* Mini Info (Poster ngang + Thông tin rút gọn) */
+    /* Mini Info (Dưới video) */
     .mini-info-box {
       display: flex; gap: 25px; background: transparent; 
       padding-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.05);
@@ -114,7 +112,7 @@
     .info-link { color: #fbc02d; font-size: 0.9rem; font-weight: bold; text-decoration: none; cursor: pointer;}
     .info-link:hover { text-decoration: underline; }
 
-    /* KHU VỰC CHỌN NGÔN NGỮ (VIETSUB / THUYẾT MINH) */
+    /* KHU VỰC CHỌN NGÔN NGỮ (NẾU CHƯA CHỌN) */
     .lang-selection-box {
       background: #161921; border-radius: 16px; padding: 30px; text-align: center;
       border: 1px solid rgba(255,255,255,0.05);
@@ -122,17 +120,17 @@
     .lang-title { font-size: 1.2rem; color: #fff; margin-bottom: 20px; font-weight: bold; }
     .lang-btns-wrap { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
     .btn-lang {
-      background: #1f2937; color: #fff; border: 2px solid transparent;
+      background: #E50914; color: #fff; border: none;
       padding: 15px 40px; border-radius: 30px; font-size: 1.1rem; font-weight: bold;
-      cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(229,9,20,0.4);
     }
-    .btn-lang:hover { background: #374151; transform: translateY(-3px); }
-    /* Nút đổi lại Server */
+    .btn-lang:hover { background: #f40612; transform: translateY(-3px); }
+    
     .btn-change-server { background: transparent; border: 1px solid #4b5563; color: #9ca3af; padding: 6px 15px; border-radius: 20px; font-size: 0.8rem; cursor: pointer; transition: 0.2s; margin-left: 15px; }
     .btn-change-server:hover { background: #374151; color: #fff; }
 
     /* Grid Tập phim */
-    .episodes-section { display: none; } /* Ẩn đi chờ chọn ngôn ngữ */
+    .episodes-section { display: none; } 
     .ep-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
     .ep-header-title { font-size: 1.1rem; font-weight: bold; color: #fff; display: flex; align-items: center;}
     
@@ -146,7 +144,7 @@
     /* MÀU ĐỎ CHỦ ĐẠO CHO TẬP ĐANG XEM */
     .ep-btn.active { background: #E50914; border-color: #E50914; color: #fff; box-shadow: 0 4px 10px rgba(229,9,20,0.4); }
 
-    /* Bình luận (Như ảnh) */
+    /* Bình luận */
     .comment-area { background: #161921; border-radius: 16px; padding: 25px; margin-top: 20px; }
     .cmt-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
     .cmt-title { font-size: 1.2rem; font-weight: bold; display: flex; align-items: center; gap: 10px; }
@@ -156,13 +154,11 @@
     .empty-cmt-box { background: #0b0d13; border-radius: 12px; height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #4b5563; gap: 10px; font-weight: bold; margin-top: 15px;}
 
     /* --- CỘT SIDEBAR (PHẢI) --- */
-    /* Hộp Rating (Như ảnh) */
     .rating-top-box { display: flex; gap: 15px; }
     .r-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #161921; border-radius: 12px; padding: 15px; gap: 8px; cursor: pointer; transition: 0.2s; color: #9ca3af; font-size: 0.85rem; font-weight: bold;}
     .r-btn:hover { background: #1f2937; color: #fff;}
     .r-btn.blue { background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.5); color: #60a5fa; flex: 1.5;}
 
-    /* Biểu đồ cảm xúc (Card Đen y ảnh) */
     .emotion-card { background: #161921; border-radius: 16px; padding: 25px; border: 1px solid rgba(255,255,255,0.05); }
     .ec-title { font-size: 1.1rem; font-weight: bold; color: #fff; text-align: center; margin-bottom: 5px; }
     .ec-sub { font-size: 0.75rem; color: #6b7280; text-align: center; margin-bottom: 20px; }
@@ -172,7 +168,6 @@
     .btn-emo-full { width: 100%; background: #1f2937; color: #9ca3af; border: none; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 0.85rem; cursor: pointer; transition: 0.2s; margin-top: 10px;}
     .btn-emo-full:hover { background: #374151; color: #fff;}
 
-    /* Diễn viên (Avatar tròn) */
     .cast-section { margin-top: 10px; }
     .sec-title { font-size: 1.2rem; font-weight: bold; color: #fff; margin-bottom: 20px; }
     .cast-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
@@ -180,7 +175,6 @@
     .cast-avatar { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 2px solid #374151; padding: 2px; }
     .cast-name { font-size: 0.75rem; color: #9ca3af; }
 
-    /* Đề xuất */
     .suggest-list { display: flex; flex-direction: column; gap: 15px; }
     .sug-card { display: flex; gap: 15px; cursor: pointer; transition: 0.2s; padding: 10px; border-radius: 10px; background: #161921;}
     .sug-card:hover { background: #1f2937; }
@@ -229,7 +223,7 @@
   </nav>
 
   <div class="player-section">
-    <div class="player-breadcrumb" onclick="window.history.back()">
+    <div class="player-breadcrumb" onclick="goBackToInfo()">
       <div class="back-circle">‹</div> Xem phim <span id="pb-title">Đang tải...</span> - <span id="pb-ep" style="color:#E50914;"></span>
     </div>
 
@@ -262,7 +256,6 @@
   <div class="main-layout">
     
     <div class="main-col">
-      
       <div class="mini-info-box">
         <img src="https://placehold.co/120x180/1a1c20/777777?text=..." class="mi-poster" id="m-poster">
         <div class="mi-details">
@@ -281,8 +274,7 @@
 
       <div class="lang-selection-box" id="lang-selector" style="display:none;">
         <h3 class="lang-title">Phim có nhiều phiên bản. Vui lòng chọn để xem:</h3>
-        <div class="lang-btns-wrap" id="lang-btns-container">
-          </div>
+        <div class="lang-btns-wrap" id="lang-btns-container"></div>
       </div>
 
       <div class="episodes-section" id="episodes-section">
@@ -294,7 +286,6 @@
           </div>
           <div class="toggle-wrapper">Rút gọn <div class="toggle-pill active"></div></div>
         </div>
-        
         <div class="ep-grid" id="ep-grid"></div>
       </div>
 
@@ -310,7 +301,6 @@
     </div>
 
     <div class="side-col">
-      
       <div class="rating-top-box">
         <div class="r-btn">⭐ Đánh giá</div>
         <div class="r-btn">💬 Bình luận</div>
@@ -320,29 +310,23 @@
       <div class="emotion-card">
         <h3 class="ec-title">Biểu đồ cảm xúc</h3>
         <p class="ec-sub">Cảm xúc hiện tại của người xem</p>
-        
         <div class="emo-row"><span>🔥 Hấp dẫn</span> <span style="color:#f97316;">67%</span></div>
         <div class="emo-bar-bg"><div class="emo-bar-fill" style="width: 67%; background: linear-gradient(to right, #ea580c, #f97316);"></div></div>
-        
         <div class="emo-row"><span>❤ Yêu thích</span> <span style="color:#ef4444;">20%</span></div>
         <div class="emo-bar-bg"><div class="emo-bar-fill" style="width: 20%; background: linear-gradient(to right, #dc2626, #ef4444);"></div></div>
-        
         <div class="emo-row"><span>😂 Vui nhộn</span> <span style="color:#eab308;">13%</span></div>
         <div class="emo-bar-bg"><div class="emo-bar-fill" style="width: 13%; background: linear-gradient(to right, #ca8a04, #eab308);"></div></div>
-
         <button class="btn-emo-full">Xem đầy đủ ▾</button>
       </div>
 
       <div class="cast-section">
         <h3 class="sec-title">Diễn viên</h3>
-        <div class="cast-grid" id="cast-grid">
-          </div>
+        <div class="cast-grid" id="cast-grid"></div>
       </div>
 
       <div class="cast-section" style="margin-top: 20px;">
         <h3 class="sec-title">Đề xuất cho bạn</h3>
-        <div class="suggest-list" id="sug-list">
-          </div>
+        <div class="suggest-list" id="sug-list"></div>
       </div>
 
     </div>
@@ -362,7 +346,7 @@
     // ========================================================
     const urlParams = new URLSearchParams(window.location.search);
     const slug = urlParams.get('slug');
-    const initServer = urlParams.get('server'); // 'vietsub' hoặc 'thuyetminh'
+    const initServer = urlParams.get('server'); 
     let currentEpIndex = parseInt(urlParams.get('ep')) || 0;
 
     let vietsubData = null;
@@ -379,12 +363,11 @@
           if (data.status) {
             const m = data.movie;
             
-            // 1. CẬP NHẬT THÔNG TIN MINI INFO CARD
             let domain = data.pathImage || 'https://phimimg.com';
             let posterUrl = (m.poster_url || m.thumb_url).startsWith('http') ? (m.poster_url || m.thumb_url) : domain.replace(/\/$/, '') + '/' + (m.poster_url || m.thumb_url).replace(/^\//, '');
 
             document.title = "Đang phát: " + m.name;
-            document.getElementById('pb-title').textContent = m.name; // Trên đầu Video
+            document.getElementById('pb-title').textContent = m.name; 
             document.getElementById('m-poster').src = posterUrl;
             document.getElementById('m-title').textContent = m.name;
             
@@ -399,11 +382,9 @@
             if(m.category) document.getElementById('m-genres').innerHTML = m.category.map(c => `<span class="genre-badge">${c.name}</span>`).join('');
             document.getElementById('m-desc').innerHTML = m.content ? m.content.replace(/<[^>]+>/g, '') : '';
 
-            // Fake Cast & Suggestions based on logic
             renderFakeCast(m.actor);
             renderFakeSuggestions();
 
-            // 2. XỬ LÝ DỮ LIỆU TẬP PHIM (TÁCH SERVER)
             if (data.episodes && data.episodes.length > 0) {
                 data.episodes.forEach(ep => {
                     let sName = ep.server_name.toLowerCase();
@@ -422,65 +403,53 @@
         }).catch(err => console.error(err));
     }
 
-    // ========================================================
-    // KIỂM TRA VÀ KHỞI TẠO TRÌNH PHÁT / CHỌN NGÔN NGỮ
-    // ========================================================
     function checkAndInitializePlayer() {
         const langSelector = document.getElementById('lang-selector');
         const epSection = document.getElementById('episodes-section');
         const btnChangeSv = document.getElementById('btn-change-sv');
 
-        // TRƯỜNG HỢP 1: Phim chỉ có 1 ngôn ngữ (Chỉ có VS hoặc TM)
         if ((vietsubData && !thuyetminhData) || (!vietsubData && thuyetminhData)) {
             activeServerType = vietsubData ? 'vietsub' : 'thuyetminh';
             activeData = vietsubData || thuyetminhData;
             
-            langSelector.style.display = 'none'; // Ẩn hoàn toàn cục chọn ngôn ngữ
-            epSection.style.display = 'block';   // Hiện lưới tập
-            btnChangeSv.style.display = 'none';  // Ẩn nút "Đổi Server" vì chỉ có 1
+            langSelector.style.display = 'none'; 
+            epSection.style.display = 'block';   
+            btnChangeSv.style.display = 'none';  
             
             loadEpisodesToGrid();
             playEpisode(currentEpIndex);
             return;
         }
 
-        // TRƯỜNG HỢP 2: Phim CÓ CẢ 2 (Vietsub & Thuyết minh)
-        // Kiểm tra xem URL đã có lệnh chọn chưa?
         if (initServer === 'vietsub' || initServer === 'thuyetminh') {
-            // Đã chọn từ Trang Thông Tin (phim.html) -> Phát luôn
             activeServerType = initServer;
             activeData = (initServer === 'vietsub') ? vietsubData : thuyetminhData;
             
             langSelector.style.display = 'none';
             epSection.style.display = 'block';
-            btnChangeSv.style.display = 'inline-block'; // Cho phép đổi lại
+            btnChangeSv.style.display = 'inline-block'; 
 
             loadEpisodesToGrid();
             playEpisode(currentEpIndex);
         } else {
-            // Chưa chọn gì cả (Khách nhảy trực tiếp vào link phatphim.html?slug=...)
-            // -> HIỂN THỊ NÚT CHỌN TO ĐÙNG
             langSelector.style.display = 'block';
             epSection.style.display = 'none';
             document.getElementById('player-msg').textContent = "👇 Vui lòng chọn phiên bản Vietsub hoặc Thuyết Minh ở bên dưới để phát phim.";
             
-            // Đổ 2 nút đỏ
             const btnWrap = document.getElementById('lang-btns-container');
             btnWrap.innerHTML = `
-               <button class="btn-lang" style="background:#E50914;" onclick="userSelectServer('vietsub')">▶ Xem Vietsub</button>
-               <button class="btn-lang" style="background:#E50914;" onclick="userSelectServer('thuyetminh')">▶ Xem Thuyết Minh</button>
+               <button class="btn-lang" onclick="userSelectServer('vietsub')">▶ Xem Vietsub</button>
+               <button class="btn-lang" onclick="userSelectServer('thuyetminh')">▶ Xem Thuyết Minh</button>
             `;
         }
     }
 
-    // Khi người dùng bấm trực tiếp vào nút to
     function userSelectServer(type) {
-        // Cập nhật lại URL mà không reload trang (để copy link cho chuẩn)
         window.history.pushState({}, '', `phatphim.html?slug=${slug}&ep=0&server=${type}`);
         
         activeServerType = type;
         activeData = (type === 'vietsub') ? vietsubData : thuyetminhData;
-        currentEpIndex = 0; // Mặc định từ tập 1
+        currentEpIndex = 0; 
 
         document.getElementById('lang-selector').style.display = 'none';
         document.getElementById('episodes-section').style.display = 'block';
@@ -490,7 +459,6 @@
         playEpisode(currentEpIndex);
     }
 
-    // Khi người dùng muốn ĐỔI LẠI NGÔN NGỮ đang xem
     function resetServerSelection() {
         document.getElementById('video-frame').style.display = 'none';
         document.getElementById('player-msg').style.display = 'block';
@@ -500,66 +468,48 @@
         document.getElementById('episodes-section').style.display = 'none';
     }
 
-    // Hàm đổ các nút tập phim vào Grid
     function loadEpisodesToGrid() {
         document.getElementById('current-server-name').textContent = activeData.name;
-        
         const grid = document.getElementById('ep-grid');
         grid.innerHTML = '';
 
         activeData.eps.forEach((ep, index) => {
             const btn = document.createElement('button');
-            // Nếu là tập đang xem -> Gắn class "active" (Sẽ hiện màu ĐỎ)
             btn.className = 'ep-btn' + (index === currentEpIndex ? ' active' : '');
             btn.textContent = ep.name;
             
             btn.onclick = () => {
                 currentEpIndex = index;
-                // Update URL
                 window.history.pushState({}, '', `phatphim.html?slug=${slug}&ep=${index}&server=${activeServerType}`);
-                // Re-render highlight đỏ
                 document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-                // Play
                 playEpisode(index);
             };
             grid.appendChild(btn);
         });
     }
 
-    // Hàm gắn Link vào Iframe và Phát Video
     function playEpisode(index) {
         const epInfo = activeData.eps[index];
         const iframe = document.getElementById('video-frame');
         const msg = document.getElementById('player-msg');
         const topTitleEp = document.getElementById('pb-ep');
 
-        // Ẩn chữ đang tải, hiện Video
         msg.style.display = 'none';
         iframe.style.display = 'block';
-        
-        // Cập nhật iframe
         iframe.src = epInfo.link_embed;
-        
-        // Cập nhật dòng chữ trên đầu Player
         topTitleEp.textContent = `Tập ${epInfo.name} (${activeServerType === 'vietsub' ? 'Vietsub' : 'Thuyết Minh'})`;
-        
-        // Cuộn màn hình lên chỗ video cho mượt
         window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
-    // Link "Thông tin phim >" quay về trang phim.html
+    // LINK QUAY VỀ TRANG PHIM.HTML
     function goBackToInfo() {
         if(slug) window.location.href = `phim.html?slug=${slug}`;
     }
 
-
-    // --- FAKE UI CHO DIỄN VIÊN & ĐỀ XUẤT ĐỂ TRANG TRÔNG NHƯ ẢNH ---
     function renderFakeCast(actorArray) {
         const wrap = document.getElementById('cast-grid');
-        if(!actorArray || actorArray.length === 0) {
-            actorArray = ['Park Ho San', 'Moon Ga Young', 'Cha Eun Woo', 'Hwang In Yeop'];
-        }
+        if(!actorArray || actorArray.length === 0) actorArray = ['Park Ho San', 'Moon Ga Young', 'Cha Eun Woo', 'Hwang In Yeop'];
         wrap.innerHTML = actorArray.slice(0, 6).map(a => `
             <div class="cast-item">
                <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(a)}&background=1f2937&color=9ca3af&rounded=true" class="cast-avatar">
@@ -570,20 +520,13 @@
 
     function renderFakeSuggestions() {
         const wrap = document.getElementById('sug-list');
-        const fakes = [
-            { name: "Là Yêu Mà Thôi", ep: "HT (38/38)" },
-            { name: "Vụng Trộm Không Thể Giấu", ep: "Tập 25" },
-            { name: "Khi Anh Chạy Về Phía Em", ep: "Full HD" }
-        ];
+        const fakes = [{ name: "Là Yêu Mà Thôi", ep: "HT (38/38)" }, { name: "Vụng Trộm Không Thể Giấu", ep: "Tập 25" }, { name: "Khi Anh Chạy Về Phía Em", ep: "Full HD" }];
         wrap.innerHTML = fakes.map((f, i) => `
             <div class="sug-card">
               <img src="https://placehold.co/60x85/1a1c20/555?text=Phim+${i+1}" class="sug-img">
               <div class="sug-info">
                  <div class="sug-title">${f.name}</div>
-                 <div class="sug-meta">
-                   <span class="sug-badge">2026</span>
-                   <span class="sug-badge">${f.ep}</span>
-                 </div>
+                 <div class="sug-meta"><span class="sug-badge">2026</span><span class="sug-badge">${f.ep}</span></div>
               </div>
             </div>
         `).join('');
