@@ -156,33 +156,13 @@
     .ep-btn:hover { background: #2a2e39; color: #fff; }
     .ep-btn.active { background: #fbc02d; color: #000; }
 
-    /* BÌNH LUẬN (ĐÃ UPDATE NÚT ĐĂNG NHẬP XỊN) */
+    /* BÌNH LUẬN */
     .comment-area { background: #1f232d; border-radius: 16px; padding: 25px; margin-top: 20px; }
     .cmt-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
     .cmt-title { font-size: 1.2rem; font-weight: bold; display: flex; align-items: center; gap: 10px; }
     .cmt-tabs { display: flex; background: transparent; border-radius: 6px; overflow: hidden; border: 1px solid #fff; }
     .cmt-tab { padding: 6px 15px; font-size: 0.85rem; font-weight: bold; cursor: pointer; color: #fff; }
     .cmt-tab.active { background: #fff; color: #000; }
-    
-    .login-prompt { font-size: 0.9rem; color: #9ca3af; margin-bottom: 20px; display: flex; align-items: center; }
-    /* CSS Nút Đăng nhập xịn hơn */
-    .login-prompt a { 
-        color: #fbc02d; 
-        text-decoration: none; 
-        font-weight: bold; 
-        padding: 4px 12px; 
-        background: rgba(251, 192, 45, 0.1); 
-        border: 1px solid rgba(251, 192, 45, 0.5); 
-        border-radius: 20px; 
-        margin: 0 5px; 
-        transition: all 0.3s ease; 
-    }
-    .login-prompt a:hover { 
-        background: #fbc02d; 
-        color: #000; 
-        box-shadow: 0 0 10px rgba(251, 192, 45, 0.6); 
-    }
-
     .empty-cmt-box { background: #151922; border-radius: 12px; height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #4b5563; gap: 10px; font-weight: bold; margin-top: 15px;}
 
     /* CỘT SIDEBAR */
@@ -223,7 +203,7 @@
     @media (max-width: 1024px) { .main-layout { flex-direction: column; } .side-col { width: 100%; } .player-toolbar { justify-content: center; } }
 
     /* =========================================================
-       5. CSS MOBILE 
+       5. CSS MOBILE & MENU ĐỒNG BỘ 100%
        ========================================================= */
     .mobile-navbar, .m-search-box, .m-dropdown-menu, .m-overlay-dark { display: none; }
 
@@ -283,7 +263,7 @@
       .m-sub-grid a { font-size: 13.5px; color: #d1d5db !important; font-weight: normal !important; text-decoration: none; }
 
       /* =======================================================
-         TỐI ƯU HIỂN THỊ THÔNG TIN PHIM TRÊN MOBILE 
+         TỐI ƯU CÁC TÍNH NĂNG TƯƠNG TÁC (MOBILE THEO ẢNH MẪU)
          ======================================================= */
       body { padding-top: 60px; } 
 
@@ -291,64 +271,26 @@
       .player-wrapper { border-radius: 0; border: none; border-bottom: 1px solid #374151;}
       .player-breadcrumb { padding: 0 15px; font-size: 0.9rem; }
       
+      /* Căn chỉnh lại toolbar ngay dưới video */
       .player-toolbar { flex-direction: column; padding: 15px; border-radius: 0; border-left: none; border-right: none;}
       .toolbar-left, .toolbar-center, .toolbar-right { width: 100%; justify-content: center; flex-wrap: wrap; }
       
       .main-layout { padding: 0 15px; margin-top: 20px;}
       .main-col { gap: 15px;}
       
-      .movie-hero { margin-top: 0; min-height: 250px; height: 35vh; }
-      .movie-hero::after { background: linear-gradient(to top, #151922 0%, rgba(21, 25, 34, 0.9) 20%, transparent 100%); }
+      /* TAB TRÊN MOBILE NHƯ ẢNH MẪU */
+      .content-box { width: 100%; }
+      .tabs { justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; padding-bottom: 0;}
+      .tab { font-size: 0.85rem; padding-bottom: 12px; }
       
-      .col-left { max-width: 100%; align-items: center; text-align: center; margin-top: -120px; z-index: 10; position: relative;}
-      
-      .poster-wrap { 
-          width: 160px; padding: 0; border-radius: 8px; margin-top: 0; 
-          box-shadow: 0 10px 20px rgba(0,0,0,0.8); border: none; background: transparent;
-      }
-      .poster-img { border-radius: 8px; }
-
-      .m-title { font-size: 1.5rem; margin-top: 15px; }
-      .m-origin { font-size: 0.9rem; margin-bottom: 15px;}
-      
-      .m-tags-row { display: none; }
-      .m-genres { display: none; }
-      .status-badge, .info-list, .star-rating-box { display: none; }
-
-      .info-expand-toggle {
-          display: flex; align-items: center; justify-content: center; gap: 5px;
-          font-size: 0.95rem; font-weight: bold; color: #fff; cursor: pointer;
-          margin-bottom: 20px;
-      }
-
-      .col-right { margin-top: 0; width: 100%; align-items: center;}
-      
-      .action-bar { padding: 0; flex-direction: column; gap: 20px; width: 100%; background: transparent; box-shadow: none; border: none;}
-      .btn-play-main { width: 85%; padding: 14px; font-size: 1.1rem; border-radius: 30px; background: #fde047; color: #000; font-weight: 800;}
-      
-      .action-icons { display: flex; width: 100%; justify-content: center; gap: 30px; margin: 0;}
-      .icon-box { color: #fff; }
-      .i-circle { font-size: 20px; }
-      .i-text { font-size: 0.8rem; font-weight: normal; }
-
-      .rating-btn-small { background: #3b82f6; color: #fff; padding: 8px 16px; border-radius: 20px; font-weight: bold; font-size: 0.9rem; margin-top: -10px;}
-
-      .content-box { width: 100%; margin-top: 10px;}
-      .tabs { justify-content: space-between; gap: 0; border-bottom: 1px solid #374151; margin-bottom: 25px; padding-bottom: 5px;}
-      .tab { font-size: 0.9rem; padding-bottom: 10px; }
-
       .server-toolbar { margin-bottom: 15px; flex-direction: row; justify-content: space-between;}
-      
-      /* CHỮ TRẮNG Ở NÚT CHỌN SERVER ĐỂ TRÁNH BỊ ĐEN */
-      .server-select-box { 
-          background: #1f232d; border: 1px solid #374151; padding: 6px 10px; 
-          font-size: 0.85rem; color: #fff !important; appearance: none; -webkit-appearance: none;
-      }
+      .server-select-box { background: transparent; border: 1px solid #fff; padding: 6px 10px; font-size: 0.85rem;}
       
       .ep-grid { grid-template-columns: repeat(3, 1fr); gap: 10px; max-height: unset; overflow: visible;}
-      .ep-btn { padding: 12px 5px; font-size: 0.9rem; border-radius: 6px; background: #1f232d; color: #fff; border-color: transparent;}
+      .ep-btn { padding: 10px 5px; font-size: 0.85rem; border-radius: 6px; background: #1f232d; color: #fff; border-color: transparent;}
       .ep-btn.active { background: #1f232d; color: #fbc02d; border-color: #fbc02d;}
 
+      /* BÌNH LUẬN NHƯ ẢNH MẪU */
       .comment-area { margin-top: 20px; padding: 0; background: transparent;}
       .cmt-header { margin-bottom: 10px; }
       .cmt-title { font-size: 1.1rem; }
@@ -357,6 +299,7 @@
       .side-col { margin-top: 0; gap: 20px;}
       .emotion-card { padding: 15px; }
 
+      /* DANH SÁCH ĐỀ XUẤT CHO BẠN BÊN DƯỚI (CHUẨN ẢNH MẪU DỌC) */
       .suggest-list { display: flex; flex-direction: column; gap: 15px; margin-top: 10px;}
       .suggest-item { display: flex; gap: 12px; background: #1f232d; border-radius: 12px; padding: 10px; cursor: pointer;}
       .suggest-img { width: 70px; height: 100px; border-radius: 8px; object-fit: cover;}
@@ -365,16 +308,6 @@
       .suggest-sub { font-size: 0.8rem; color: #9ca3af; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;}
       .suggest-tags { display: flex; gap: 6px; margin-top: 2px;}
       .suggest-tags span { font-size: 10px; padding: 3px 6px; border-radius: 4px; background: #374151; color: #fff;}
-      
-      /* Fix khoảng cách Footer */
-      .site-footer { padding: 40px 15px; text-align: center; margin-top: 20px;}
-      .footer-brand-row { flex-direction: column; align-items: center; gap: 15px; margin-bottom: 20px;}
-      .footer-divider { display: none; }
-      .footer-socials { justify-content: center; flex-wrap: wrap; width: 100%; }
-      .footer-links { justify-content: center; text-align: center; }
-      .footer-desc { text-align: center; font-size: 12px; }
-      .footer-copy { text-align: center; width: 100%; display: block; margin-top: 10px;}
-      .back-to-top { display: none; }
     }
   </style>
 </head>
@@ -474,50 +407,6 @@
     
     <div class="main-col">
       
-      <div class="col-left" id="mobile-info-top">
-        <div class="poster-wrap">
-          <img src="https://placehold.co/300x450/1a1c20/777777?text=Loading" class="poster-img" id="m-poster" alt="Poster">
-        </div>
-        
-        <h1 class="m-title" id="m-title">Đang tải...</h1>
-        <p class="m-origin" id="m-origin">...</p>
-        
-        <div class="info-expand-toggle">Thông tin phim <span>⌄</span></div>
-
-        <div class="m-tags-row">
-          <span class="tag-imdb" id="m-imdb">IMDb N/A</span>
-          <span class="tag-outline" id="m-year">2026</span>
-          <span class="tag-outline" id="m-quality">HD</span>
-        </div>
-        
-        <div class="m-genres" id="m-genres"></div>
-        <div class="status-badge" id="m-status">Đang cập nhật...</div>
-
-        <div class="info-list">
-          <div class="info-item"><span class="info-label">Giới thiệu:</span><span class="info-val desc-text" id="m-desc">Đang tải thông tin...</span></div>
-          <div class="info-item"><span class="info-label">Thời lượng:</span><span class="info-val" id="m-time">N/A</span></div>
-          <div class="info-item"><span class="info-label">Quốc gia:</span><span class="info-val" id="m-country">N/A</span></div>
-          <div class="info-item"><span class="info-label">Đạo diễn:</span><span class="info-val" id="m-director">N/A</span></div>
-          <div class="info-item"><span class="info-label">Diễn viên:</span><span class="info-val cast-text" id="m-cast">N/A</span></div>
-        </div>
-
-        <div class="star-rating-box">
-          <span class="stars">★★★★★★★★☆☆</span> <span id="m-rate-text-left">8.0 (120 lượt)</span>
-        </div>
-      </div>
-
-      <div class="action-bar" id="mobile-action-top">
-        <button class="btn-play-main" onclick="playMovie()">▶ Xem Ngay</button>
-
-        <div class="action-icons">
-          <div class="icon-box"><div class="i-circle">❤</div><span class="i-text">Yêu thích</span></div>
-          <div class="icon-box"><div class="i-circle">➕</div><span class="i-text">Thêm vào</span></div>
-          <div class="icon-box"><div class="i-circle">➤</div><span class="i-text">Chia sẻ</span></div>
-        </div>
-
-        <div class="rating-btn-small">★ <span id="m-rate">0</span></div>
-      </div>
-
       <div class="content-box">
         <div class="tabs">
           <div class="tab active" onclick="switchTab('episodes', this)">Tập phim</div>
@@ -529,8 +418,8 @@
         <div id="tab-episodes">
           <div class="server-toolbar">
             <div class="server-selector">
-              <span style="color:#fff;">≡</span> <span id="current-server-name" style="display:none;"></span>
-              <select class="server-select-box" id="server-select" onchange="changeServer(this.value)">
+              <span style="color:#fff;">≡</span> <span id="current-server-name">Phần 1</span>
+              <select class="server-select-box" id="server-select" onchange="changeServer(this.value)" style="margin-left:10px;">
                  <option>Đang tải...</option>
               </select>
             </div>
@@ -559,9 +448,7 @@
               <div class="cmt-tab">Đánh giá</div>
             </div>
           </div>
-          <div class="login-prompt">
-             Vui lòng <a href="#">đăng nhập</a> để tham gia bình luận.
-          </div>
+          <p class="login-prompt">Vui lòng <a href="#">đăng nhập</a> để tham gia bình luận.</p>
           
           <div style="background:#1f232d; border-radius:8px; padding:15px; margin-bottom:15px;">
               <textarea placeholder="Viết bình luận" style="width:100%; background:transparent; border:none; color:#fff; resize:none; outline:none; height:40px; font-family:inherit; font-size:14px;"></textarea>
@@ -607,12 +494,6 @@
         <button class="btn-emo-full" style="background:#1f232d; border:1px solid #374151; color:#d1d5db; width:auto; float:right; padding:6px 12px; border-radius:6px; font-size:12px;">Xem đầy đủ ▾</button>
         <div style="clear:both;"></div>
       </div>
-      
-      <div class="cast-section" id="desktop-cast" style="display:none;">
-        <h3 class="sec-title">Diễn viên</h3>
-        <div class="cast-grid" id="cast-grid-desktop"></div>
-      </div>
-
     </div>
 
   </div>
@@ -626,20 +507,11 @@
     <div class="footer-links">
       <a href="#" class="footer-link">Hỏi-Đáp</a><a href="#" class="footer-link">Chính sách bảo mật</a><a href="#" class="footer-link">Điều khoản sử dụng</a><a href="#" class="footer-link">Giới thiệu</a><a href="#" class="footer-link">Liên hệ</a>
     </div>
-    <p class="footer-desc">DépFlix – Phim hay cả rổ tự hào là nền tảng xem phim online dẫn đầu xu hướng 2026, cung cấp trải nghiệm giải trí hoàn toàn miễn phí với chất lượng hình ảnh vượt trội. Tại đây, khán giả dễ dàng tiếp cận kho phim chiếu rạp bom tấn, phim bộ dài tập và phim lẻ mới nhất được update thần tốc mỗi ngày. Chúng tôi cam kết mang đến đầy đủ các bản phim Vietsub, thuyết minh và lồng tiếng chuẩn với độ phân giải từ Full HD đến siêu sắc nét 4K, đảm bảo từng khung hình đều sống động như tại rạp.</p>
+    <p class="footer-desc">RoPhim – Phim hay cả rổ tự hào là nền tảng xem phim online dẫn đầu xu hướng 2026, cung cấp trải nghiệm giải trí hoàn toàn miễn phí với chất lượng hình ảnh vượt trội. Tại đây, khán giả dễ dàng tiếp cận kho phim chiếu rạp bom tấn, phim bộ dài tập và phim lẻ mới nhất được update thần tốc mỗi ngày. Chúng tôi cam kết mang đến đầy đủ các bản phim Vietsub, thuyết minh và lồng tiếng chuẩn với độ phân giải từ Full HD đến siêu sắc nét 4K, đảm bảo từng khung hình đều sống động như tại rạp.</p>
     <p class="footer-copy">© 2026 DépFlix</p>
   </footer>
 
   <script>
-    // Xử lý Giao diện Desktop / Mobile cơ bản
-    if (window.innerWidth > 768) {
-       document.getElementById('mobile-info-top').style.display = 'flex';
-       document.getElementById('mobile-action-top').style.display = 'none';
-       document.getElementById('desktop-cast').style.display = 'block';
-    } else {
-       document.getElementById('desktop-cast').style.display = 'none';
-    }
-
     // =========================================================
     // JAVASCRIPT ĐỒNG BỘ TỪ TRANG CHỦ & DANH SÁCH
     // =========================================================
@@ -695,7 +567,7 @@
     };
 
     // ========================================================
-    // TÍNH NĂNG MỞ RỘNG & RẠP CHIẾU
+    // TÍNH NĂNG MỞ RỘNG (FULL CHIỀU NGANG)
     // ========================================================
     let isExpanded = false;
     function toggleExpand() {
@@ -715,6 +587,9 @@
       }
     }
 
+    // ========================================================
+    // TÍNH NĂNG RẠP CHIẾU (TẮT ĐÈN 95%)
+    // ========================================================
     let isCinemaMode = false;
     function toggleCinema() {
       isCinemaMode = !isCinemaMode;
@@ -737,6 +612,9 @@
       }
     }
 
+    // ========================================================
+    // TÍNH NĂNG CHUYỂN TẬP TỰ ĐỘNG
+    // ========================================================
     let isAutoNext = true; 
     function toggleAutoNext() {
       isAutoNext = !isAutoNext;
@@ -806,34 +684,12 @@
             const m = data.movie;
             let domain = data.pathImage || 'https://phimimg.com';
             let posterUrl = (m.poster_url || m.thumb_url).startsWith('http') ? (m.poster_url || m.thumb_url) : domain.replace(/\/$/, '') + '/' + (m.poster_url || m.thumb_url).replace(/^\//, '');
-            let bannerUrl = (m.thumb_url || m.poster_url).startsWith('http') ? (m.thumb_url || m.poster_url) : domain.replace(/\/$/, '') + '/' + (m.thumb_url || m.poster_url).replace(/^\//, '');
 
             document.title = "Đang phát: " + m.name;
             document.getElementById('pb-title').textContent = m.name; 
-            document.getElementById('m-poster').src = posterUrl;
-            document.getElementById('m-title').textContent = m.name;
-            document.getElementById('m-origin').textContent = m.origin_name || '';
             
             const randomImdb = (Math.random() * (9.5 - 6.0) + 6.0).toFixed(1);
-            document.getElementById('m-rate').textContent = randomImdb;
             document.getElementById('m-rate-text').textContent = randomImdb;
-            
-            if (window.innerWidth > 768) {
-               document.getElementById('m-imdb').textContent = `IMDb ${randomImdb}`;
-               document.getElementById('m-year').textContent = m.year || '2026';
-               document.getElementById('m-quality').textContent = m.quality || 'FHD';
-               document.getElementById('m-status').textContent = `Đã hoàn thành: ${m.episode_current || 'Full'}`;
-               document.getElementById('m-rate-text-left').textContent = `${randomImdb} (1.2k lượt)`;
-               
-               if(m.category) document.getElementById('m-genres').innerHTML = m.category.map(c => `<span class="genre-badge">${c.name}</span>`).join('');
-               document.getElementById('m-desc').innerHTML = m.content ? m.content.replace(/<[^>]+>/g, '') : 'Đang cập nhật...';
-               document.getElementById('m-time').textContent = m.time || 'N/A';
-               if(m.country && m.country.length > 0) document.getElementById('m-country').textContent = m.country[0].name;
-               if(m.director && m.director.length > 0) document.getElementById('m-director').textContent = m.director.join(', ');
-               if(m.actor && m.actor.length > 0) document.getElementById('m-cast').textContent = m.actor.join(', ');
-            }
-
-            document.getElementById('tab-overview').innerHTML = m.content || 'Đang cập nhật...';
             
             // Xử lý dàn diễn viên tròn
             renderFakeCast(m.actor);
@@ -863,8 +719,13 @@
         const selectBox = document.getElementById('server-select');
         selectBox.innerHTML = '';
         
-        if (vietsubData) selectBox.innerHTML += `<option value="vietsub">Vietsub</option>`;
-        if (thuyetminhData) selectBox.innerHTML += `<option value="thuyetminh">Thuyết Minh</option>`;
+        let idxCounter = 0;
+        if (vietsubData) {
+            selectBox.innerHTML += `<option value="vietsub">Vietsub</option>`;
+        }
+        if (thuyetminhData) {
+            selectBox.innerHTML += `<option value="thuyetminh">Thuyết Minh</option>`;
+        }
 
         activeServerType = initServer || (vietsubData ? 'vietsub' : 'thuyetminh');
         if(activeServerType === 'thuyetminh' && !thuyetminhData) activeServerType = 'vietsub';
@@ -887,6 +748,7 @@
     }
 
     function loadEpisodesToGrid() {
+        document.getElementById('current-server-name').textContent = "Phần 1 - " + (activeServerType === 'vietsub' ? 'Vietsub' : 'Thuyết Minh');
         const grid = document.getElementById('ep-grid');
         grid.innerHTML = '';
 
@@ -922,27 +784,16 @@
         if(slug) window.location.href = `phim.html?slug=${slug}`;
     }
 
-    function getSafeUrl(path, domain) {
-      if (!path) return 'https://placehold.co/240x360/1a1c20/777777?text=DepFlix';
-      if (String(path).startsWith('http')) return path;
-      return (domain || 'https://phimimg.com').replace(/\/$/, '') + '/' + String(path).replace(/^\//, '');
-    }
-
-    // Render Diễn Viên Tròn Tròn
+    // Render Diễn Viên
     function renderFakeCast(actorArray) {
-        const wrapMb = document.getElementById('cast-grid');
-        const wrapPc = document.getElementById('cast-grid-desktop');
+        const wrap = document.getElementById('cast-grid');
         if(!actorArray || actorArray.length === 0) actorArray = ['Tarako', 'Yara Yusaku', 'Suzuki Tomiko', 'Sasaki Yuko', 'Aono Takeshi'];
-        
-        const html = actorArray.slice(0, 6).map(a => `
+        wrap.innerHTML = actorArray.slice(0, 6).map(a => `
             <div class="cast-item">
                <img src="https://ui-avatars.com/api/?name=${encodeURIComponent(a)}&background=374151&color=fff&rounded=true" class="cast-avatar">
                <span class="cast-name">${a}</span>
             </div>
         `).join('');
-
-        if(wrapMb) wrapMb.innerHTML = html;
-        if(wrapPc) wrapPc.innerHTML = html;
     }
 
     // Render Danh Sách Đề Xuất Dọc
