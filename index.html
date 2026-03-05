@@ -402,35 +402,35 @@
       .anime-header-top h2 { font-size: 1.3rem !important; margin: 0; font-weight: bold; color: #fff; text-transform: uppercase;}
       .anime-header-icon { width: 26px; height: 26px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; font-size: 14px; color: rgba(255,255,255,0.8);}
       
-      /* Đặt chiều cao cố định để làm layout Card */
-      .anime-box-container { height: 460px; background: #272935 !important; box-shadow: 0 4px 15px rgba(0,0,0,0.5); border-radius: 12px; overflow: hidden; position: relative; display: block; margin-bottom: 20px;}
+      /* Đặt chiều cao lớn hơn chút để làm layout Card trọn vẹn */
+      .anime-box-container { height: 420px; background: #272935 !important; box-shadow: 0 4px 15px rgba(0,0,0,0.5); border-radius: 12px; position: relative; margin-bottom: 10px; display: block;}
       
-      /* Ảnh nằm trên cùng, làm mờ dần xuống đáy */
+      /* Ảnh nằm trên cùng, làm mờ dần xuống phần đáy */
       .anime-bg-image { width: 100%; height: 100%; position: absolute; top: 0; left: 0; right: 0; z-index: 1; border-radius: 12px; mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%); -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%); }
       
-      /* GHIM NỘI DUNG XUỐNG VÙNG XÁM MỜ Ở ĐÁY */
-      .anime-content-overlay { width: 100%; padding: 0 20px; position: absolute; bottom: 35px; left: 0; background: transparent; z-index: 3; display: flex; flex-direction: column; justify-content: flex-end; text-align: left; margin: 0;}
+      /* GHIM TOÀN BỘ NỘI DUNG VÀO BÊN TRONG CARD (VÙNG MỜ XÁM) */
+      .anime-content-overlay { width: 100%; height: 100%; padding: 0 15px 40px 15px; position: absolute; top: 0; left: 0; background: transparent; z-index: 3; display: flex; flex-direction: column; justify-content: flex-end; text-align: left;}
       
       .anime-main-title { font-size: 1.5rem !important; font-weight: 800; line-height: 1.3; color: #fff; margin-bottom: 5px; text-shadow: none;}
       .anime-origin-title { margin-bottom: 12px; font-size: 0.95rem; color: #fbc02d; font-weight: 500;}
       
       /* Các thẻ tags */
-      .anime-meta-tags { margin-bottom: 12px; display: flex; justify-content: flex-start; gap: 6px; flex-wrap: wrap; width: 100%;}
-      .anime-meta-tags span, .meta-tag-imdb, .meta-tag-outline { font-size: 11px !important; padding: 3px 8px !important; border-radius: 4px; display: inline-block;}
+      .anime-meta-tags { margin-bottom: 10px; display: flex; justify-content: flex-start; gap: 6px; flex-wrap: wrap; width: 100%;}
+      .anime-meta-tags span, .meta-tag-imdb, .meta-tag-outline { font-size: 10px !important; padding: 3px 6px !important; border-radius: 4px; display: inline-block;}
       .meta-tag-imdb { border: 1px solid #f5c518; color: #f5c518; font-weight: bold;}
       .meta-tag-outline { border: 1px solid #ccc; color: #fff; }
       .meta-tag-age { background: #fff; color: #272935; font-weight: bold; border: 1px solid #fff;}
       
-      .anime-genres-tags { margin-bottom: 12px; display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 8px;}
-      .genre-tag-item { background: rgba(255,255,255,0.15) !important; color: #fff; border-radius: 6px; padding: 5px 12px !important; font-size: 11px !important; border: none !important;}
+      .anime-genres-tags { margin-bottom: 10px; display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 6px;}
+      .genre-tag-item { background: rgba(255,255,255,0.15) !important; color: #fff; border-radius: 6px; padding: 4px 10px !important; font-size: 10px !important; border: none !important;}
       
-      /* Description nằm đè lên nền xám đen như ảnh */
-      .anime-description { -webkit-line-clamp: 3; font-size: 0.9rem; color: #cbd5e1; margin-bottom: 0; line-height: 1.5; display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden;}
+      /* Description nằm trong nền xám đen */
+      .anime-description { -webkit-line-clamp: 3; font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0; line-height: 1.4; display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden;}
       
       .anime-action-buttons { display: none; } 
       
-      /* GHIM DẤU CHẤM (DOTS) XUỐNG DƯỚI CÙNG BOX */
-      .anime-bottom-thumbs { position: absolute; bottom: 12px; left: 0; right: 0; display: flex; justify-content: center; align-items: center; gap: 8px; width: 100%; padding: 0; z-index: 5;}
+      /* ĐƯA CÁC CHẤM TRÒN VÀO TRONG CARD, SÁT ĐÁY LUÔN */
+      .anime-bottom-thumbs { position: absolute; bottom: 15px; left: 0; right: 0; display: flex; justify-content: center; align-items: center; gap: 6px; width: 100%; padding: 0; z-index: 5;}
       .anime-thumb-img { 
           width: 8px !important; height: 8px !important; 
           padding: 0 !important; border-radius: 50% !important; 
@@ -439,7 +439,7 @@
           flex: 0 0 8px !important; margin: 0 !important;
           transition: all 0.3s ease;
       }
-      .anime-thumb-img.active { background-color: #fbc02d !important; transform: scale(1.3) !important; opacity: 1;}
+      .anime-thumb-img.active { background-color: #fbc02d !important; transform: scale(1.2) !important; opacity: 1;}
 
       /* Tắt Hover Pop-up trên Mobile */
       .hover-detail-card { display: none !important; }
@@ -645,8 +645,8 @@
           <div class="sub-btn-circle">❤</div>
           <div class="sub-btn-circle">i</div>
         </div>
+        <div class="anime-bottom-thumbs" id="an-thumbs"></div>
       </div>
-      <div class="anime-bottom-thumbs" id="an-thumbs"></div>
     </div>
   </section>
 
@@ -786,8 +786,8 @@
           <div class="sub-btn-circle">❤</div>
           <div class="sub-btn-circle">i</div>
         </div>
+        <div class="anime-bottom-thumbs" id="vn-thumbs"></div>
       </div>
-      <div class="anime-bottom-thumbs" id="vn-thumbs"></div>
     </div>
   </section>
 
