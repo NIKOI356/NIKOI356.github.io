@@ -3,9 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Depflix - Xem là Dính!</title>
+  <title>DépFlix - Xem là Dính!</title>
   <style>
-    /* RESET CƠ BẢN */
+    /* =========================================================
+       1. RESET CƠ BẢN & DESKTOP CSS (GIỮ NGUYÊN 100%)
+       ========================================================= */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #000; color: #fff; min-height: 100vh; overflow-x: hidden; }
 
@@ -264,13 +266,7 @@
     .back-to-top:hover { background: #E50914; color: #fff; transform: translateY(-5px); }
     .back-to-top-icon { font-size: 20px; line-height: 1; margin-bottom: 2px; }
 
-    /* TÌM KIẾM */
-    #search-results { position: absolute; top: 100%; left: 0; right: 0; background: #111; border-radius: 8px; max-height: 400px; overflow-y: auto; z-index: 100; display: none; padding: 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.6); }
-    .search-item { display: flex; align-items: center; gap: 12px; padding: 8px; cursor: pointer; border-radius: 6px; }
-    .search-item:hover { background: #222; }
-    .search-item img { width: 50px; height: 70px; object-fit: cover; border-radius: 4px; }
-
-    /* Responsive */
+    /* Responsive Desktop Nhỏ (Giữ nguyên) */
     @media (max-width: 1024px) {
       .banner { min-height: 450px; }
       .new-title { font-size: 1.6rem; }
@@ -283,34 +279,242 @@
       .hover-detail-card { display: none !important; } 
       .cb-grid-4 { grid-template-columns: repeat(2, 1fr); }
     }
+
+
+    /* =========================================================
+       2. MÃ CSS CHỈ DÀNH CHO MOBILE (TỪ 768px TRỞ XUỐNG)
+       ========================================================= */
+    /* ẨN CÁC PHẦN TỬ MOBILE TRÊN MÀN HÌNH MÁY TÍNH */
+    .mobile-navbar, .m-search-box, .m-dropdown-menu, .m-overlay-dark { display: none; }
+
     @media (max-width: 768px) {
-      .banner { aspect-ratio: auto; height: 60vh; min-height: 400px; }
-      .new-section-layout { padding: 20px; }
-      .design-card { flex: 0 0 160px; width: 160px; min-width: 160px; max-width: 160px; }
-      .ranked-card { flex: 0 0 190px; width: 190px; min-width: 190px; max-width: 190px; }
-      .anime-section-wrapper { padding: 20px 20px 80px; }
-      .anime-box-container { height: auto; flex-direction: column; align-items: stretch; min-height: 550px; }
-      .anime-bg-image { width: 100%; height: 350px; border-radius: 20px 20px 0 0; mask-image: linear-gradient(to top, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 100%); -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 100%); }
-      .anime-content-overlay { width: 100%; padding: 20px; position: relative; margin-top: 150px; background: linear-gradient(to top, #141414 80%, transparent); }
-      .anime-main-title { font-size: 1.8rem; }
-      .anime-description { -webkit-line-clamp: 4; }
-      .anime-bottom-thumbs { justify-content: flex-start; padding: 10px 5px; bottom: 0; }
-      .anime-thumb-img { flex: 0 0 55px; height: 80px; }
-      .country-section-wrapper { padding: 20px; }
-      .country-box-bg { padding: 15px; }
-      .hz-card { flex: 0 0 200px; width: 200px;}
-      .footer-brand-row { flex-direction: column; align-items: flex-start; gap: 15px; }
+      /* ẨN NAVBAR DESKTOP */
+      .navbar:not(.mobile-navbar) { display: none !important; }
+
+      /* HIỆN MOBILE NAVBAR (Theo đúng ảnh 4) */
+      .mobile-navbar { 
+        display: flex !important; justify-content: space-between; align-items: center;
+        height: 60px; padding: 0 15px; 
+        background: rgba(15, 17, 23, 0.95); backdrop-filter: blur(10px); 
+        position: fixed; top: 0; left: 0; right: 0; z-index: 2000;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+      }
+      .m-hamburger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 10px 10px 10px 0;}
+      .m-hamburger span { width: 24px; height: 2px; background: #fff; border-radius: 2px; }
+      
+      .m-logo-img { height: 28px; object-fit: contain; cursor: pointer; position: absolute; left: 50%; transform: translateX(-50%); }
+      
+      /* Kính lúp SVG nét thanh mảnh (Ảnh 4) */
+      .m-search-icon { cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 5px; }
+
+      /* OVERLAY TÌM KIẾM TRÀN VIỀN (Ảnh 5) */
+      .m-search-box {
+        position: fixed; top: 0; left: 0; right: 0; height: 70px; background: #151922;
+        z-index: 2001; display: flex; align-items: center; padding: 0 15px;
+        transform: translateY(-100%); transition: transform 0.3s ease;
+      }
+      .m-search-box.active { transform: translateY(0); }
+      .m-search-wrap { flex: 1; border: 1px solid #444; border-radius: 6px; display: flex; align-items: center; height: 40px; padding: 0 10px; background: transparent;}
+      .m-search-input { width: 100%; background: transparent; border: none; color: #fff; outline: none; font-size: 15px; }
+      .m-search-close { font-size: 28px; color: #ff758c; margin-left: 15px; cursor: pointer; font-weight: 300;}
+
+      /* MENU TRƯỢT TỪ TRÁI "Bé bằng 1 nửa" (Ảnh 2 & 3) */
+      .m-overlay-dark { display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1500; opacity: 0; visibility: hidden; transition: 0.3s; }
+      .m-overlay-dark.active { opacity: 1; visibility: visible; }
+      
+      .m-dropdown-menu { 
+        display: block; position: fixed; top: 70px; left: 15px; width: 280px; max-height: calc(100vh - 90px); 
+        background: #32446a; /* Màu xanh chuẩn như ảnh */
+        z-index: 1501; border-radius: 12px; opacity: 0; visibility: hidden; transform: translateY(-10px);
+        padding: 20px; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.8); transition: all 0.3s;
+      }
+      .m-dropdown-menu.active { opacity: 1; visibility: visible; transform: translateY(0); }
+      
+      .m-btn-top { display: flex; justify-content: center; align-items: center; gap: 8px; padding: 12px; border-radius: 30px; font-weight: bold; font-size: 15px; text-decoration: none; color: #000; margin-bottom: 25px; background: #f3f4f6; }
+      
+      .m-nav-grid-links { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 10px; }
+      .m-nav-grid-links a, .m-has-sub-title { font-size: 14px; font-weight: bold; color: #fff; cursor: pointer; text-decoration: none; }
+      .m-has-sub-title { display: flex; align-items: center; gap: 5px; }
+      .m-has-sub-title::after { content: '▼'; font-size: 10px; opacity: 0.8;}
+      .m-has-sub-title.open { color: #fbc02d; }
+      .m-has-sub-title.open::after { content: '▲'; }
+      .m-badge-new { background: #E50914; padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-left: 5px; }
+      
+      .m-sub-grid { display: none; grid-column: span 2; padding-top: 15px; grid-template-columns: 1fr 1fr; gap: 15px 10px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: -5px;}
+      .m-sub-grid.active { display: grid; }
+      .m-sub-grid a { font-size: 13.5px; color: #e5e7eb !important; font-weight: normal !important; text-decoration: none; }
+
+      /* ================= THAY ĐỔI CÁC SECTION ================= */
+      body { padding-top: 60px; } /* Nhường chỗ cho Navbar mobile */
+      
+      /* Banner: Nền không padding, TÊN NHỎ LẠI BẰNG 1 NỬA, ảnh xếp đè */
+      .banner { aspect-ratio: auto; height: 60vh; min-height: 450px; padding: 0 15px; justify-content: center; flex-direction: column; text-align: center; }
+      .banner::before { background: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 50%, transparent 100%); }
+      .banner-content { margin-top: auto; padding-bottom: 10px; width: 100%; z-index: 5;}
+      
+      .banner-title { font-size: 1.2rem !important; margin-bottom: 8px; line-height: 1.2; text-shadow: 2px 2px 5px #000; }
+      .banner-subtitle { font-size: 0.9rem !important; margin-bottom: 15px; }
+      .banner-tags { justify-content: center; margin-bottom: 15px; }
+      .banner-desc, .banner-btns { display: none; } 
+      
+      .mini-thumbs { position: relative; bottom: auto; right: auto; justify-content: center; margin-top: 15px; margin-bottom: 20px; z-index: 5; width: 100%; flex-wrap: nowrap;}
+      .mini-thumb { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-left: -10px; border: 2px solid transparent; box-shadow: 0 4px 8px rgba(0,0,0,0.5); flex: 0 0 40px;}
+      .mini-thumb:first-child { margin-left: 0; }
+      .mini-thumb.active { border-color: #fff; transform: scale(1.1); z-index: 10; }
+
+      /* Ép nhỏ các thẻ Tag FHD, Vietsub */
+      .hz-tag, .d-tag, .meta-tag-imdb, .meta-tag-outline, .genre-tag-item { font-size: 9px !important; padding: 2px 4px !important; }
+      .tag { font-size: 10px; padding: 4px 8px; }
+
+      /* Khung Category Trượt Ngang */
+      .section-container { padding: 20px 15px; }
+      .section-title { font-size: 1.4rem; margin-bottom: 15px; }
+      .category-grid { display: flex; overflow-x: auto; scrollbar-width: none; gap: 15px; }
+      .category-card { flex: 0 0 140px; height: 80px; padding: 15px; justify-content: center; border-radius: 12px; }
+      .category-card h3 { font-size: 16px; text-align: center; margin: 0; }
+      .category-card span { display: none; }
+
+      /* Khối Phim Hàn, Trung... GIỮ NGUYÊN MÀU CHỮ GRADIENT */
+      .country-section-wrapper, .new-section-layout { padding: 20px 15px; }
+      .country-box-bg { padding: 0; background: transparent; }
+      .hz-row { flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 25px; }
+      .hz-sidebar { width: 100%; flex-direction: row; justify-content: space-between; align-items: baseline; margin-bottom: 0; }
+      .hz-title { font-size: 1.4rem; } 
+      .hz-title br { display: none; }
+      .hz-see-all { font-size: 0.9rem; color: #555; }
+      .hz-grid-wrapper { width: 100%; overflow: visible;}
+      .hz-scroll-btn, .scroll-btn-new { display: none; } 
+      .hz-grid { padding: 0; gap: 15px; }
+      .hz-card { flex: 0 0 150px; width: 150px; }
+      
+      .new-header { margin-bottom: 15px; }
+      .new-title { font-size: 1.4rem; }
+      .new-grid-container { padding: 0; gap: 15px; }
+      .design-card { flex: 0 0 130px; width: 130px; min-width: 130px; max-width: 130px; }
+      .ranked-card { flex: 0 0 150px; width: 150px; min-width: 150px; max-width: 150px; }
+
+      /* =========================================================
+         MỤC PHIM VIỄN TƯỞNG & VIỆT NAM (Fix y hệt ảnh khoanh đỏ)
+         ========================================================= */
+      .anime-section-wrapper { padding: 20px 15px 30px; display: flex; flex-direction: column; gap: 15px; }
+      
+      .anime-header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; width: 100%;}
+      .anime-header-top h2 { font-size: 1.3rem !important; margin: 0; font-weight: bold; color: #fff; text-transform: uppercase;}
+      .anime-header-icon { width: 26px; height: 26px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; font-size: 14px; color: rgba(255,255,255,0.8);}
+      
+      /* Đặt chiều cao cố định để làm layout Card */
+      .anime-box-container { height: 460px; background: #272935 !important; box-shadow: 0 4px 15px rgba(0,0,0,0.5); border-radius: 12px; overflow: hidden; position: relative; display: block; margin-bottom: 20px;}
+      
+      /* Ảnh nằm trên cùng, làm mờ dần xuống đáy */
+      .anime-bg-image { width: 100%; height: 100%; position: absolute; top: 0; left: 0; right: 0; z-index: 1; border-radius: 12px; mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%); -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%); }
+      
+      /* GHIM NỘI DUNG XUỐNG VÙNG XÁM MỜ Ở ĐÁY */
+      .anime-content-overlay { width: 100%; padding: 0 20px; position: absolute; bottom: 35px; left: 0; background: transparent; z-index: 3; display: flex; flex-direction: column; justify-content: flex-end; text-align: left; margin: 0;}
+      
+      .anime-main-title { font-size: 1.5rem !important; font-weight: 800; line-height: 1.3; color: #fff; margin-bottom: 5px; text-shadow: none;}
+      .anime-origin-title { margin-bottom: 12px; font-size: 0.95rem; color: #fbc02d; font-weight: 500;}
+      
+      /* Các thẻ tags */
+      .anime-meta-tags { margin-bottom: 12px; display: flex; justify-content: flex-start; gap: 6px; flex-wrap: wrap; width: 100%;}
+      .anime-meta-tags span, .meta-tag-imdb, .meta-tag-outline { font-size: 11px !important; padding: 3px 8px !important; border-radius: 4px; display: inline-block;}
+      .meta-tag-imdb { border: 1px solid #f5c518; color: #f5c518; font-weight: bold;}
+      .meta-tag-outline { border: 1px solid #ccc; color: #fff; }
+      .meta-tag-age { background: #fff; color: #272935; font-weight: bold; border: 1px solid #fff;}
+      
+      .anime-genres-tags { margin-bottom: 12px; display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 8px;}
+      .genre-tag-item { background: rgba(255,255,255,0.15) !important; color: #fff; border-radius: 6px; padding: 5px 12px !important; font-size: 11px !important; border: none !important;}
+      
+      /* Description nằm đè lên nền xám đen như ảnh */
+      .anime-description { -webkit-line-clamp: 3; font-size: 0.9rem; color: #cbd5e1; margin-bottom: 0; line-height: 1.5; display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden;}
+      
+      .anime-action-buttons { display: none; } 
+      
+      /* GHIM DẤU CHẤM (DOTS) XUỐNG DƯỚI CÙNG BOX */
+      .anime-bottom-thumbs { position: absolute; bottom: 12px; left: 0; right: 0; display: flex; justify-content: center; align-items: center; gap: 8px; width: 100%; padding: 0; z-index: 5;}
+      .anime-thumb-img { 
+          width: 8px !important; height: 8px !important; 
+          padding: 0 !important; border-radius: 50% !important; 
+          background-color: rgba(255,255,255,0.4) !important; 
+          border: none !important; box-shadow: none !important; 
+          flex: 0 0 8px !important; margin: 0 !important;
+          transition: all 0.3s ease;
+      }
+      .anime-thumb-img.active { background-color: #fbc02d !important; transform: scale(1.3) !important; opacity: 1;}
+
+      /* Tắt Hover Pop-up trên Mobile */
+      .hover-detail-card { display: none !important; }
+
+      /* Bảng cộng đồng */
+      .community-section { padding: 20px 15px; }
+      .cb-grid-4 { grid-template-columns: 1fr; gap: 30px;}
+
+      /* Footer */
+      .site-footer { padding: 40px 15px; text-align: center; }
+      .footer-brand-row { flex-direction: column; align-items: center; gap: 15px; margin-bottom: 20px;}
       .footer-divider { display: none; }
-      .back-to-top { bottom: 20px; right: 20px; width: 45px; height: 45px; }
-      .community-section { padding: 20px; }
-      .cb-grid-4 { grid-template-columns: 1fr; gap: 20px;}
+      .footer-socials { justify-content: center; flex-wrap: wrap; width: 100%; }
+      .footer-links { justify-content: center; text-align: center; }
+      .footer-desc { text-align: center; font-size: 12px; }
+      .footer-copy { text-align: center; width: 100%; display: block; margin-top: 10px;}
+      .back-to-top { display: none; }
     }
   </style>
 </head>
 <body>
-  <nav class="navbar">
+
+  <nav class="mobile-navbar">
+    <div class="m-hamburger" onclick="toggleMMenu()">
+      <span></span><span></span><span></span>
+    </div>
+    <img src="logo.png" alt="DépFlix" class="m-logo-img" onclick="window.scrollTo(0,0)">
+    <div class="m-search-icon" onclick="toggleMSearch()">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </div>
+  </nav>
+
+  <div class="m-search-box" id="mSearchBox">
+    <div class="m-search-wrap">
+      <input type="text" class="m-search-input" placeholder="Tìm kiếm phim, diễn viên..." id="mSearchInput">
+    </div>
+    <span class="m-search-close" onclick="toggleMSearch()">✕</span>
+  </div>
+
+  <div class="m-overlay-dark" id="mOverlay" onclick="toggleMMenu()"></div>
+  <div class="m-dropdown-menu" id="mDropdown">
+    <a href="#" class="m-btn-top m-btn-white">👤 Thành viên</a>
+    
+    <div class="m-nav-grid-links">
+      <a href="index.html">Trang chủ</a>
+      
+      <div>
+        <div class="m-has-sub-title" onclick="toggleMSub(this, 'mCat')">Thể loại ▾</div>
+      </div>
+      
+      <div>
+        <div class="m-has-sub-title" onclick="toggleMSub(this, 'mNat')">Quốc gia ▾</div>
+      </div>
+
+      <div class="m-sub-grid" id="mCat"></div>
+      <div class="m-sub-grid" id="mNat"></div>
+
+      <a href="1danh-sach.html?type=danh-sach&slug=phim-moi-cap-nhat&name=Phim+Mới&page=1">Phim mới</a>
+      <a href="1danh-sach.html?type=danh-sach&slug=phim-bo&name=Phim+Bộ&page=1">Phim bộ</a>
+      <a href="1danh-sach.html?type=danh-sach&slug=phim-le&name=Phim+Lẻ&page=1">Phim lẻ</a>
+      <a href="1danh-sach.html?type=danh-sach&slug=tv-shows&name=Phim+Chiếu+Rạp&page=1">Phim chiếu rạp</a>
+      <a href="#">Xem chung</a>
+      <a href="#">Diễn viên</a>
+      <a href="#">Lịch chiếu</a>
+      <a href="#">TCoin <span class="m-badge-new">New</span></a>
+    </div>
+  </div>
+
+
+  <nav class="navbar desktop-navbar">
     <div class="logo-section">
-      <img src="logo.png" alt="Depflix" class="logo-img" onclick="window.scrollTo(0,0)">
+      <img src="logo.png" alt="DépFlix" class="logo-img" onclick="window.scrollTo(0,0)">
     </div>
     <div class="search-bar">
       <span class="search-icon">🔍</span>
@@ -589,7 +793,6 @@
 
   <section class="community-section">
     <div class="community-box">
-      
       <div class="cb-header-main"><span>🥇</span> TOP BÌNH LUẬN</div>
       <div class="cb-top-slider-wrap">
         <div class="cb-top-scroll" id="cb-top-scroll">
@@ -645,14 +848,13 @@
                 <div class="cb-user-time">5 giờ trước</div>
               </div>
             </div>
-            <p class="cb-comment-text">Kết thúc phim mở quá, chắc chắn có phần 2 rồi. Hóng Depflix ra phần 2 quá đi thôi.</p>
+            <p class="cb-comment-text">Kết thúc phim mở quá, chắc chắn có phần 2 rồi. Hóng DépFlix ra phần 2 quá đi thôi.</p>
             <div class="cb-actions"><span>❤ 12</span> <span>💬 3</span></div>
           </div>
         </div>
       </div>
 
       <div class="cb-grid-4">
-        
         <div>
           <div class="cb-col-header"><span>🎬</span> SÔI NỔI NHẤT</div>
           <div class="cb-list">
@@ -785,46 +987,23 @@
 
   <footer class="site-footer">
     <div class="footer-badge">⭐ Hoàng Sa & Trường Sa là của Việt Nam!</div>
-    
     <div class="footer-brand-row">
-      <img src="logo.png" alt="Xô Phim" class="footer-logo" onclick="window.scrollTo(0,0)">
+      <img src="logo.png" alt="DépFlix" class="footer-logo" onclick="window.scrollTo(0,0)">
       <div class="footer-divider"></div>
       <div class="footer-socials">
-        <span class="social-icon">✈</span>
-        <span class="social-icon">👾</span>
-        <span class="social-icon">X</span>
-        <span class="social-icon">f</span>
-        <span class="social-icon">♪</span>
-        <span class="social-icon">▶</span>
-        <span class="social-icon">@</span>
-        <span class="social-icon">📷</span>
+        <span class="social-icon">✈</span><span class="social-icon">👾</span><span class="social-icon">X</span><span class="social-icon">f</span><span class="social-icon">♪</span><span class="social-icon">▶</span><span class="social-icon">@</span><span class="social-icon">📷</span>
       </div>
     </div>
-
     <div class="footer-links">
-      <a href="#" class="footer-link">Hỏi-Đáp</a>
-      <a href="#" class="footer-link">Chính sách bảo mật</a>
-      <a href="#" class="footer-link">Điều khoản sử dụng</a>
-      <a href="#" class="footer-link">Giới thiệu</a>
-      <a href="#" class="footer-link">Liên hệ</a>
+      <a href="#" class="footer-link">Hỏi-Đáp</a><a href="#" class="footer-link">Chính sách bảo mật</a><a href="#" class="footer-link">Điều khoản sử dụng</a><a href="#" class="footer-link">Giới thiệu</a><a href="#" class="footer-link">Liên hệ</a>
     </div>
-
-    <p class="footer-desc">
-      Dépflix - Trang xem phim online chất lượng cao miễn phí Vietsub, thuyết minh, lồng tiếng full HD. Kho phim mới khổng lồ, phim chiếu rạp, phim bộ, phim lẻ từ nhiều quốc gia như Việt Nam, Hàn Quốc, Trung Quốc, Thái Lan, Nhật Bản, Âu Mỹ... đa dạng thể loại. Khám phá nền tảng phim trực tuyến hay nhất 2026 chất lượng 4K!
-    </p>
-    
-    <p class="footer-copy">© 2026 Xô Phim</p>
-
-    <button class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-      <span class="back-to-top-icon">↑</span>
-      ĐẦU TRANG
-    </button>
+    <p class="footer-desc">DépFlix - Trang xem phim online chất lượng cao miễn phí Vietsub, thuyết minh, lồng tiếng full HD. Kho phim mới khổng lồ, phim chiếu rạp, phim bộ, phim lẻ từ nhiều quốc gia như Việt Nam, Hàn Quốc, Trung Quốc, Thái Lan, Nhật Bản, Âu Mỹ... đa dạng thể loại. Khám phá nền tảng phim trực tuyến hay nhất 2026 chất lượng 4K!</p>
+    <p class="footer-copy">© 2026 DépFlix</p>
+    <button class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})"><span class="back-to-top-icon">↑</span>ĐẦU TRANG</button>
   </footer>
 
   <div id="hover-detail-card" class="hover-detail-card">
-    <div class="hdc-img-wrap">
-      <img id="hdc-img" src="" alt="">
-    </div>
+    <div class="hdc-img-wrap"><img id="hdc-img" src="" alt=""></div>
     <div class="hdc-content">
       <h3 id="hdc-title" class="hdc-title">Tên Phim</h3>
       <p id="hdc-sub" class="hdc-sub">Tên Gốc</p>
@@ -844,6 +1023,44 @@
   </div>
 
   <script>
+    // =========================================================
+    // JAVASCRIPT CHO MOBILE (CHỈ CHẠY CHO MOBILE, KHÔNG ĐỤNG DESKTOP)
+    // =========================================================
+    function toggleMMenu() {
+      const d = document.getElementById('mDropdown');
+      const o = document.getElementById('mOverlay');
+      if(d) d.classList.toggle('active');
+      if(o) o.classList.toggle('active');
+    }
+
+    function toggleMSearch() {
+      const s = document.getElementById('mSearchBox');
+      const i = document.getElementById('mSearchInput');
+      if(s) s.classList.toggle('active');
+      if(s && s.classList.contains('active') && i) setTimeout(() => i.focus(), 300);
+    }
+
+    function toggleMSub(el, id) {
+      const s = document.getElementById(id);
+      if(s) {
+        s.classList.toggle('active');
+        el.classList.toggle('open');
+      }
+    }
+
+    // TÌM KIẾM TRÊN MOBILE - ĐÃ FIX LỖI ẢNH!
+    const msi = document.getElementById('mSearchInput');
+    if(msi) {
+        msi.addEventListener('keypress', function(e) {
+            if(e.key === 'Enter' && e.target.value.trim()) {
+                window.location.href = `1danh-sach.html?type=tim-kiem&slug=${encodeURIComponent(e.target.value.trim())}&page=1`;
+            }
+        });
+    }
+
+    // =========================================================
+    // JAVASCRIPT GỐC CHO DESKTOP (GIỮ NGUYÊN 100%)
+    // =========================================================
     function getSafeUrl(path, domain) {
       if (!path) return 'https://placehold.co/240x360/1a1c20/777777?text=XoPhim';
       if (String(path).startsWith('http')) return path;
@@ -859,7 +1076,7 @@
         return 'https://phimimg.com';
     }
 
-    if (window.innerWidth <= 768) {
+    if (window.innerWidth > 768) {
       document.querySelectorAll('.dropdown').forEach(dd => {
         dd.querySelector('.dropdown-toggle').addEventListener('click', e => {
           e.stopPropagation();
@@ -877,25 +1094,38 @@
 
     const famousActors = ['Châu Tinh Trì', 'Thành Long', 'Ngô Kinh', 'Chân Tử Đan', 'Lý Liên Kiệt', 'Cổ Thiên Lạc', 'Lưu Đức Hoa', 'Châu Nhuận Phát', 'Lâm Chánh Anh', 'Lương Triều Vỹ'];
     const actorGrid = document.getElementById('dien-vien-grid');
-    famousActors.forEach(actor => {
-      const div = document.createElement('div');
-      div.className = 'dropdown-item';
-      div.textContent = actor;
-      div.onclick = () => window.location.href = `1danh-sach.html?type=tim-kiem&slug=${encodeURIComponent(actor)}&name=${encodeURIComponent(actor)}`;
-      actorGrid.appendChild(div);
-    });
+    if (actorGrid) {
+        famousActors.forEach(actor => {
+          const div = document.createElement('div');
+          div.className = 'dropdown-item';
+          div.textContent = actor;
+          div.onclick = () => window.location.href = `1danh-sach.html?type=tim-kiem&slug=${encodeURIComponent(actor)}&page=1`;
+          actorGrid.appendChild(div);
+        });
+    }
 
     fetch('https://phimapi.com/the-loai')
       .then(res => res.json())
       .then(data => {
         const grid = document.getElementById('the-loai-grid');
-        grid.innerHTML = '';
+        const mCat = document.getElementById('mCat'); 
+        if(grid) grid.innerHTML = ''; 
+        if(mCat) mCat.innerHTML = '';
+        
         data.forEach(item => {
-          const div = document.createElement('div');
-          div.className = 'dropdown-item';
-          div.textContent = item.name;
-          div.onclick = () => window.location.href = `1danh-sach.html?type=the-loai&slug=${item.slug}&name=${encodeURIComponent(item.name)}`;
-          grid.appendChild(div);
+          if(grid){
+              const div = document.createElement('div');
+              div.className = 'dropdown-item';
+              div.textContent = item.name;
+              div.onclick = () => window.location.href = `1danh-sach.html?type=the-loai&slug=${item.slug}&page=1`;
+              grid.appendChild(div);
+          }
+          if(mCat) {
+             const mLink = document.createElement('a');
+             mLink.textContent = item.name;
+             mLink.href = `1danh-sach.html?type=the-loai&slug=${item.slug}&page=1`;
+             mCat.appendChild(mLink);
+          }
         });
       });
 
@@ -903,13 +1133,24 @@
       .then(res => res.json())
       .then(data => {
         const grid = document.getElementById('quoc-gia-grid');
-        grid.innerHTML = '';
+        const mNat = document.getElementById('mNat'); 
+        if(grid) grid.innerHTML = ''; 
+        if(mNat) mNat.innerHTML = '';
+        
         data.forEach(item => {
-          const div = document.createElement('div');
-          div.className = 'dropdown-item';
-          div.textContent = item.name;
-          div.onclick = () => window.location.href = `1danh-sach.html?type=quoc-gia&slug=${item.slug}&name=${encodeURIComponent(item.name)}`;
-          grid.appendChild(div);
+          if(grid){
+              const div = document.createElement('div');
+              div.className = 'dropdown-item';
+              div.textContent = item.name;
+              div.onclick = () => window.location.href = `1danh-sach.html?type=quoc-gia&slug=${item.slug}&page=1`;
+              grid.appendChild(div);
+          }
+          if(mNat) {
+             const mLink = document.createElement('a');
+             mLink.textContent = item.name;
+             mLink.href = `1danh-sach.html?type=quoc-gia&slug=${item.slug}&page=1`;
+             mNat.appendChild(mLink);
+          }
         });
       });
 
@@ -927,7 +1168,7 @@
       .then(data => {
         if(data && data.items){
             movies = data.items.slice(0, 8);
-            miniThumbs.innerHTML = '';
+            if(miniThumbs) miniThumbs.innerHTML = '';
             movies.forEach((m, i) => {
               const img = document.createElement('img');
               img.src = getSafeUrl(m.thumb_url || m.poster_url, data.pathImage);
@@ -935,7 +1176,7 @@
               img.className = 'mini-thumb';
               img.alt = m.name;
               img.onclick = () => { currentIndex = i; updateBanner(data.pathImage); };
-              miniThumbs.appendChild(img);
+              if(miniThumbs) miniThumbs.appendChild(img);
             });
             updateBanner(data.pathImage);
             setInterval(() => {
@@ -950,21 +1191,20 @@
       if (!movies[currentIndex]) return;
       const m = movies[currentIndex];
       const bgImg = getSafeUrl(m.thumb_url || m.poster_url, domain);
-      bannerBg.style.backgroundImage = `url(${bgImg})`;
-      titleEl.textContent = m.name || m.origin_name || 'Đang tải...';
-      subtitleEl.textContent = m.origin_name ? `(${m.origin_name})` : '';
-      tagsEl.innerHTML = `
+      if(bannerBg) bannerBg.style.backgroundImage = `url(${bgImg})`;
+      if(titleEl) titleEl.textContent = m.name || m.origin_name || 'Đang tải...';
+      if(subtitleEl) subtitleEl.textContent = m.origin_name ? `(${m.origin_name})` : '';
+      if(tagsEl) tagsEl.innerHTML = `
         <span class="tag highlight">IMDb ${m.imdb?.id || 'N/A'}</span>
         <span class="tag">${m.year || 'N/A'}</span>
         <span class="tag">${m.time || 'N/A'}</span>
         <span class="tag">${m.episode_current || 'N/A'}</span>
       `;
-      descEl.textContent = m.content ? m.content.replace(/<[^>]+>/g, '').substring(0, 250) + '...' : 'Đang cập nhật...';
+      if(descEl) descEl.textContent = m.content ? m.content.replace(/<[^>]+>/g, '').substring(0, 250) + '...' : 'Đang cập nhật...';
       document.querySelectorAll('.mini-thumb').forEach((t, i) => {
         t.classList.toggle('active', i === currentIndex);
       });
       
-      // LINK TỪ BANNER CHÍNH
       const playBtn = document.querySelector('.banner .btn-play');
       if (playBtn) {
           playBtn.onclick = () => {
@@ -975,6 +1215,7 @@
     
     function scrollHzGrid(gridId, direction) {
       const grid = document.getElementById(gridId);
+      if(!grid) return;
       const child = grid.children[0];
       const cardWidth = child ? child.offsetWidth + 15 : 275; 
       grid.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
@@ -982,6 +1223,7 @@
 
     function scrollCustomGrid(gridId, direction) {
       const grid = document.getElementById(gridId);
+      if(!grid) return;
       const child = grid.children[0];
       const cardWidth = child ? child.offsetWidth + 20 : 230; 
       grid.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
@@ -992,6 +1234,7 @@
         .then(res => res.json())
         .then(data => {
           const grid = document.getElementById(gridId);
+          if(!grid) return;
           grid.innerHTML = '';
           if (data && data.data && data.data.items && data.data.items.length > 0) {
             const domain = extractDomain(data, '');
@@ -1002,7 +1245,6 @@
               const safeName = m.name ? m.name.replace(/'/g, "\\'") : '';
               const safeSub = m.origin_name ? m.origin_name.replace(/'/g, "\\'") : '';
               
-              // LINK TỪ PHIM NGANG
               html += `
                 <div class="hz-card hover-trigger" 
                      onclick="window.location.href='phim.html?slug=${m.slug}'"
@@ -1038,6 +1280,7 @@
         .then(res => res.json())
         .then(data => {
           const grid = document.getElementById(gridId);
+          if(!grid) return;
           grid.innerHTML = '';
           
           let rawItems = [];
@@ -1055,7 +1298,6 @@
               const safeName = m.name ? m.name.replace(/'/g, "\\'") : '';
               const safeSub = m.origin_name ? m.origin_name.replace(/'/g, "\\'") : '';
               
-              // CẤP LINK & DATA-SLUG CHO THẺ PHIM
               const dataAttr = `onclick="window.location.href='phim.html?slug=${m.slug}'" data-slug="${m.slug}" data-name="${safeName}" data-sub="${safeSub}" data-img="${imgSrc}" data-year="${m.year||'N/A'}" data-ep="${m.episode_current||'Full'}" data-imdb="8.0"`;
 
               if (type === 'ranked' || type === 'slanted') {
@@ -1112,81 +1354,90 @@
     loadDesignedSection('https://phimapi.com/v1/api/danh-sach/phim-le?page=3', 'bomtan-grid', 'slanted');
     loadDesignedSection('https://phimapi.com/danh-sach/phim-moi-cap-nhat-v3?page=2', 'decu-grid', 'slanted'); 
 
-    const searchInput = document.getElementById('searchInput');
+    // TÌM KIẾM TRÊN DESKTOP - ĐÃ FIX LỖI ẢNH!
+    const searchInputOnBar = document.getElementById('searchInput');
     const searchResults = document.getElementById('search-results');
 
-    // TÌM KIẾM ENTER VÀO 1DANH-SACH
-    searchInput.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter' && e.target.value.trim()) {
-         window.location.href = `1danh-sach.html?type=tim-kiem&slug=${encodeURIComponent(e.target.value.trim())}&name=${encodeURIComponent('Tìm kiếm: ' + e.target.value.trim())}&page=1`;
-      }
-    });
-
-    searchInput.addEventListener('input', function(e) {
-      const keyword = e.target.value.trim();
-      if (keyword.length < 2) {
-        searchResults.style.display = 'none';
-        return;
-      }
-      fetch(`https://ophim1.com/v1/api/tim-kiem?keyword=${encodeURIComponent(keyword)}`)
-        .then(res => res.json())
-        .then(data => {
-          searchResults.innerHTML = '';
-          if (data.status && data.data && data.data.items && data.data.items.length > 0) {
-            data.data.items.slice(0, 6).forEach(m => {
-              const item = document.createElement('div');
-              item.className = 'search-item';
-              item.innerHTML = `
-                <img src="${m.thumb_url || m.poster_url ? 'https://ophim1.com' + (m.thumb_url || m.poster_url) : 'https://via.placeholder.com/50x70'}" alt="${m.name}">
-                <div>
-                  <div>${m.name}${m.origin_name ? ` (${m.origin_name})` : ''}</div>
-                  <div style="font-size:0.85rem; opacity:0.8;">${m.year || 'N/A'} - ${m.episode_current || 'Full'}</div>
-                </div>
-              `;
-              // KẾT QUẢ GỢI Ý CŨNG VÀO PHIM.HTML
-              item.onclick = () => { window.location.href = `phim.html?slug=${m.slug}`; };
-              searchResults.appendChild(item);
-            });
-            searchResults.style.display = 'block';
+    if(searchInputOnBar) {
+        searchInputOnBar.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter' && e.target.value.trim()) {
+             window.location.href = `1danh-sach.html?type=tim-kiem&slug=${encodeURIComponent(e.target.value.trim())}&page=1`;
           }
         });
-    });
+
+        searchInputOnBar.addEventListener('input', function(e) {
+          const keyword = e.target.value.trim();
+          if (keyword.length < 2) {
+            searchResults.style.display = 'none';
+            return;
+          }
+          fetch(`https://ophim1.com/v1/api/tim-kiem?keyword=${encodeURIComponent(keyword)}`)
+            .then(res => res.json())
+            .then(data => {
+              searchResults.innerHTML = '';
+              if (data.status && data.data && data.data.items && data.data.items.length > 0) {
+                // SỬA LỖI ẢNH TẠI ĐÂY - LẤY DOMAIN TỪ API
+                const searchDomain = data.data.APP_DOMAIN_CDN_IMAGE || 'https://phimimg.com';
+
+                data.data.items.slice(0, 6).forEach(m => {
+                  const item = document.createElement('div');
+                  item.className = 'search-item';
+                  
+                  // Gắn Domain vào link ảnh
+                  const imgSrc = m.thumb_url || m.poster_url ? getSafeUrl(m.thumb_url || m.poster_url, searchDomain) : 'https://via.placeholder.com/50x70';
+
+                  item.innerHTML = `
+                    <img src="${imgSrc}" alt="${m.name}">
+                    <div>
+                      <div>${m.name}${m.origin_name ? ` (${m.origin_name})` : ''}</div>
+                      <div style="font-size:0.85rem; opacity:0.8;">${m.year || 'N/A'} - ${m.episode_current || 'Full'}</div>
+                    </div>
+                  `;
+                  item.onclick = () => { window.location.href = `phim.html?slug=${m.slug}`; };
+                  searchResults.appendChild(item);
+                });
+                searchResults.style.display = 'block';
+              }
+            });
+        });
+    }
 
     document.addEventListener('click', e => {
-      if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+      if (searchInputOnBar && !searchInputOnBar.contains(e.target) && !searchResults.contains(e.target)) {
         searchResults.style.display = 'none';
       }
     });
 
-
-    // LOGIC PHIM KHOA HỌC VIỄN TƯỞNG
     let sciFiArray = []; let sfIdx = 0; let sciFiTimer; let sciFiDomain = 'https://phimimg.com';
     function initSciFiSection() {
       fetch('https://phimapi.com/v1/api/the-loai/vien-tuong?page=1').then(res => res.json()).then(data => {
           if (data && data.data && data.data.items) {
             sciFiDomain = extractDomain(data, ''); sciFiArray = data.data.items.slice(0, 8); 
-            const thumbDiv = document.getElementById('an-thumbs'); thumbDiv.innerHTML = '';
+            
+            // Xử lý Desktop Thumbs
+            const thumbDiv = document.getElementById('an-thumbs'); 
+            if(thumbDiv) thumbDiv.innerHTML = '';
+            
             sciFiArray.forEach((item, index) => {
+              const safeName = item.name ? item.name.replace(/'/g, "\\'") : '';
+              const safeSub = item.origin_name ? item.origin_name.replace(/'/g, "\\'") : '';
+              
+              // Tạo thumb
               const img = document.createElement('img');
               img.onerror = function() { this.onerror=null; this.src='https://placehold.co/65x95/1a1c20/777777?text=XoPhim'; };
               img.src = getSafeUrl(item.thumb_url || item.poster_url, sciFiDomain);
               img.className = 'anime-thumb-img hover-trigger'; 
-              
-              const safeName = item.name ? item.name.replace(/'/g, "\\'") : '';
-              const safeSub = item.origin_name ? item.origin_name.replace(/'/g, "\\'") : '';
               img.setAttribute('data-name', safeName); img.setAttribute('data-sub', safeSub);
               img.setAttribute('data-img', getSafeUrl(item.poster_url || item.thumb_url, sciFiDomain));
               img.setAttribute('data-year', item.year || 'N/A'); img.setAttribute('data-ep', item.episode_current || 'Full');
               img.setAttribute('data-imdb', '8.5');
-              
-              // LƯU SLUG CHO THUMB
               img.setAttribute('data-slug', item.slug);
 
               img.onclick = (e) => { 
-                  e.stopPropagation(); // Ngăn việc bấm thumb mà nhảy trang ngay
+                  e.stopPropagation(); 
                   sfIdx = index; renderSciFiUI(); clearInterval(sciFiTimer); startSciFiTimer(); 
               };
-              thumbDiv.appendChild(img);
+              if(thumbDiv) thumbDiv.appendChild(img);
             });
             renderSciFiUI(); startSciFiTimer();
           }
@@ -1194,48 +1445,67 @@
     }
     function renderSciFiUI() {
       const item = sciFiArray[sfIdx]; if(!item) return;
-      document.getElementById('an-thumbs').querySelectorAll('.anime-thumb-img').forEach((t, i) => t.classList.toggle('active', i === sfIdx));
       
-      // BẤM VÀO NỀN BANNER SẼ VÀO TRANG PHIM.HTML
+      // Update thumbs class active
+      const tbs = document.getElementById('an-thumbs');
+      if(tbs) tbs.querySelectorAll('.anime-thumb-img').forEach((t, i) => t.classList.toggle('active', i === sfIdx));
+      
       const mainBox = document.getElementById('anime-main-box');
       if(mainBox) mainBox.onclick = () => { window.location.href = `phim.html?slug=${item.slug}`; };
 
       fetch(`https://phimapi.com/phim/${item.slug}`).then(res => res.json()).then(res => {
           if (res && res.movie) {
             const m = res.movie;
-            document.getElementById('an-bg').style.backgroundImage = `url(${getSafeUrl(m.poster_url || m.thumb_url, sciFiDomain)})`;
-            document.getElementById('an-title').textContent = m.name || 'Đang cập nhật';
-            document.getElementById('an-origin').textContent = m.origin_name || '';
-            document.getElementById('an-meta').innerHTML = `<span class="meta-tag-imdb">IMDb ${m.imdb?.id || 'N/A'}</span><span class="meta-tag-outline">${m.year || 'N/A'}</span><span class="meta-tag-outline">${m.episode_current || 'Full'}</span>`;
-            if (m.category) document.getElementById('an-genres').innerHTML = m.category.slice(0,3).map(c => `<span class="genre-tag-item">${c.name}</span>`).join('');
-            document.getElementById('an-desc').textContent = m.content ? String(m.content).replace(/<[^>]+>/g, '') : 'Không có mô tả';
+            const bg = document.getElementById('an-bg');
+            if(bg) bg.style.backgroundImage = `url(${getSafeUrl(m.poster_url || m.thumb_url, sciFiDomain)})`;
             
-            // NÚT PLAY TRONG BANNER
-            document.getElementById('an-play-btn').onclick = (e) => {
-                e.stopPropagation();
-                window.location.href = `phim.html?slug=${item.slug}`;
-            };
+            const tEl = document.getElementById('an-title');
+            if(tEl) tEl.textContent = m.name || 'Đang cập nhật';
+            
+            const oEl = document.getElementById('an-origin');
+            if(oEl) oEl.textContent = m.origin_name || '';
+            
+            // Sửa trong hàm renderSciFiUI()
+            const mtEl = document.getElementById('an-meta');
+            if(mtEl) mtEl.innerHTML = `<span class="meta-tag-imdb">IMDb ${m.imdb?.id || '8.7'}</span><span class="meta-tag-age">T16</span><span class="meta-tag-outline">${m.year || '2024'}</span><span class="meta-tag-outline">Phần 1</span><span class="meta-tag-outline">${m.episode_current || 'Full'}</span>`;
+            const genEl = document.getElementById('an-genres');
+            if (m.category && genEl) genEl.innerHTML = m.category.slice(0,3).map(c => `<span class="genre-tag-item">${c.name}</span>`).join('');
+            
+            const dEl = document.getElementById('an-desc');
+            if(dEl) dEl.textContent = m.content ? String(m.content).replace(/<[^>]+>/g, '') : 'Không có mô tả';
+            
+            const playBtn = document.getElementById('an-play-btn');
+            if(playBtn){
+                playBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    window.location.href = `phim.html?slug=${item.slug}`;
+                };
+            }
           }
         });
     }
     function startSciFiTimer() { sciFiTimer = setInterval(() => { sfIdx = (sfIdx + 1) % sciFiArray.length; renderSciFiUI(); }, 4000); }
     initSciFiSection();
 
-    // LOGIC PHIM VIỆT NAM (BANNER 2)
     let vnArray = []; let vnIdx = 0; let vnTimer; let vnDomain = 'https://phimimg.com';
     function initVnSection() {
       fetch('https://phimapi.com/v1/api/quoc-gia/viet-nam?page=1').then(res => res.json()).then(data => {
           if (data && data.data && data.data.items) {
             vnDomain = extractDomain(data, ''); vnArray = data.data.items.slice(0, 8); 
-            const thumbDiv = document.getElementById('vn-thumbs'); thumbDiv.innerHTML = '';
+            
+            // Xử lý Desktop thumbs
+            const thumbDiv = document.getElementById('vn-thumbs'); 
+            if(thumbDiv) thumbDiv.innerHTML = '';
+
             vnArray.forEach((item, index) => {
+              const safeName = item.name ? item.name.replace(/'/g, "\\'") : '';
+              const safeSub = item.origin_name ? item.origin_name.replace(/'/g, "\\'") : '';
+              
+              // Tạo thumb
               const img = document.createElement('img');
               img.onerror = function() { this.onerror=null; this.src='https://placehold.co/65x95/1a1c20/777777?text=XoPhim'; };
               img.src = getSafeUrl(item.thumb_url || item.poster_url, vnDomain);
               img.className = 'anime-thumb-img hover-trigger'; 
-              
-              const safeName = item.name ? item.name.replace(/'/g, "\\'") : '';
-              const safeSub = item.origin_name ? item.origin_name.replace(/'/g, "\\'") : '';
               img.setAttribute('data-name', safeName); img.setAttribute('data-sub', safeSub);
               img.setAttribute('data-img', getSafeUrl(item.poster_url || item.thumb_url, vnDomain));
               img.setAttribute('data-year', item.year || 'N/A'); img.setAttribute('data-ep', item.episode_current || 'Full');
@@ -1246,7 +1516,7 @@
                   e.stopPropagation();
                   vnIdx = index; renderVnUI(); clearInterval(vnTimer); startVnTimer(); 
               };
-              thumbDiv.appendChild(img);
+              if(thumbDiv) thumbDiv.appendChild(img);
             });
             renderVnUI(); startVnTimer();
           }
@@ -1254,7 +1524,10 @@
     }
     function renderVnUI() {
       const item = vnArray[vnIdx]; if(!item) return;
-      document.getElementById('vn-thumbs').querySelectorAll('.anime-thumb-img').forEach((t, i) => t.classList.toggle('active', i === vnIdx));
+      
+      // Update class active
+      const tbs = document.getElementById('vn-thumbs');
+      if(tbs) tbs.querySelectorAll('.anime-thumb-img').forEach((t, i) => t.classList.toggle('active', i === vnIdx));
       
       const mainBox = document.getElementById('vn-main-box');
       if(mainBox) mainBox.onclick = () => { window.location.href = `phim.html?slug=${item.slug}`; };
@@ -1262,27 +1535,37 @@
       fetch(`https://phimapi.com/phim/${item.slug}`).then(res => res.json()).then(res => {
           if (res && res.movie) {
             const m = res.movie;
-            document.getElementById('vn-bg').style.backgroundImage = `url(${getSafeUrl(m.poster_url || m.thumb_url, vnDomain)})`;
-            document.getElementById('vn-title').textContent = m.name || 'Đang cập nhật';
-            document.getElementById('vn-origin').textContent = m.origin_name || '';
-            document.getElementById('vn-meta').innerHTML = `<span class="meta-tag-imdb">IMDb ${m.imdb?.id || 'N/A'}</span><span class="meta-tag-outline">${m.year || 'N/A'}</span><span class="meta-tag-outline">${m.episode_current || 'Full'}</span>`;
-            if (m.category) document.getElementById('vn-genres').innerHTML = m.category.slice(0,3).map(c => `<span class="genre-tag-item">${c.name}</span>`).join('');
-            document.getElementById('vn-desc').textContent = m.content ? String(m.content).replace(/<[^>]+>/g, '') : 'Không có mô tả';
+            const bg = document.getElementById('vn-bg');
+            if(bg) bg.style.backgroundImage = `url(${getSafeUrl(m.poster_url || m.thumb_url, vnDomain)})`;
             
-            document.getElementById('vn-play-btn').onclick = (e) => {
-                e.stopPropagation();
-                window.location.href = `phim.html?slug=${item.slug}`;
-            };
+            const tEl = document.getElementById('vn-title');
+            if(tEl) tEl.textContent = m.name || 'Đang cập nhật';
+            
+            const oEl = document.getElementById('vn-origin');
+            if(oEl) oEl.textContent = m.origin_name || '';
+            
+            const mtEl = document.getElementById('vn-meta');
+            if(mtEl) mtEl.innerHTML = `<span class="meta-tag-imdb">IMDb ${m.imdb?.id || '7.5'}</span><span class="meta-tag-age">T16</span><span class="meta-tag-outline">${m.year || '2024'}</span><span class="meta-tag-outline">Phần 1</span><span class="meta-tag-outline">${m.episode_current || 'Full'}</span>`;
+            
+            const genEl = document.getElementById('vn-genres');
+            if (m.category && genEl) genEl.innerHTML = m.category.slice(0,3).map(c => `<span class="genre-tag-item">${c.name}</span>`).join('');
+            
+            const dEl = document.getElementById('vn-desc');
+            if(dEl) dEl.textContent = m.content ? String(m.content).replace(/<[^>]+>/g, '') : 'Không có mô tả';
+            
+            const playBtn = document.getElementById('vn-play-btn');
+            if(playBtn){
+                playBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    window.location.href = `phim.html?slug=${item.slug}`;
+                };
+            }
           }
         });
     }
     function startVnTimer() { vnTimer = setInterval(() => { vnIdx = (vnIdx + 1) % vnArray.length; renderVnUI(); }, 4000); }
     initVnSection();
 
-
-    // ========================================================
-    // LOGIC CHO HIỆU ỨNG POP-UP HOVER
-    // ========================================================
     const hoverCard = document.getElementById('hover-detail-card');
     const hdcImg = document.getElementById('hdc-img');
     const hdcTitle = document.getElementById('hdc-title');
@@ -1295,6 +1578,8 @@
     let hoverTimer;
 
     document.addEventListener('mouseover', (e) => {
+      if(window.innerWidth <= 768) return; 
+
       const targetCard = e.target.closest('.hover-trigger');
       if(e.target.closest('#hover-detail-card')) return;
 
@@ -1306,11 +1591,15 @@
           const year = targetCard.getAttribute('data-year');
           const ep = targetCard.getAttribute('data-ep');
           const imdb = targetCard.getAttribute('data-imdb');
-          
-          // LẤY SLUG TỪ THẺ PHIM ĐANG RÊ CHUỘT
           const movieSlug = targetCard.getAttribute('data-slug');
+
+          if(hdcTitle) hdcTitle.textContent = name;
+          if(hdcSub) hdcSub.textContent = sub || 'Đang cập nhật';
+          if(hdcImg) hdcImg.src = img;
+          if(hdcYear) hdcYear.textContent = year;
+          if(hdcEp) hdcEp.textContent = ep;
+          if(hdcImdb) hdcImdb.textContent = `IMDb ${imdb}`;
           
-          // GẮN VÀO NÚT XEM NGAY TRÊN POPUP
           const popupPlayBtn = document.querySelector('.hdc-btn-play');
           if(popupPlayBtn && movieSlug) {
               popupPlayBtn.onclick = (event) => {
@@ -1318,18 +1607,8 @@
                   window.location.href = `phim.html?slug=${movieSlug}`;
               };
           }
-
-          hdcTitle.textContent = name;
-          hdcSub.textContent = sub || 'Đang cập nhật';
-          hdcImg.src = img;
-          hdcYear.textContent = year;
-          hdcEp.textContent = ep;
-          hdcImdb.textContent = `IMDb ${imdb}`;
           
-          const fakeGenres = ['Hành Động', 'Tâm Lý', 'Gia Đình', 'Hài Hước'];
-          const g1 = fakeGenres[Math.floor(Math.random() * fakeGenres.length)];
-          const g2 = fakeGenres[Math.floor(Math.random() * fakeGenres.length)];
-          hdcGenres.innerHTML = `<span>${g1}</span> <span class="hdc-dot">•</span> <span>${g2}</span>`;
+          if(hdcGenres) hdcGenres.innerHTML = `<span>Hành Động</span> <span class="hdc-dot">•</span> <span>Tâm Lý</span>`;
 
           const rect = targetCard.getBoundingClientRect();
           let leftPos = rect.left + window.scrollX - ((340 - rect.width) / 2);
@@ -1338,9 +1617,11 @@
           if (leftPos < 20) leftPos = 20;
           if (leftPos + 340 > window.innerWidth - 20) leftPos = window.innerWidth - 360;
 
-          hoverCard.style.top = topPos + 'px';
-          hoverCard.style.left = leftPos + 'px';
-          hoverCard.classList.add('show');
+          if(hoverCard){
+              hoverCard.style.top = topPos + 'px';
+              hoverCard.style.left = leftPos + 'px';
+              hoverCard.classList.add('show');
+          }
         }, 800); 
       }
     });
@@ -1352,11 +1633,12 @@
       }
     });
 
-    hoverCard.addEventListener('mouseleave', () => {
-      hoverCard.classList.remove('show');
-    });
+    if(hoverCard){
+        hoverCard.addEventListener('mouseleave', () => {
+          hoverCard.classList.remove('show');
+        });
+    }
 
-    // AUTO SCROLL CHO TOP BÌNH LUẬN
     const commentScroll = document.getElementById('cb-top-scroll');
     let scrollDir = 1;
     setInterval(() => {
@@ -1367,18 +1649,14 @@
       commentScroll.scrollBy({ left: scrollDir * 320, behavior: 'smooth' });
     }, 3000);
 
-    // AUTO NHẢY CHO BÌNH LUẬN MỚI
     const newCommentsList = document.getElementById('cb-new-comments');
     setInterval(() => {
       if(!newCommentsList) return;
       const lastChild = newCommentsList.lastElementChild;
       if(lastChild) {
-        // Hiệu ứng mờ dần
         lastChild.style.opacity = '0';
         setTimeout(() => {
-          // Di chuyển lên đầu
           newCommentsList.insertBefore(lastChild, newCommentsList.firstElementChild);
-          // Hiện lại
           requestAnimationFrame(() => {
             lastChild.style.opacity = '1';
           });
