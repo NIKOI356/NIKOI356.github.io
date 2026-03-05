@@ -291,7 +291,7 @@
       /* ẨN NAVBAR DESKTOP */
       .navbar:not(.mobile-navbar) { display: none !important; }
 
-      /* HIỆN MOBILE NAVBAR (Theo đúng ảnh 4) */
+      /* HIỆN MOBILE NAVBAR */
       .mobile-navbar { 
         display: flex !important; justify-content: space-between; align-items: center;
         height: 60px; padding: 0 15px; 
@@ -304,10 +304,9 @@
       
       .m-logo-img { height: 28px; object-fit: contain; cursor: pointer; position: absolute; left: 50%; transform: translateX(-50%); }
       
-      /* Kính lúp SVG nét thanh mảnh (Ảnh 4) */
       .m-search-icon { cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 5px; }
 
-      /* OVERLAY TÌM KIẾM TRÀN VIỀN (Ảnh 5) */
+      /* OVERLAY TÌM KIẾM TRÀN VIỀN */
       .m-search-box {
         position: fixed; top: 0; left: 0; right: 0; height: 70px; background: #151922;
         z-index: 2001; display: flex; align-items: center; padding: 0 15px;
@@ -318,13 +317,13 @@
       .m-search-input { width: 100%; background: transparent; border: none; color: #fff; outline: none; font-size: 15px; }
       .m-search-close { font-size: 28px; color: #ff758c; margin-left: 15px; cursor: pointer; font-weight: 300;}
 
-      /* MENU TRƯỢT TỪ TRÁI "Bé bằng 1 nửa" (Ảnh 2 & 3) */
+      /* MENU TRƯỢT TỪ TRÁI */
       .m-overlay-dark { display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1500; opacity: 0; visibility: hidden; transition: 0.3s; }
       .m-overlay-dark.active { opacity: 1; visibility: visible; }
       
       .m-dropdown-menu { 
         display: block; position: fixed; top: 70px; left: 15px; width: 280px; max-height: calc(100vh - 90px); 
-        background: #32446a; /* Màu xanh chuẩn như ảnh */
+        background: #32446a; 
         z-index: 1501; border-radius: 12px; opacity: 0; visibility: hidden; transform: translateY(-10px);
         padding: 20px; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.8); transition: all 0.3s;
       }
@@ -345,9 +344,9 @@
       .m-sub-grid a { font-size: 13.5px; color: #e5e7eb !important; font-weight: normal !important; text-decoration: none; }
 
       /* ================= THAY ĐỔI CÁC SECTION ================= */
-      body { padding-top: 60px; } /* Nhường chỗ cho Navbar mobile */
+      body { padding-top: 60px; } 
       
-      /* Banner: Nền không padding, TÊN NHỎ LẠI BẰNG 1 NỬA, ảnh xếp đè */
+      /* Banner */
       .banner { aspect-ratio: auto; height: 60vh; min-height: 450px; padding: 0 15px; justify-content: center; flex-direction: column; text-align: center; }
       .banner::before { background: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 50%, transparent 100%); }
       .banner-content { margin-top: auto; padding-bottom: 10px; width: 100%; z-index: 5;}
@@ -374,7 +373,7 @@
       .category-card h3 { font-size: 16px; text-align: center; margin: 0; }
       .category-card span { display: none; }
 
-      /* Khối Phim Hàn, Trung... GIỮ NGUYÊN MÀU CHỮ GRADIENT */
+      /* Khối Phim Hàn, Trung... */
       .country-section-wrapper, .new-section-layout { padding: 20px 15px; }
       .country-box-bg { padding: 0; background: transparent; }
       .hz-row { flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 25px; }
@@ -394,7 +393,7 @@
       .ranked-card { flex: 0 0 150px; width: 150px; min-width: 150px; max-width: 150px; }
 
       /* =========================================================
-         MỤC PHIM VIỄN TƯỞNG & VIỆT NAM (Fix y hệt ảnh khoanh đỏ)
+         MỤC PHIM VIỄN TƯỞNG & VIỆT NAM
          ========================================================= */
       .anime-section-wrapper { padding: 20px 15px 30px; display: flex; flex-direction: column; gap: 15px; }
       
@@ -402,35 +401,29 @@
       .anime-header-top h2 { font-size: 1.3rem !important; margin: 0; font-weight: bold; color: #fff; text-transform: uppercase;}
       .anime-header-icon { width: 26px; height: 26px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.4); display: flex; align-items: center; justify-content: center; font-size: 14px; color: rgba(255,255,255,0.8);}
       
-      /* Đặt chiều cao lớn hơn chút để làm layout Card trọn vẹn */
-      .anime-box-container { height: 420px; background: #272935 !important; box-shadow: 0 4px 15px rgba(0,0,0,0.5); border-radius: 12px; position: relative; margin-bottom: 10px; display: block;}
+      .anime-box-container { height: 460px; background: #272935 !important; box-shadow: 0 4px 15px rgba(0,0,0,0.5); border-radius: 12px; overflow: hidden; position: relative; display: block; margin-bottom: 20px;}
       
-      /* Ảnh nằm trên cùng, làm mờ dần xuống phần đáy */
       .anime-bg-image { width: 100%; height: 100%; position: absolute; top: 0; left: 0; right: 0; z-index: 1; border-radius: 12px; mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%); -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 100%); }
       
-      /* GHIM TOÀN BỘ NỘI DUNG VÀO BÊN TRONG CARD (VÙNG MỜ XÁM) */
-      .anime-content-overlay { width: 100%; height: 100%; padding: 0 15px 40px 15px; position: absolute; top: 0; left: 0; background: transparent; z-index: 3; display: flex; flex-direction: column; justify-content: flex-end; text-align: left;}
+      .anime-content-overlay { width: 100%; padding: 0 20px; position: absolute; bottom: 35px; left: 0; background: transparent; z-index: 3; display: flex; flex-direction: column; justify-content: flex-end; text-align: left; margin: 0;}
       
       .anime-main-title { font-size: 1.5rem !important; font-weight: 800; line-height: 1.3; color: #fff; margin-bottom: 5px; text-shadow: none;}
       .anime-origin-title { margin-bottom: 12px; font-size: 0.95rem; color: #fbc02d; font-weight: 500;}
       
-      /* Các thẻ tags */
-      .anime-meta-tags { margin-bottom: 10px; display: flex; justify-content: flex-start; gap: 6px; flex-wrap: wrap; width: 100%;}
-      .anime-meta-tags span, .meta-tag-imdb, .meta-tag-outline { font-size: 10px !important; padding: 3px 6px !important; border-radius: 4px; display: inline-block;}
+      .anime-meta-tags { margin-bottom: 12px; display: flex; justify-content: flex-start; gap: 6px; flex-wrap: wrap; width: 100%;}
+      .anime-meta-tags span, .meta-tag-imdb, .meta-tag-outline { font-size: 11px !important; padding: 3px 8px !important; border-radius: 4px; display: inline-block;}
       .meta-tag-imdb { border: 1px solid #f5c518; color: #f5c518; font-weight: bold;}
       .meta-tag-outline { border: 1px solid #ccc; color: #fff; }
       .meta-tag-age { background: #fff; color: #272935; font-weight: bold; border: 1px solid #fff;}
       
-      .anime-genres-tags { margin-bottom: 10px; display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 6px;}
-      .genre-tag-item { background: rgba(255,255,255,0.15) !important; color: #fff; border-radius: 6px; padding: 4px 10px !important; font-size: 10px !important; border: none !important;}
+      .anime-genres-tags { margin-bottom: 12px; display: flex; flex-wrap: wrap; justify-content: flex-start; gap: 8px;}
+      .genre-tag-item { background: rgba(255,255,255,0.15) !important; color: #fff; border-radius: 6px; padding: 5px 12px !important; font-size: 11px !important; border: none !important;}
       
-      /* Description nằm trong nền xám đen */
-      .anime-description { -webkit-line-clamp: 3; font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0; line-height: 1.4; display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden;}
+      .anime-description { -webkit-line-clamp: 3; font-size: 0.9rem; color: #cbd5e1; margin-bottom: 0; line-height: 1.5; display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden;}
       
       .anime-action-buttons { display: none; } 
       
-      /* ĐƯA CÁC CHẤM TRÒN VÀO TRONG CARD, SÁT ĐÁY LUÔN */
-      .anime-bottom-thumbs { position: absolute; bottom: 15px; left: 0; right: 0; display: flex; justify-content: center; align-items: center; gap: 6px; width: 100%; padding: 0; z-index: 5;}
+      .anime-bottom-thumbs { position: absolute; bottom: 12px; left: 0; right: 0; display: flex; justify-content: center; align-items: center; gap: 8px; width: 100%; padding: 0; z-index: 5;}
       .anime-thumb-img { 
           width: 8px !important; height: 8px !important; 
           padding: 0 !important; border-radius: 50% !important; 
@@ -439,7 +432,7 @@
           flex: 0 0 8px !important; margin: 0 !important;
           transition: all 0.3s ease;
       }
-      .anime-thumb-img.active { background-color: #fbc02d !important; transform: scale(1.2) !important; opacity: 1;}
+      .anime-thumb-img.active { background-color: #fbc02d !important; transform: scale(1.3) !important; opacity: 1;}
 
       /* Tắt Hover Pop-up trên Mobile */
       .hover-detail-card { display: none !important; }
@@ -510,7 +503,6 @@
       <a href="#">TCoin <span class="m-badge-new">New</span></a>
     </div>
   </div>
-
 
   <nav class="navbar desktop-navbar">
     <div class="logo-section">
@@ -645,8 +637,8 @@
           <div class="sub-btn-circle">❤</div>
           <div class="sub-btn-circle">i</div>
         </div>
-        <div class="anime-bottom-thumbs" id="an-thumbs"></div>
       </div>
+      <div class="anime-bottom-thumbs" id="an-thumbs"></div>
     </div>
   </section>
 
@@ -786,8 +778,8 @@
           <div class="sub-btn-circle">❤</div>
           <div class="sub-btn-circle">i</div>
         </div>
-        <div class="anime-bottom-thumbs" id="vn-thumbs"></div>
       </div>
+      <div class="anime-bottom-thumbs" id="vn-thumbs"></div>
     </div>
   </section>
 
@@ -1048,7 +1040,7 @@
       }
     }
 
-    // TÌM KIẾM TRÊN MOBILE - ĐÃ FIX LỖI ẢNH!
+    // TÌM KIẾM TRÊN MOBILE
     const msi = document.getElementById('mSearchInput');
     if(msi) {
         msi.addEventListener('keypress', function(e) {
@@ -1062,7 +1054,7 @@
     // JAVASCRIPT GỐC CHO DESKTOP (GIỮ NGUYÊN 100%)
     // =========================================================
     function getSafeUrl(path, domain) {
-      if (!path) return 'https://placehold.co/240x360/1a1c20/777777?text=XoPhim';
+      if (!path) return 'https://placehold.co/240x360/1a1c20/777777?text=DepFlix';
       if (String(path).startsWith('http')) return path;
       const imgDomain = domain || 'https://phimimg.com';
       return imgDomain.replace(/\/$/, '') + '/' + String(path).replace(/^\//, '');
@@ -1241,7 +1233,7 @@
             let html = '';
             data.data.items.forEach(m => {
               const imgSrc = getSafeUrl(m.thumb_url || m.poster_url, domain);
-              const fallbackImg = "this.onerror=null;this.src='https://placehold.co/260x146/1a1c20/777777?text=XoPhim'";
+              const fallbackImg = "this.onerror=null;this.src='https://placehold.co/260x146/1a1c20/777777?text=DepFlix'";
               const safeName = m.name ? m.name.replace(/'/g, "\\'") : '';
               const safeSub = m.origin_name ? m.origin_name.replace(/'/g, "\\'") : '';
               
@@ -1294,7 +1286,7 @@
             let html = '';
             itemsToRender.forEach((m, idx) => {
               const imgSrc = getSafeUrl(m.poster_url || m.thumb_url, domain);
-              const fallbackImg = "this.onerror=null;this.src='https://placehold.co/240x360/1a1c20/777777?text=XoPhim'";
+              const fallbackImg = "this.onerror=null;this.src='https://placehold.co/240x360/1a1c20/777777?text=DepFlix'";
               const safeName = m.name ? m.name.replace(/'/g, "\\'") : '';
               const safeSub = m.origin_name ? m.origin_name.replace(/'/g, "\\'") : '';
               
@@ -1376,14 +1368,12 @@
             .then(data => {
               searchResults.innerHTML = '';
               if (data.status && data.data && data.data.items && data.data.items.length > 0) {
-                // SỬA LỖI ẢNH TẠI ĐÂY - LẤY DOMAIN TỪ API
                 const searchDomain = data.data.APP_DOMAIN_CDN_IMAGE || 'https://phimimg.com';
 
                 data.data.items.slice(0, 6).forEach(m => {
                   const item = document.createElement('div');
                   item.className = 'search-item';
                   
-                  // Gắn Domain vào link ảnh
                   const imgSrc = m.thumb_url || m.poster_url ? getSafeUrl(m.thumb_url || m.poster_url, searchDomain) : 'https://via.placeholder.com/50x70';
 
                   item.innerHTML = `
@@ -1414,7 +1404,6 @@
           if (data && data.data && data.data.items) {
             sciFiDomain = extractDomain(data, ''); sciFiArray = data.data.items.slice(0, 8); 
             
-            // Xử lý Desktop Thumbs
             const thumbDiv = document.getElementById('an-thumbs'); 
             if(thumbDiv) thumbDiv.innerHTML = '';
             
@@ -1422,9 +1411,8 @@
               const safeName = item.name ? item.name.replace(/'/g, "\\'") : '';
               const safeSub = item.origin_name ? item.origin_name.replace(/'/g, "\\'") : '';
               
-              // Tạo thumb
               const img = document.createElement('img');
-              img.onerror = function() { this.onerror=null; this.src='https://placehold.co/65x95/1a1c20/777777?text=XoPhim'; };
+              img.onerror = function() { this.onerror=null; this.src='https://placehold.co/65x95/1a1c20/777777?text=DepFlix'; };
               img.src = getSafeUrl(item.thumb_url || item.poster_url, sciFiDomain);
               img.className = 'anime-thumb-img hover-trigger'; 
               img.setAttribute('data-name', safeName); img.setAttribute('data-sub', safeSub);
@@ -1446,7 +1434,6 @@
     function renderSciFiUI() {
       const item = sciFiArray[sfIdx]; if(!item) return;
       
-      // Update thumbs class active
       const tbs = document.getElementById('an-thumbs');
       if(tbs) tbs.querySelectorAll('.anime-thumb-img').forEach((t, i) => t.classList.toggle('active', i === sfIdx));
       
@@ -1465,7 +1452,6 @@
             const oEl = document.getElementById('an-origin');
             if(oEl) oEl.textContent = m.origin_name || '';
             
-            // Sửa trong hàm renderSciFiUI()
             const mtEl = document.getElementById('an-meta');
             if(mtEl) mtEl.innerHTML = `<span class="meta-tag-imdb">IMDb ${m.imdb?.id || '8.7'}</span><span class="meta-tag-age">T16</span><span class="meta-tag-outline">${m.year || '2024'}</span><span class="meta-tag-outline">Phần 1</span><span class="meta-tag-outline">${m.episode_current || 'Full'}</span>`;
             const genEl = document.getElementById('an-genres');
@@ -1493,7 +1479,6 @@
           if (data && data.data && data.data.items) {
             vnDomain = extractDomain(data, ''); vnArray = data.data.items.slice(0, 8); 
             
-            // Xử lý Desktop thumbs
             const thumbDiv = document.getElementById('vn-thumbs'); 
             if(thumbDiv) thumbDiv.innerHTML = '';
 
@@ -1501,9 +1486,8 @@
               const safeName = item.name ? item.name.replace(/'/g, "\\'") : '';
               const safeSub = item.origin_name ? item.origin_name.replace(/'/g, "\\'") : '';
               
-              // Tạo thumb
               const img = document.createElement('img');
-              img.onerror = function() { this.onerror=null; this.src='https://placehold.co/65x95/1a1c20/777777?text=XoPhim'; };
+              img.onerror = function() { this.onerror=null; this.src='https://placehold.co/65x95/1a1c20/777777?text=DepFlix'; };
               img.src = getSafeUrl(item.thumb_url || item.poster_url, vnDomain);
               img.className = 'anime-thumb-img hover-trigger'; 
               img.setAttribute('data-name', safeName); img.setAttribute('data-sub', safeSub);
@@ -1525,7 +1509,6 @@
     function renderVnUI() {
       const item = vnArray[vnIdx]; if(!item) return;
       
-      // Update class active
       const tbs = document.getElementById('vn-thumbs');
       if(tbs) tbs.querySelectorAll('.anime-thumb-img').forEach((t, i) => t.classList.toggle('active', i === vnIdx));
       
