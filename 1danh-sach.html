@@ -53,7 +53,7 @@
     .tags-on-card { position: absolute; bottom: 8px; left: 8px; display: flex; gap: 4px; z-index: 2; }
     .tag-blue { background: #4b5566; color: #fff; font-size: 10px; font-weight: bold; padding: 3px 6px; border-radius: 4px; }
     .tag-green { background: #10b981; color: #fff; font-size: 10px; font-weight: bold; padding: 3px 6px; border-radius: 4px;}
-    .tag-orange { background: #f59e0b; color: #fff; font-size: 10px; font-weight: bold; padding: 3px 6px; border-radius: 4px;}
+    .tag-orange { background: #E50914; color: #fff; font-size: 10px; font-weight: bold; padding: 3px 6px; border-radius: 4px;} /* Đổi cam thành đỏ */
     
     .design-card:hover .design-poster-wrap { box-shadow: 0 0 0 2px #E50914, 0 0 20px rgba(229,9,20,0.7); }
     .design-card:hover .design-poster { transform: scale(1.05); }
@@ -100,7 +100,7 @@
     .hdc-btn-icon { background: transparent; color: #fff; border: 1px solid #666; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; transition: 0.2s; }
     .hdc-btn-icon:hover { border-color: #fff; background: rgba(255,255,255,0.1); }
     .hdc-meta { display: flex; gap: 8px; align-items: center; font-size: 0.8rem; font-weight: bold; margin-top: 5px; }
-    .hdc-meta-imdb { border: 1px solid #f5c518; color: #f5c518; padding: 2px 6px; border-radius: 4px; }
+    .hdc-meta-imdb { border: 1px solid #E50914; color: #E50914; padding: 2px 6px; border-radius: 4px; } /* Đổi vàng thành đỏ */
     .hdc-meta-text { color: #ccc; }
 
     /* RESPONSIVE DESKTOP NHỎ */
@@ -140,7 +140,7 @@
       .m-search-box.active { transform: translateY(0); }
       .m-search-wrap { flex: 1; border: 1px solid #444; border-radius: 6px; display: flex; align-items: center; height: 40px; padding: 0 10px; background: transparent;}
       .m-search-input { width: 100%; background: transparent; border: none; color: #fff; outline: none; font-size: 15px; }
-      .m-search-close { font-size: 28px; color: #ff758c; margin-left: 15px; cursor: pointer; font-weight: 300;}
+      .m-search-close { font-size: 28px; color: #E50914; margin-left: 15px; cursor: pointer; font-weight: 300;}
 
       /* MENU TRƯỢT TỪ TRÁI */
       .m-overlay-dark { display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1500; opacity: 0; visibility: hidden; transition: 0.3s; }
@@ -148,19 +148,19 @@
       
       .m-dropdown-menu { 
         display: block; position: fixed; top: 70px; left: 15px; width: 280px; max-height: calc(100vh - 90px); 
-        background: #32446a; 
+        background: #151922; 
         z-index: 1501; border-radius: 12px; opacity: 0; visibility: hidden; transform: translateY(-10px);
         padding: 20px; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.8); transition: all 0.3s;
       }
       .m-dropdown-menu.active { opacity: 1; visibility: visible; transform: translateY(0); }
       
-      .m-btn-top { display: flex; justify-content: center; align-items: center; gap: 8px; padding: 12px; border-radius: 30px; font-weight: bold; font-size: 15px; text-decoration: none; color: #000; margin-bottom: 25px; background: #f3f4f6; }
+      .m-btn-top { display: flex; justify-content: center; align-items: center; gap: 8px; padding: 12px; border-radius: 30px; font-weight: bold; font-size: 15px; text-decoration: none; color: #fff; margin-bottom: 25px; background: #E50914; }
       
       .m-nav-grid-links { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 10px; }
       .m-nav-grid-links a, .m-has-sub-title { font-size: 14px; font-weight: bold; color: #fff; cursor: pointer; text-decoration: none; }
       .m-has-sub-title { display: flex; align-items: center; gap: 5px; }
       .m-has-sub-title::after { content: '▼'; font-size: 10px; opacity: 0.8;}
-      .m-has-sub-title.open { color: #fbc02d; }
+      .m-has-sub-title.open { color: #E50914; }
       .m-has-sub-title.open::after { content: '▲'; }
       .m-badge-new { background: #E50914; padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-left: 5px; }
       
@@ -370,10 +370,11 @@
         breadcrumbEl.innerHTML = `<a href="index.html">🏠 Trang chủ</a> <span style="margin: 0 5px;">›</span> Phim ${pageName}`;
     }
 
-    function getSafeUrl(path, domain) {
-      if (!path) return 'https://placehold.co/240x360/1a1c20/777777?text=DepFlix';
+    // HÀM AN TOÀN FIX ẢNH (Tương tự file trước)
+    function getSafeUrl(path, domain = 'https://phimimg.com') {
+      if (!path) return 'https://placehold.co/240x360/1a1c20/777777?text=No+Image';
       if (String(path).startsWith('http')) return path;
-      return (domain || 'https://phimimg.com').replace(/\/$/, '') + '/' + String(path).replace(/^\//, '');
+      return domain.replace(/\/$/, '') + '/' + String(path).replace(/^\//, '');
     }
 
     // Khởi tạo Menu (Cho cả Desktop và Mobile)
