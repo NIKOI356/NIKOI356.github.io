@@ -35,7 +35,7 @@
     /* DANH SÁCH LƯỚI PHIM */
     .list-wrapper { padding: 130px 6% 80px; min-height: 80vh;}
     
-    /* Breadcrumb & Tiêu đề giống ảnh mẫu */
+    /* Breadcrumb & Tiêu đề */
     .breadcrumb { font-size: 0.9rem; color: #aaa; margin-bottom: 10px; display: flex; align-items: center; gap: 5px; }
     .breadcrumb a { color: #aaa; text-decoration: none; }
     .breadcrumb a:hover { color: #fff; }
@@ -53,7 +53,7 @@
     .tags-on-card { position: absolute; bottom: 8px; left: 8px; display: flex; gap: 4px; z-index: 2; }
     .tag-blue { background: #4b5566; color: #fff; font-size: 10px; font-weight: bold; padding: 3px 6px; border-radius: 4px; }
     .tag-green { background: #10b981; color: #fff; font-size: 10px; font-weight: bold; padding: 3px 6px; border-radius: 4px;}
-    .tag-orange { background: #E50914; color: #fff; font-size: 10px; font-weight: bold; padding: 3px 6px; border-radius: 4px;} /* Đổi cam thành đỏ */
+    .tag-orange { background: #E50914; color: #fff; font-size: 10px; font-weight: bold; padding: 3px 6px; border-radius: 4px;}
     
     .design-card:hover .design-poster-wrap { box-shadow: 0 0 0 2px #E50914, 0 0 20px rgba(229,9,20,0.7); }
     .design-card:hover .design-poster { transform: scale(1.05); }
@@ -100,7 +100,7 @@
     .hdc-btn-icon { background: transparent; color: #fff; border: 1px solid #666; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; transition: 0.2s; }
     .hdc-btn-icon:hover { border-color: #fff; background: rgba(255,255,255,0.1); }
     .hdc-meta { display: flex; gap: 8px; align-items: center; font-size: 0.8rem; font-weight: bold; margin-top: 5px; }
-    .hdc-meta-imdb { border: 1px solid #E50914; color: #E50914; padding: 2px 6px; border-radius: 4px; } /* Đổi vàng thành đỏ */
+    .hdc-meta-imdb { border: 1px solid #E50914; color: #E50914; padding: 2px 6px; border-radius: 4px; }
     .hdc-meta-text { color: #ccc; }
 
     /* RESPONSIVE DESKTOP NHỎ */
@@ -113,10 +113,8 @@
     .mobile-navbar, .m-search-box, .m-dropdown-menu, .m-overlay-dark { display: none; }
 
     @media (max-width: 768px) {
-      /* ẨN NAVBAR DESKTOP */
       .navbar:not(.mobile-navbar) { display: none !important; }
 
-      /* HIỆN MOBILE NAVBAR */
       .mobile-navbar { 
         display: flex !important; justify-content: space-between; align-items: center;
         height: 60px; padding: 0 15px; 
@@ -126,12 +124,9 @@
       }
       .m-hamburger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; padding: 10px 10px 10px 0;}
       .m-hamburger span { width: 24px; height: 2px; background: #fff; border-radius: 2px; }
-      
       .m-logo-img { height: 28px; object-fit: contain; cursor: pointer; position: absolute; left: 50%; transform: translateX(-50%); }
-      
       .m-search-icon { cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 5px; }
 
-      /* OVERLAY TÌM KIẾM TRÀN VIỀN */
       .m-search-box {
         position: fixed; top: 0; left: 0; right: 0; height: 70px; background: #151922;
         z-index: 2001; display: flex; align-items: center; padding: 0 15px;
@@ -142,7 +137,6 @@
       .m-search-input { width: 100%; background: transparent; border: none; color: #fff; outline: none; font-size: 15px; }
       .m-search-close { font-size: 28px; color: #E50914; margin-left: 15px; cursor: pointer; font-weight: 300;}
 
-      /* MENU TRƯỢT TỪ TRÁI */
       .m-overlay-dark { display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1500; opacity: 0; visibility: hidden; transition: 0.3s; }
       .m-overlay-dark.active { opacity: 1; visibility: visible; }
       
@@ -168,7 +162,6 @@
       .m-sub-grid.active { display: grid; }
       .m-sub-grid a { font-size: 13.5px; color: #e5e7eb !important; font-weight: normal !important; text-decoration: none; }
 
-      /* CĂN CHỈNH LAYOUT MOBILE CHO FILE DANH SÁCH */
       body { padding-top: 60px; }
       .list-wrapper { padding: 20px 15px; min-height: auto; }
       
@@ -176,17 +169,14 @@
       .page-title { font-size: 1.5rem; margin-bottom: 10px; }
       .filter-btn { font-size: 12px; margin-bottom: 20px; }
 
-      /* ÉP LƯỚI 2 CỘT TRÊN MOBILE NHƯ ẢNH */
       .ds-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 10px; }
       
       .design-poster-wrap { border-radius: 10px; }
       .design-title { font-size: 0.9rem; }
       .design-sub { font-size: 0.75rem; }
       
-      /* Hover Popup tắt trên mobile */
       .hover-detail-card { display: none !important; }
 
-      /* Footer Mobile */
       .site-footer { padding: 40px 15px; text-align: center; }
       .footer-brand-row { flex-direction: column; align-items: center; gap: 15px; margin-bottom: 20px;}
       .footer-divider { display: none; }
@@ -226,18 +216,10 @@
     
     <div class="m-nav-grid-links">
       <a href="index.html">Trang chủ</a>
-      
-      <div>
-        <div class="m-has-sub-title" onclick="toggleMSub(this, 'mCat')">Thể loại ▾</div>
-      </div>
-      
-      <div>
-        <div class="m-has-sub-title" onclick="toggleMSub(this, 'mNat')">Quốc gia ▾</div>
-      </div>
-
+      <div><div class="m-has-sub-title" onclick="toggleMSub(this, 'mCat')">Thể loại ▾</div></div>
+      <div><div class="m-has-sub-title" onclick="toggleMSub(this, 'mNat')">Quốc gia ▾</div></div>
       <div class="m-sub-grid" id="mCat"></div>
       <div class="m-sub-grid" id="mNat"></div>
-
       <a href="1danh-sach.html?type=danh-sach&slug=phim-moi-cap-nhat&name=Phim+Mới&page=1">Phim mới</a>
       <a href="1danh-sach.html?type=danh-sach&slug=phim-bo&name=Phim+Bộ&page=1">Phim bộ</a>
       <a href="1danh-sach.html?type=danh-sach&slug=phim-le&name=Phim+Lẻ&page=1">Phim lẻ</a>
@@ -248,7 +230,6 @@
       <a href="#">TCoin <span class="m-badge-new">New</span></a>
     </div>
   </div>
-
 
   <nav class="navbar desktop-navbar">
     <div class="logo-section">
@@ -273,8 +254,7 @@
   </nav>
 
   <div class="list-wrapper">
-    <div class="breadcrumb" id="breadcrumb">
-       </div>
+    <div class="breadcrumb" id="breadcrumb"></div>
     <h1 class="page-title" id="page-title">Đang tải dữ liệu...</h1>
     
     <div class="filter-btn">
@@ -346,6 +326,23 @@
       }
     }
 
+    // =========================================================
+    // HÀM FIX ẢNH: Sử dụng API proxy image.php sang WEBP
+    // =========================================================
+    function getSafeUrl(path, domain = 'https://phimimg.com') {
+      if (!path) return 'https://placehold.co/240x360/1a1c20/777777?text=No+Image';
+      
+      let fullUrl = '';
+      if (String(path).startsWith('http')) {
+          fullUrl = path;
+      } else {
+          fullUrl = domain.replace(/\/$/, '') + '/' + String(path).replace(/^\//, '');
+      }
+      
+      // Bọc qua endpoint image.php để fix triệt để lỗi chặn ảnh
+      return `https://phimapi.com/image.php?url=${encodeURIComponent(fullUrl)}`;
+    }
+
     const msi = document.getElementById('mSearchInput');
     if(msi) {
         msi.addEventListener('keypress', function(e) {
@@ -370,14 +367,7 @@
         breadcrumbEl.innerHTML = `<a href="index.html">🏠 Trang chủ</a> <span style="margin: 0 5px;">›</span> Phim ${pageName}`;
     }
 
-    // HÀM AN TOÀN FIX ẢNH (Tương tự file trước)
-    function getSafeUrl(path, domain = 'https://phimimg.com') {
-      if (!path) return 'https://placehold.co/240x360/1a1c20/777777?text=No+Image';
-      if (String(path).startsWith('http')) return path;
-      return domain.replace(/\/$/, '') + '/' + String(path).replace(/^\//, '');
-    }
-
-    // Khởi tạo Menu (Cho cả Desktop và Mobile)
+    // Khởi tạo Menu
     const famousActors = ['Châu Tinh Trì', 'Thành Long', 'Ngô Kinh', 'Chân Tử Đan', 'Lý Liên Kiệt', 'Cổ Thiên Lạc'];
     famousActors.forEach(actor => { 
         document.getElementById('dien-vien-grid').innerHTML += `<div class="dropdown-item" onclick="window.location.href='1danh-sach.html?type=tim-kiem&slug=${encodeURIComponent(actor)}&name=${encodeURIComponent(actor)}&page=1'">${actor}</div>`; 
@@ -416,95 +406,90 @@
       const grid = document.getElementById('movies-grid');
       grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:50px;font-size:1.2rem;">Đang tải danh sách phim... 🍿</div>';
       
-      let fetchPromises = [];
+      let apiUrl = '';
+      
+      // Khai thác triệt để tham số limit của API mới (tối đa 64)
       if(apiType === 'tim-kiem') {
-          let apiPage1 = (page - 1) * 3 + 1;
-          fetchPromises.push(fetch(`https://ophim1.com/v1/api/tim-kiem?keyword=${apiSlug}&page=${apiPage1}`).then(r => r.json()));
-          fetchPromises.push(fetch(`https://ophim1.com/v1/api/tim-kiem?keyword=${apiSlug}&page=${apiPage1 + 1}`).then(r => r.json()));
-          fetchPromises.push(fetch(`https://ophim1.com/v1/api/tim-kiem?keyword=${apiSlug}&page=${apiPage1 + 2}`).then(r => r.json()));
+          apiUrl = `https://phimapi.com/v1/api/tim-kiem?keyword=${apiSlug}&page=${page}&limit=36`;
+      } else if(apiType === 'the-loai') {
+          apiUrl = `https://phimapi.com/v1/api/the-loai/${apiSlug}?page=${page}&limit=36`;
+      } else if(apiType === 'quoc-gia') {
+          apiUrl = `https://phimapi.com/v1/api/quoc-gia/${apiSlug}?page=${page}&limit=36`;
       } else {
-          let apiPage1 = (page - 1) * 2 + 1;
-          let apiPage2 = (page - 1) * 2 + 2;
-          let baseUrl = '';
-          if(apiType === 'the-loai') baseUrl = `https://phimapi.com/v1/api/the-loai/${apiSlug}`;
-          else if(apiType === 'quoc-gia') baseUrl = `https://phimapi.com/v1/api/quoc-gia/${apiSlug}`;
-          else baseUrl = `https://phimapi.com/v1/api/danh-sach/${apiSlug}`;
-
-          fetchPromises.push(fetch(`${baseUrl}?page=${apiPage1}&limit=24`).then(r => r.json()));
-          fetchPromises.push(fetch(`${baseUrl}?page=${apiPage2}&limit=24`).then(r => r.json()));
+          apiUrl = `https://phimapi.com/v1/api/danh-sach/${apiSlug}?page=${page}&limit=36`;
       }
 
-      Promise.all(fetchPromises).then(results => {
-        grid.innerHTML = '';
-        let rawItems = [];
-        let totalPages = 1;
-        let domain = 'https://phimimg.com';
-        let fallbackTitle = "KẾT QUẢ PHIM";
+      fetch(apiUrl)
+        .then(r => r.json())
+        .then(data => {
+            grid.innerHTML = '';
+            let rawItems = [];
+            let totalPages = 1;
+            let domain = 'https://phimimg.com';
+            let fallbackTitle = "KẾT QUẢ PHIM";
 
-        results.forEach(data => {
-            if (data && data.data && data.data.items) {
-                rawItems = rawItems.concat(data.data.items);
-                let divisor = apiType === 'tim-kiem' ? 3 : 2; 
-                totalPages = Math.ceil((data.data.params?.pagination?.totalPages || 1) / divisor);
+            // Map data chuẩn với format API
+            if (data.data && data.data.items) {
+                rawItems = data.data.items;
+                totalPages = data.data.params?.pagination?.totalPages || 1;
                 domain = data.data.APP_DOMAIN_CDN_IMAGE || domain;
                 fallbackTitle = data.data.titlePage || fallbackTitle;
-            } else if (data && data.items) {
-                rawItems = rawItems.concat(data.items);
-                let divisor = apiType === 'tim-kiem' ? 3 : 2;
-                totalPages = Math.ceil((data.pagination?.totalPages || 1) / divisor);
+            } else if (data.items) {
+                rawItems = data.items;
+                totalPages = data.pagination?.totalPages || 1;
                 domain = data.pathImage || domain;
                 fallbackTitle = data.titlePage || fallbackTitle;
             }
-        });
 
-        if (!pageName) {
-            pageTitleEl.textContent = fallbackTitle.toUpperCase();
-            breadcrumbEl.innerHTML = `<a href="index.html">🏠 Trang chủ</a> <span style="margin: 0 5px;">›</span> ${fallbackTitle}`;
-        }
+            if (!pageName) {
+                pageTitleEl.textContent = fallbackTitle.toUpperCase();
+                breadcrumbEl.innerHTML = `<a href="index.html">🏠 Trang chủ</a> <span style="margin: 0 5px;">›</span> ${fallbackTitle}`;
+            }
 
-        if (rawItems.length === 0) {
-            grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:50px;">Không tìm thấy phim nào!</div>';
-            return;
-        }
+            if (rawItems.length === 0) {
+                grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:50px;">Không tìm thấy phim nào!</div>';
+                return;
+            }
 
-        const itemsToRender = rawItems.slice(0, 36); 
-        let html = '';
-        
-        itemsToRender.forEach(m => {
-            const imgSrc = getSafeUrl(m.poster_url || m.thumb_url, domain);
-            const safeName = m.name ? m.name.replace(/'/g, "\\'") : '';
-            const safeSub = m.origin_name ? m.origin_name.replace(/'/g, "\\'") : '';
-            const randomImdb = (Math.random() * (9.5 - 6.0) + 6.0).toFixed(1);
+            let html = '';
+            
+            rawItems.forEach(m => {
+                const imgSrc = getSafeUrl(m.poster_url || m.thumb_url, domain);
+                const safeName = m.name ? m.name.replace(/'/g, "\\'") : '';
+                const safeSub = m.origin_name ? m.origin_name.replace(/'/g, "\\'") : '';
+                const randomImdb = (Math.random() * (9.5 - 6.0) + 6.0).toFixed(1);
 
-            html += `
-              <div class="design-card hover-trigger" 
-                   onclick="window.location.href='phim.html?slug=${m.slug}'"
-                   data-slug="${m.slug}"
-                   data-name="${safeName}" data-sub="${safeSub}" 
-                   data-img="${imgSrc}" data-year="${m.year||'N/A'}" 
-                   data-ep="${m.episode_current||'Full'}" data-imdb="${randomImdb}">
-                <div class="design-poster-wrap">
-                  <img src="${imgSrc}" class="design-poster" loading="lazy" onerror="this.src='https://placehold.co/240x360/1a1c20/777777?text=Lỗi+Ảnh'">
-                  <div class="tags-on-card">
-                    <span class="tag-blue">${m.quality || 'FHD'}</span>
-                    <span class="tag-green">${m.lang || 'Vietsub'}</span>
-                    <span class="tag-orange">${m.episode_current || 'Full'}</span>
+                html += `
+                  <div class="design-card hover-trigger" 
+                       onclick="window.location.href='phim.html?slug=${m.slug}'"
+                       data-slug="${m.slug}"
+                       data-name="${safeName}" data-sub="${safeSub}" 
+                       data-img="${imgSrc}" data-year="${m.year||'N/A'}" 
+                       data-ep="${m.episode_current||'Full'}" data-imdb="${randomImdb}">
+                    <div class="design-poster-wrap">
+                      <img src="${imgSrc}" class="design-poster" loading="lazy" onerror="this.src='https://placehold.co/240x360/1a1c20/777777?text=Lỗi+Ảnh'">
+                      <div class="tags-on-card">
+                        <span class="tag-blue">${m.quality || 'FHD'}</span>
+                        <span class="tag-green">${m.lang || 'Vietsub'}</span>
+                        <span class="tag-orange">${m.episode_current || 'Full'}</span>
+                      </div>
+                    </div>
+                    <div class="design-title">${m.name}</div>
+                    <div class="design-sub">${m.origin_name || ''}</div>
                   </div>
-                </div>
-                <div class="design-title">${m.name}</div>
-                <div class="design-sub">${m.origin_name || ''}</div>
-              </div>
-            `;
-        });
-        grid.innerHTML = html;
+                `;
+            });
+            grid.innerHTML = html;
 
-        document.getElementById('page-info').textContent = `Trang ${page} / ${totalPages}`;
-        document.getElementById('prev-btn').disabled = page <= 1;
-        document.getElementById('next-btn').disabled = page >= totalPages;
-        window.scrollTo({top: 0, behavior: 'smooth'});
-      }).catch(err => {
-        grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:50px;">Có lỗi xảy ra khi tải phim. Vui lòng tải lại trang.</div>';
-      });
+            document.getElementById('page-info').textContent = `Trang ${page} / ${totalPages}`;
+            document.getElementById('prev-btn').disabled = page <= 1;
+            document.getElementById('next-btn').disabled = page >= totalPages;
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        })
+        .catch(err => {
+            console.error(err);
+            grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:50px;">Có lỗi xảy ra khi tải phim. Vui lòng tải lại trang.</div>';
+        });
     }
 
     // Hover Pop-up (Desktop)
@@ -512,7 +497,7 @@
     let hoverTimer;
 
     document.addEventListener('mouseover', (e) => {
-      if(window.innerWidth <= 768) return; // Không chạy trên mobile
+      if(window.innerWidth <= 768) return; 
 
       const targetCard = e.target.closest('.hover-trigger');
       if(e.target.closest('#hover-detail-card')) return;
@@ -554,6 +539,7 @@
     document.getElementById('prev-btn').onclick = () => { currentPage--; fetchAndRenderMovies(currentPage); };
     document.getElementById('next-btn').onclick = () => { currentPage++; fetchAndRenderMovies(currentPage); };
 
+    // Khởi chạy load phim lần đầu
     fetchAndRenderMovies(currentPage);
   </script>
 </body>
