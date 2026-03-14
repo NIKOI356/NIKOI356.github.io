@@ -11,28 +11,42 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0b0c10; color: #fff; min-height: 100vh; overflow-x: hidden; }
 
-    /* HEADER / NAVBAR (DESKTOP) */
-    .navbar { background: rgba(15, 17, 23, 0.95); height: 90px; padding: 0 40px; display: flex; align-items: center; justify-content: space-between; position: fixed; top: 0; left: 0; right: 0; z-index: 1000; backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+    /* HEADER / NAVBAR (DESKTOP) ĐỒNG BỘ TỪ INDEX */
+    .navbar { background: rgba(15, 17, 23, 0.95); height: 90px; padding: 0 40px; display: flex; align-items: center; justify-content: space-between; position: fixed; top: 0; left: 0; right: 0; z-index: 2000; backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .logo-section { display: flex; align-items: center; }
     .logo-img { width: 120px; height: 40px; object-fit: contain; cursor: pointer; }
-    .search-bar { flex: 1; max-width: 480px; margin: 0 40px; position: relative; }
+    
+    .search-bar { flex: 1; max-width: 480px; margin: 0 30px; position: relative; }
     .search-input { width: 100%; padding: 12px 20px 12px 48px; border: none; border-radius: 30px; background: rgba(51, 51, 51, 0.7); color: #fff; font-size: 15px; }
     .search-input:focus { outline: none; box-shadow: 0 0 0 2px #E50914; }
     .search-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: #aaa; font-size: 18px; }
+    
     #search-results { position: absolute; top: 100%; left: 0; right: 0; background: #151922; border-radius: 8px; max-height: 400px; overflow-y: auto; z-index: 100; display: none; padding: 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.8); margin-top: 10px; border: 1px solid #2a2e39;}
     .search-item { display: flex; align-items: center; gap: 12px; padding: 8px; cursor: pointer; border-radius: 6px; }
     .search-item:hover { background: #2a2e39; }
     .search-item img { width: 50px; height: 70px; object-fit: cover; border-radius: 4px; }
-    .nav-menu { display: flex; align-items: center; gap: 24px; font-size: 15px; font-weight: 500; }
-    .nav-item { color: #e5e5e5; transition: color 0.2s ease; cursor: pointer; text-decoration: none; white-space: nowrap; }
+    
+    .nav-menu { display: flex; align-items: center; gap: 20px; font-size: 14px; font-weight: 500; }
+    .nav-item { color: #e5e5e5; transition: color 0.2s ease; cursor: pointer; text-decoration: none; white-space: nowrap; display: flex; align-items: center; gap: 4px;}
     .nav-item:hover { color: #E50914; }
+    .badge-new { background: #E50914; color: #fff; font-size: 9px; padding: 2px 6px; border-radius: 10px; font-weight: bold;}
+    
     .dropdown { position: relative; }
-    .dropdown-toggle::after { content: '▼'; font-size: 8px; margin-left: 4px; opacity: 0.6; }
+    .dropdown-toggle { cursor: pointer; display: inline-flex; align-items: center; gap: 5px; color: #e5e5e5; transition: all 0.2s; padding: 6px 0; border-radius: 4px; }
+    .dropdown-toggle:hover { color: #E50914; }
+    .dropdown-toggle::after { content: '▼'; font-size: 8px; margin-left: 4px; opacity: 0.6; transition: opacity 0.2s; }
+    .dropdown:hover .dropdown-toggle::after { opacity: 1; color: #E50914; transform: rotate(180deg); }
+    
     .dropdown-menu { position: absolute; top: 100%; left: -20px; margin-top: 10px; background: rgba(15, 17, 23, 0.95); border: 1px solid #333; border-radius: 8px; padding: 20px; min-width: 420px; box-shadow: 0 10px 40px rgba(0,0,0,0.9); z-index: 999; max-height: 400px; overflow-y: auto; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s; }
+    .dropdown-menu::before { content: ''; position: absolute; top: -20px; left: 0; right: 0; height: 20px; background: transparent; }
     .dropdown:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+    .dropdown-menu::-webkit-scrollbar { width: 6px; }
+    .dropdown-menu::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
+    .dropdown-menu::-webkit-scrollbar-thumb:hover { background: #E50914; }
     .dropdown-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
     .dropdown-item { color: #ccc; font-size: 14px; padding: 10px; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
     .dropdown-item:hover { background: #E50914; color: #fff; transform: translateX(4px); }
-    .member-btn { background: #E50914; color: #fff; padding: 8px 18px; border-radius: 20px; font-weight: bold; font-size: 14px; text-decoration: none; transition: 0.3s; }
+    .member-btn { background: #E50914; color: #fff; padding: 8px 18px; border-radius: 20px; font-weight: bold; font-size: 14px; text-decoration: none; transition: 0.3s; margin-left: 10px; }
     .member-btn:hover { background: #B20710; transform: translateY(-1px); }
 
     /* DANH SÁCH LƯỚI PHIM */
@@ -55,8 +69,8 @@
     
     .tags-on-card { position: absolute; bottom: 8px; left: 8px; display: flex; gap: 4px; z-index: 2; }
     .tag-blue { background: rgba(255,255,255,0.2); color: #fff; font-size: 10px; font-weight: bold; padding: 4px 8px; border-radius: 4px; backdrop-filter: blur(5px);}
-    .tag-green { background: #10b981; color: #fff; font-size: 10px; font-weight: bold; padding: 3px 6px; border-radius: 4px;}
-    .tag-orange { background: #f59e0b; color: #fff; font-size: 10px; font-weight: bold; padding: 3px 6px; border-radius: 4px;}
+    .tag-green { background: #E50914; color: #fff; font-size: 10px; font-weight: bold; padding: 4px 8px; border-radius: 4px;}
+    .tag-orange { background: #B20710; color: #fff; font-size: 10px; font-weight: bold; padding: 4px 8px; border-radius: 4px;}
     
     .design-card:hover .design-poster-wrap { box-shadow: 0 0 0 2px #E50914, 0 0 20px rgba(229,9,20,0.7); }
     .design-card:hover .design-poster { transform: scale(1.05); }
@@ -99,11 +113,11 @@
     .hdc-sub { font-size: 0.85rem; color: #aaa; }
     .hdc-actions { display: flex; gap: 10px; align-items: center; margin-top: 5px; }
     .hdc-btn-play { background: #E50914; color: #fff; border: none; padding: 8px 16px; border-radius: 4px; font-weight: bold; font-size: 0.95rem; cursor: pointer; flex: 1; display: flex; align-items: center; justify-content: center; gap: 5px; transition: 0.2s; }
-    .hdc-btn-play:hover { background: #fff; color: #E50914; }
+    .hdc-btn-play:hover { background: #B20710; }
     .hdc-btn-icon { background: transparent; color: #fff; border: 1px solid #666; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; transition: 0.2s; }
     .hdc-btn-icon:hover { border-color: #fff; background: rgba(255,255,255,0.1); }
     .hdc-meta { display: flex; gap: 8px; align-items: center; font-size: 0.8rem; font-weight: bold; margin-top: 5px; }
-    .hdc-meta-imdb { border: 1px solid #f5c518; color: #f5c518; padding: 2px 6px; border-radius: 4px; }
+    .hdc-meta-imdb { border: 1px solid #E50914; color: #E50914; padding: 2px 6px; border-radius: 4px; }
     .hdc-meta-text { color: #ccc; }
 
     /* RESPONSIVE DESKTOP NHỎ */
@@ -119,7 +133,7 @@
       /* ẨN NAVBAR DESKTOP */
       .navbar:not(.mobile-navbar) { display: none !important; }
 
-      /* HIỆN MOBILE NAVBAR */
+      /* HIỆN MOBILE NAVBAR (Đồng bộ từ trang chủ) */
       .mobile-navbar { 
         display: flex !important; justify-content: space-between; align-items: center;
         height: 60px; padding: 0 15px; 
@@ -132,7 +146,7 @@
       
       .m-logo-img { height: 28px; object-fit: contain; cursor: pointer; position: absolute; left: 50%; transform: translateX(-50%); }
       
-      .m-search-icon { cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 5px; }
+      .m-search-icon { cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 5px; font-size: 18px; color: #fff;}
 
       /* OVERLAY TÌM KIẾM TRÀN VIỀN */
       .m-search-box {
@@ -141,9 +155,10 @@
         transform: translateY(-100%); transition: transform 0.3s ease;
       }
       .m-search-box.active { transform: translateY(0); }
-      .m-search-wrap { flex: 1; border: 1px solid #444; border-radius: 6px; display: flex; align-items: center; height: 40px; padding: 0 10px; background: transparent;}
+      .m-search-wrap { flex: 1; border: 1px solid #374151; border-radius: 6px; display: flex; align-items: center; height: 40px; padding: 0 10px; background: transparent;}
       .m-search-input { width: 100%; background: transparent; border: none; color: #fff; outline: none; font-size: 15px; }
       .m-search-close { font-size: 28px; color: #E50914; margin-left: 15px; cursor: pointer; font-weight: 300;}
+      #m-search-results { position: absolute; top: 60px; left: 15px; right: 15px; background: #151922; border-radius: 8px; z-index: 100; display: none; padding: 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.8); border: 1px solid #2a2e39;}
 
       /* MENU TRƯỢT TỪ TRÁI */
       .m-overlay-dark { display: block; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1500; opacity: 0; visibility: hidden; transition: 0.3s; }
@@ -151,7 +166,7 @@
       
       .m-dropdown-menu { 
         display: block; position: fixed; top: 70px; left: 15px; width: 280px; max-height: calc(100vh - 90px); 
-        background: #32446a; 
+        background: #1f232d; 
         z-index: 1501; border-radius: 12px; opacity: 0; visibility: hidden; transform: translateY(-10px);
         padding: 20px; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.8); transition: all 0.3s;
       }
@@ -165,17 +180,18 @@
       .m-has-sub-title::after { content: '▼'; font-size: 10px; opacity: 0.8;}
       .m-has-sub-title.open { color: #E50914; }
       .m-has-sub-title.open::after { content: '▲'; }
+      .m-badge-new { background: #E50914; padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-left: 5px; }
       
       .m-sub-grid { display: none; grid-column: span 2; padding-top: 15px; grid-template-columns: 1fr 1fr; gap: 15px 10px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: -5px;}
       .m-sub-grid.active { display: grid; }
-      .m-sub-grid a { font-size: 13.5px; color: #e5e7eb !important; font-weight: normal !important; text-decoration: none; }
+      .m-sub-grid a { font-size: 13.5px; color: #d1d5db !important; font-weight: normal !important; text-decoration: none; }
 
       /* CĂN CHỈNH LAYOUT MOBILE CHO FILE DANH SÁCH */
       body { padding-top: 60px; }
       .list-wrapper { padding: 20px 15px; min-height: auto; }
       
       .breadcrumb { font-size: 0.8rem; margin-bottom: 5px; }
-      .page-title { font-size: 1.5rem; margin-bottom: 10px; }
+      .page-title { font-size: 1.3rem; margin-bottom: 10px; }
       .filter-btn { font-size: 12px; margin-bottom: 20px; }
 
       /* ÉP LƯỚI 2 CỘT TRÊN MOBILE NHƯ ẢNH */
@@ -220,30 +236,27 @@
       <input type="text" class="m-search-input" placeholder="Tìm kiếm phim, diễn viên..." id="mSearchInput">
     </div>
     <span class="m-search-close" onclick="toggleMSearch()">✕</span>
+    <div id="m-search-results"></div>
   </div>
 
   <div class="m-overlay-dark" id="mOverlay" onclick="toggleMMenu()"></div>
   <div class="m-dropdown-menu" id="mDropdown">
-    <a href="#" class="m-btn-top">👤 Đăng nhập</a>
+    <a href="#" class="m-btn-top">👤 Thành viên</a>
     
     <div class="m-nav-grid-links">
       <a href="index.html">Trang chủ</a>
-      
-      <div>
-        <div class="m-has-sub-title" onclick="toggleMSub(this, 'mCat')">Thể loại ▾</div>
-      </div>
-      
-      <div>
-        <div class="m-has-sub-title" onclick="toggleMSub(this, 'mNat')">Quốc gia ▾</div>
-      </div>
-
+      <div><div class="m-has-sub-title" onclick="toggleMSub(this, 'mCat')">Thể loại ▾</div></div>
+      <div><div class="m-has-sub-title" onclick="toggleMSub(this, 'mNat')">Quốc gia ▾</div></div>
       <div class="m-sub-grid" id="mCat"></div>
       <div class="m-sub-grid" id="mNat"></div>
-
       <a href="1danh-sach.html?type=danh-sach&slug=phim-moi-cap-nhat&name=Phim+Mới&page=1">Phim mới</a>
       <a href="1danh-sach.html?type=danh-sach&slug=phim-bo&name=Phim+Bộ&page=1">Phim bộ</a>
       <a href="1danh-sach.html?type=danh-sach&slug=phim-le&name=Phim+Lẻ&page=1">Phim lẻ</a>
       <a href="1danh-sach.html?type=danh-sach&slug=tv-shows&name=Phim+Chiếu+Rạp&page=1">Phim chiếu rạp</a>
+      <a href="#">Xem chung</a>
+      <a href="#">Diễn viên</a>
+      <a href="#">Lịch chiếu</a>
+      <a href="#">TCoin <span class="m-badge-new">New</span></a>
     </div>
   </div>
 
@@ -265,8 +278,11 @@
       <span class="nav-item" onclick="window.location.href='1danh-sach.html?type=danh-sach&slug=phim-bo&name=Phim+Bộ&page=1'">Phim bộ</span>
       <span class="nav-item" onclick="window.location.href='1danh-sach.html?type=danh-sach&slug=phim-le&name=Phim+Lẻ&page=1'">Phim lẻ</span>
       <span class="nav-item" onclick="window.location.href='1danh-sach.html?type=danh-sach&slug=tv-shows&name=Phim+Chiếu+Rạp&page=1'">Phim chiếu rạp</span>
+      <span class="nav-item">Xem chung</span>
+      <div class="dropdown"><span class="dropdown-toggle nav-item">Diễn viên</span><div class="dropdown-menu" style="min-width: 300px;"><div class="dropdown-grid" id="dien-vien-grid" style="grid-template-columns: repeat(2, 1fr);"></div></div></div>
+      <span class="nav-item">TCoins <span class="badge-new">New</span></span>
     </div>
-    <a href="#" class="member-btn">Đăng nhập</a>
+    <a href="#" class="member-btn">Thành viên</a>
   </nav>
 
   <div class="list-wrapper">
@@ -364,7 +380,9 @@
       return (domain || 'https://phimimg.com').replace(/\/$/, '') + '/' + String(path).replace(/^\//, '');
     }
 
-    // FIX LỖI TÌM KIẾM BẰNG PHIMAPI CHO CẢ PC VÀ MOBILE
+    // ========================================================
+    // FIX LỖI TÌM KIẾM ĐỒNG BỘ PHIMAPI (PC + MOBILE)
+    // ========================================================
     function bindSearch(inputId, resultsId) {
       const input = document.getElementById(inputId);
       const results = document.getElementById(resultsId);
@@ -388,7 +406,6 @@
               data.data.items.slice(0, 6).forEach(m => {
                 const item = document.createElement('div'); item.className = 'search-item';
                 
-                // Fix lỗi nối chuỗi ảnh
                 const imgPath = m.thumb_url || m.poster_url;
                 let imgSrc = 'https://placehold.co/50x70/1a1c20/777777?text=DepFlix';
                 if(imgPath) {
@@ -416,9 +433,14 @@
     }
 
     bindSearch('searchInput', 'search-results');
-    bindSearch('mSearchInput', 'search-results'); // Gắn chung kết quả trên mobile cho đơn giản
+    bindSearch('mSearchInput', 'm-search-results');
 
-    // Khởi tạo Menu 
+    // Khởi tạo Menu (Cho cả Desktop và Mobile)
+    const famousActors = ['Châu Tinh Trì', 'Thành Long', 'Ngô Kinh', 'Chân Tử Đan', 'Lý Liên Kiệt', 'Cổ Thiên Lạc'];
+    famousActors.forEach(actor => { 
+        document.getElementById('dien-vien-grid').innerHTML += `<div class="dropdown-item" onclick="window.location.href='1danh-sach.html?type=tim-kiem&slug=${encodeURIComponent(actor)}&name=${encodeURIComponent(actor)}&page=1'">${actor}</div>`; 
+    });
+
     fetch('https://phimapi.com/the-loai').then(res => res.json()).then(data => { 
         const dGrid = document.getElementById('the-loai-grid');
         const mCat = document.getElementById('mCat');
@@ -439,9 +461,8 @@
         }); 
     });
 
-
     // ========================================================
-    // HIỂN THỊ DANH SÁCH PHIM VÀ TÌM KIẾM
+    // HIỂN THỊ DANH SÁCH PHIM
     // ========================================================
     function fetchAndRenderMovies(page) {
       const grid = document.getElementById('movies-grid');
@@ -450,7 +471,6 @@
       let fetchPromises = [];
       if(apiType === 'tim-kiem') {
           let apiPage1 = (page - 1) * 3 + 1;
-          // Đổi sang API phimapi cho chuẩn tìm kiếm
           fetchPromises.push(fetch(`https://phimapi.com/v1/api/tim-kiem?keyword=${encodeURIComponent(apiSlug)}&page=${apiPage1}`).then(r => r.json()));
           fetchPromises.push(fetch(`https://phimapi.com/v1/api/tim-kiem?keyword=${encodeURIComponent(apiSlug)}&page=${apiPage1 + 1}`).then(r => r.json()));
           fetchPromises.push(fetch(`https://phimapi.com/v1/api/tim-kiem?keyword=${encodeURIComponent(apiSlug)}&page=${apiPage1 + 2}`).then(r => r.json()));
