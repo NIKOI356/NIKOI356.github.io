@@ -742,8 +742,8 @@
 
   <section class="new-section-layout">
     <div class="new-header">
-      <a href="1danh-sach.html?type=danh-sach&slug=phim-moi-cap-nhat&name=Rổ+Phim+Đề+Cử&page=3" class="row-title-link">
-        <h2 class="new-title">Rổ Phim Đề Cử</h2>
+      <a href="1danh-sach.html?type=danh-sach&slug=phim-moi-cap-nhat&name=Dép+Phim+Đề+Cử&page=3" class="row-title-link">
+        <h2 class="new-title">Dép Phim Đề Cử</h2>
         <div class="explore-box"><span class="explore-text">Xem thêm</span><span class="explore-icon">›</span></div>
       </a>
     </div>
@@ -780,6 +780,34 @@
         </div>
       </div>
       <div class="anime-bottom-thumbs" id="vn-thumbs"></div>
+    </div>
+  </section>
+
+  <section class="new-section-layout">
+    <div class="new-header">
+      <a href="1danh-sach.html?type=danh-sach&slug=phim-moi-cap-nhat&name=Phim+Thuyết+Minh&page=1" class="row-title-link">
+        <h2 class="new-title">Phim Thuyết Minh - Lồng Tiếng</h2>
+        <div class="explore-box"><span class="explore-text">Xem thêm</span><span class="explore-icon">›</span></div>
+      </a>
+    </div>
+    <div class="movie-grid-wrapper">
+      <button class="scroll-btn-new left" onclick="scrollCustomGrid('thuyetminh-grid', -1)">‹</button>
+      <div class="new-grid-container" id="thuyetminh-grid"></div>
+      <button class="scroll-btn-new right" onclick="scrollCustomGrid('thuyetminh-grid', 1)">›</button>
+    </div>
+  </section>
+
+  <section class="new-section-layout">
+    <div class="new-header">
+      <a href="1danh-sach.html?type=the-loai&slug=hoat-hinh&name=Phim+Hoạt+Hình&page=1" class="row-title-link">
+        <h2 class="new-title">Phim Hoạt Hình</h2>
+        <div class="explore-box"><span class="explore-text">Xem thêm</span><span class="explore-icon">›</span></div>
+      </a>
+    </div>
+    <div class="movie-grid-wrapper">
+      <button class="scroll-btn-new left" onclick="scrollCustomGrid('hoathinh-grid', -1)">‹</button>
+      <div class="new-grid-container" id="hoathinh-grid"></div>
+      <button class="scroll-btn-new right" onclick="scrollCustomGrid('hoathinh-grid', 1)">›</button>
     </div>
   </section>
 
@@ -1060,8 +1088,8 @@
       return imgDomain.replace(/\/$/, '') + '/' + String(path).replace(/^\//, '');
     }
 
+    // HÀM EXTRACT DOMAIN ĐÃ ĐƯỢC FIX LỖI TỪ OPHIM1
     function extractDomain(data, apiUrl) {
-        if (apiUrl && apiUrl.includes('ophim1.com')) return 'https://ophim1.com';
         if (data && data.data && data.data.APP_DOMAIN_CDN_IMAGE) return data.data.APP_DOMAIN_CDN_IMAGE;
         if (data && data.APP_DOMAIN_CDN_IMAGE) return data.APP_DOMAIN_CDN_IMAGE;
         if (data && data.pathImage) return data.pathImage;
@@ -1345,8 +1373,11 @@
     loadDesignedSection('https://phimapi.com/v1/api/quoc-gia/thai-lan?page=1', 'thailan-grid', 'normal');
     loadDesignedSection('https://phimapi.com/v1/api/danh-sach/phim-le?page=3', 'bomtan-grid', 'slanted');
     loadDesignedSection('https://phimapi.com/danh-sach/phim-moi-cap-nhat-v3?page=2', 'decu-grid', 'slanted'); 
+    
+    // GỌI HÀM CHO MỤC HOẠT HÌNH
+    loadDesignedSection('https://phimapi.com/v1/api/danh-sach/hoat-hinh?page=1', 'hoathinh-grid', 'normal');
 
-    // TÌM KIẾM TRÊN DESKTOP - ĐÃ FIX LỖI ẢNH!
+    // TÌM KIẾM TRÊN DESKTOP
     const searchInputOnBar = document.getElementById('searchInput');
     const searchResults = document.getElementById('search-results');
 
@@ -1548,6 +1579,91 @@
     }
     function startVnTimer() { vnTimer = setInterval(() => { vnIdx = (vnIdx + 1) % vnArray.length; renderVnUI(); }, 4000); }
     initVnSection();
+
+    // API CẬP NHẬT: LẤY PHIM THUYẾT MINH LỒNG TIẾNG TỪ NHIỀU NGUỒN VÀ NHIỀU TRANG
+    function loadThuyetMinhMovies() {
+      const urls = [
+        'https://phimapi.com/danh-sach/phim-moi-cap-nhat-v3?page=1',
+        'https://phimapi.com/danh-sach/phim-moi-cap-nhat-v3?page=2',
+        'https://phimapi.com/danh-sach/phim-moi-cap-nhat-v3?page=3',
+        'https://phimapi.com/danh-sach/phim-moi-cap-nhat-v3?page=4',
+        'https://phimapi.com/danh-sach/phim-moi-cap-nhat-v3?page=5',
+        'https://phimapi.com/danh-sach/phim-moi-cap-nhat-v3?page=6'
+      ];
+      Promise.all(urls.map(url => fetch(url).then(res => res.json()).catch(() => null)))
+        .then(results => {
+          let allMovies = [];
+          results.forEach((res, index) => {
+            if(res) {
+              let items = [];
+              let domain = 'https://phimimg.com';
+              if (res.data && res.data.items) {
+                items = res.data.items;
+                domain = res.data.APP_DOMAIN_CDN_IMAGE || domain;
+              } else if (res.items) {
+                items = res.items;
+                domain = res.pathImage || domain;
+              }
+              items.forEach(m => {
+                m._domain = domain;
+                allMovies.push(m);
+              });
+            }
+          });
+          
+          // Lọc các phim có chứa từ khóa thuyết minh, lồng tiếng
+          const tmMovies = allMovies.filter(m => {
+            const l = (m.lang || m.language || m.quality || '').toLowerCase();
+            return l.includes('thuyết minh') || l.includes('lồng tiếng') || l.includes('tm');
+          });
+
+          const uniqueMovies = [];
+          const slugs = new Set();
+          
+          for(let m of tmMovies) {
+            if(!slugs.has(m.slug)) {
+              slugs.add(m.slug);
+              uniqueMovies.push(m);
+              if(uniqueMovies.length === 10) break; // Bào đủ chính xác 10 mẫu phim thì dừng
+            }
+          }
+          
+          const grid = document.getElementById('thuyetminh-grid');
+          if(grid && uniqueMovies.length > 0) {
+            let html = '';
+            uniqueMovies.forEach(m => {
+              const imgSrc = getSafeUrl(m.poster_url || m.thumb_url, m._domain);
+              const fallbackImg = "this.onerror=null;this.src='https://placehold.co/240x360/1a1c20/777777?text=DepFlix'";
+              const safeName = m.name ? m.name.replace(/'/g, "\\'") : '';
+              const safeSub = m.origin_name ? m.origin_name.replace(/'/g, "\\'") : '';
+              const dataAttr = `onclick="window.location.href='phim.html?slug=${m.slug}'" data-slug="${m.slug}" data-name="${safeName}" data-sub="${safeSub}" data-img="${imgSrc}" data-year="${m.year||'N/A'}" data-ep="${m.episode_current||'Full'}" data-imdb="8.0"`;
+              
+              const langText = m.lang || m.language || 'Thuyết Minh';
+
+              html += `
+                <div class="design-card hover-trigger" ${dataAttr}>
+                  <div class="design-poster-wrap">
+                    <img src="${imgSrc}" class="design-poster" loading="lazy" onerror="${fallbackImg}">
+                    <div class="design-tags-overlay">
+                      <span class="d-tag blue">${m.quality || 'HD'}</span>
+                      <span class="d-tag green">${langText}</span>
+                      <span class="d-tag red">${m.episode_current || 'Full'}</span>
+                    </div>
+                  </div>
+                  <div class="design-info-wrap">
+                    <div class="design-title">${m.name}</div>
+                    <div class="design-sub">${m.origin_name || ''}</div>
+                  </div>
+                </div>
+              `;
+            });
+            grid.innerHTML = html;
+          } else if (grid) {
+             grid.innerHTML = '<div style="color:#aaa; padding: 20px;">Đang cập nhật phim Thuyết Minh...</div>';
+          }
+        });
+    }
+    loadThuyetMinhMovies();
 
     const hoverCard = document.getElementById('hover-detail-card');
     const hdcImg = document.getElementById('hdc-img');
