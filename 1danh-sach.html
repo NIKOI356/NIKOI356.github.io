@@ -404,7 +404,6 @@
         else if (data && data.APP_DOMAIN_CDN_IMAGE) domain = data.APP_DOMAIN_CDN_IMAGE;
         else if (data && data.pathImage) domain = data.pathImage;
         
-        // CỨU CÁNH CHO OPHIM KHI TRẢ VỀ SAI DOMAIN
         if (domain.includes('ophim1.com') || domain.includes('ophim.cc')) {
             domain = 'https://img.ophim.live/uploads/movies/';
         }
@@ -423,7 +422,7 @@
     }
 
     // ========================================================
-    // TÌM KIẾM PC + MOBILE
+    // TÌM KIẾM PC + MOBILE (ĐÃ FIX: GỌI SONG SONG 3 API)
     // ========================================================
     function bindSearch(inputId, resultsId) {
       const input = document.getElementById(inputId);
@@ -439,17 +438,49 @@
       input.addEventListener('input', function(e) {
         const keyword = e.target.value.trim();
         if (keyword.length < 2) { results.style.display = 'none'; return; }
-        fetch(`https://ophim1.com/v1/api/tim-kiem?keyword=${encodeURIComponent(keyword)}`)
-          .then(res => res.json())
-          .then(data => {
-            results.innerHTML = '';
-            if (data.status && data.data && data.data.items && data.data.items.length > 0) {
-              let searchDomain = data.data.APP_DOMAIN_CDN_IMAGE || 'https://phimimg.com';
-              if(searchDomain.includes('ophim')) searchDomain = 'https://img.ophim.live/uploads/movies/';
+        
+        // Gọi 3 API cùng lúc để săn phim
+        Promise.all([
+            fetch(`https://phimapi.com/v1/api/tim-kiem?keyword=${encodeURIComponent(keyword)}`).then(r=>r.json()).catch(()=>null),
+            fetch(`https://ophim1.com/v1/api/tim-kiem?keyword=${encodeURIComponent(keyword)}`).then(r=>r.json()).catch(()=>null),
+            fetch(`https://phim.nguonc.com/api/films/search?keyword=${encodeURIComponent(keyword)}`).then(r=>r.json()).catch(()=>null)
+        ]).then(([kk, op, nc]) => {
+            let combinedItems = [];
+            
+            // Xử lý dữ liệu KKPhim
+            if(kk && kk.data && kk.data.items) {
+               let d = kk.data.APP_DOMAIN_CDN_IMAGE || 'https://phimimg.com';
+               kk.data.items.forEach(i => { i._domain = d; combinedItems.push(i); });
+            }
+            
+            // Xử lý dữ liệu Ophim
+            if(op && op.data && op.data.items) {
+               let d = op.data.APP_DOMAIN_CDN_IMAGE || 'https://phimimg.com';
+               if(d.includes('ophim')) d = 'https://img.ophim.live/uploads/movies/';
+               op.data.items.forEach(i => { i._domain = d; combinedItems.push(i); });
+            }
+            
+            // Xử lý dữ liệu NguonC
+            if(nc && nc.items) {
+               let d = nc.pathImage || 'https://phimimg.com';
+               nc.items.forEach(i => { i._domain = d; combinedItems.push(i); });
+            }
 
-              data.data.items.slice(0, 6).forEach(m => {
+            // Lọc trùng lặp theo slug
+            let uniqueItems = [];
+            let slugs = new Set();
+            for(let item of combinedItems) {
+                if(!slugs.has(item.slug)) {
+                    slugs.add(item.slug);
+                    uniqueItems.push(item);
+                }
+            }
+
+            results.innerHTML = '';
+            if (uniqueItems.length > 0) {
+              uniqueItems.slice(0, 6).forEach(m => {
                 const item = document.createElement('div'); item.className = 'search-item';
-                const imgSrc = m.thumb_url || m.poster_url ? getSafeUrl(m.thumb_url || m.poster_url, searchDomain) : 'https://placehold.co/50x70/1a1c20/777777?text=DepFlix';
+                const imgSrc = getSafeUrl(m.thumb_url || m.poster_url, m._domain);
 
                 item.innerHTML = `
                   <img src="${imgSrc}" style="width:50px;height:70px;object-fit:cover;border-radius:4px;" alt="${m.name}" onerror="this.src='https://placehold.co/50x70/1a1c20/777777?text=DepFlix'">
@@ -462,8 +493,10 @@
                 results.appendChild(item);
               });
               results.style.display = 'block';
+            } else {
+              results.style.display = 'none';
             }
-          });
+        });
       });
       
       document.addEventListener('click', e => { 
@@ -474,7 +507,7 @@
     bindSearch('searchInput', 'search-results');
     bindSearch('mSearchInput', 'm-search-results');
 
-    // Khởi tạo Menu Dropdown 
+    // Khởi tạo Menu Dropdown
     const famousActors = ['Châu Tinh Trì', 'Thành Long', 'Ngô Kinh', 'Chân Tử Đan', 'Lý Liên Kiệt', 'Cổ Thiên Lạc', 'Lưu Đức Hoa', 'Châu Nhuận Phát', 'Lâm Chánh Anh', 'Lương Triều Vỹ'];
     famousActors.forEach(actor => { 
         document.getElementById('dien-vien-grid').innerHTML += `<div class="dropdown-item" onclick="window.location.href='1danh-sach.html?type=tim-kiem&slug=${encodeURIComponent(actor)}&name=${encodeURIComponent(actor)}&page=1'">${actor}</div>`; 
@@ -501,7 +534,7 @@
     });
 
     // ========================================================
-    // HIỂN THỊ DANH SÁCH PHIM CHÍNH
+    // HIỂN THỊ DANH SÁCH PHIM CHÍNH (ĐÃ FIX TÌM KIẾM 3 API)
     // ========================================================
     function fetchAndRenderMovies(page) {
       const grid = document.getElementById('movies-grid');
@@ -509,10 +542,11 @@
       
       let fetchPromises = [];
       if(apiType === 'tim-kiem') {
-          let apiPage1 = (page - 1) * 3 + 1;
-          fetchPromises.push(fetch(`https://ophim1.com/v1/api/tim-kiem?keyword=${encodeURIComponent(apiSlug)}&page=${apiPage1}`).then(r => r.json()));
-          fetchPromises.push(fetch(`https://ophim1.com/v1/api/tim-kiem?keyword=${encodeURIComponent(apiSlug)}&page=${apiPage1 + 1}`).then(r => r.json()));
-          fetchPromises.push(fetch(`https://ophim1.com/v1/api/tim-kiem?keyword=${encodeURIComponent(apiSlug)}&page=${apiPage1 + 2}`).then(r => r.json()));
+          // Bào cả 3 nguồn khi tìm kiếm
+          let keyword = encodeURIComponent(apiSlug);
+          fetchPromises.push(fetch(`https://phimapi.com/v1/api/tim-kiem?keyword=${keyword}&page=${page}`).then(r => r.json()).catch(()=>null));
+          fetchPromises.push(fetch(`https://ophim1.com/v1/api/tim-kiem?keyword=${keyword}&page=${page}`).then(r => r.json()).catch(()=>null));
+          fetchPromises.push(fetch(`https://phim.nguonc.com/api/films/search?keyword=${keyword}&page=${page}`).then(r => r.json()).catch(()=>null));
       } else {
           let apiPage1 = (page - 1) * 2 + 1;
           let apiPage2 = (page - 1) * 2 + 2;
@@ -521,47 +555,64 @@
           else if(apiType === 'quoc-gia') baseUrl = `https://phimapi.com/v1/api/quoc-gia/${apiSlug}`;
           else baseUrl = `https://phimapi.com/v1/api/danh-sach/${apiSlug}`;
 
-          fetchPromises.push(fetch(`${baseUrl}?page=${apiPage1}&limit=24`).then(r => r.json()));
-          fetchPromises.push(fetch(`${baseUrl}?page=${apiPage2}&limit=24`).then(r => r.json()));
+          fetchPromises.push(fetch(`${baseUrl}?page=${apiPage1}&limit=24`).then(r => r.json()).catch(()=>null));
+          fetchPromises.push(fetch(`${baseUrl}?page=${apiPage2}&limit=24`).then(r => r.json()).catch(()=>null));
       }
 
       Promise.all(fetchPromises).then(results => {
         grid.innerHTML = '';
         let rawItems = [];
         let totalPages = 1;
-        let fallbackTitle = "KẾT QUẢ PHIM";
+        let fallbackTitle = "KẾT QUẢ TÌM KIẾM";
 
-        results.forEach(data => {
-            if (data && data.data && data.data.items) {
+        results.forEach((data, index) => {
+            if (!data) return;
+            
+            // Xử lý PhimAPI / Ophim
+            if (data.data && data.data.items) {
                 let currentDomain = data.data.APP_DOMAIN_CDN_IMAGE || 'https://phimimg.com';
                 if(currentDomain.includes('ophim')) currentDomain = 'https://img.ophim.live/uploads/movies/';
                 
                 data.data.items.forEach(item => { item._domain = currentDomain; rawItems.push(item); });
                 
-                let divisor = apiType === 'tim-kiem' ? 3 : 2; 
-                totalPages = Math.ceil((data.data.params?.pagination?.totalPages || 1) / divisor);
+                let divisor = apiType === 'tim-kiem' ? 1 : 2; 
+                let tp = Math.ceil((data.data.params?.pagination?.totalPages || 1) / divisor);
+                if (tp > totalPages) totalPages = tp;
                 fallbackTitle = data.data.titlePage || fallbackTitle;
-            } else if (data && data.items) {
+            } 
+            // Xử lý NguonC hoặc PhimAPI cũ
+            else if (data.items) {
                 let currentDomain = data.pathImage || 'https://phimimg.com';
                 data.items.forEach(item => { item._domain = currentDomain; rawItems.push(item); });
                 
-                let divisor = apiType === 'tim-kiem' ? 3 : 2;
-                totalPages = Math.ceil((data.pagination?.totalPages || 1) / divisor);
+                let divisor = apiType === 'tim-kiem' ? 1 : 2;
+                let tp = Math.ceil((data.pagination?.totalPages || data.paginate?.total_page || 1) / divisor);
+                if (tp > totalPages) totalPages = tp;
                 fallbackTitle = data.titlePage || fallbackTitle;
             }
         });
+
+        // Lọc trùng lặp khi gom 3 nguồn
+        let uniqueItems = [];
+        let slugs = new Set();
+        for(let item of rawItems) {
+            if(!slugs.has(item.slug)) {
+                slugs.add(item.slug);
+                uniqueItems.push(item);
+            }
+        }
 
         if (!pageName) {
             pageTitleEl.textContent = fallbackTitle.toUpperCase();
             breadcrumbEl.innerHTML = `<a href="index.html">🏠 Trang chủ</a> <span style="margin: 0 5px;">›</span> ${fallbackTitle}`;
         }
 
-        if (rawItems.length === 0) {
+        if (uniqueItems.length === 0) {
             grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:50px;">Không tìm thấy phim nào!</div>';
             return;
         }
 
-        const itemsToRender = rawItems.slice(0, 36); 
+        const itemsToRender = uniqueItems.slice(0, 36); 
         let html = '';
         
         itemsToRender.forEach(m => {
