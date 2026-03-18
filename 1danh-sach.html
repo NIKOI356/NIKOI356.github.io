@@ -395,22 +395,35 @@
         breadcrumbEl.innerHTML = `<a href="index.html">🏠 Trang chủ</a> <span style="margin: 0 5px;">›</span> Phim ${pageName}`;
     }
 
-    // HÀM LẤY ẢNH ĐƯỢC CẬP NHẬT TỪ INDEX
+    // ========================================================
+    // FIX DOMAIN OPHIM VÀ RENDER ẢNH
+    // ========================================================
     function extractDomain(data, apiUrl) {
-        if (data && data.data && data.data.APP_DOMAIN_CDN_IMAGE) return data.data.APP_DOMAIN_CDN_IMAGE;
-        if (data && data.APP_DOMAIN_CDN_IMAGE) return data.APP_DOMAIN_CDN_IMAGE;
-        if (data && data.pathImage) return data.pathImage;
-        return 'https://phimimg.com';
+        let domain = 'https://phimimg.com';
+        if (data && data.data && data.data.APP_DOMAIN_CDN_IMAGE) domain = data.data.APP_DOMAIN_CDN_IMAGE;
+        else if (data && data.APP_DOMAIN_CDN_IMAGE) domain = data.APP_DOMAIN_CDN_IMAGE;
+        else if (data && data.pathImage) domain = data.pathImage;
+        
+        // CỨU CÁNH CHO OPHIM KHI TRẢ VỀ SAI DOMAIN
+        if (domain.includes('ophim1.com') || domain.includes('ophim.cc')) {
+            domain = 'https://img.ophim.live/uploads/movies/';
+        }
+        return domain;
     }
 
     function getSafeUrl(path, domain) {
       if (!path) return 'https://placehold.co/240x360/1a1c20/777777?text=DepFlix';
       if (String(path).startsWith('http')) return path;
-      return (domain || 'https://phimimg.com').replace(/\/$/, '') + '/' + String(path).replace(/^\//, '');
+      
+      let safeDomain = domain || 'https://phimimg.com';
+      if (safeDomain.includes('ophim1.com') || safeDomain.includes('ophim.cc')) {
+          safeDomain = 'https://img.ophim.live/uploads/movies/';
+      }
+      return safeDomain.replace(/\/$/, '') + '/' + String(path).replace(/^\//, '');
     }
 
     // ========================================================
-    // FIX LỖI TÌM KIẾM ĐỒNG BỘ PHIMAPI (PC + MOBILE)
+    // TÌM KIẾM PC + MOBILE
     // ========================================================
     function bindSearch(inputId, resultsId) {
       const input = document.getElementById(inputId);
@@ -431,10 +444,11 @@
           .then(data => {
             results.innerHTML = '';
             if (data.status && data.data && data.data.items && data.data.items.length > 0) {
-              const searchDomain = data.data.APP_DOMAIN_CDN_IMAGE || 'https://phimimg.com';
+              let searchDomain = data.data.APP_DOMAIN_CDN_IMAGE || 'https://phimimg.com';
+              if(searchDomain.includes('ophim')) searchDomain = 'https://img.ophim.live/uploads/movies/';
+
               data.data.items.slice(0, 6).forEach(m => {
                 const item = document.createElement('div'); item.className = 'search-item';
-                
                 const imgSrc = m.thumb_url || m.poster_url ? getSafeUrl(m.thumb_url || m.poster_url, searchDomain) : 'https://placehold.co/50x70/1a1c20/777777?text=DepFlix';
 
                 item.innerHTML = `
@@ -460,7 +474,7 @@
     bindSearch('searchInput', 'search-results');
     bindSearch('mSearchInput', 'm-search-results');
 
-    // Khởi tạo Menu Dropdown (Cho cả Desktop và Mobile)
+    // Khởi tạo Menu Dropdown 
     const famousActors = ['Châu Tinh Trì', 'Thành Long', 'Ngô Kinh', 'Chân Tử Đan', 'Lý Liên Kiệt', 'Cổ Thiên Lạc', 'Lưu Đức Hoa', 'Châu Nhuận Phát', 'Lâm Chánh Anh', 'Lương Triều Vỹ'];
     famousActors.forEach(actor => { 
         document.getElementById('dien-vien-grid').innerHTML += `<div class="dropdown-item" onclick="window.location.href='1danh-sach.html?type=tim-kiem&slug=${encodeURIComponent(actor)}&name=${encodeURIComponent(actor)}&page=1'">${actor}</div>`; 
@@ -487,7 +501,7 @@
     });
 
     // ========================================================
-    // HIỂN THỊ DANH SÁCH PHIM
+    // HIỂN THỊ DANH SÁCH PHIM CHÍNH
     // ========================================================
     function fetchAndRenderMovies(page) {
       const grid = document.getElementById('movies-grid');
@@ -515,21 +529,24 @@
         grid.innerHTML = '';
         let rawItems = [];
         let totalPages = 1;
-        let domain = 'https://phimimg.com';
         let fallbackTitle = "KẾT QUẢ PHIM";
 
         results.forEach(data => {
             if (data && data.data && data.data.items) {
-                rawItems = rawItems.concat(data.data.items);
+                let currentDomain = data.data.APP_DOMAIN_CDN_IMAGE || 'https://phimimg.com';
+                if(currentDomain.includes('ophim')) currentDomain = 'https://img.ophim.live/uploads/movies/';
+                
+                data.data.items.forEach(item => { item._domain = currentDomain; rawItems.push(item); });
+                
                 let divisor = apiType === 'tim-kiem' ? 3 : 2; 
                 totalPages = Math.ceil((data.data.params?.pagination?.totalPages || 1) / divisor);
-                domain = data.data.APP_DOMAIN_CDN_IMAGE || domain;
                 fallbackTitle = data.data.titlePage || fallbackTitle;
             } else if (data && data.items) {
-                rawItems = rawItems.concat(data.items);
+                let currentDomain = data.pathImage || 'https://phimimg.com';
+                data.items.forEach(item => { item._domain = currentDomain; rawItems.push(item); });
+                
                 let divisor = apiType === 'tim-kiem' ? 3 : 2;
                 totalPages = Math.ceil((data.pagination?.totalPages || 1) / divisor);
-                domain = data.pathImage || domain;
                 fallbackTitle = data.titlePage || fallbackTitle;
             }
         });
@@ -548,7 +565,7 @@
         let html = '';
         
         itemsToRender.forEach(m => {
-            const imgSrc = getSafeUrl(m.poster_url || m.thumb_url, domain);
+            const imgSrc = getSafeUrl(m.poster_url || m.thumb_url, m._domain);
             const safeName = m.name ? m.name.replace(/'/g, "\\'") : '';
             const safeSub = m.origin_name ? m.origin_name.replace(/'/g, "\\'") : '';
             const randomImdb = (Math.random() * (9.5 - 6.0) + 6.0).toFixed(1);
