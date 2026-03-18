@@ -361,7 +361,7 @@
 
   <div class="m-overlay-dark" id="mOverlay" onclick="toggleMMenu()"></div>
   <div class="m-dropdown-menu" id="mDropdown">
-    <a href="#" class="m-btn-top">👤 Thành viên</a>
+    <a href="#" class="m-btn-top m-btn-white">👤 Thành viên</a>
     
     <div class="m-nav-grid-links">
       <a href="index.html">Trang chủ</a>
@@ -459,8 +459,8 @@
         <div class="tabs">
           <div class="tab active" onclick="switchTab('episodes', this)">Tập phim</div>
           <div class="tab" onclick="switchTab('overview', this)">Gallery</div>
-          <div class="tab">Diễn viên</div>
-          <div class="tab">Đề xuất</div>
+          <div class="tab" onclick="switchTab('cast', this)">Diễn viên</div>
+          <div class="tab" onclick="switchTab('suggest', this)">Đề xuất</div>
         </div>
 
         <div id="tab-episodes">
@@ -637,81 +637,103 @@
     });
 
     // =========================================================
-    // API CHI TIẾT PHIM
+    // API CHI TIẾT PHIM (FIX LỖI)
     // =========================================================
     function switchTab(tabId, el) {
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       el.classList.add('active');
       document.getElementById('tab-episodes').style.display = 'none';
-      document.getElementById('tab-overview').classList.remove('active');
+      document.getElementById('tab-overview').style.display = 'none';
       if(tabId === 'episodes') document.getElementById('tab-episodes').style.display = 'block';
-      else if (tabId === 'overview') document.getElementById('tab-overview').classList.add('active');
+      else if (tabId === 'overview') document.getElementById('tab-overview').style.display = 'block';
     }
 
     const urlParams = new URLSearchParams(window.location.search);
-    const currentSlug = urlParams.get('slug');
+    const slug = urlParams.get('slug');
     let movieDataGlobal = []; 
 
-    if (!currentSlug) {
+    if (!slug) {
       document.getElementById('m-title').textContent = "Không tìm thấy phim!";
     } else {
-      fetch(`https://phimapi.com/phim/${currentSlug}`)
-        .then(res => res.json())
-        .then(data => {
-          if (data.status) {
-            const m = data.movie;
-            let domain = data.pathImage || 'https://phimimg.com';
-            let posterUrl = getSafeUrl(m.poster_url || m.thumb_url, domain);
-            let bannerUrl = getSafeUrl(m.thumb_url || m.poster_url, domain);
+      // GỌI SONG SONG 3 API
+      Promise.all([
+          fetch(`https://phimapi.com/phim/${slug}`).then(r => r.json()).catch(() => null),
+          fetch(`https://ophim1.com/phim/${slug}`).then(r => r.json()).catch(() => null),
+          fetch(`https://phim.nguonc.com/api/film/${slug}`).then(r => r.json()).catch(() => null)
+      ]).then(([kk, ophim, nguonc]) => {
+          
+          let baseMovie = null;
+          let baseDomain = 'https://phimimg.com';
 
-            document.title = m.name + " - DépFlix";
-            document.getElementById('m-banner').style.backgroundImage = `url('${bannerUrl}')`;
-            document.getElementById('m-poster').src = posterUrl;
-            document.getElementById('m-title').textContent = m.name;
-            document.getElementById('m-origin').textContent = m.origin_name || '';
-            
-            const randomImdb = (Math.random() * (9.5 - 6.0) + 6.0).toFixed(1);
-            document.getElementById('m-imdb').textContent = `IMDb ${randomImdb}`;
-            document.getElementById('m-rate').textContent = randomImdb;
-            document.getElementById('m-rate-text').textContent = `${randomImdb} (1.2k lượt)`;
-            
-            document.getElementById('m-year').textContent = m.year || '2026';
-            document.getElementById('m-quality').textContent = m.quality || 'FHD';
-            document.getElementById('m-status').textContent = `Đã hoàn thành: ${m.episode_current || 'Full'}`;
-            
-            if(m.category) document.getElementById('m-genres').innerHTML = m.category.map(c => `<span class="genre-badge">${c.name}</span>`).join('');
-            document.getElementById('tab-overview').innerHTML = m.content || 'Đang cập nhật...';
-            document.getElementById('m-desc').innerHTML = m.content ? m.content.replace(/<[^>]+>/g, '') : 'Đang cập nhật...';
-            
-            document.getElementById('m-time').textContent = m.time || 'N/A';
-            if(m.country && m.country.length > 0) document.getElementById('m-country').textContent = m.country[0].name;
-            if(m.director && m.director.length > 0) document.getElementById('m-director').textContent = m.director.join(', ');
-            if(m.actor && m.actor.length > 0) document.getElementById('m-cast').textContent = m.actor.join(', ');
+          // Ưu tiên lấy cục data ngon nhất
+          if (kk && kk.status && kk.movie) { baseMovie = kk.movie; baseDomain = kk.pathImage || baseDomain; }
+          else if (ophim && ophim.status && ophim.movie) { baseMovie = ophim.movie; baseDomain = ophim.pathImage || baseDomain; }
+          else if (nguonc && nguonc.status && nguonc.movie) { baseMovie = nguonc.movie; baseDomain = nguonc.pathImage || baseDomain; }
 
-            // TẠO DROPDOWN CHỌN SERVER & RENDER TẬP
-            if (data.episodes && data.episodes.length > 0) {
-                movieDataGlobal = data.episodes;
-                const selectBox = document.getElementById('server-select');
-                selectBox.innerHTML = '';
-                
-                movieDataGlobal.forEach((ep, index) => {
-                    const opt = document.createElement('option');
-                    opt.value = index;
-                    opt.textContent = `Phần ${index + 1} - ${ep.server_name}`;
-                    selectBox.appendChild(opt);
-                });
+          if (baseMovie) {
+              const m = baseMovie;
+              let posterUrl = getSafeUrl(m.poster_url || m.thumb_url, baseDomain);
+              let bannerUrl = getSafeUrl(m.thumb_url || m.poster_url, baseDomain);
 
-                renderEpisodes(0);
-            } else {
-                document.getElementById('ep-grid').innerHTML = '<div style="color:#E50914;">Chưa có tập phim</div>';
-            }
+              document.title = m.name + " - DépFlix";
+              document.getElementById('m-banner').style.backgroundImage = `url('${bannerUrl}')`;
+              document.getElementById('m-poster').src = posterUrl;
+              document.getElementById('m-title').textContent = m.name;
+              document.getElementById('m-origin').textContent = m.origin_name || '';
+              
+              const randomImdb = (Math.random() * (9.5 - 6.0) + 6.0).toFixed(1);
+              document.getElementById('m-imdb').textContent = `IMDb ${randomImdb}`;
+              document.getElementById('m-rate').textContent = randomImdb;
+              document.getElementById('m-rate-text').textContent = `${randomImdb} (1.2k lượt)`;
+              
+              document.getElementById('m-year').textContent = m.year || '2026';
+              document.getElementById('m-quality').textContent = m.quality || 'FHD';
+              document.getElementById('m-status').textContent = `Đã hoàn thành: ${m.episode_current || 'Full'}`;
+              
+              if(m.category) document.getElementById('m-genres').innerHTML = m.category.map(c => `<span class="genre-badge">${c.name}</span>`).join('');
+              document.getElementById('tab-overview').innerHTML = m.content || 'Đang cập nhật...';
+              document.getElementById('m-desc').innerHTML = m.content ? m.content.replace(/<[^>]+>/g, '') : 'Đang cập nhật...';
+              
+              document.getElementById('m-time').textContent = m.time || 'N/A';
+              if(m.country && m.country.length > 0) document.getElementById('m-country').textContent = m.country[0].name;
+              if(m.director && m.director.length > 0) document.getElementById('m-director').textContent = m.director.join(', ');
+              if(m.actor && m.actor.length > 0) document.getElementById('m-cast').textContent = m.actor.join(', ');
+
+              // LẤY TẬP PHIM TỪ API NÀO CÓ DATA
+              let episodesList = [];
+              if (kk && kk.episodes && kk.episodes.length > 0) episodesList = kk.episodes;
+              else if (ophim && ophim.episodes && ophim.episodes.length > 0) episodesList = ophim.episodes;
+              else if (nguonc && nguonc.movie && nguonc.movie.episodes && nguonc.movie.episodes.length > 0) episodesList = nguonc.movie.episodes;
+
+              if (episodesList.length > 0) {
+                  movieDataGlobal = episodesList;
+                  const selectBox = document.getElementById('server-select');
+                  selectBox.innerHTML = '';
+                  
+                  movieDataGlobal.forEach((ep, index) => {
+                      const opt = document.createElement('option');
+                      opt.value = index;
+                      opt.textContent = `Phần ${index + 1} - ${ep.server_name}`;
+                      selectBox.appendChild(opt);
+                  });
+
+                  renderEpisodes(0);
+              } else {
+                  document.getElementById('ep-grid').innerHTML = '<div style="color:#E50914;">Chưa có tập phim</div>';
+              }
+          } else {
+             document.getElementById('m-title').textContent = "Lỗi tải phim từ máy chủ!";
           }
-        }).catch(err => console.error(err));
+      });
     }
 
     function renderEpisodes(serverIndex) {
-        const epData = movieDataGlobal[serverIndex].server_data;
-        const sName = movieDataGlobal[serverIndex].server_name.toLowerCase();
+        if (!movieDataGlobal || movieDataGlobal.length === 0) return;
+        // Hỗ trợ format data của cả 3 API
+        let epData = movieDataGlobal[serverIndex].server_data || movieDataGlobal[serverIndex].items;
+        if(!epData) return;
+
+        const sName = (movieDataGlobal[serverIndex].server_name || '').toLowerCase();
         let typeStr = sName.includes('thuyết minh') ? 'thuyetminh' : 'vietsub';
 
         const grid = document.getElementById('ep-grid');
@@ -721,7 +743,7 @@
             const btn = document.createElement('button');
             btn.className = 'ep-btn' + (idx === 0 ? ' active' : '');
             btn.textContent = ep.name;
-            btn.onclick = () => window.location.href = `phatphim.html?slug=${currentSlug}&ep=${idx}&server=${typeStr}`;
+            btn.onclick = () => window.location.href = `phatphim.html?slug=${slug}&ep=${idx}&server=${typeStr}`;
             grid.appendChild(btn);
         });
     }
@@ -729,12 +751,12 @@
     function changeServer(val) { renderEpisodes(val); }
 
     function playMovie() {
-        if (!currentSlug || movieDataGlobal.length === 0) return;
+        if (!slug || movieDataGlobal.length === 0) return;
         const selectBox = document.getElementById('server-select');
         const selectedIdx = selectBox ? selectBox.value : 0;
-        const sName = movieDataGlobal[selectedIdx].server_name.toLowerCase();
+        const sName = (movieDataGlobal[selectedIdx].server_name || '').toLowerCase();
         let typeStr = sName.includes('thuyết minh') ? 'thuyetminh' : 'vietsub';
-        window.location.href = `phatphim.html?slug=${currentSlug}&ep=0&server=${typeStr}`;
+        window.location.href = `phatphim.html?slug=${slug}&ep=0&server=${typeStr}`;
     }
   </script>
 </body>
